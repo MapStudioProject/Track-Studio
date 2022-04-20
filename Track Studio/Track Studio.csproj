@@ -13,8 +13,23 @@
   <ItemGroup>
     <Folder Include="Lib\" />
   </ItemGroup>
+  
+	<ItemGroup>
+		<Content Include="Lib\**">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
   <ItemGroup>
+    <None Update="Languages\English\PartyStudio.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Languages\English\StudioEngine.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Languages\English\TurboStudio.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Licenses\CafeShaderStudio.md">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

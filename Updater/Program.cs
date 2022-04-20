@@ -14,7 +14,7 @@ namespace Updater
         {
             execDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
             folderDir = execDirectory;
-            UpdaterHelper.Setup("MapStudioProject", "Track-Studio", "MapStudio.exe");
+            UpdaterHelper.Setup("MapStudioProject", "Track-Studio", "TrackStudio.exe");
 
             bool force = args.Contains("-f");
             foreach (string arg in args)
@@ -23,7 +23,7 @@ namespace Updater
                 {
                     case "-d":
                     case "--download":
-                        UpdaterHelper.DownloadLatest(execDirectory, 1, force);
+                        UpdaterHelper.DownloadLatest(execDirectory, 0, force);
                         break;
                     case "-i":
                     case "--install":
@@ -47,7 +47,7 @@ namespace Updater
             Console.WriteLine("Booting...");
 
             Thread.Sleep(3000);
-            System.Diagnostics.Process.Start(Path.Combine(folderDir, "MapStudio.exe"));
+            System.Diagnostics.Process.Start(Path.Combine(folderDir, "TrackStudio.exe"));
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Updater
                 return;
             }
             if (release.Assets.Count <= assetIndex) {
-                Console.WriteLine($"Failed to an uploaded asset for the latest release!");
+                Console.WriteLine($"Failed to uploaded asset for the latest release!");
                 return;
             }
             //Check if the asset uploaded has an equal compile date

@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Track Studio", "Track Studio\Track Studio.csproj", "{58480072-DD6D-461F-AC93-5DD56C4F6AC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackStudio", "Track Studio\TrackStudio.csproj", "{58480072-DD6D-461F-AC93-5DD56C4F6AC3}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Track Studio Launcher", "Track Studio Launcher\Track Studio Launcher.csproj", "{4EED43F9-10F3-4A37-94DC-38770445502C}"
 EndProject

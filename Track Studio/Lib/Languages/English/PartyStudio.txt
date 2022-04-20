@@ -1,0 +1,33 @@
+﻿# Comments use # and will be ignored.
+# Label    - Translated Text
+
+SPACES - Spaces
+
+EMPTY - Empty
+START - Start
+PLUS - Blue
+MINUS - Red
+ITEM - Item
+BANK - Koopa Bank
+EVENT - Lucky
+CHANCE - Chance Time
+VS - VS
+KOOPA - Bowser
+MARK_PC - Player Spawn
+MARK_STAR - Star
+HATENA_1 - Event 1
+HATENA_2 - Event 2
+HATENA_3 - Event 3
+SPOT_BRANCH - Branch
+SPOT_BRANCH_KEY - Key Gate
+SPOT_NOKONOKO - Koopa Spot
+SPOT_KOOPA - Bowser Spot
+SPOT_ITEM_SHOP - Item Shop
+SPOT_ITEM_SHOP_MAP - Item Shop Map
+SPOT_TERESA - Boo
+SPOT_EVENT_1 - Board Event 1
+SPOT_EVENT_2 - Board Event 2
+SPOT_EVENT_3 - Board Event 3
+SPOT_EVENT_4 - Board Event 4
+SPOT_EVENT_5 - Board Event 5 
+SPOT_EVENT_6 - Board Event 6

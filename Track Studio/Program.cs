@@ -1,7 +1,7 @@
 ﻿using System;
 using Newtonsoft;
 
-namespace Track_Studio
+namespace TrackStudio
 {
     internal class Program
     {

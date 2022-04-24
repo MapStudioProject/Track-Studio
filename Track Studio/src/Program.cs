@@ -43,8 +43,9 @@ namespace TrackStudio
             InitGLResourceCreation();
             //Load the window and run the application
             GraphicsMode mode = new GraphicsMode(new ColorFormat(32), 24, 8, 4, new ColorFormat(32), 2, false);
+            var asssemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-            UIFramework.Framework wnd = new UIFramework.Framework(new MainWindow(argumentHandle), mode);
+            UIFramework.Framework wnd = new UIFramework.Framework(new MainWindow(argumentHandle), mode, asssemblyVersion);
             wnd.Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
             wnd.VSync = OpenTK.VSyncMode.On;
             wnd.Run();

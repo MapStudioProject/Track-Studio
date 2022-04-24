@@ -11,11 +11,11 @@ A powerful MK8 map editor for creating and editing track models, objects, paths 
 </p>
 
 <p align="center">
-  <a href="##Features">Features</a> |
-  <a href="##Guides & Tutorial">Tutorial</a> |
-  <a href="##Support & Links">Support</a> |
-  <a href="##Credits">Credits</a> |
-  <a href="##License">License</a>
+  <a href="#features">Features</a> |
+  <a href="#guides--tutorial">Tutorial</a> |
+  <a href="#support--links">Support</a> |
+  <a href="#credits">Credits</a> |
+  <a href="#license">License</a>
 </p>
 
 ## Features

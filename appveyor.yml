@@ -1,0 +1,26 @@
+version: 1.0.{build}
+image: Visual Studio 2022
+configuration: Release
+platform: Any CPU
+before_build:
+- pwsh: nuget restore
+build:
+  verbosity: minimal
+install:
+  - cd %APPVEYOR_BUILD_FOLDER%
+  - git submodule update --init --recursive
+after_build:
+- cmd: >-
+    7z a TrackStudio-Latest.zip "%APPVEYOR_BUILD_FOLDER%\Track Studio\bin\Release\net5.0\"
+
+
+    appveyor PushArtifact "TrackStudio-Latest.zip"
+artifacts:
+- path: TrackStudio-Latest.zip
+  name: TrackStudio
+deploy:
+- provider: GitHub
+  auth_token:
+    secure: cU87aOEy4F3ryNAjszwRJm6bEKEa/KJ09sSVj+nk8DFCPKQwwXfWgkxbcRg+W+uB
+  repository: MapStudioProject/Track-Studio
+  artifact: TrackStudio

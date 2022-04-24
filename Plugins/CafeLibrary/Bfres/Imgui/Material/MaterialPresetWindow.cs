@@ -47,26 +47,33 @@ namespace CafeLibrary
 
         public void DownloadPresets()
         {
-            UpdaterHelper.Setup("MapStudioProject", "MapStudio-Materials", "VersionMats.txt");
-
-            var release = UpdaterHelper.TryGetLatest(Runtime.ExecutableDir, 0);
-            if (release == null)
-                TinyFileDialog.MessageBoxInfoOk($"Build is up to date with the latest repo!");
-            else
+            try
             {
-                int result = TinyFileDialog.MessageBoxInfoYesNo($"Found new release {release.Name}! Do you want to update?");
-                if (result == 1)
-                {
-                    //Download
-                    UpdaterHelper.DownloadRelease($"{Runtime.ExecutableDir}\\Presets\\Materials", release, 0).Wait();
-                    GlobalPresets.Children.Clear();
-                    selectedMaterial = null;
+                UpdaterHelper.Setup("MapStudioProject", "MapStudio-Materials", "VersionMats.txt");
 
-                    //Exit the tool and install via the updater
-                    UpdaterHelper.Install($"{Runtime.ExecutableDir}\\Presets\\Materials");
-                    //Reload presets
-                    GlobalPresets = GetPresetsFromFolder($"{Runtime.ExecutableDir}\\Presets\\Materials\\", _isSwitch);
+                var release = UpdaterHelper.TryGetLatest(Runtime.ExecutableDir, 0);
+                if (release == null)
+                    TinyFileDialog.MessageBoxInfoOk($"Build is up to date with the latest repo!");
+                else
+                {
+                    int result = TinyFileDialog.MessageBoxInfoYesNo($"Found new release {release.Name}! Do you want to update?");
+                    if (result == 1)
+                    {
+                        //Download
+                        UpdaterHelper.DownloadRelease($"{Runtime.ExecutableDir}\\Presets\\Materials", release, 0).Wait();
+                        GlobalPresets.Children.Clear();
+                        selectedMaterial = null;
+
+                        //Exit the tool and install via the updater
+                        UpdaterHelper.Install($"{Runtime.ExecutableDir}\\Presets\\Materials");
+                        //Reload presets
+                        GlobalPresets = GetPresetsFromFolder($"{Runtime.ExecutableDir}\\Presets\\Materials\\", _isSwitch);
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                TinyFileDialog.MessageBoxErrorOk($"Failed to update! {ex}. Details:\n\n {ex.StackTrace}");
             }
         }
 

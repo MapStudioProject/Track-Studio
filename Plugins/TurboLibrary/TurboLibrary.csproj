@@ -4,10 +4,17 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-	  <OutputPath>..\..\Track Studio\bin\Debug\net5.0\plugins\</OutputPath>
-  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<OutputPath>..\..\Track Studio\bin\Debug\net5.0\plugins\</OutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<Optimize>false</Optimize>
+		<OutputPath>..\..\Track Studio\bin\Release\net5.0\plugins\</OutputPath>
+	</PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="fasterflect" Version="3.0.0" />

@@ -93,9 +93,10 @@ namespace CafeLibrary
 
             if (hasError)
             {
-                hasError = false;
+                ImGui.PushStyleColor(ImGuiCol.Text, ImGui.ColorConvertFloat4ToU32(ThemeHandler.Theme.Error));
+                ImGui.TextWrapped($"A shader input with the same name ({shaderName}) already exists!");
+                ImGui.PopStyleColor();
 
-                TinyFileDialog.MessageBoxErrorOk($"A shader input with the same name ({shaderName}) already exists!");
                 shaderName = selectedKey;
             }
 

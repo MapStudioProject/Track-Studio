@@ -9,7 +9,7 @@ A powerful MK8 map editor for creating and editing track models, objects, paths 
             alt="Appveyor">
     </a>
     <a href="https://discord.gg/TjatyEE9NW">
-        <img src="https://img.shields.io/discord/958107162972921906?label=discord"
+        <img src="https://img.shields.io/discord/958107162972921906?color=%09%237289DA&label=discord"
             alt="Discord">
     </a>
 </p>

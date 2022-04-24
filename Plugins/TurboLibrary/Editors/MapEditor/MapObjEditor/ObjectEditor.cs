@@ -549,8 +549,8 @@ namespace TurboLibrary.MuuntEditor
                 render.UINode.Header = GetNodeHeader(obj);
                 string objName = GetResourceName(obj);
 
-                if (IconManager.HasIcon($"{Runtime.ExecutableDir}\\Images\\MapObjects\\{objName}.png"))
-                    render.UINode.Icon = $"{Runtime.ExecutableDir}\\Images\\MapObjects\\{objName}.png";
+                if (IconManager.HasIcon($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{objName}.png"))
+                    render.UINode.Icon = $"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{objName}.png";
                 else
                     render.UINode.Icon = "Node";
 

@@ -6,7 +6,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <OutputPath>C:\Users\Nathan\Documents\GitHub\SuperBMD\Cafe-Shader-Studio\MapStudio.UI\bin\x86\Debug\net5.0\Plugins\</OutputPath>
+	  <OutputPath>..\..\Track Studio\bin\Debug\net5.0\plugins\</OutputPath>
   </PropertyGroup>
 
   <ItemGroup>

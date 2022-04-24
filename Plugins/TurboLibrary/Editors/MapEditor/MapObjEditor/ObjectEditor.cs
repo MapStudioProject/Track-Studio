@@ -468,9 +468,9 @@ namespace TurboLibrary.MuuntEditor
             };
 
             //Icons for map objects
-            if (IconManager.HasIcon($"{Runtime.ExecutableDir}\\Images\\MapObjects\\{name}.png"))
+            if (IconManager.HasIcon($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{name}.png"))
             {
-                render.UINode.Icon = $"{Runtime.ExecutableDir}\\Images\\MapObjects\\{name}.png";
+                render.UINode.Icon = $"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{name}.png";
                 //A sprite drawer for displaying distant objects
                 //Todo this is not used currently and may need improvements
                 render.SpriteDrawer = new SpriteDrawer();

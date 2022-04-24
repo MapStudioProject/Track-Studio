@@ -207,22 +207,8 @@ namespace TurboLibrary.MuuntEditor
             BfresEditor = (BFRES)STFileLoader.OpenFileFormat(filePath);
 
             var actor = new TurboLibrary.Actors.MapActor();
-            actor.UpdateModel(CourseModel);
+            actor.UpdateModel(BfresEditor.Renderer);
             Workspace.ActiveWorkspace.StudioSystem.AddActor(actor);
-
-            return;
-
-            if (CourseModel != null)
-            {
-                CourseModel?.Dispose();
-                GLContext.ActiveContext.Scene.RemoveRenderObject(CourseModel);
-                DataCache.ModelCache.Remove(CourseModel.Name);
-            }
-
-            CourseModel = new BfresRender(filePath);
-            CourseModel.CanSelect = false;
-
-            Plugin.AddRender(CourseModel);
         }
 
         public void LoadColllsion(string filePath)

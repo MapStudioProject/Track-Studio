@@ -50,9 +50,9 @@ namespace TurboLibrary.MuuntEditor
             initIcons = true;
 
             //Load icons for map objects
-            if (Directory.Exists($"{Runtime.ExecutableDir}\\Images\\MapObjects"))
+            if (Directory.Exists($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects"))
             {
-                foreach (var imageFile in Directory.GetFiles($"{Runtime.ExecutableDir}\\Images\\MapObjects"))
+                foreach (var imageFile in Directory.GetFiles($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects"))
                 {
                     IconManager.LoadTextureFile(imageFile, 32, 32);
                 }

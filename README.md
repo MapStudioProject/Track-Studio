@@ -46,6 +46,23 @@ Track tutorial [here](https://mapstudioproject.github.io/TrackStudioDocs/tutoria
 
 ## Credits
 
+- KillzXGaming - main developer
+- Abood XD / MasterVermilli0n - for wii u and switch texture swizzling. Also for the awesome effect decomp library.
+- Syroot - for wii u bfres library and binary IO
+- Ryujinx - for shader libraries used to decompile and translate switch binaries into glsl code.
+- JuPaHe64 - created animation timeline and helped me fix gizmo tools
+- OpenTK Team - for opengl c# bindings.
+- mellinoe and IMGUI Team - for c# port and creating the IMGUI library
+- Atlas & Wexos for researching and helping aspects of the game
+- MelonSpeedruns for program icon
+
+Beta Testers
+
+- voidsource
+- Stuffy360
+- Divengerss
+- BluGoku
+
 ## License
 
 License in Track Studio\Lib\Licenses

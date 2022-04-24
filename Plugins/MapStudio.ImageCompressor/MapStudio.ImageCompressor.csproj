@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <OutputPath>..\..\Track Studio\bin\Debug\net5.0\plugins\</OutputPath>
+  </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<OutputPath>..\..\Track Studio\bin\Release\net5.0\plugins\</OutputPath>
+	</PropertyGroup>
+	<ItemGroup>
+    <PackageReference Include="BCnEncoder.Net" Version="2.1.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\Toolbox.Core\Toolbox.Core.csproj">
+      <CopyLocal>False</CopyLocal>
+    </ProjectReference>
+  </ItemGroup>
+
+</Project>

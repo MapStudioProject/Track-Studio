@@ -1,0 +1,111 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputPath>C:\Users\Nathan\Documents\GitHub\SuperBMD\Cafe-Shader-Studio\MapStudio.UI\bin\x86\Debug\net5.0\Plugins\</OutputPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="fasterflect" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="AampLibraryCSharp">
+      <HintPath>..\..\Track Studio\Lib\AampLibraryCSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="BfresLibrary">
+      <HintPath>..\..\Track Studio\Lib\BfresLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="BfshaLibrary">
+      <HintPath>..\..\Track Studio\Lib\BfshaLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ByamlExt">
+      <HintPath>..\..\Track Studio\Lib\ByamlExt.dll</HintPath>
+    </Reference>
+    <Reference Include="CLMS">
+      <HintPath>..\..\Track Studio\Lib\CLMS.dll</HintPath>
+    </Reference>
+    <Reference Include="EffectLibrary">
+      <HintPath>..\..\Track Studio\Lib\EffectLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="ImGui.NET">
+      <HintPath>..\..\Track Studio\Lib\ImGui.NET.dll</HintPath>
+    </Reference>
+    <Reference Include="IONET">
+      <HintPath>..\..\Track Studio\Lib\IONET.dll</HintPath>
+    </Reference>
+    <Reference Include="KclLibrary">
+      <HintPath>..\..\Track Studio\Lib\KclLibrary.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <HintPath>..\..\MapStudio\Lib\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK">
+      <HintPath>..\..\Track Studio\Lib\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="Ryujinx.Common">
+      <HintPath>..\..\Track Studio\Lib\Ryujinx.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Ryujinx.Graphics.Shader">
+      <HintPath>..\..\Track Studio\Lib\Ryujinx.Graphics.Shader.dll</HintPath>
+    </Reference>
+    <Reference Include="Syroot.BinaryData">
+      <HintPath>..\..\Track Studio\Lib\Syroot.BinaryData.dll</HintPath>
+    </Reference>
+    <Reference Include="Syroot.Maths">
+      <HintPath>..\..\Track Studio\Lib\Syroot.Maths.dll</HintPath>
+    </Reference>
+    <Reference Include="Syroot.NintenTools.NSW.Bntx">
+      <HintPath>..\..\Track Studio\Lib\Syroot.NintenTools.NSW.Bntx.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Effects\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\GLFrameworkEngine\GLFrameworkEngine.csproj" />
+    <ProjectReference Include="..\..\MapStudio.UI\MapStudio.UI.csproj" />
+    <ProjectReference Include="..\..\Toolbox.Core\Toolbox.Core.csproj" />
+    <ProjectReference Include="..\CafeLibrary\CafeLibrary.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Lib\Languages\English\TurboStudio.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Shaders\KCL\CollisionDefault.frag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Shaders\KCL\CollisionDefault.vert">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Shaders\Turbo\MinimapFilter.frag">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Lib\Shaders\Turbo\MinimapFilter.vert">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

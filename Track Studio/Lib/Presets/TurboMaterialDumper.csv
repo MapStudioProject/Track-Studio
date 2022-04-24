@@ -1,0 +1,21 @@
+File, Material Name, Preset File, Keep Textures
+course\\Gds_WarioStadium\\course_model.szs,ef_dashboard,Shared\\Dashboard.zip, true
+course\\Gds_WarioStadium\\course_model.szs,ef_glideboard,Shared\\Glider.zip, true
+course\\Gds_WarioStadium\\course_model.szs,ef_gravityboard,Shared\\GravityPanel.zip, true
+
+course\\Gds_WarioStadium\\course_model.szs,ef_waterF,Water\\Normal.zip, true
+course\\Gds_WarioStadium\\course_model.szs,ef_sea,Water\\Muddy.zip, true
+course\\Gds_WarioStadium\\course_model.szs,ef_waterline,Water\\WaterLineEdges.zip, true
+
+course\\Gds_WarioStadium\\course_model.szs, ws_NS2_wirenet01,Alpha\\Normal.zip, false
+course\\Gds_WarioStadium\\course_model.szs, ws_NS2_wirenet01G,Alpha\\AntiGRoad.zip, false
+course\\Gds_WarioStadium\\course_model.szs, ws_NS_ESboardGate,Alpha\\EmissionTexSRT.zip, false
+course\\Gds_WarioStadium\\course_model.szs, ws_NSE_fream00,Opaque\\Emissive.zip, false
+course\\Gds_WarioStadium\\course_model.szs, ws_NS_road00,Opaque\\Normal.zip, false
+
+course\\Gds_WarioStadium\\course_model.szs, otsuka_working_ws_NSE_TV00,Special\\TV_PlayerCameraDisplay.zip, true
+
+course\\Gu_BowserCastle\\course_model.szs,ef_lavawall02, Lava\\Normal.zip, true
+course\\Gu_BowserCastle\\course_model.szs,ukc_brickset01_area4_road, Opaque\\VertexColor.zip, false
+
+course\\Gu_Airport\\course_model.szs, EnkeiSimaArufa,Translucent\\DiffuseOnly.zip, false

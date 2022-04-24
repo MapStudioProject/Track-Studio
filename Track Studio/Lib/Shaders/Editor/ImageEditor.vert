@@ -1,6 +1,6 @@
 ﻿#version 330
 in vec2 vPosition;
-in vec2 vTexCoord;
+in vec2 vTexCoord0;
 
 uniform mat4 mtxMdl;
 uniform mat4 mtxCam;
@@ -15,5 +15,5 @@ void main()
    vec2 scaleCenter = vec2(0.5);
 
     gl_Position = mtxCam * (vec4(vPosition.x, vPosition.y, 0.0, 1.0) * vec4(scale, 1, 1)); 
-    TexCoords = (vTexCoord - scaleCenter) * texCoordScale + scaleCenter;
+    TexCoords = (vTexCoord0 - scaleCenter) * texCoordScale + scaleCenter;
 }

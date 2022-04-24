@@ -1,6 +1,6 @@
 ﻿#version 330
 layout (location = 0) in vec2 aPos;
-layout (location = 1) in vec2 vTexCoord;
+layout (location = 1) in vec2 vTexCoord0;
 
 out vec2 TexCoords;
 

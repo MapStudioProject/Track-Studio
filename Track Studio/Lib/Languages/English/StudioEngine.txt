@@ -16,10 +16,13 @@ DARK_BLUE_THEME - Dark Blue Theme
 
 # Common
 NAME - Name
+PATH - Path
 PREVIEW - Preview
 VALUE - Value
 EDIT - Edit
+CREATE - Create
 ADD - Add
+REPLACE - Replace
 REMOVE - Remove
 HINT - Hint
 OK - Ok
@@ -29,10 +32,12 @@ TYPE - Type
 SAVE - Save
 COLOR - Color
 RESET - Reset
+TRANSPARENCY - Transparency
 SCALE - Scale
 TRANSLATE - Translate
 ROTATE - Rotate
 RECTANGLE_SCALE - Rectangle Scale
+MULTI_GIZMO - Multi Gizmo
 TRANSFORM - Transform
 PROPERTIES - Properties
 SEARCH - Search
@@ -45,6 +50,7 @@ EDITORS - Editors
 IMPORT - Import
 EXPORT - Export
 NONE - None
+DUPLICATE - Duplicate
 COPY - Copy
 PASTE - Paste
 MODELS - Models
@@ -83,7 +89,13 @@ SIZE - Size
 LINE_WIDTH - Line Width
 ARROW_LENGTH - Arrow length
 HELP - Help
+VIEWPORT_2D - Viewport 2D
+VIEWPORT_3D - Viewport 3D
+DONATE - Donate
+OPEN_IN_EXPLORER - Open In Explorer
+RELATIVE_PATH - Path
 
+SHOW_CONSTANTS - Show Constants
 SHOW_FLOOR - Show Floor
 SHOW_BACKGROUND - Show Background
 SHOW_SHADOWS - Show Shadows
@@ -103,29 +115,33 @@ EYE_DROPPER_TOOL - Pick an object in the viewer to link to.
 
 # Menu
 
-MENU_FILE - File
-MENU_NEW - New
-MENU_OPEN - Open
-MENU_RECENT - Recent
-MENU_SAVE - Save
-MENU_SAVE_AS - Save As
-MENU_CANCEL - Cancel
-MENU_OPEN_PROJECT - Open Project
-MENU_RECENT_PROJECTS - Recent Projects
-MENU_SAVE_PROJECT - Save Project
-MENU_SAVE_PROJECT_AS - Save Project As
-MENU_CLEAR_WORKSPACE - Clear Workspace
-MENU_EXIT - Exit
+FILE - File
+NEW - New
+OPEN - Open
+RECENT - Recent
+SAVE - Save
+SAVE_AS - Save As
+CANCEL - Cancel
+OPEN_PROJECT - Open Project
+RECENT_PROJECTS - Recent Projects
+SAVE_PROJECT - Save Project
+SAVE_PROJECT_AS - Save Project As
+CLEAR_WORKSPACE - Clear Workspace
+EXIT - Exit
+
+GENERAL - General
+APPEARANCE - Appearance
 
 SAVE_CONFIG - Save Config
 VIEW - View
 BACK_TO_PREVIOUS - Back To Previous
 FULL_SCREEN - Full Screen
 
-MENU_PATHS - Paths
-MENU_GAME_CONFIG - Game Config
-MENU_SETTINGS - Settings
+PATHS - Paths
+GAME_CONFIG - Game Config
+SETTINGS - Settings
 
+CHECK_UPDATES - Check Updates
 DOCUMENTATION - Documentation
 ABOUT - About
 CONTROLS - Controls

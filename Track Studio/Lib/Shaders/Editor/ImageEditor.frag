@@ -8,6 +8,7 @@ in vec2 TexCoords;
 uniform int isSRGB;
 uniform int hasTexture;
 uniform int displayAlpha;
+uniform int isBC5S;
 
 uniform int backgroundMode;
 uniform vec4 backgroundColor;
@@ -32,6 +33,11 @@ void main()
 
         if (isSRGB == 1)
             color.rgb = pow(color.rgb, vec3(1.0/2.2));
+        if (isBC5S == 1) //BC5 Snorm conversion
+        {
+           color.rg = (color.rg + 1.0) / 2.0;
+           color.b = color.b;
+        }
     }
     else
     {

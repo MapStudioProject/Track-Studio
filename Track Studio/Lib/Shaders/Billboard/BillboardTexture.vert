@@ -1,7 +1,7 @@
 ﻿#version 330
 
 layout(location = 0) in vec3 vPosition;
-layout(location = 2) in vec2 vTexCoord;
+layout(location = 2) in vec2 vTexCoord0;
 
 uniform vec3 scale;
 
@@ -14,7 +14,7 @@ out vec2 f_texcoord0;
 
 void main()
 {
-    f_texcoord0 = vTexCoord;
+    f_texcoord0 = vTexCoord0;
 
     //Toggle verticle view rotation on the Y axis
     bool vertical = true;

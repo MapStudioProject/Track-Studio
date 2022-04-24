@@ -23,6 +23,9 @@ namespace Updater
 
         private static Release[] releases;
 
+        /// <summary>
+        /// Prepares the updater with the repo owner, repo name, and process to target installing.
+        /// </summary>
         public static void Setup(string owner, string repo, string process = "")
         {
             _owner = owner;
@@ -35,6 +38,14 @@ namespace Updater
             GetReleases(client).Wait();
         }
 
+        /// <summary>
+        /// Gets the first release instance of the github releases.
+        /// </summary>
+        public Release GetRelease() => releases.FirstOrDefault();
+
+        /// <summary>
+        /// Downloads the latest release if the version does not match the current version.
+        /// </summary>
         public static void DownloadLatest(string folder, int assetIndex = 0, bool force = false)
         {
             Console.WriteLine($"Downloading latest repo!");
@@ -59,8 +70,6 @@ namespace Updater
                     Directory.Delete($"{folder}\\{"latest"}" + "/", true);
 
                 DownloadRelease(folder, release, assetIndex).Wait();
-                //Docs download
-                //DownloadRelease(folder, release, 0).Wait();
             }
             else
             {
@@ -105,19 +114,9 @@ namespace Updater
             }
         }
 
-        private static void DownloadProgressCallback(object sender, DownloadProgressChangedEventArgs e)
-        {
-            // Displays the operation identifier, and the transfer progress.
-            Console.WriteLine("{0}    downloaded {1} of {2} bytes. {3} % complete...",
-                (string)e.UserState,
-                e.BytesReceived,
-                e.TotalBytesToReceive,
-                e.ProgressPercentage);
-
-            //Display a progress bar but in command line
-            // CmdUtil.DrawTextProgressBar("Downloading..", (int)e.BytesReceived, (int)e.TotalBytesToReceive);
-        }
-
+        /// <summary>
+        /// Installs the currently downloaded and extracted update to the given folder directory.
+        /// </summary>
         public static void Install(string folderDir)
         {
             string path = $"{folderDir}\\latest\\net5.0";
@@ -144,6 +143,10 @@ namespace Updater
             }
             foreach (string file in Directory.GetFiles(path))
             {
+                //Little hacky. Just skip the updater files as it currently uses the same directory as the installed tool.
+                if (Path.GetFileName(file).StartsWith("Updater") || file.Contains("Octokit"))
+                    continue;
+
                 //Remove existing files
                 if (File.Exists(Path.Combine(folderDir, Path.GetFileName(file))))
                     File.Delete(Path.Combine(folderDir, Path.GetFileName(file)));

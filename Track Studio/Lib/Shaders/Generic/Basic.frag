@@ -51,7 +51,7 @@ void main()
 	}
 
 	if (displayVertexColors == 1)
-		fragColor.rgba = f_color.rgba;
+		fragColor.rgba *= f_color.rgba;
 
     if (isSRGB == 1)
         fragColor.rgb = pow(fragColor.rgb, vec3(1.0/GAMMA));

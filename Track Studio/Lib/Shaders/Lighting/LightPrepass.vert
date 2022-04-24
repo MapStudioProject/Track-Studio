@@ -1,6 +1,6 @@
 ﻿#version 330
 layout (location = 0) in vec2 aPos;
-layout (location = 1) in vec2 aTexCoords;
+layout (location = 1) in vec2 vTexCoord0;
 
 out vec2 TexCoords;
 out vec3 ViewPos;
@@ -13,7 +13,7 @@ uniform float z_range;
 void main()
 {
     gl_Position = vec4(aPos.x, aPos.y, 1.0, 1.0); 
-    TexCoords = vec2(aTexCoords.x, 1.0 - aTexCoords.y);
+    TexCoords = vec2(vTexCoord0.x, 1.0 - vTexCoord0.y);
    
     FovScale.x = tan(fov_x / 2.0);
     FovScale.y = tan(fov_y / 2.0);

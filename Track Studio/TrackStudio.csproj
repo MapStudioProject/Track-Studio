@@ -4,6 +4,8 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <RootNamespace>TrackStudio</RootNamespace>
+    <AllowUnsafeBlocks>True</AllowUnsafeBlocks>
+    <ApplicationIcon>Icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -17,6 +19,42 @@
 		<Content Include="Lib\**">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</Content>
+	</ItemGroup>
+  
+	<ItemGroup>
+	  <Content Include="Icon.ico" />
+	</ItemGroup>
+  
+	<ItemGroup>
+	  <ProjectReference Include="..\GLFrameworkEngine\GLFrameworkEngine.csproj" />
+	  <ProjectReference Include="..\MapStudio.UI\MapStudio.UI.csproj" />
+	  <ProjectReference Include="..\Plugins\CafeLibrary\CafeLibrary.csproj" />
+	  <ProjectReference Include="..\Plugins\DirectXTexLibrary\DirectXTexLibrary.csproj" />
+	  <ProjectReference Include="..\Plugins\MapStudio.ImageCompressor\MapStudio.ImageCompressor.csproj" />
+	  <ProjectReference Include="..\Plugins\TurboLibrary\TurboLibrary.csproj" />
+	</ItemGroup>
+  
+	<ItemGroup>
+	  <Reference Include="ImGui.NET">
+	    <HintPath>Lib\ImGui.NET.dll</HintPath>
+	  </Reference>
+	  <Reference Include="OpenTK">
+	    <HintPath>Lib\OpenTK.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Syroot.BinaryData">
+	    <HintPath>Lib\Syroot.BinaryData.dll</HintPath>
+	  </Reference>
+	  <Reference Include="Syroot.Maths">
+	    <HintPath>Lib\Syroot.Maths.dll</HintPath>
+	  </Reference>
+	</ItemGroup>
+  
+	<ItemGroup>
+	  <Compile Update="Properties\Resources.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Resources.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
   
 	<ItemGroup>
@@ -39,8 +77,33 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </Content>
 	</ItemGroup>
+  
+	<ItemGroup>
+	  <EmbeddedResource Update="Properties\Resources.resx">
+	    <Generator>ResXFileCodeGenerator</Generator>
+	    <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+	  </EmbeddedResource>
+	</ItemGroup>
 
   <ItemGroup>
+    <None Update="cimgui.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="cimgui.dylib">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="cimgui.so">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="GFD\gx2shader-decompiler.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="GFD\spirv-cross-c-shared.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="GFD\spirv-cross.exe">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Lib\Languages\English\PartyStudio.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -68,6 +131,34 @@
     <None Update="Lib\Licenses\SpirvCrossLicense.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\CubemapHDR.dds">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\CubemapLightmap.dds">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\CubemapLightmapShadow.dds">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="tinyfiledialogs.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x64\DirectXTexNetImpl.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x64\libzstd.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x86\DirectXTexNetImpl.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="x86\libzstd.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Lib\Presets\" />
   </ItemGroup>
 
 </Project>

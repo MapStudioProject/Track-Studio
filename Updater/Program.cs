@@ -8,12 +8,10 @@ namespace Updater
     internal class Program
     {
         static string execDirectory = "";
-        static string folderDir = "";
 
         static void Main(string[] args)
         {
             execDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-            folderDir = execDirectory;
             UpdaterHelper.Setup("MapStudioProject", "Track-Studio", "TrackStudio.exe");
 
             bool force = args.Contains("-f");
@@ -34,6 +32,11 @@ namespace Updater
                         Boot();
                         Environment.Exit(0);
                         break;
+                    case "-bl":
+                    case "--boot_launcher":
+                        BootLauncher();
+                        Environment.Exit(0);
+                        break;
                     case "-e":
                     case "--exit":
                         Environment.Exit(0);
@@ -42,12 +45,20 @@ namespace Updater
             }
         }
 
+        static void BootLauncher()
+        {
+            Console.WriteLine("Booting...");
+
+            Thread.Sleep(3000);
+            System.Diagnostics.Process.Start(Path.Combine(execDirectory, "TrackStudioLauncher.exe"));
+        }
+
         static void Boot()
         {
             Console.WriteLine("Booting...");
 
             Thread.Sleep(3000);
-            System.Diagnostics.Process.Start(Path.Combine(folderDir, "TrackStudio.exe"));
+            System.Diagnostics.Process.Start(Path.Combine(execDirectory, "TrackStudio.exe"));
         }
     }
 }

@@ -5,6 +5,8 @@ VisualStudioVersion = 17.1.32328.378
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackStudio", "Track Studio\TrackStudio.csproj", "{58480072-DD6D-461F-AC93-5DD56C4F6AC3}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrackStudioLauncher", "Track Studio Launcher\TrackStudioLauncher.csproj", "{4EED43F9-10F3-4A37-94DC-38770445502C}"
+EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Updater", "Updater\Updater.csproj", "{A1D830E8-2A3B-4FE3-AF15-38FF2900446F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapStudio.UI", "MapStudio.UI\MapStudio.UI.csproj", "{BCE75338-6718-4B7D-982A-BB8AA3B2DD39}"

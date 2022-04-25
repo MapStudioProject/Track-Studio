@@ -294,7 +294,10 @@ namespace TrackStudio
             }
             catch (Exception ex)
             {
-                TinyFileDialog.MessageBoxErrorOk($"Failed to update! {ex}. Details:\n\n {ex.StackTrace}");
+                string message = ex.Message.Replace("'", "");
+
+                Clipboard.SetText($"{ex.Message} \n{ex.StackTrace}");
+                TinyFileDialog.MessageBoxErrorOk($"Failed to open file format! {message} Details copied to clipboard!");
             }
         }
 

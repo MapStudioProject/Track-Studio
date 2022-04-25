@@ -38,6 +38,7 @@ namespace TrackStudio
         private MenuItem SaveMenu;
         private MenuItem SaveAsMenu;
         private MenuItem SaveProjectMenu;
+        private MenuItem SaveAsProjectMenu;
         //Debug
         private bool showStyleEditor = false;
         private bool showDemoWindow = false;
@@ -230,8 +231,8 @@ namespace TrackStudio
             fileMenu.MenuItems.Add(new MenuItem($"RECENT_PROJECTS", ' ') { RenderItems = LoadRecentProjects });
             SaveProjectMenu = new MenuItem($"SAVE_PROJECT", ' ', SaveProject);
             fileMenu.MenuItems.Add(SaveProjectMenu);
-
-            fileMenu.MenuItems.Add(new MenuItem($"SAVE_PROJECT_AS", ' ', SaveProjectWithDialog));
+            SaveAsProjectMenu = new MenuItem($"SAVE_PROJECT_AS", ' ', SaveProjectWithDialog);
+            fileMenu.MenuItems.Add(SaveAsProjectMenu);
 
             fileMenu.MenuItems.Add(new MenuItem("")); //splitter
 
@@ -268,6 +269,7 @@ namespace TrackStudio
             SaveMenu.Enabled = false;
             SaveAsMenu.Enabled = false;
             SaveProjectMenu.Enabled = false;
+            SaveAsProjectMenu.Enabled = false;
         }
 
         private void CheckUpdates()
@@ -592,7 +594,8 @@ namespace TrackStudio
             bool canSave = Workspace.ActiveWorkspace != null;
             SaveMenu.Enabled = canSave;
             SaveAsMenu.Enabled = canSave;
-            SaveProjectMenu.Enabled = canSave;
+           // SaveProjectMenu.Enabled = canSave;
+          //  SaveAsProjectMenu.Enabled = canSave;
         }
 
         private void ClearWorkspace()

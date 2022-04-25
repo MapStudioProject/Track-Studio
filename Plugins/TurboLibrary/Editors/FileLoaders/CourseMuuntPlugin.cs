@@ -63,7 +63,7 @@ namespace TurboLibrary
             ImguiCustomWidgets.FileSelector("Model File", ref model_path, new string[] { ".dae", ".fbx" });
 
             var size = new System.Numerics.Vector2(ImGui.GetWindowWidth() / 2, 23);
-            if (ImGui.Button(TranslationSource.GetText("CANEL"), size))
+            if (ImGui.Button(TranslationSource.GetText("CANCEL"), size))
                 DialogHandler.ClosePopup(false);
 
             ImGui.SameLine();

@@ -132,8 +132,8 @@ namespace TurboLibrary.MuuntEditor
 
                 //Get the icon
                 var icon = IconManager.GetTextureIcon("Node");
-                if (IconManager.HasIcon($"{Runtime.ExecutableDir}\\Images\\MapObjects\\{resName}.png"))
-                    icon = IconManager.GetTextureIcon($"{Runtime.ExecutableDir}\\Images\\MapObjects\\{resName}.png");
+                if (IconManager.HasIcon($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{resName}.png"))
+                    icon = IconManager.GetTextureIcon($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{resName}.png");
 
                 //Load the icon onto the list
                 ImGui.Image((IntPtr)icon, new Vector2(itemHeight, itemHeight)); ImGui.SameLine();

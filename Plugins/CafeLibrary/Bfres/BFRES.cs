@@ -322,6 +322,8 @@ namespace CafeLibrary
 
         public void Save(Stream stream) {
 
+            ModelFolder.OnSave();
+
             if (UpdateTransformedVertices)
             {
                 //Update all meshes from new transform
@@ -334,7 +336,6 @@ namespace CafeLibrary
             }
 
             TextureFolder.OnSave();
-            ModelFolder.OnSave();
             AnimationsFolder.OnSave();
 
             ResFile.Save(stream);

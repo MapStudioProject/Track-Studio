@@ -7,6 +7,7 @@ using Toolbox.Core;
 using GLFrameworkEngine;
 using System.Reflection;
 using MapStudio.UI;
+using System.Linq;
 
 namespace TrackStudio
 {
@@ -43,12 +44,24 @@ namespace TrackStudio
             InitGLResourceCreation();
             //Load the window and run the application
             GraphicsMode mode = new GraphicsMode(new ColorFormat(32), 24, 8, 4, new ColorFormat(32), 2, false);
-            var asssemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+            var asssemblyVersion = GetRepoCompileDate(Runtime.ExecutableDir);
 
-            UIFramework.Framework wnd = new UIFramework.Framework(new MainWindow(argumentHandle), mode, asssemblyVersion);
+            var wnd = new UIFramework.Framework(new MainWindow(argumentHandle), mode, asssemblyVersion);
             wnd.Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
             wnd.VSync = OpenTK.VSyncMode.On;
             wnd.Run();
+        }
+
+        static string GetRepoCompileDate(string folder)
+        {
+            if (!File.Exists($"{folder}\\Version.txt"))
+                return "";
+
+            string[] versionInfo = File.ReadLines($"{folder}\\Version.txt").ToArray();
+            if (versionInfo.Length >= 3)
+                return $"{versionInfo[0]} Commit: {versionInfo[2]} Compile Date: {versionInfo[1]}";
+
+            return "";
         }
 
         [Conditional("DEBUG")]

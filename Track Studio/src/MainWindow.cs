@@ -276,7 +276,7 @@ namespace TrackStudio
         {
             try
             {
-                UpdaterHelper.Setup("MapStudioProject", "Track-Studio", "TrackStudio.exe", "Version.txt");
+                UpdaterHelper.Setup("MapStudioProject", "Track-Studio", "Version.txt", "TrackStudio.exe");
 
                 var release = UpdaterHelper.TryGetLatest(Runtime.ExecutableDir, 0);
                 if (release == null)
@@ -286,11 +286,18 @@ namespace TrackStudio
                     int result = TinyFileDialog.MessageBoxInfoYesNo($"Found new release {release.Name}! Do you want to update?");
                     if (result == 1)
                     {
+                        ProcessLoading.Instance.IsLoading = true;
                         //Download
-                        UpdaterHelper.DownloadRelease(Runtime.ExecutableDir, release, 0).Wait();
-                        Console.WriteLine("Installing update..");
-                        //Exit the tool and install via the updater
-                        UpdaterHelper.InstallUpdate("-bl");
+                        UpdaterHelper.DownloadRelease(Runtime.ExecutableDir, release, 0, () =>
+                        {
+                            ProcessLoading.Instance.Update(100, 100, $"Update will now install.", "Updater");
+
+                            Console.WriteLine("Installing update..");
+                            //Exit the tool and install via the updater
+                            UpdaterHelper.InstallUpdate("-b");
+
+                            ProcessLoading.Instance.IsLoading = false;
+                        });
                     }
                 }
             }
@@ -299,7 +306,7 @@ namespace TrackStudio
                 string message = ex.Message.Replace("'", "");
 
                 Clipboard.SetText($"{ex.Message} \n{ex.StackTrace}");
-                TinyFileDialog.MessageBoxErrorOk($"Failed to open file format! {message} Details copied to clipboard!");
+                TinyFileDialog.MessageBoxErrorOk($"Failed to update tool! {message} Details copied to clipboard!");
             }
         }
 

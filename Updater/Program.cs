@@ -12,7 +12,6 @@ namespace Updater
         static void Main(string[] args)
         {
             execDirectory = Path.GetDirectoryName(System.Reflection.Assembly.GetEntryAssembly().Location);
-            UpdaterHelper.Setup("MapStudioProject", "Track-Studio", "TrackStudio.exe");
 
             bool force = args.Contains("-f");
             foreach (string arg in args)
@@ -21,6 +20,7 @@ namespace Updater
                 {
                     case "-d":
                     case "--download":
+                        UpdaterHelper.Setup("MapStudioProject", "Track-Studio", "TrackStudio.exe");
                         UpdaterHelper.DownloadLatest(execDirectory, 0, force);
                         break;
                     case "-i":

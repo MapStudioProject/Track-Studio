@@ -515,6 +515,7 @@ namespace TrackStudio
                 ProcessLoading.Instance.IsLoading = false;
                 ForceFocus = true;
             });
+            OnWorkspaceChanged();
         }
 
         private void OpenFileWithDialog()

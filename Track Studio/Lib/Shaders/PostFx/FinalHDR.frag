@@ -18,7 +18,6 @@ uniform int ENABLE_FBO_ALPHA;
 uniform sampler2D uColorTex;
 uniform sampler2D uBloomTex;
 uniform sampler2D uHighlightTex;
-uniform sampler3D uLutTex;
 
 const float LUT_SIZE = 8.0;
 
@@ -68,15 +67,6 @@ void main()
         vec3 bloomColor = texture(uBloomTex, TexCoords).rgb;
         //Add bloom post effects
         outputColor += bloomColor;
-    }
-    if (ENABLE_LUT == 1)
-    {
-        vec3 scale = vec3((LUT_SIZE - 1.0) / LUT_SIZE);
-        vec3 offset = vec3(1.0 / (2.0 * LUT_SIZE));
-   
-        //Show only right side to compare
-        if(TexCoords.x > 0.5 || true)
-            outputColor = texture(uLutTex, scale * outputColor + offset).rgb;
     }
     if (ENABLE_SRGB == 1)
     {

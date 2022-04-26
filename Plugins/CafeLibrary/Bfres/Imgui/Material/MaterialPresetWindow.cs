@@ -90,13 +90,20 @@ namespace CafeLibrary
             {
                 if (preset.EndsWith(".zip"))
                 {
-                    var matPreset = new MaterialPreset(preset);
-                    if (matPreset.Material.RenderState != null && isSwitch)
-                        continue;
-                    if (matPreset.Material.RenderState == null && !isSwitch)
-                        continue;
+                    try
+                    {
+                        var matPreset = new MaterialPreset(preset);
+                        if (matPreset.Material.RenderState != null && isSwitch)
+                            continue;
+                        if (matPreset.Material.RenderState == null && !isSwitch)
+                            continue;
 
-                    parent.AddChild(matPreset);
+                        parent.AddChild(matPreset);
+                    }
+                    catch
+                    {
+
+                    }
                 }
             }
             return parent;

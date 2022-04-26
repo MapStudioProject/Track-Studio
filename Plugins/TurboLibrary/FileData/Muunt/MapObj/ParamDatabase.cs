@@ -10,8 +10,8 @@ namespace TurboLibrary
     {
         public static Dictionary<int, float[]> ParameterDefaults = new Dictionary<int, float[]>()
         {
-            { 1012, new float[8] { 0, 5, 0, 0, 0, 0, 0, 0} },  // Sanbo
-            { 1021, new float[8] { 0, 0, 1, 3, 100, 0, 0, 0} },  // Basabasa
+            { 1012, new float[8] { 0, 5, 0, 0, 0, 0, 0, 0 }},  // Sanbo
+            { 1021, new float[8] { 0, 0, 1, 3, 100, 0, 0, 0 }},  // Basabasa
             { 1036, new float[8] { 1, 0, 0, 0, 0, 0, 0, 0 }},  // PcBalloon
             { 1040, new float[8] { 1, 0, 0, 0, 0, 0, 0, 0 }},  // TowerKuribo
             { 4048, new float[8] { 0, 700, 2300, 400, 0, 0, 0, 0 }},  // BDSandGeyser

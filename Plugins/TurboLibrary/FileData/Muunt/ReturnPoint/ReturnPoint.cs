@@ -87,7 +87,7 @@ namespace TurboLibrary
             else
                 _jugemPathIndex = -1;
 
-            if (JugemPath != null)
+            if (JugemPath != null && courseDefinition.JugemPaths.Contains(JugemPath))
                 _jugemPathPointIndex = JugemPath.ObjPt.IndexOf(JugemPathPoint);
             else
                 _jugemPathPointIndex = -1;

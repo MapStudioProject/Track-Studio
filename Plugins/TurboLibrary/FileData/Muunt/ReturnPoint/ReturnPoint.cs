@@ -69,7 +69,8 @@ namespace TurboLibrary
         public void DeserializeReferences(CourseDefinition courseDefinition)
         {
             if (courseDefinition.JugemPaths != null && _jugemPathIndex < courseDefinition.JugemPaths.Count) {
-                JugemPath = courseDefinition.JugemPaths[_jugemPathIndex];
+                if (_jugemPathIndex != -1 && courseDefinition.JugemPaths.Count > _jugemPathIndex)
+                    JugemPath = courseDefinition.JugemPaths[_jugemPathIndex];
                 if (JugemPath != null && JugemPath.ObjPt.Count > _jugemPathPointIndex)
                 JugemPathPoint = JugemPath != null ? JugemPath.ObjPt[_jugemPathPointIndex] : null;
             }

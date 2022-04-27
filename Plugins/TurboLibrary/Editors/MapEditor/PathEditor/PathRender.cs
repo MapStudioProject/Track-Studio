@@ -221,15 +221,12 @@ namespace TurboLibrary.MuuntEditor
             groupNode.ContextMenus.Clear();
             groupNode.ContextMenus.Add(new MenuItemModel("Delete", () =>
             {
-                MapStudio.UI.UIManager.ActionExecBeforeUIDraw += delegate
-                {
-                    //Batch edit
-                    var selected = this.NodeFolder.Children.Where(x => x.IsSelected).ToList();
-                    GLContext.ActiveContext.Scene.BeginUndoCollection();
-                    foreach (var path in selected)
-                        this.RemoveByGroup(path.Tag as TPath);
-                    GLContext.ActiveContext.Scene.EndUndoCollection();
-                };
+                //Batch edit
+                var selected = this.NodeFolder.Children.Where(x => x.IsSelected).ToList();
+                GLContext.ActiveContext.Scene.BeginUndoCollection();
+                foreach (var path in selected)
+                    this.RemoveByGroup(path.Tag as TPath);
+                GLContext.ActiveContext.Scene.EndUndoCollection();
             }));
             groupNode.Header = $"Path {NodeFolder.Children.Count}";
             MapEditorIcons.ReloadIcons(groupNode, typeof(TPath));

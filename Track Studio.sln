@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GLFrameworkEngine", "GLFram
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Toolbox.Core", "Toolbox.Core\Toolbox.Core.csproj", "{F72CE21C-7B9E-47FC-AEA6-3DD7100690A7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Plugins", "Plugins", "{892C2F44-1D5C-4B9F-959D-451F74EB98BB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectXTexLibrary", "Plugins\DirectXTexLibrary\DirectXTexLibrary.csproj", "{6F301ECC-2B02-4415-9197-FB8828B8D79F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MapStudio.ImageCompressor", "Plugins\MapStudio.ImageCompressor\MapStudio.ImageCompressor.csproj", "{BF380CC4-B827-452A-8AE5-3F0AC5927145}"

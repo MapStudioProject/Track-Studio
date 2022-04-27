@@ -1516,12 +1516,19 @@ namespace CafeLibrary
 
             if (dlg.ShowDialog())
             {
-                if (dlg.FilePath.EndsWith(".zip"))
-                    LoadPreset(dlg.FilePath, true);
-                else
+                try
                 {
-                    Material.Import(dlg.FilePath, ResFile);
-                    Replace(Material);
+                    if (dlg.FilePath.EndsWith(".zip"))
+                        LoadPreset(dlg.FilePath, true);
+                    else
+                    {
+                        Material.Import(dlg.FilePath, ResFile);
+                        Replace(Material);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    TinyFileDialog.MessageBoxErrorOk("File not a valid material!");
                 }
             }
         }

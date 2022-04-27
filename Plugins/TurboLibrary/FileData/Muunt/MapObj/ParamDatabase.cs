@@ -10,8 +10,11 @@ namespace TurboLibrary
     {
         public static Dictionary<int, float[]> ParameterDefaults = new Dictionary<int, float[]>()
         {
-            { 1040, new float[8] { 1, 0, 0, 0, 0, 0, 0, 0 }},  // TowerKuribo
+            { 1012, new float[8] { 0, 5, 0, 0, 0, 0, 0, 0 }},  // Sanbo
+            { 1021, new float[8] { 0, 0, 1, 3, 100, 0, 0, 0 }},  // Basabasa
             { 1036, new float[8] { 1, 0, 0, 0, 0, 0, 0, 0 }},  // PcBalloon
+            { 1040, new float[8] { 1, 0, 0, 0, 0, 0, 0, 0 }},  // TowerKuribo
+            { 4048, new float[8] { 0, 700, 2300, 400, 0, 0, 0, 0 }},  // BDSandGeyser
         };
 
         public static Dictionary<int, string[]> ParameterObjs = new Dictionary<int, string[]>()
@@ -272,7 +275,7 @@ namespace TurboLibrary
         {    4042, new string[8] {"Fall Delay", null, null, null, null, null, null, null} },  // KaraPillar
         {    4043, new string[8] {"Unknown 1", "Unknown 2", "Unknown 3", null, null, null, null, null} },  // MpBoard
         {    4044, new string[8] {null, null, null, null, null, null, null, null} },  // ExDash
-        {    4048, new string[8] {"Unknown 1", "Unknown 2", "Delay between rise", "Unknown 4", null, null, null, null} },  // BDSandGeyser
+        {    4048, new string[8] {"Initial Delay", "Up Duration", "Delay between rise", "Geyser Height", null, null, null, null} },  // BDSandGeyser
         {    4050, new string[8] {"Unknown 1", "Unknown 2", "Shake speed", "Unknown 4", "Unknown 5", "Unknown 6", null, null} },  // VolMovRoadPlus
         {    4051, new string[8] {null, null, "Shake speed", "Unknown 4", "Unknown 5", "Unknown 6", null, null} },  // VolMovRoad
         {    4052, new string[8] {"Unknown 1", "Unknown 2", "Unknown 3", "Unknown 4", null, null, null, "Model Index"} },  // VolcanoPiece

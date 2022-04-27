@@ -30,6 +30,7 @@ namespace TrackStudio
 
             //Assembly searching from folders
             var domain = AppDomain.CurrentDomain;
+            domain.UnhandledException += new UnhandledExceptionEventHandler(ExceptionHandler);
             domain.AssemblyResolve += LoadAssembly;
             //Arguments in the command line
             var argumentHandle = LoadCmdArguments(args);
@@ -50,6 +51,19 @@ namespace TrackStudio
             wnd.Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
             wnd.VSync = OpenTK.VSyncMode.On;
             wnd.Run();
+        }
+
+        static void ExceptionHandler(object sender, UnhandledExceptionEventArgs args)
+        {
+            if (args.IsTerminating)
+            {
+                if (!Directory.Exists("Logs"))
+                    Directory.CreateDirectory("Logs");
+
+                string date = DateTime.Now.ToFileTime().ToString();
+                Exception e = (Exception)args.ExceptionObject;
+                File.WriteAllText($"{Runtime.ExecutableDir}\\Logs\\CrashLog_{date}.txt", $"{e.Message}\n {e.StackTrace}");
+            }
         }
 
         static string GetRepoCompileDate(string folder)

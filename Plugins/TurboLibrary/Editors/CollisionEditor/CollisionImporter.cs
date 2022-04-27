@@ -257,8 +257,13 @@ namespace TurboLibrary.CollisionEditor
                     {
                         if (!this.FilterByMeshes)
                         {
-                            if (Results.ContainsKey(poly.MaterialName))
-                                poly.Attribute = Results[poly.MaterialName].TypeID;
+                            var mat = ImportedModel.Scene.Materials.FirstOrDefault(x => x.Name == poly.MaterialName);
+                            if (mat != null)
+                            {
+                                string name = mat.Label == null ? mat.Name : mat.Label;
+                                if (Results.ContainsKey(name))
+                                    poly.Attribute = Results[name].TypeID;
+                            }
                         }
                         else if (Results.ContainsKey(mesh.Name))
                             poly.Attribute = Results[mesh.Name].TypeID;

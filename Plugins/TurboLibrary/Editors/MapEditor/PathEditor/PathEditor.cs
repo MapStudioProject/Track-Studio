@@ -155,6 +155,7 @@ namespace TurboLibrary.MuuntEditor
 
                     var pos = new Vector3(pt.Translate.X, pt.Translate.Y, pt.Translate.Z) * GLContext.PreviewScale;
                     var point = (PathPoint<TPath, TPoint>)Renderer.CreatePoint(pos);
+                    point.Transform.RotationEuler = new Vector3(pt.Rotate.X, pt.Rotate.Y, pt.Rotate.Z);
                     if (pt.Scale.HasValue)
                         point.Transform.Scale = new Vector3(pt.Scale.Value.X, pt.Scale.Value.Y, pt.Scale.Value.Z);
                     point.Transform.UpdateMatrix(true);

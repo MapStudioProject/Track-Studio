@@ -324,16 +324,6 @@ namespace CafeLibrary.ModelConversion
                 fshp.VertexSkinCount = (byte)buffer.VertexSkinCount;
                 fmdl.VertexBuffers.Add(buffer);
 
-                try
-                {
-
-
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Failed to generate vertex buffer! \n " + ex.ToString());
-                }
-
                 //Generate boundings for the mesh
                 List<IOVertex> vertices = mesh.Vertices;
 

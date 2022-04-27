@@ -33,6 +33,7 @@
 	  <ProjectReference Include="..\Plugins\DirectXTexLibrary\DirectXTexLibrary.csproj" />
 	  <ProjectReference Include="..\Plugins\MapStudio.ImageCompressor\MapStudio.ImageCompressor.csproj" />
 	  <ProjectReference Include="..\Plugins\TurboLibrary\TurboLibrary.csproj" />
+	  <ProjectReference Include="..\RevoKartLibrary\RevoKartLibrary.csproj" />
 	</ItemGroup>
   
 	<ItemGroup>

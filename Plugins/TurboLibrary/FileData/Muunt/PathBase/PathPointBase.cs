@@ -187,9 +187,6 @@ namespace TurboLibrary
                     if (index.PointIndex >= referencedPath.Points.Count)
                         StudioLogger.WriteErrorException($"{this.GetType()}: Invalid previous point index ({index.PointIndex}) at point {this.Index}");
 
-                    if (referencedPath.Points[index.PointIndex] == this)
-                        StudioLogger.WriteErrorException($"{this.GetType()}: Invalid previous point referencing itself at path {this.Index}");
-
                     PreviousPoints.Add(referencedPath.Points[index.PointIndex]);
                 }
             }
@@ -209,9 +206,6 @@ namespace TurboLibrary
 
                     if (index.PointIndex >= referencedPath.Points.Count)
                         StudioLogger.WriteErrorException($"{this.GetType()}: Invalid next point index ({index.PointIndex}) at path {this.Index}");
-
-                    if (referencedPath.Points[index.PointIndex] == this)
-                        StudioLogger.WriteErrorException($"{this.GetType()}: Invalid next point referencing itself at path {this.Index}");
 
                     NextPoints.Add(referencedPath.Points[index.PointIndex]);
                 }

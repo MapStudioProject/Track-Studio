@@ -73,7 +73,7 @@ namespace CafeLibrary
             }
             catch (Exception ex)
             {
-                TinyFileDialog.MessageBoxErrorOk($"Failed to update! {ex}. Details:\n\n {ex.StackTrace}");
+                DialogHandler.ShowException(ex);
             }
         }
 

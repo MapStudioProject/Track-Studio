@@ -3,13 +3,13 @@
 uniform int solidFloor;
 uniform int spotLight;
 
-uniform mat4 mtxView;
-uniform mat4 mtxProj;
-
-uniform float near;
-uniform float far;
+uniform float znear;
+uniform float zfar;
 
 uniform vec3 gridColor;
+
+uniform mat4 mtxView;
+uniform mat4 mtxProj;
 
 in vec3 nearPoint; 
 in vec3 farPoint;
@@ -55,18 +55,18 @@ float computeDepth(vec3 pos) {
     //Get clip space depth
     float clip_space_depth = (clip_space_pos.z / clip_space_pos.w);
     //Compute the range based on gl_DepthRange settings
-	float far = gl_DepthRange.far;
-	float near = gl_DepthRange.near;
+	float d_far = gl_DepthRange.far;
+	float d_near = gl_DepthRange.near;
 
-	float depth = (((far-near) * clip_space_depth) + near + far) / 2.0;
+	float depth = (((d_far-d_near) * clip_space_depth) + d_near + d_far) / 2.0;
 	return depth;
 }
 
 float computeLinearDepth(vec3 pos) {
     vec4 clip_space_pos = mtxProj * mtxView * vec4(pos.xyz, 1.0);
     float clip_space_depth = (clip_space_pos.z / clip_space_pos.w) * 2.0 - 1.0; // put back between -1 and 1
-    float linearDepth = (2.0 * near * far) / (far + near - clip_space_depth * (far - near)); // get linear value between 0.01 and 100
-    return linearDepth / far; // normalize
+    float linearDepth = (2.0 * znear * zfar) / (zfar + znear - clip_space_depth * (zfar - znear)); // get linear value between 0.01 and 100
+    return linearDepth / zfar; // normalize
 }
 
 void main() {
@@ -110,8 +110,8 @@ void main() {
 
     if (spotLight == 1)
     {
-	    float spotlight = min(1.0, 1.5 - 0.02*length(fragPos3D.xz));
-	    fragColor = vec4(color.rgb*spotlight, 1);
+	    float spotlight_output = min(1.0, 1.5 - 0.02*length(fragPos3D.xz));
+	    fragColor = vec4(color.rgb*spotlight_output, 1);
     }
     else
     {

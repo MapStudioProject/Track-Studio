@@ -179,17 +179,54 @@ namespace CafeLibrary.ModelConversion
                 if (mesh.Vertices.Count == 0)
                     continue;
 
+
                 //Set the skin count
-                uint vertexSkinCount = CalculateSkinCount(mesh.Vertices);
+                uint vertexSkinCount = 0;
 
-                if (importSettings.Meshes.Any(x => x.Name == mesh.Name))
+                try
                 {
-                    var meshSettings = importSettings.Meshes.FirstOrDefault(x => x.Name == mesh.Name);
-                    vertexSkinCount = (uint)meshSettings.SkinCount;
-                }
+                    bool rigidBind = false;
+                    //Check if the bone list has only 1 bone or less. If so it uses rigid binding
+                    var riggedBones = mesh.Vertices.SelectMany(x => x.Envelope.Weights?.Select(x => x.BoneName)).Distinct().ToList();
+                    // if (riggedBones == null || riggedBones.Count <= 1)
+                    // rigidBind = true;
 
-                //Set the skin count for each mesh. This is either calculated or applied via mesh meta info
-                skinCounts[sindex++] = vertexSkinCount;
+                    if (!rigidBind)
+                        CalculateSkinCount(mesh.Vertices);
+
+                    //Todo. This basically reimports meshes with the original skin count to target as
+                    /*    if (importSettings.Meshes.Any(x => x.Name == mesh.Name))
+                        {
+                            var meshSettings = importSettings.Meshes.FirstOrDefault(x => x.Name == mesh.Name);
+                            vertexSkinCount = (uint)meshSettings.SkinCount;
+                        }*/
+
+                    //Set the skin count for each mesh. This is either calculated or applied via mesh meta info
+                    skinCounts[sindex++] = vertexSkinCount;
+
+                    //Transform rigid bindings into worldspace
+                    if (rigidBind && riggedBones?.Count == 1)
+                    {
+                        //For rigid bind types we will fully transform the model into worldspace 
+                        var bn = model.Skeleton.BreathFirstOrder().Where(x => x.Name == riggedBones[0]).FirstOrDefault();
+                        if (bn != null)
+                            mesh.TransformVertices(bn.WorldTransform);
+
+                        //Set the bone into identity as we want these to be applied
+                        var bfresBone = fmdl.Skeleton.Bones.Values.Where(x => x.Name == riggedBones[0]).FirstOrDefault();
+                        if (bfresBone != null)
+                        {
+                            bfresBone.Position = new Vector3F(0, 0, 0);
+                            bfresBone.Rotation = new Vector4F(0, 0, 0, 1);
+                            bfresBone.Scale = new Vector3F(1, 1, 1);
+                        }
+                        continue;
+                    }
+                }
+                catch
+                {
+
+                }
 
                 foreach (var vertex in mesh.Vertices)
                 {

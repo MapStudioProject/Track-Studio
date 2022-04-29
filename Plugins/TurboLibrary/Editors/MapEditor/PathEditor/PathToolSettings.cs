@@ -25,15 +25,16 @@ namespace TurboLibrary.MuuntEditor
         public void Render()
         {
             var width = ImGui.GetWindowWidth();
-            if (ImGui.BeginChild("groupChild1", new System.Numerics.Vector2(width, 200)))
+
+            if (ImGui.BeginChild("convertMenu", new System.Numerics.Vector2(width, 50)))
             {
-                RenderGroupEditor();
+                RenderConvertEditor();
             }
             ImGui.EndChild();
 
-            if (ImGui.BeginChild("convertMenu", new System.Numerics.Vector2(width, 200)))
+            if (ImGui.BeginChild("groupChild1", new System.Numerics.Vector2(width, 200)))
             {
-                RenderConvertEditor();
+                RenderGroupEditor();
             }
             ImGui.EndChild();
         }

@@ -189,7 +189,7 @@ namespace CafeLibrary.ModelConversion
                     //Check if the bone list has only 1 bone or less. If so it uses rigid binding
                     var riggedBones = mesh.Vertices.SelectMany(x => x.Envelope.Weights?.Select(x => x.BoneName)).Distinct().ToList();
                      if (riggedBones == null || riggedBones.Count <= 1)
-                     rigidBind = true;
+                        rigidBind = true;
 
                     if (!rigidBind)
                         CalculateSkinCount(mesh.Vertices);

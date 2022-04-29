@@ -25,14 +25,14 @@ namespace TurboLibrary.MuuntEditor
         public void Render()
         {
             var width = ImGui.GetWindowWidth();
+            if (ImGui.BeginChild("convChild1", new System.Numerics.Vector2(width, 50)))
+            {
+                RenderConvertEditor();
+            }
+            ImGui.EndChild();
             if (ImGui.BeginChild("groupChild1", new System.Numerics.Vector2(width, 200)))
             {
                 RenderGroupEditor();
-            }
-            ImGui.EndChild();
-            if (ImGui.BeginChild("convChild1", new System.Numerics.Vector2(width, 200)))
-            {
-                RenderConvertEditor();
             }
             ImGui.EndChild();
         }
@@ -72,13 +72,16 @@ namespace TurboLibrary.MuuntEditor
                 {
                     if (ImGui.Button("From Lap Paths "))
                         PathEditor.ConvertPaths<LapPath, LapPathPoint>();
+                    ImGui.SameLine();
                 }
                 if (typeof(TPath) == typeof(GCameraPath))
                 {
                     if (ImGui.Button("From Lap Paths "))
                         PathEditor.ConvertPaths<LapPath, LapPathPoint>();
+                    ImGui.SameLine();
                     if (ImGui.Button("From Gravity Paths "))
                         PathEditor.ConvertPaths<GravityPath, GravityPathPoint>();
+                    ImGui.SameLine();
                 }
             }
         }

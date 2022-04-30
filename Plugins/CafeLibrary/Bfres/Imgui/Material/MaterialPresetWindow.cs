@@ -374,6 +374,7 @@ namespace CafeLibrary
                 using var sr = new StreamReader(presetFile.Open()); {
                     Material = BfresLibrary.TextConvert.MaterialConvert.FromJson(sr.ReadToEnd());
                 }
+                zipFile.Dispose();
 
                 HasDynamicShadows = HasOptionValue("enable_dynamic_depth_shadow", "1");
             }

@@ -1187,6 +1187,8 @@ namespace CafeLibrary
                     Material.RenderState.PolygonControl.CullBack = true;
                 }
             }
+            zipFile?.Dispose();
+
             ReloadMaterial(Material);
 
             ReloadAttributeBuffers();

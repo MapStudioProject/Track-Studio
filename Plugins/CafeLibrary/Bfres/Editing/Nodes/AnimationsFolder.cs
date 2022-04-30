@@ -64,7 +64,7 @@ namespace CafeLibrary
 
         private void AddTextureAnim()
         {
-            var anim = new MaterialAnim() { Name = "TextureAnim_auto" };
+            var anim = new MaterialAnim() { Name = "ef_TextureAnim_auto" };
             anim.Name = Utils.RenameDuplicateString(anim.Name, ResFile.TexPatternAnims.Keys.Select(x => x).ToList());
             ResFile.TexPatternAnims.Add(anim.Name, anim);
 
@@ -75,7 +75,7 @@ namespace CafeLibrary
 
         private void AddColorAnim()
         {
-            var anim = new MaterialAnim() { Name = "ColorAnim_auto" };
+            var anim = new MaterialAnim() { Name = "ef_ColorAnim_auto" };
             anim.Name = Utils.RenameDuplicateString(anim.Name, ResFile.ColorAnims.Keys.Select(x => x).ToList());
             ResFile.ColorAnims.Add(anim.Name, anim);
 
@@ -86,7 +86,7 @@ namespace CafeLibrary
 
         private void AddTexSRTAnim()
         {
-            var anim = new MaterialAnim() { Name = "TexSRTAnim_auto" };
+            var anim = new MaterialAnim() { Name = "ef_TexSRTAnim_auto" };
             anim.Name = Utils.RenameDuplicateString(anim.Name, ResFile.TexSrtAnims.Keys.Select(x => x).ToList());
             ResFile.TexSrtAnims.Add(anim.Name, anim);
 
@@ -97,7 +97,7 @@ namespace CafeLibrary
 
         private void AddShaderParamAnim()
         {
-            var anim = new MaterialAnim() { Name = "ShaderParamAnim_auto" };
+            var anim = new MaterialAnim() { Name = "ef_ShaderParamAnim_auto" };
             anim.Name = Utils.RenameDuplicateString(anim.Name, ResFile.ShaderParamAnims.Keys.Select(x => x).ToList());
             ResFile.ShaderParamAnims.Add(anim.Name, anim);
 

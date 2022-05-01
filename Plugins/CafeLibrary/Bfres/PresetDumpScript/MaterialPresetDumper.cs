@@ -18,16 +18,15 @@ namespace CafeLibrary
             if (!Directory.Exists(gamePath))
                 return;
 
-            if (!Directory.Exists($"{Toolbox.Core.Runtime.ExecutableDir}\\Presets\\Materials\\"))
-                Directory.CreateDirectory($"{Toolbox.Core.Runtime.ExecutableDir}\\Presets\\Materials\\");
-
+            string dir = Path.Combine(Toolbox.Core.Runtime.ExecutableDir, "Presets", "Materials");
+            if (!Directory.Exists(dir))
+                Directory.CreateDirectory(dir);
 
             //Just check for a mk8d specific asset
-            bool isMK8D = File.Exists($"{gamePath}\\RaceCommon\\TS_PolicePackun\\TS_PolicePackun.bfres");
+            bool isMK8D = File.Exists(Path.Combine(gamePath, "RaceCommon", "TS_PolicePackun", "TS_PolicePackun.bfres"));
 
-            string dir = $"{Toolbox.Core.Runtime.ExecutableDir}\\Presets\\Materials";
             string game_folder = gamePath;
-            dir = isMK8D ? $"{dir}\\MK8D" : $"{dir}\\MK8U";
+            dir = isMK8D ? Path.Combine(dir, "MK8D") : Path.Combine(dir, "MK8U");
 
             if (Directory.Exists(dir))
                 return;
@@ -40,7 +39,7 @@ namespace CafeLibrary
             Dictionary<string, List<MaterialEntry>> presets = new Dictionary<string, List<MaterialEntry>>();
 
             //Parse a csv containing material dump info
-            using (var textReader = new StreamReader($"{Toolbox.Core.Runtime.ExecutableDir}\\Lib\\Presets\\TurboMaterialDumper.csv"))
+            using (var textReader = new StreamReader(Path.Combine(Toolbox.Core.Runtime.ExecutableDir, "Lib", "Presets", "TurboMaterialDumper.csv")))
             {
                 //Header
                 textReader.ReadLine();
@@ -63,7 +62,7 @@ namespace CafeLibrary
                     //Save with textures or not
                     bool keepTextures = args[3].Trim() == "true";
 
-                    var entry = new MaterialEntry(materialName, $"{dir}\\{presetSavePath}", keepTextures);
+                    var entry = new MaterialEntry(materialName, Path.Combine(dir, presetSavePath), keepTextures);
                     if (!presets.ContainsKey(fileName))
                         presets.Add(fileName, new List<MaterialEntry>());
 
@@ -73,7 +72,7 @@ namespace CafeLibrary
 
             //Dump each preset into the preset folder
             foreach (var preset in presets)
-                DumpBfresMaterials($"{game_folder}\\{preset.Key}", preset.Value.ToArray());
+                DumpBfresMaterials(Path.Combine(game_folder, preset.Key), preset.Value.ToArray());
 
             ProcessLoading.Instance.Update(100, 100, "Dumping game material presets!");
             ProcessLoading.Instance.IsLoading = false;
@@ -89,7 +88,7 @@ namespace CafeLibrary
             {
                 foreach (var mat in model.Materials.Values)
                 {
-                    var preset = new MaterialEntry(mat.Name, $"{dir}\\{mat.Name}.zip");
+                    var preset = new MaterialEntry(mat.Name, Path.Combine(dir, $"{mat.Name}.zip"));
                     SaveAsPreset(preset.FilePath, mat, resFile, preset.ExportTextures, preset.ExportAnimations);
                 }
             }
@@ -142,7 +141,7 @@ namespace CafeLibrary
             string archiveName = material.ShaderAssign.ShaderArchiveName;
             string presetName = Path.GetFileNameWithoutExtension(filePath);
             string dir = Path.GetDirectoryName(filePath);
-            string presetFolder = $"{dir}\\{presetName}";
+            string presetFolder = Path.Combine(dir, presetName);
             string ShaderArchive = material.ShaderAssign.ShaderArchiveName;
 
             if (!Directory.Exists(presetFolder))
@@ -159,7 +158,7 @@ namespace CafeLibrary
                     //Assign the new shader archive name
                     material.ShaderAssign.ShaderArchiveName = name;
                     //Export the shader with a new internal name
-                    SaveShaderPreset(resFile.IsPlatformSwitch, $"{presetFolder}\\{name}.bfsha", file.Value.Data, name);
+                    SaveShaderPreset(resFile.IsPlatformSwitch, Path.Combine(presetName, $"{name}.bfsha"), file.Value.Data, name);
                 }
             }
             if (exportTextures)
@@ -178,10 +177,10 @@ namespace CafeLibrary
                         var bntx = externalFile.LoadedFileData as BntxFile;
                         var tex = bntx.Textures.FirstOrDefault(x => x.Name == name);
                         if (tex != null)
-                            tex.Export($"{presetFolder}\\{name}.bftex", bntx);
+                            tex.Export(Path.Combine(presetFolder, $"{name}.bftex"), bntx);
                     }
                     else if (textures.ContainsKey(name))
-                        textures[name].Export($"{presetFolder}\\{name}.bftex", resFile);
+                        textures[name].Export(Path.Combine(presetFolder, $"{name}.bftex"), resFile);
                 }
             }
             if (exportAnims)
@@ -189,7 +188,7 @@ namespace CafeLibrary
                 void ExportMaterialAnim(MaterialAnim anim, string ext)
                 {
                     if (anim.MaterialAnimDataList.Any(x => x.Name == material.Name))
-                        anim.Export($"{presetFolder}\\{anim.Name}{ext}", resFile);
+                        anim.Export(Path.Combine(presetFolder, $"{anim.Name}{ext}"), resFile);
                 }
                 foreach (var anim in resFile.ShaderParamAnims.Values)
                     ExportMaterialAnim(anim, ".bfsp");
@@ -200,14 +199,14 @@ namespace CafeLibrary
                 foreach (var anim in resFile.ColorAnims.Values)
                     ExportMaterialAnim(anim, ".bfclr");
             }
-            material.Export($"{presetFolder}\\{presetName}.json", resFile);
+            material.Export(Path.Combine(presetFolder, $"{presetName}.json"), resFile);
 
             //Remove previous preset
-            if (File.Exists($"{dir}\\{presetName}.zip"))
-                File.Delete($"{dir}\\{presetName}.zip");
+            if (File.Exists(Path.Combine(dir, $"{presetName}.zip")))
+                File.Delete(Path.Combine(dir, $"{presetName}.zip"));
 
             //Package preset
-            ZipFile.CreateFromDirectory(presetFolder, $"{dir}\\{presetName}.zip");
+            ZipFile.CreateFromDirectory(presetFolder, Path.Combine( dir, $"{presetName}.zip"));
             //Remove directory
             foreach (var file in Directory.GetFiles(presetFolder))
                 File.Delete(file);

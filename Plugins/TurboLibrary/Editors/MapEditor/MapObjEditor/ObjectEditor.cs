@@ -50,9 +50,10 @@ namespace TurboLibrary.MuuntEditor
             initIcons = true;
 
             //Load icons for map objects
-            if (Directory.Exists($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects"))
+            string folder = System.IO.Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects");
+            if (Directory.Exists(folder))
             {
-                foreach (var imageFile in Directory.GetFiles($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects"))
+                foreach (var imageFile in Directory.GetFiles(folder))
                 {
                     IconManager.LoadTextureFile(imageFile, 32, 32);
                 }
@@ -360,7 +361,7 @@ namespace TurboLibrary.MuuntEditor
                     if (tex is BfresLibrary.WiiU.Texture)
                     {
                         var ftex = new FtexTexture(resFile, (BfresLibrary.WiiU.Texture)tex);
-                        ftex.Export($"{folder}\\{tex.Name}.png", new TextureExportSettings());
+                        ftex.Export(System.IO.Path.Combine(folder, $"{tex.Name}.png"), new TextureExportSettings());
                     }
                 }
             }
@@ -468,9 +469,10 @@ namespace TurboLibrary.MuuntEditor
             };
 
             //Icons for map objects
-            if (IconManager.HasIcon($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{name}.png"))
+            string folder = System.IO.Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects");
+            if (IconManager.HasIcon(System.IO.Path.Combine(folder, $"{name}.png")))
             {
-                render.UINode.Icon = $"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{name}.png";
+                render.UINode.Icon = System.IO.Path.Combine(folder, $"{name}.png");
                 //A sprite drawer for displaying distant objects
                 //Todo this is not used currently and may need improvements
                 render.SpriteDrawer = new SpriteDrawer();
@@ -549,8 +551,11 @@ namespace TurboLibrary.MuuntEditor
                 render.UINode.Header = GetNodeHeader(obj);
                 string objName = GetResourceName(obj);
 
-                if (IconManager.HasIcon($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{objName}.png"))
-                    render.UINode.Icon = $"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{objName}.png";
+                string folder = System.IO.Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects");
+                string iconPath = System.IO.Path.Combine(folder, $"{objName}.png");
+
+                if (IconManager.HasIcon(iconPath))
+                    render.UINode.Icon = iconPath;
                 else
                     render.UINode.Icon = "Node";
 

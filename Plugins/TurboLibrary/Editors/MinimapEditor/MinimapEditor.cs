@@ -114,7 +114,7 @@ namespace TurboLibrary.MuuntEditor
                 //Apply camera params
                 _camera.UpdateMatrices();
                 CameraParams.Position = _camera.GetViewPostion();
-                CameraParams.LookAtPosition = _camera.GetLookAtPostion();
+                CameraParams.LookAtPosition = _camera.GetLookAtPostion(1000);
                 CameraParams.Save(dlg.FilePath);
             }
         }
@@ -146,7 +146,7 @@ namespace TurboLibrary.MuuntEditor
                 if (updateCamera) {
                     _camera.UpdateMatrices();
                     CameraParams.Position = _camera.GetViewPostion();
-                    CameraParams.LookAtPosition = _camera.GetLookAtPostion();
+                    CameraParams.LookAtPosition = _camera.GetLookAtPostion(1000);
 
                     ApplyCameraPlacement();
                     //  minimapTextureGen.Update(Workspace);

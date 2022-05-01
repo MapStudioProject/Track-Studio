@@ -65,7 +65,12 @@ namespace TrackStudio
             GlobalSettings.ReloadLanguage();
             GlobalSettings.ReloadTheme();
 
+            if (!Directory.Exists(GlobalSettings.Program.ProjectDirectory))
+                Directory.CreateDirectory(GlobalSettings.Program.ProjectDirectory);
+
             SettingsWindow = new SettingsWindow(GlobalSettings);
+
+
             AboutWindow = new AboutWindow();
             Windows.Add(SettingsWindow);
             Windows.Add(AboutWindow);

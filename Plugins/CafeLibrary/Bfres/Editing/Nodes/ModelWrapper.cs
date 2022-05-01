@@ -1209,7 +1209,7 @@ namespace CafeLibrary
             string archiveName = Material.ShaderAssign.ShaderArchiveName;
             string presetName = Path.GetFileNameWithoutExtension(filePath);
             string dir = Path.GetDirectoryName(filePath);
-            string presetFolder = $"{dir}\\{presetName}";
+            string presetFolder =  Path.Combine(dir, presetName);
 
             if (!Directory.Exists(presetFolder))
                 Directory.CreateDirectory(presetFolder);
@@ -1224,7 +1224,7 @@ namespace CafeLibrary
                     //Assign the new shader archive name
                     Material.ShaderAssign.ShaderArchiveName = name;
                     //Export the shader with a new internal name
-                    SaveShaderPreset($"{presetFolder}\\{name}.bfsha", file.Value.Data, name);
+                    SaveShaderPreset(Path.Combine(presetFolder, $"{name}.bfsha"), file.Value.Data, name);
                 }
             }
             if (exportTextures)
@@ -1238,7 +1238,7 @@ namespace CafeLibrary
                         continue;
 
                     if (textures.ContainsKey(name))
-                        textures[name].SaveDDS($"{presetFolder}\\{name}.dds");
+                        textures[name].SaveDDS(Path.Combine(presetFolder, $"{name}.dds"));
                 }
             }
             if (exportAnims)
@@ -1246,7 +1246,7 @@ namespace CafeLibrary
                 void ExportMaterialAnim(MaterialAnim anim, string ext)
                 {
                     if (anim.MaterialAnimDataList.Any(x => x.Name == Material.Name))
-                        anim.Export($"{presetFolder}\\{anim.Name}{ext}", ResFile);
+                        anim.Export(Path.Combine(presetFolder, $"{anim.Name}{ext}"), ResFile);
                 }
                 foreach (var anim in this.ResFile.ShaderParamAnims.Values)
                     ExportMaterialAnim(anim, ".bfsp");
@@ -1257,14 +1257,14 @@ namespace CafeLibrary
                 foreach (var anim in this.ResFile.ColorAnims.Values)
                     ExportMaterialAnim(anim, ".bfclr");
             }
-            Material.Export($"{presetFolder}\\{presetName}.json", ResFile);
+            Material.Export(Path.Combine(presetFolder, $"{presetName}.json"), ResFile);
 
             //Remove previous preset
-            if (File.Exists($"{dir}\\{presetName}.zip"))
-                File.Delete($"{dir}\\{presetName}.zip");
+            if (File.Exists(Path.Combine(dir, $"{presetName}.zip")))
+                File.Delete(Path.Combine(dir, $"{presetName}.zip"));
 
             //Package preset
-            ZipFile.CreateFromDirectory(presetFolder, $"{dir}\\{presetName}.zip");
+            ZipFile.CreateFromDirectory(presetFolder, Path.Combine(dir, $"{presetName}.zip"));
             //Remove directory
             foreach (var file in Directory.GetFiles(presetFolder))
                 File.Delete(file);

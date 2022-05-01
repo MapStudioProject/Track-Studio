@@ -79,15 +79,15 @@ namespace TrackStudio
             //Load outlier icons to cache
             IconManager.LoadTextureFile("Node", Properties.Resources.Object, 32, 32);
             //Load icons for map objects
-            if (Directory.Exists($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects"))
+            if (Directory.Exists(Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects")))
             {
-                foreach (var imageFile in Directory.GetFiles($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects")) {
+                foreach (var imageFile in Directory.GetFiles(Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects"))) {
                     IconManager.LoadTextureFile(imageFile, 64, 64);
                 }
             }
             //Load recent file lists
-            RecentFileHandler.LoadRecentList($"{Runtime.ExecutableDir}\\Recent.txt", RecentFiles);
-            RecentFileHandler.LoadRecentList($"{Runtime.ExecutableDir}\\RecentProjects.txt", RecentProjects);
+            RecentFileHandler.LoadRecentList(Path.Combine(Runtime.ExecutableDir, "Recent.txt"), RecentFiles);
+            RecentFileHandler.LoadRecentList(Path.Combine(Runtime.ExecutableDir, "RecentProjects.txt"), RecentProjects);
 
             foreach (var file in _arguments.FileInput)
                 LoadFileFormat(file);
@@ -358,7 +358,7 @@ namespace TrackStudio
             var workspace = Workspace.ActiveWorkspace;
 
             var settings = GlobalSettings.Current;
-            string dir = $"{settings.Program.ProjectDirectory}\\{workspace.Name}";
+            string dir = Path.Combine(settings.Program.ProjectDirectory, workspace.Name);
 
             workspace.SaveProject(dir);
 
@@ -444,7 +444,7 @@ namespace TrackStudio
                 if (e)
                 {
                     UIManager.ActionExecBeforeUIDraw = () => {
-                        LoadFileFormat($"{projectList.SelectedProject}\\Project.json");
+                        LoadFileFormat(Path.Combine(projectList.SelectedProject, "Project.json"));
                     };
                 }
             });
@@ -460,8 +460,8 @@ namespace TrackStudio
 
         private void DisplayRecentProject(string folder)
         {
-            string thumbFile = $"{folder}\\Thumbnail.png";
-            string projectFile = $"{folder}\\Project.json";
+            string thumbFile = Path.Combine(folder, "Thumbnail.png");
+            string projectFile = Path.Combine(folder, "Project.json");
             string projectName = new DirectoryInfo(folder).Name;
 
             if (!File.Exists(projectFile))

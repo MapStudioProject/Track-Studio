@@ -28,7 +28,7 @@ namespace TrackStudio
             Opened = false;
 
             //Parse changelog
-            string file = $"{Runtime.ExecutableDir}\\Lib\\Program\\ChangeLog.txt";
+            string file = Path.Combine(Runtime.ExecutableDir, "Lib", "Program", "ChangeLog.txt");
             string changeLog = File.ReadAllText(file);
             ChangeLog = changeLog.Split("\n").ToArray();
 

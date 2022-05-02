@@ -268,6 +268,13 @@ namespace TurboLibrary.MuuntEditor
             _groups.Clear();
             foreach (var path in paths)
             {
+                if (typeof(CPath) == typeof(LapPath) && typeof(TPath) == typeof(GravityPath)) {
+                    (path as LapPath).GravityPaths = new List<GravityPath>();
+                }
+                if (typeof(CPath) == typeof(GravityPath) && typeof(TPath) == typeof(GCameraPath)) {
+                    (path as GravityPath).GCameraPaths = new List<GCameraPath>();
+                }
+
                 var newGroup = (PathBase<TPath, TPoint>)Activator.CreateInstance(typeof(TPath));
                 _groups.Add(newGroup);
 
@@ -280,6 +287,15 @@ namespace TurboLibrary.MuuntEditor
                     newPoint.Translate = pt.Translate;
                     newPoint.Scale = pt.Scale;
                     newPoint.Rotate = pt.Rotate;
+                }
+                //Setup links
+                if (typeof(CPath) == typeof(LapPath) && typeof(TPath) == typeof(GravityPath))
+                {
+                    (path as LapPath).GravityPaths.Add(newGroup as GravityPath);
+                }
+                if (typeof(CPath) == typeof(GravityPath) && typeof(TPath) == typeof(GCameraPath))
+                {
+                    (path as GravityPath).GCameraPaths.Add(newGroup as GCameraPath);
                 }
             }
             //Setup connections

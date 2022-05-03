@@ -40,8 +40,8 @@ namespace TurboLibrary
                     foreach (var nextPt in point.NextPoints)
                     {
                         //A child is connected to the parent in a self loop
-                        if (nextPt.NextPoints.Contains(point))
-                            StudioLogger.WriteError($"Enemy point self connection error at point {point.Index}!");
+                        //if (nextPt.NextPoints.Contains(point))
+                         //   StudioLogger.WriteError($"Enemy point self connection error at group {i} point {point.Index}!");
                     }
                 }
             }

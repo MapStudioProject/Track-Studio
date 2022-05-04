@@ -49,11 +49,7 @@ namespace TurboLibrary
             if (ImGui.CollapsingHeader("UI", ImGuiTreeNodeFlags.DefaultOpen))
             {
                 if (DisplayTexture == null)
-                {
-                    if (SarcData != null)
-                        ImGui.TextColored(ThemeHandler.Theme.Error, $"Failed to find icon in 'ui\\cmn\\menu.szs'. Make sure your game path is configured!");
                     return;
-                }
 
                 ImGui.Image((IntPtr)DisplayTexture.ID, new Vector2(304, 256));
                 if (ImGui.BeginPopupContextItem("texEdit", ImGuiPopupFlags.MouseButtonRight))

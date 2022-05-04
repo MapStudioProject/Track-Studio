@@ -64,9 +64,12 @@ namespace TurboLibrary
             }
 
             var size = ImGui.GetWindowSize();
-            if (ImGui.Button("Save", new System.Numerics.Vector2(size.X, 30)))
+
+            bool canSave = Directory.Exists(PluginConfig.MK8ModPath);
+            if (canSave)
             {
-                Save();
+                if (ImGui.Button("Save", new System.Numerics.Vector2(size.X, 30)))
+                    Save();
             }
 
             ImguiCustomWidgets.ComboScrollable("Track", currentTrack, ref currentTrack, TrackListFull, () =>

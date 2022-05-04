@@ -28,7 +28,7 @@ namespace TurboLibrary
             {
                 //Create directory if does not exist
                 string dir = System.IO.Path.GetDirectoryName(modPath);
-                if (Directory.Exists(dir))
+                if (!Directory.Exists(dir))
                     Directory.CreateDirectory(dir);
                 //Save file
                 File.WriteAllBytes(modPath, MessageTable.Save());

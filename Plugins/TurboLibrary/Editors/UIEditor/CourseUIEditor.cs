@@ -58,6 +58,11 @@ namespace TurboLibrary
                 }
             }
 
+            if (ImguiCustomWidgets.PathSelector("Output Save Path", ref PluginConfig.MK8ModPath)) {
+                //Save settings to disc
+                PluginConfig.Instance.Save();
+            }
+
             var size = ImGui.GetWindowSize();
             if (ImGui.Button("Save", new System.Numerics.Vector2(size.X, 30)))
             {

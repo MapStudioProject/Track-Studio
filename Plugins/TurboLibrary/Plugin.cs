@@ -21,7 +21,7 @@ namespace TurboLibrary
             //UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Kcl File", typeof(KclPlugin));
 
             //Load plugin specific data. This is where the game path is stored.
-            if (!PluginConfig.init)
+            if (!PluginConfig.Init)
                 PluginConfig.Load();
 
             GlobalShaders.AddShader("KCL", "KCL\\CollisionDefault");

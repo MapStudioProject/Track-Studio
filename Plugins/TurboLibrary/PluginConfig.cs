@@ -13,9 +13,13 @@ namespace TurboLibrary
     public class PluginConfig : IPluginConfig
     {
         //Only load the config once when this constructor is activated.
-        internal static bool init = false;
+        internal static PluginConfig Instance = null;
 
-        public PluginConfig() { init = true; }
+        internal static bool Init => Instance != null;
+
+        public PluginConfig() {
+            if (Instance == null) Instance = this;
+        }
 
         [JsonProperty]
         public static string MK8DGamePath = "";

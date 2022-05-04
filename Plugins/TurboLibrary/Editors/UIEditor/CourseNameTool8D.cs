@@ -52,7 +52,10 @@ namespace TurboLibrary
                 DrawLanguageSelector();
 
                 if (MessageTable == null)
+                {
+                    ImGui.TextColored(ThemeHandler.Theme.Error, $"Failed to find file for 'ui\\{ currentLanguage}\\Common.msbt'. Make sure your game path is configured!");
                     return;
+                }
 
                 if (!MessageTable.Messages.ContainsKey((1401 + messageIndex).ToString()))
                 {

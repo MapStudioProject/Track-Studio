@@ -72,6 +72,23 @@ namespace CafeLibrary
 
                 ((TextureFolder)this.Parent).OnTextureEdited?.Invoke(this, EventArgs.Empty);
             };
+            this.OnHeaderRenamed += delegate
+            {
+                //Update the lookup name table from the parent bfres file
+                var folder = this.Parent as TextureFolder;
+                folder.OnTextureRenamed?.Invoke(this, EventArgs.Empty);
+
+                string name = tex.Name;
+                //Remove original entry
+                var textureData = folder.ResFile.Textures[name];
+                folder.ResFile.Textures.RemoveKey(name);
+
+                //Add new one
+                if (!folder.ResFile.Textures.ContainsKey(this.Header))
+                    folder.ResFile.Textures.Add(this.Header, textureData);
+                //Update the name
+                tex.Name = this.Header;
+            };
         }
 
         //File updated externally
@@ -390,6 +407,7 @@ namespace CafeLibrary
         public EventHandler OnTextureRemoved;
         public EventHandler OnTextureReplaced;
         public EventHandler OnTextureEdited;
+        public EventHandler OnTextureRenamed;
 
         /// <summary>
         /// Gets the textures from the folder into a lookup dictionary.

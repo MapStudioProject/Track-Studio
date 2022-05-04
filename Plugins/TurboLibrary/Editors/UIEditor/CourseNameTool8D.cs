@@ -53,7 +53,8 @@ namespace TurboLibrary
 
                 if (MessageTable == null)
                 {
-                    ImGui.TextColored(ThemeHandler.Theme.Error, $"Failed to find file for 'ui\\{ currentLanguage}\\Common.msbt'. Make sure your game path is configured!");
+                    if (!string.IsNullOrEmpty(currentLanguage))
+                        ImGui.TextColored(ThemeHandler.Theme.Error, $"Failed to find file for 'ui\\{ currentLanguage}\\Common.msbt'. Make sure your game path is configured!");
                     return;
                 }
 

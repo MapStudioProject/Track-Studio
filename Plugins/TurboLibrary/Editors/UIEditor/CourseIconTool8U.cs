@@ -50,7 +50,8 @@ namespace TurboLibrary
             {
                 if (DisplayTexture == null)
                 {
-                    ImGui.TextColored(ThemeHandler.Theme.Error, $"Failed to find icon in 'ui\\cmn\\menu.szs'. Make sure your game path is configured!");
+                    if (SarcData != null)
+                        ImGui.TextColored(ThemeHandler.Theme.Error, $"Failed to find icon in 'ui\\cmn\\menu.szs'. Make sure your game path is configured!");
                     return;
                 }
 

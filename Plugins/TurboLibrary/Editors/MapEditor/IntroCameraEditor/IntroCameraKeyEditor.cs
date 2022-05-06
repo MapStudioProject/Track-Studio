@@ -413,8 +413,6 @@ namespace TurboLibrary.MuuntEditor
                 float lookatZ = group.LookatTranslateZ.GetFrameValue(cameraAnim.Frame);
                 float fov = group.FieldOfView.GetFrameValue(cameraAnim.Frame);
 
-                Console.WriteLine($"point {pointX} {pointY} {pointZ} LOOK {lookatX} {lookatY} {lookatZ}");
-
                 var viewCamera = GLContext.ActiveContext.Camera;
                 viewCamera.RotationLookat = true;
                 viewCamera.SetKeyframe(CameraAnimationKeys.PositionX, pointX);

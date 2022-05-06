@@ -308,7 +308,7 @@ namespace TurboLibrary.MuuntEditor
             {
                 var viewCamera = GLContext.ActiveContext.Camera;
                 var pos = viewCamera.GetViewPostion();
-                var lookAtPos = viewCamera.GetLookAtPostion();
+                var lookAtPos = viewCamera.GetLookAtPostion(1000);
 
                 path.Points[index] = new PathPoint()
                 {
@@ -412,6 +412,8 @@ namespace TurboLibrary.MuuntEditor
                 float lookatY = group.LookatTranslateY.GetFrameValue(cameraAnim.Frame);
                 float lookatZ = group.LookatTranslateZ.GetFrameValue(cameraAnim.Frame);
                 float fov = group.FieldOfView.GetFrameValue(cameraAnim.Frame);
+
+                Console.WriteLine($"point {pointX} {pointY} {pointZ} LOOK {lookatX} {lookatY} {lookatZ}");
 
                 var viewCamera = GLContext.ActiveContext.Camera;
                 viewCamera.RotationLookat = true;

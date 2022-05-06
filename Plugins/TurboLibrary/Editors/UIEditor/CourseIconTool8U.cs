@@ -23,7 +23,7 @@ namespace TurboLibrary
 
         }
 
-        public void Save()
+        public void Save(bool useDialog = true)
         {
             if (!edited)
                 return;
@@ -34,7 +34,14 @@ namespace TurboLibrary
             if (Directory.Exists(GlobalSettings.ModOutputPath))
                  menuPath = $"{GlobalSettings.ModOutputPath}\\ui\\cmn\\menu.szs";
 
+            string folder = System.IO.Path.GetDirectoryName(menuPath);
+            if (!Directory.Exists(folder))
+                Directory.CreateDirectory(folder);
+
             File.WriteAllBytes(menuPath, comp);
+
+            if (useDialog)
+                TinyFileDialog.MessageBoxInfoOk(string.Format("Saved menu.szs to {0}!", menuPath));
 
             edited = false;
         }

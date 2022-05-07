@@ -55,9 +55,15 @@ namespace TurboLibrary
             // Solve the GCamera path references.
             if (GCameraPaths != null)
             {
+                if (courseDefinition.GCameraPaths == null)
+                    courseDefinition.GCameraPaths = new List<GCameraPath>();
+
                 _gCameraPathIndices = new List<int>();
-                foreach (GCameraPath path in GCameraPaths)
+                foreach (GCameraPath path in GCameraPaths)  
                 {
+                    if (path == null)
+                        continue;
+
                     int index = courseDefinition.GCameraPaths.IndexOf(path);
                     if (index != -1)
                         _gCameraPathIndices.Add(courseDefinition.GCameraPaths.IndexOf(path));

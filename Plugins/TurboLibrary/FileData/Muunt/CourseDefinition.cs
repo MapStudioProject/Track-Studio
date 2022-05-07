@@ -210,9 +210,6 @@ namespace TurboLibrary
 
         private void SaveMapObjList()
         {
-            if (GlobalSettings.ObjDatabase.Count == 0)
-                return;
-
             if (Objs == null) {
                 this.MapObjResList = new List<string>();
                 this.MapObjIdList = new List<int>();
@@ -234,6 +231,12 @@ namespace TurboLibrary
                         if (!resNameList.Contains(names[j]))
                             resNameList.Add(names[j]);
                     }
+                }
+                else if (GlobalSettings.ObjectList.ContainsKey(ob.ObjId))
+                {
+                    string name = GlobalSettings.ObjectList[ob.ObjId];
+                    if (!resNameList.Contains(name))
+                        resNameList.Add(name);
                 }
 
                 if (!resIDList.Contains(ob.ObjId))

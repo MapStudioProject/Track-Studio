@@ -57,7 +57,8 @@ namespace TurboLibrary
             if (specialFlag == 0x10) return CollisionCalculator.SpecialType[1];
             if (specialFlag == 0x20) return CollisionCalculator.SpecialType[2];
             if (specialFlag == 0x40) return CollisionCalculator.SpecialType[3];
-            if (specialFlag == 0x80) return CollisionCalculator.SpecialType[4];
+            if (specialFlag == 0x50) return CollisionCalculator.SpecialType[4];
+            if (specialFlag == 0x80) return CollisionCalculator.SpecialType[5];
 
             return "None";
         }
@@ -345,7 +346,8 @@ namespace TurboLibrary
             if (SpecialTypeIdx == 1) Attribute += 0x1000;
             if (SpecialTypeIdx == 2) Attribute += 0x2000;
             if (SpecialTypeIdx == 3) Attribute += 0x4000;
-            if (SpecialTypeIdx == 4) Attribute += 0x8000;
+            if (SpecialTypeIdx == 4) Attribute += 0x5000;
+            if (SpecialTypeIdx == 5) Attribute += 0x8000;
 
             AttributeCalculated?.Invoke(this, EventArgs.Empty);
         }

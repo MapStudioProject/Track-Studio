@@ -245,7 +245,8 @@ namespace TurboLibrary
                 if (specialFlag == 0x10) SpecialFlag = CollisionCalculator.SpecialType[1];
                 if (specialFlag == 0x20) SpecialFlag = CollisionCalculator.SpecialType[2];
                 if (specialFlag == 0x40) SpecialFlag = CollisionCalculator.SpecialType[3];
-                if (specialFlag == 0x80) SpecialFlag = CollisionCalculator.SpecialType[4];
+                if (specialFlag == 0x50) SpecialFlag = CollisionCalculator.SpecialType[4];
+                if (specialFlag == 0x80) SpecialFlag = CollisionCalculator.SpecialType[5];
             }
         }
 

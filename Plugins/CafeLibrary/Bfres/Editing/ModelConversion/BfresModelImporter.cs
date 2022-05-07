@@ -322,6 +322,9 @@ namespace CafeLibrary.ModelConversion
                     }
                 }
 
+                if (mesh.ParentBone != null)
+                    mesh.TransformVertices(mesh.ParentBone.WorldTransform);
+
                 var names = fmdl.Shapes.Values.Select(x => x.Name).ToList();
 
                 Shape fshp = new Shape();

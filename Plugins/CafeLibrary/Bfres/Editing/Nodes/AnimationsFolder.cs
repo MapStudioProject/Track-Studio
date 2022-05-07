@@ -45,6 +45,9 @@ namespace CafeLibrary
             {
                 foreach (var child in animFolder.Children)
                 {
+                    if (!(child.Tag is BfresMaterialAnim)
+                        continue;
+
                     if (((BfresMaterialAnim)child.Tag).Name == anim.Name)
                         ((BfresMaterialAnim)child.Tag).Reload(anim);
                 }

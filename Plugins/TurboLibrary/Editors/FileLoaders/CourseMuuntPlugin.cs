@@ -275,6 +275,7 @@ namespace TurboLibrary
                 MapLoader.BfresEditor.FileInfo.FileName = "course_model.szs";
                 MapLoader.BfresEditor.Root.Header = "course_model.szs";
             }
+            mapResources.MapCamera.IsBigEndian = !course.IsSwitch;
 
             Workspace.OnProjectLoad += delegate
             {

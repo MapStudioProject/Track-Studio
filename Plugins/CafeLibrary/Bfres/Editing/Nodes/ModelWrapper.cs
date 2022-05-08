@@ -59,7 +59,9 @@ namespace CafeLibrary
 
             foreach (FMDL fmdl in Models) {
                 ResFile.Models.Add(fmdl.Name, fmdl.Model);
-
+                foreach (FMAT mat in fmdl.Materials) {
+                    mat.OnSave();
+                }
                 foreach (FSHP fshp in fmdl.Meshes) {
                     fshp.Shape.VertexBufferIndex = (ushort)fmdl.Model.VertexBuffers.IndexOf(fshp.VertexBuffer);
                     if (!fmdl.Model.Materials.ContainsValue(fshp.Material.Material))
@@ -815,6 +817,37 @@ namespace CafeLibrary
                         mesh.MeshAsset.IsMaterialSelected = UINode.IsSelected;
             };
             ReloadMaterial(mat);
+        }
+
+        public void OnSave()
+        {
+            //Check for present textures
+            if (BfresWrapper.Renderer.Textures.Count > 0)
+            {
+                //Check for placeholders missing incase the user deletes them
+                for (int i = 0; i < TextureMaps.Count; i++)
+                {
+                    string textureName = TextureMaps[i].Name;
+                    //Texture is present so skip
+                    if (BfresWrapper.Renderer.Textures.ContainsKey(textureName))
+                        continue;
+
+                    //Check for what texture type to add as a placeholder
+                    switch (textureName)
+                    {
+                        case "Basic_Alb":
+                        case "Basic_Spm":
+                        case "Basic_Emm":
+                        case "Basic_Trm":
+                        case "Basic_BC1_Nrm":
+                        case "Basic_Nrm":
+                        case "Basic_Bake_st0":
+                        case "Basic_Bake_st1":
+                            AddPlaceholderTextures(Material, Samplers[i], i);
+                            break;
+                    }
+                }
+            }
         }
 
         public void TryInsertParamAnimKey(ShaderParam param) {

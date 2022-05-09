@@ -33,7 +33,10 @@ namespace TurboLibrary.MuuntEditor
                 {
                     //Param 1 for double item boxes
                     //0 = single. 1 = double
-                    objData.Params[0] = rnd.Next(0, 1);
+                    bool isDouble = rnd.Next(0, 2) != 0;
+
+                    objData.Params[0] = isDouble ? 1 : 0;
+                    Console.WriteLine($"Randomized {objData.ObjId} {objData.Params[0]} ");
                 }
             }
         }

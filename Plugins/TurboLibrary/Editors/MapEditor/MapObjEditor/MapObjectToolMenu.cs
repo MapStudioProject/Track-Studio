@@ -26,6 +26,7 @@ namespace TurboLibrary.MuuntEditor
         {
             Random rnd = new Random();
 
+            var node = new Toolbox.Core.ViewModels.NodeBase();
             foreach (var obj in Editor.Root.Children)
             {
                 var objData = obj.Tag as Obj;
@@ -36,7 +37,7 @@ namespace TurboLibrary.MuuntEditor
                     bool isDouble = rnd.Next(0, 2) != 0;
 
                     objData.Params[0] = isDouble ? 1 : 0;
-                    Console.WriteLine($"Randomized {objData.ObjId} {objData.Params[0]} ");
+                    objData.NotifyPropertyChanged("Params");
                 }
             }
         }

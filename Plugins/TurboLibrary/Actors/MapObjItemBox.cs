@@ -13,6 +13,8 @@ namespace TurboLibrary.Actors
     {
         BfresSkeletalAnim IdleAnimation { get; set; }
 
+        public bool IsDouble => this.Parameters[0] == 1;
+
         public MapObjItemBox()
         {
 
@@ -24,17 +26,29 @@ namespace TurboLibrary.Actors
 
             //Add an addtional hardcoded skeletal animation for idle animations
            // IdleAnimation = CreateItemBoxIdle(Render.Name);
-          //  ToggleMeshes(Render);
+            ToggleMeshes(Render);
+        }
+
+        public override void Reload()
+        {
+            base.Reload();
+            ToggleMeshes(Render);
         }
 
         private void ToggleMeshes(BfresRender render)
         {
+            //Need to make sure the item box actually contains doubles so the double param doesn't make it disappear
+            bool hasDoubleItemBox = render.Models.Any(x => x.Name.StartsWith("DoubleItemBox"));
             foreach (var model in render.Models)
             {
-                foreach (BfresMeshRender mesh in model.MeshList)
+                //Doubles
+                if (model.Name.StartsWith("DoubleItemBox"))
                 {
-                    if (mesh.Name.StartsWith("DoubleItemBox"))
-                        mesh.IsVisible = false;
+                    model.IsVisible = IsDouble;
+                } //Singles but file includes double item boxes
+                else if (hasDoubleItemBox)
+                {
+                    model.IsVisible = !IsDouble;
                 }
             }
         }

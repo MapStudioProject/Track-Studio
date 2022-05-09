@@ -44,6 +44,11 @@ namespace TurboLibrary.Actors
             Transform = render.Transform;
         }
 
+        public virtual void Reload()
+        {
+
+        }
+
         public override void BeginFrame()
         {
             UpdateCalc = true;

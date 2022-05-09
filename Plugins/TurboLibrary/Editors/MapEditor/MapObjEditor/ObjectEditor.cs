@@ -563,6 +563,7 @@ namespace TurboLibrary.MuuntEditor
 
                 //Update actor parameters into the actor class
                 ((ActorModelBase)ActorInfo).Parameters = obj.Params;
+                ((ActorModelBase)ActorInfo).Reload();
 
                 //Update the view if properties are updated.
                 GLContext.ActiveContext.UpdateViewport = true;

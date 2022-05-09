@@ -161,14 +161,14 @@ namespace CafeLibrary.ModelConversion
                 }
             }
 
+            if (fmdl.Skeleton.Bones.Count == 0) {
+                fmdl.Skeleton.Bones.Add("Root", new Bone() { Name = "Root" });
+            }
+
             //Default the root to identity atm. Course maps may keep bone transforms which will break the model transform
             fmdl.Skeleton.Bones[0].Position = new Vector3F(0, 0, 0);
             fmdl.Skeleton.Bones[0].Scale = new Vector3F(1, 1, 1);
             fmdl.Skeleton.Bones[0].Rotation = new Vector4F(0, 0, 0, 1);
-
-            if (fmdl.Skeleton.Bones.Count == 0) {
-                fmdl.Skeleton.Bones.Add("Root", new Bone() { Name = "Root" });
-            }
 
             List<int> smoothSkinningIndices = new List<int>();
             List<int> rigidSkinningIndices = new List<int>();

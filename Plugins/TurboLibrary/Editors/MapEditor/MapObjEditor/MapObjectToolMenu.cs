@@ -18,29 +18,24 @@ namespace TurboLibrary.MuuntEditor
 
         public void Render()
         {
-         /*   var toolMenus = Editor.GetToolMenuItems();
-            var editMenus = Editor.GetEditMenuItems();
+            if (ImGui.Button("Randomize Double Item Boxes (Deluxe Only)"))
+                RandomizeDoubleItemBoxes();
+        }
 
-            var size = new System.Numerics.Vector2(150, 22);*/
+        private void RandomizeDoubleItemBoxes()
+        {
+            Random rnd = new Random();
 
-         /*   if (toolMenus.Count > 0 && ImGui.CollapsingHeader("Tools", ImGuiTreeNodeFlags.DefaultOpen))
+            foreach (var obj in Editor.Root.Children)
             {
-                foreach (var menu in toolMenus)
+                var objData = obj.Tag as Obj;
+                if (objData.ObjId == 1013)
                 {
-                    if (ImGui.Button(menu.Header, size)) {
-                        menu.Command.Execute(menu);
-                    }
+                    //Param 1 for double item boxes
+                    //0 = single. 1 = double
+                    objData.Params[0] = rnd.Next(0, 1);
                 }
             }
-            if (editMenus.Count > 0 && ImGui.CollapsingHeader("Actions", ImGuiTreeNodeFlags.DefaultOpen))
-            {
-                foreach (var menu in editMenus)
-                {
-                    if (ImGui.Button(menu.Header, size)) {
-                        menu.Command.Execute(menu);
-                    }
-                }
-            }*/
         }
     }
 }

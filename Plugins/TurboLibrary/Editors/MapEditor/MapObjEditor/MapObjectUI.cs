@@ -24,7 +24,7 @@ namespace TurboLibrary.MuuntEditor
             MapStudio.UI.ImguiBinder.LoadProperties(mapObject, selected);
 
             if (ImGui.CollapsingHeader(TranslationSource.GetText("PARAMETERS"), ImGuiTreeNodeFlags.DefaultOpen)) {
-                LoadParameterUI(mapObject);
+                LoadParameterUI(mapObject, selected);
             }
             if (ImGui.CollapsingHeader(TranslationSource.GetText("RELATIVES"), ImGuiTreeNodeFlags.DefaultOpen)) {
                 DisplayLinkUI("RELATIVE_OBJECT", mapObject, "ParentObj");
@@ -53,7 +53,7 @@ namespace TurboLibrary.MuuntEditor
             return warnings.ToArray();
         }
 
-        private void LoadParameterUI(Obj mapObject)
+        private void LoadParameterUI(Obj mapObject, IEnumerable<object> selected)
         {
             var names = mapObject.GetParameterNames();
 
@@ -67,8 +67,11 @@ namespace TurboLibrary.MuuntEditor
 
                 string name = names[i] == null ? TranslationSource.GetText("UNUSED") : names[i];
                 if (DisplayFloat($"##param{i}", name, ref param)) {
-                    mapObject.Params[i] = param;
-                    mapObject.NotifyPropertyChanged("Params");
+                    foreach (Obj obj in selected)
+                    {
+                        obj.Params[i] = param;
+                        obj.NotifyPropertyChanged("Params");
+                    }
                 }
             }
             ImGui.EndColumns();

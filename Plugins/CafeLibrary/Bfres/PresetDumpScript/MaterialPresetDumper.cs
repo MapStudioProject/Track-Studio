@@ -158,7 +158,7 @@ namespace CafeLibrary
                     //Assign the new shader archive name
                     material.ShaderAssign.ShaderArchiveName = name;
                     //Export the shader with a new internal name
-                    SaveShaderPreset(resFile.IsPlatformSwitch, Path.Combine(presetName, $"{name}.bfsha"), file.Value.Data, name);
+                    SaveShaderPreset(resFile.IsPlatformSwitch, Path.Combine(presetFolder, $"{name}.bfsha"), file.Value.Data, name);
                 }
             }
             if (exportTextures)

@@ -68,6 +68,7 @@ namespace TurboLibrary.MuuntEditor
                 string name = names[i] == null ? TranslationSource.GetText("UNUSED") : names[i];
                 if (DisplayFloat($"##param{i}", name, ref param)) {
                     mapObject.Params[i] = param;
+                    mapObject.NotifyPropertyChanged("Params");
                 }
             }
             ImGui.EndColumns();

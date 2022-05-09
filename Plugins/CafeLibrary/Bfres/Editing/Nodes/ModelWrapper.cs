@@ -472,9 +472,11 @@ namespace CafeLibrary
             model.Materials.Clear();
             foreach (var meshSetting in settings.Meshes)
             {
+                //Original target material from the current material list
                 var mat = materials.FirstOrDefault(x => x.Name == meshSetting.MaterialName);
                 var shape = model.Shapes[meshSetting.Name];
                 var importedMat = importedMaterials[shape.MaterialIndex];
+                var name = importedMat.Name;
 
                 //Import material.
                 if (File.Exists(meshSetting.MaterialRawFile))
@@ -484,9 +486,12 @@ namespace CafeLibrary
                     {
                         mat = new Material();
                         mat.Import(meshSetting.MaterialRawFile, ResFile);
-                        mat.Name = importedMat.Name;
+                        mat.Name = name;
                     }
                 }
+                //Assign the material to the current mesh settings
+                meshSetting.MaterialInstance = mat;
+                //Mat is the original default material. Use an imported material if none is found
                 if (mat == null)
                     mat = importedMat;
 
@@ -497,7 +502,7 @@ namespace CafeLibrary
 
                     model.Materials.Add(mat.Name, mat);
                 }
-
+                //Assign the material to the mesh settings
                 if (mat != null && model.Materials.ContainsValue(mat))
                     model.Shapes[meshSetting.Name].MaterialIndex = (ushort)model.Materials.IndexOf(mat);
             }
@@ -505,9 +510,13 @@ namespace CafeLibrary
             //Reload with the new model data
             ReloadModel();
 
-            //Import material presets
+            //Import material presets after the model is reloaded
             foreach (var meshSetting in settings.Meshes)
             {
+                //Don't assign a preset if a material is already present
+                if (meshSetting.MaterialInstance != null)
+                    continue;
+
                 var mesh = (FSHP)this.Meshes.FirstOrDefault(x => x.Name == meshSetting.Name);
                 if (meshSetting.MaterialRawFile != null && meshSetting.MaterialRawFile.EndsWith(".zip"))
                 {

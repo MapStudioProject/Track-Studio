@@ -62,16 +62,16 @@ namespace TrackStudio
 
                 string date = DateTime.Now.ToFileTime().ToString();
                 Exception e = (Exception)args.ExceptionObject;
-                File.WriteAllText($"{Runtime.ExecutableDir}\\Logs\\CrashLog_{date}.txt", $"{e.Message}\n {e.StackTrace}");
+                File.WriteAllText(Path.Combine(Runtime.ExecutableDir,"Logs",$"CrashLog_{date}.txt"), $"{e.Message}\n {e.StackTrace}");
             }
         }
 
         static string GetRepoCompileDate(string folder)
         {
-            if (!File.Exists($"{folder}\\Version.txt"))
+            if (!File.Exists(Path.Combine(folder,"Version.txt")))
                 return "";
 
-            string[] versionInfo = File.ReadLines($"{folder}\\Version.txt").ToArray();
+            string[] versionInfo = File.ReadLines(Path.Combine(folder,"Version.txt")).ToArray();
             if (versionInfo.Length >= 3)
                 return $"{versionInfo[0]} Commit: {versionInfo[2]} Compile Date: {versionInfo[1]}";
 

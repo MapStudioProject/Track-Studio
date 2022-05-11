@@ -24,7 +24,7 @@ namespace TurboLibrary
             if (Tables.Count > 0)
                 return;
 
-            string filePath = GlobalSettings.GetContentPath("audio\\bin\\slink.bin");
+            string filePath = GlobalSettings.GetContentPath(System.IO.Path.Combine("audio","bin","slink.bin"));
             if (!File.Exists(filePath))
                 return;
 

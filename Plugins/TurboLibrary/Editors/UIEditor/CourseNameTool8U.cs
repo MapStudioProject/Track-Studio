@@ -23,7 +23,7 @@ namespace TurboLibrary
                 return;
 
             //Save the file either in the mod directory or original path
-            string modPath = $"{GlobalSettings.ModOutputPath}\\ui\\{ currentLanguage}\\Common.msbt";
+            string modPath = System.IO.Path.Combine(GlobalSettings.ModOutputPath,"ui",currentLanguage,"Common.msbt");
             if (!string.IsNullOrEmpty(GlobalSettings.ModOutputPath))
             {
                 //Create directory if does not exist
@@ -64,7 +64,7 @@ namespace TurboLibrary
                 if (MessageTable == null)
                 {
                     if (!string.IsNullOrEmpty(currentLanguage))
-                        ImGui.TextColored(ThemeHandler.Theme.Error, $"Failed to find file for 'ui\\{ currentLanguage}\\Common.msbt'. Make sure your game path is configured!");
+                        ImGui.TextColored(ThemeHandler.Theme.Error, $"Failed to find file for '{System.IO.Path.Combine("ui",currentLanguage,"Common.msbt")}'. Make sure your game path is configured!");
                     return;
                 }
 
@@ -110,7 +110,7 @@ namespace TurboLibrary
 
         protected override void LoadMessageData()
         {
-            string path = GlobalSettings.GetContentPath($"ui\\{currentLanguage}\\Common.msbt");
+            string path = GlobalSettings.GetContentPath(System.IO.Path.Combine("ui",currentLanguage,"Common.msbt"));
             if (File.Exists(path))
             {
                 filePath = path;

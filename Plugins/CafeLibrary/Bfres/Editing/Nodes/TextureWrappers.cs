@@ -226,7 +226,7 @@ namespace CafeLibrary
                     foreach (var sel in selected)
                     {
                         var tex = sel.Tag as STGenericTexture;
-                        tex.Export($"{dlg.SelectedPath}\\{tex.Name}.png", new TextureExportSettings());
+                        tex.Export(Path.Combine(dlg.SelectedPath,$"{tex.Name}.png"), new TextureExportSettings());
                     }
                 }
             }
@@ -732,7 +732,7 @@ namespace CafeLibrary
             foreach (var tex in this.Children)
             {
                 var texData = tex.Tag as STGenericTexture;
-                texData.Export($"{folder}\\{tex.Header}{ext}", new TextureExportSettings());
+                texData.Export(Path.Combine(folder,$"{tex.Header}{ext}"), new TextureExportSettings());
             }
             FileUtility.OpenFolder(folder);
         }

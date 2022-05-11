@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -74,7 +75,7 @@ namespace CafeLibrary
                         TinyFileDialog.MessageBoxInfoOk($"Must set a name for the material preset!");
                     else
                     {
-                        material.SaveAsPreset($"{Toolbox.Core.Runtime.ExecutableDir}\\Presets\\Materials\\{presetName}.json", exportTextures);
+                        material.SaveAsPreset(Path.Combine(Toolbox.Core.Runtime.ExecutableDir,"Presets","Materials",$"{presetName}.json"), exportTextures);
                         TinyFileDialog.MessageBoxInfoOk($"Saved material preset {presetName}!");
                     }
                 }

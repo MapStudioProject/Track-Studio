@@ -67,8 +67,8 @@ namespace Track_Studio_Launcher
             //Share resources between contexts
             GraphicsContext.ShareContexts = true;
             //Load recent file lists
-            RecentFileHandler.LoadRecentList($"{Runtime.ExecutableDir}\\Recent.txt", RecentFiles);
-            RecentFileHandler.LoadRecentList($"{Runtime.ExecutableDir}\\RecentProjects.txt", RecentProjects);
+            RecentFileHandler.LoadRecentList(Path.Combine(Runtime.ExecutableDir,"Recent.txt"), RecentFiles);
+            RecentFileHandler.LoadRecentList(Path.Combine(Runtime.ExecutableDir,"RecentProjects.txt"), RecentProjects);
 
             var asssemblyVersion = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
             AppVersion = asssemblyVersion.ToString();

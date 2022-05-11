@@ -237,7 +237,7 @@ namespace TurboLibrary
             if (!string.IsNullOrEmpty(info.Type) && !IconManager.HasIcon(info.Type))
             {
                 //File path on disk to the icon
-                string icon = $"{Toolbox.Core.Runtime.ExecutableDir}\\Lib\\Images\\Collision\\{info.Type}.png";
+                string icon = System.IO.Path.Combine(Toolbox.Core.Runtime.ExecutableDir,"Lib","Images","Collision",$"{info.Type}.png");
                 if (File.Exists(icon)) //Load the icon if found
                     IconManager.TryAddIcon(System.IO.Path.GetFileNameWithoutExtension(info.Type), File.ReadAllBytes(icon));
             }

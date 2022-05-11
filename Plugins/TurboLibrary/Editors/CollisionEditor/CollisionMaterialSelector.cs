@@ -23,7 +23,7 @@ namespace TurboLibrary
         Vector2 WindowPosition = new Vector2(0);
         public CollisionMaterialSelector()
         {
-            foreach (var mat in Directory.GetFiles($"{Runtime.ExecutableDir}\\Lib\\Images\\Collision"))
+            foreach (var mat in Directory.GetFiles(System.IO.Path.Combine(Runtime.ExecutableDir,"Lib","Images","Collision")))
                 if (!IconManager.HasIcon(mat))
                     IconManager.TryAddIcon(System.IO.Path.GetFileNameWithoutExtension(mat), File.ReadAllBytes(mat));
         }

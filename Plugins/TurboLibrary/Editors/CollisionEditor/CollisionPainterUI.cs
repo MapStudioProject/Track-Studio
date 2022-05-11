@@ -20,7 +20,7 @@ namespace TurboLibrary
             this.DockDirection = ImGuiDir.Right;
             this.SplitRatio = 0.5f;
 
-            foreach (var mat in Directory.GetFiles($"{Runtime.ExecutableDir}\\Images\\Collision"))
+            foreach (var mat in Directory.GetFiles(System.IO.Path.Combine(Runtime.ExecutableDir,"Images","Collision")))
                 if (!IconManager.HasIcon(mat))
                     IconManager.TryAddIcon(System.IO.Path.GetFileNameWithoutExtension(mat), File.ReadAllBytes(mat));
         }

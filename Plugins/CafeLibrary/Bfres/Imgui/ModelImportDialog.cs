@@ -29,10 +29,10 @@ namespace CafeLibrary
             string DefaultPreset = "";
             bool isCourse = fmdl.ResFile.Name == "course_model.szs";
             bool isSwitch = fmdl.ResFile.IsPlatformSwitch;
-            if (isCourse && !isSwitch && File.Exists($"{Runtime.ExecutableDir}\\Presets\\Materials\\MK8U\\Opaque\\Normal.zip"))
-                DefaultPreset = $"{Runtime.ExecutableDir}\\Presets\\Materials\\MK8U\\Opaque\\Normal.zip";
-            if (isCourse && isSwitch && File.Exists($"{Runtime.ExecutableDir}\\Presets\\Materials\\MK8D\\Opaque\\Normal.zip"))
-                DefaultPreset = $"{Runtime.ExecutableDir}\\Presets\\Materials\\MK8D\\Opaque\\Normal.zip";
+            if (isCourse && !isSwitch && File.Exists(Path.Combine(Runtime.ExecutableDir,"Presets","Materials","MK8U","Opaque","Normal.zip")))
+                DefaultPreset = Path.Combine(Runtime.ExecutableDir,"Presets","Materials","MK8U","Opaque","Normal.zip");
+            if (isCourse && isSwitch && File.Exists(Path.Combine(Runtime.ExecutableDir,"Presets","Materials","MK8D","Opaque","Normal.zip")))
+                DefaultPreset = Path.Combine(Runtime.ExecutableDir,"Presets","Materials","MK8D","Opaque","Normal.zip");
 
             Fmdl = fmdl;
 
@@ -60,7 +60,7 @@ namespace CafeLibrary
 
                 meshSettings.MaterialRawFile = DefaultPreset;
                 if (!string.IsNullOrEmpty(meshSettings.MaterialRawFile))
-                    meshSettings.PresetName = $"Opaque\\{System.IO.Path.GetFileNameWithoutExtension(meshSettings.MaterialRawFile)}";
+                    meshSettings.PresetName = Path.Combine("Opaque",System.IO.Path.GetFileNameWithoutExtension(meshSettings.MaterialRawFile));
 
                 //Select similar data
                 if (fmdl.Meshes.Any(x => x.Name == mesh.Name))
@@ -315,7 +315,7 @@ namespace CafeLibrary
                         var name = preset.Name;
                         //Show atleast one level of the tree to see the category the preset is inside
                         if (preset.Parent != null)
-                            name = $"{preset.Parent.Header}\\{name}";
+                            name = Path.Combine(preset.Parent.Header,name);
 
                         //Batch edit
                         foreach (var index in selectedMeshIndices)
@@ -378,7 +378,7 @@ namespace CafeLibrary
                     var name = preset.Name;
                     //Show atleast one level of the tree to see the category the preset is inside
                     if (preset.Parent != null)
-                        name = $"{preset.Parent.Header}\\{name}";
+                        name = Path.Combine(preset.Parent.Header,name);
 
                     //Batch edit
                     if (isGlobal)

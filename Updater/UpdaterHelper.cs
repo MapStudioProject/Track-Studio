@@ -66,8 +66,8 @@ namespace Updater
             if (!release.Assets[assetIndex].UpdatedAt.ToString().Equals(currentDate) || force)
             {
                 //Remove existing install directories if they exist
-                if (Directory.Exists($"{folder}\\{"latest"}" + "/"))
-                    Directory.Delete($"{folder}\\{"latest"}" + "/", true);
+                if (Directory.Exists(Path.Combine(folder,"latest")))
+                    Directory.Delete(Path.Combine(folder,"latest"), true);
 
                 DownloadRelease(folder, release, assetIndex).Wait();
             }
@@ -98,7 +98,7 @@ namespace Updater
                     //Thread.Sleep(20);
                 };
                 Uri uri = new Uri(address);
-                await webClient.DownloadFileTaskAsync(uri, $"{folder}\\{name}.zip").ConfigureAwait(false);
+                await webClient.DownloadFileTaskAsync(uri, Path.Combine(folder,$"{name}.zip")).ConfigureAwait(false);
 
                 progressBar.Report(1.0f);
                 progressBar.Dispose();
@@ -106,7 +106,7 @@ namespace Updater
 
                 Console.WriteLine($"Extracting update!");
                 //Extract the zip for intalling
-                ExtractZip($"{folder}\\{name}");
+                ExtractZip(Path.Combine(folder,name));
                 // Save the version info
                 WriteRepoVersion(folder, release);
 
@@ -119,7 +119,7 @@ namespace Updater
         /// </summary>
         public static void Install(string folderDir)
         {
-            string path = $"{folderDir}\\latest\\net5.0";
+            string path = Path.Combine(folderDir,"latest","net5.0");
 
             if (!Directory.Exists(path)) {
                 Console.WriteLine($"No downloaded directory found!");
@@ -153,7 +153,7 @@ namespace Updater
 
                 File.Move(file, Path.Combine(folderDir, Path.GetFileName(file)));
             }
-            Directory.Delete($"{folderDir}\\latest", true);
+            Directory.Delete(Path.Combine(folderDir,"latest"), true);
         }
 
         static async Task GetReleases(GitHubClient client)
@@ -167,10 +167,10 @@ namespace Updater
         //
         static string GetRepoCompileDate(string folder)
         {
-            if (!File.Exists($"{folder}\\Version.txt"))
+            if (!File.Exists(Path.Combine(folder,"Version.txt")))
                 return "";
 
-            string[] versionInfo = File.ReadLines($"{folder}\\Version.txt").ToArray();
+            string[] versionInfo = File.ReadLines(Path.Combine(folder,"Version.txt")).ToArray();
             if (versionInfo.Length >= 3)
                 return versionInfo[1];
 
@@ -180,7 +180,7 @@ namespace Updater
         //Stores the current release information within a .txt file
         static void WriteRepoVersion(string folder, Release release)
         {
-            using (StreamWriter writer = new StreamWriter($"{folder}\\Version.txt"))
+            using (StreamWriter writer = new StreamWriter(Path.Combine(folder,"Version.txt")))
             {
                 writer.WriteLine($"{release.TagName}");
                 writer.WriteLine($"{release.Assets[0].UpdatedAt.ToString()}");

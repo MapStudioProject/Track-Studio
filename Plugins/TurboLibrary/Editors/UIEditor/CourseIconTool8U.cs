@@ -30,9 +30,9 @@ namespace TurboLibrary
 
             var data = SARC_Parser.PackN(SarcData);
             var comp = Toolbox.Core.IO.YAZ0.Compress(data.Item2, 3, (uint)data.Item1);
-            var menuPath = GlobalSettings.GetContentPath("ui\\cmn\\menu.szs");
+            var menuPath = GlobalSettings.GetContentPath(System.IO.Path.Combine("ui","cmn","menu.szs"));
             if (Directory.Exists(GlobalSettings.ModOutputPath))
-                 menuPath = $"{GlobalSettings.ModOutputPath}\\ui\\cmn\\menu.szs";
+                 menuPath = System.IO.Path.Combine(GlobalSettings.ModOutputPath,"ui","cmn","menu.szs");
 
             string folder = System.IO.Path.GetDirectoryName(menuPath);
             if (!Directory.Exists(folder))
@@ -87,7 +87,7 @@ namespace TurboLibrary
 
         private void LoadMK8U()
         {
-            var menu = GlobalSettings.GetContentPath("ui\\cmn\\menu.szs");
+            var menu = GlobalSettings.GetContentPath(System.IO.Path.Combine("ui","cmn","menu.szs"));
             if (File.Exists(menu))
                 SarcData = SARC_Parser.UnpackRamN(Toolbox.Core.IO.YAZ0.Decompress(menu));
         }

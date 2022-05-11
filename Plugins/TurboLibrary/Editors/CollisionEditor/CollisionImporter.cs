@@ -43,7 +43,7 @@ namespace TurboLibrary.CollisionEditor
             IsBigEndian = isBigEndian;
             Version = version;
             //Get the preset of all the collision material attributes.
-            CollisionPresetData.LoadPresets(Directory.GetFiles($"{Runtime.ExecutableDir}\\Lib\\Presets\\Collision"));
+            CollisionPresetData.LoadPresets(Directory.GetFiles(System.IO.Path.Combine(Runtime.ExecutableDir,"Lib","Presets","Collision")));
             Preset = CollisionPresetData.CollisionPresets.FirstOrDefault();
             MaterialSelector.AttributeCalculated += delegate
             {

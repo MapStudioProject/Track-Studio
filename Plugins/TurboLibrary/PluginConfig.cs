@@ -70,9 +70,9 @@ namespace TurboLibrary
         /// </summary>
         /// <returns></returns>
         public static PluginConfig Load() {
-            if (!File.Exists($"{Runtime.ExecutableDir}\\TurboConfig.json")) { new PluginConfig().Save(); }
+            if (!File.Exists(System.IO.Path.Combine(Runtime.ExecutableDir,"TurboConfig.json"))) { new PluginConfig().Save(); }
 
-            var config = JsonConvert.DeserializeObject<PluginConfig>(File.ReadAllText($"{Runtime.ExecutableDir}\\TurboConfig.json"));
+            var config = JsonConvert.DeserializeObject<PluginConfig>(File.ReadAllText(System.IO.Path.Combine(Runtime.ExecutableDir,"TurboConfig.json")));
             config.Reload();
             return config;
         }
@@ -81,7 +81,7 @@ namespace TurboLibrary
         /// Saves the current configuration to json on disc.
         /// </summary>
         public void Save() {
-           File.WriteAllText($"{Runtime.ExecutableDir}\\TurboConfig.json", JsonConvert.SerializeObject(this));
+           File.WriteAllText(System.IO.Path.Combine(Runtime.ExecutableDir,"TurboConfig.json"), JsonConvert.SerializeObject(this));
             Reload();
         }
 
@@ -91,13 +91,13 @@ namespace TurboLibrary
         public void Reload()
         {
             TurboLibrary.GlobalSettings.GamePath = MK8DGamePath;
-            HasValidMK8DPath = File.Exists($"{MK8DGamePath}\\Data\\objflow.byaml");
+            HasValidMK8DPath = File.Exists(System.IO.Path.Combine(MK8DGamePath,"Data","objflow.byaml"));
 
             TurboLibrary.GlobalSettings.UpdatePath = MK8DUpdatePath;
-            HasValidMK8UpdatePath = File.Exists($"{MK8DUpdatePath}\\Data\\objflow.byaml");
+            HasValidMK8UpdatePath = File.Exists(System.IO.Path.Combine(MK8DUpdatePath,"Data","objflow.byaml"));
 
             TurboLibrary.GlobalSettings.AOCPath = MK8AOCPath;
-            HasValidMK8AOCPath = Directory.Exists($"{MK8AOCPath}\\0013\\course"); //Just check one of the dlc folders
+            HasValidMK8AOCPath = Directory.Exists(System.IO.Path.Combine(MK8AOCPath,"0013","course")); //Just check one of the dlc folders
 
             TurboLibrary.GlobalSettings.ModOutputPath = MK8ModPath;
 

@@ -45,7 +45,7 @@ namespace Track_Studio_Launcher
 
                 string date = DateTime.Now.ToFileTime().ToString();
                 Exception e = (Exception)args.ExceptionObject;
-                File.WriteAllText($"{Runtime.ExecutableDir}\\Logs\\CrashLog_{date}.txt", $"{e.Message}\n {e.StackTrace}");
+                File.WriteAllText(Path.Combine(Runtime.ExecutableDir,"Logs",$"CrashLog_{date}.txt"), $"{e.Message}\n {e.StackTrace}");
             }
         }
 

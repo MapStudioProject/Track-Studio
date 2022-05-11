@@ -52,14 +52,14 @@ namespace Track_Studio_Launcher
             Projects.Clear();
             foreach (var project in dirs)
             {
-                if (!File.Exists($"{project}\\Project.json"))
+                if (!File.Exists(Path.Combine(project,"Project.json")))
                     continue;
 
                 bool HasText = new DirectoryInfo(project).Name.IndexOf(_searchText, StringComparison.OrdinalIgnoreCase) >= 0;
                 if (isSearch && !HasText)
                     continue;
 
-                Projects.Add(project, ProjectFile.Load($"{project}\\Project.json"));
+                Projects.Add(project, ProjectFile.Load(Path.Combine(project,"Project.json")));
             }
 
             var sorted = Projects.ToList();
@@ -146,7 +146,7 @@ namespace Track_Studio_Launcher
 
         private void DisplayProject(string folder, ProjectFile projectFile)
         {
-            string thumbFile = $"{folder}\\Thumbnail.png";
+            string thumbFile = Path.Combine(folder,"Thumbnail.png");
             string projectName = new DirectoryInfo(folder).Name;
             int height = 80;
 

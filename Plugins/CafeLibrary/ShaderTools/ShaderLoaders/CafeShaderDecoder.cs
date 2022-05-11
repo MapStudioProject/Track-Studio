@@ -21,10 +21,10 @@ namespace CafeLibrary.Rendering
 
         public static ShaderInfo LoadShaderProgram(byte[] vertexShader, byte[] fragmentShader)
         {
-            var binaryDir = $"{Runtime.ExecutableDir}\\GFD\\BinaryCache\\";
+            var binaryDir = Path.Combine(Runtime.ExecutableDir,"GFD","BinaryCache");
 
-            if (!Directory.Exists($"{Runtime.ExecutableDir}\\GFD\\Cache"))
-                Directory.CreateDirectory($"{Runtime.ExecutableDir}\\GFD\\Cache");
+            if (!Directory.Exists(Path.Combine(Runtime.ExecutableDir,"GFD","Cache")))
+                Directory.CreateDirectory(Path.Combine(Runtime.ExecutableDir,"GFD","Cache"));
 
             var shaderName = GetHashSHA1(ByteUtils.CombineArray(vertexShader, fragmentShader));
             string key = $"{shaderName}";
@@ -35,14 +35,14 @@ namespace CafeLibrary.Rendering
             List<ShaderStage> stages = new List<ShaderStage>();
             stages.Add(new ShaderStage() { Name = shaderName + "VS", Data = vertexShader, Command = "-v" });
             stages.Add(new ShaderStage() { Name = shaderName + "FS", Data = fragmentShader, Command = "-p" });
-            var info = DecodeSharcBinary($"{Runtime.ExecutableDir}\\GFD", stages);
+            var info = DecodeSharcBinary(Path.Combine(Runtime.ExecutableDir,"GFD"), stages);
             info.Program = new ShaderProgram();
 
-            if (SaveBinary && File.Exists($"{binaryDir}\\{key}.bin"))
+            if (SaveBinary && File.Exists(Path.Combine(binaryDir,$"{key}.bin")))
             {
                 //Load the binary to opengl
-                int binaryFormat = BitConverter.ToInt32(File.ReadAllBytes($"{binaryDir}\\{key}.format"));
-                byte[] binaryData = File.ReadAllBytes($"{binaryDir}\\{key}.bin");
+                int binaryFormat = BitConverter.ToInt32(File.ReadAllBytes(Path.Combine(binaryDir,$"{key}.format")));
+                byte[] binaryData = File.ReadAllBytes(Path.Combine(binaryDir,$"{key}.bin"));
 
                 info.Program.LoadBinary(binaryData, (BinaryFormat)binaryFormat);
                 if (!info.Program.LinkSucessful)
@@ -60,12 +60,12 @@ namespace CafeLibrary.Rendering
                                         new VertexShader(File.ReadAllText(info.VertPath)));
             }
 
-            if (SaveBinary && !File.Exists($"{binaryDir}\\{key}.bin"))
+            if (SaveBinary && !File.Exists(Path.Combine(binaryDir,$"{key}.bin")))
             {
                 if (!Directory.Exists(binaryDir))
                     Directory.CreateDirectory(binaryDir);
 
-                info.Program.SaveBinary($"{binaryDir}\\{key}");
+                info.Program.SaveBinary(Path.Combine(binaryDir,key));
             }
 
 
@@ -133,10 +133,10 @@ namespace CafeLibrary.Rendering
             //Cleanup
             foreach (var stage in stages)
             {
-                if (File.Exists($"{directory}\\{stage.Name}"))
-                    File.Delete($"{directory}\\{stage.Name}");
-                if (File.Exists($"{directory}\\{stage.Name}{stage.Extension}.spv"))
-                    File.Delete($"{directory}\\{stage.Name}{stage.Extension}.spv");
+                if (File.Exists(Path.Combine(directory,stage.Name)))
+                    File.Delete(Path.Combine(directory,stage.Name));
+                if (File.Exists(Path.Combine(directory,$"{stage.Name}{stage.Extension}.spv")))
+                    File.Delete(Path.Combine(directory,$"{stage.Name}{stage.Extension}.spv"));
             }
 
             return info;
@@ -194,14 +194,14 @@ namespace CafeLibrary.Rendering
         static string ConvertStages(List<ShaderStage> stages)
         {
             foreach (var stage in stages)
-                File.WriteAllBytes($"{Runtime.ExecutableDir}\\GFD\\{stage.Name}", stage.Data);
+                File.WriteAllBytes(Path.Combine(Runtime.ExecutableDir,"GFD",stage.Name), stage.Data);
 
             ProcessStartInfo start = new ProcessStartInfo();
             start.FileName = "GFD/gx2shader-decompiler.exe";
             start.WorkingDirectory = System.IO.Path.Combine(Runtime.ExecutableDir, "GFD");
             foreach (var stage in stages)
             {
-                if (!File.Exists($"{Runtime.ExecutableDir}\\GFD\\{stage.Name}"))
+                if (!File.Exists(Path.Combine(Runtime.ExecutableDir,"GFD",stage.Name)))
                     throw new Exception($"Failed to write stage {stage.Name}!");
 
                 start.Arguments += $"{stage.Command} {AddQuotesIfRequired($"{stage.Name}")} ";

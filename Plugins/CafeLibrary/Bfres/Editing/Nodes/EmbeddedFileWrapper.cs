@@ -38,7 +38,7 @@ namespace CafeLibrary
             if (dlg.ShowDialog())
             {
                 foreach (var file in ResFile.ExternalFiles)
-                    File.WriteAllBytes($"{dlg.SelectedPath}\\{file.Key}", file.Value.Data);
+                    File.WriteAllBytes(Path.Combine(dlg.SelectedPath,file.Key), file.Value.Data);
             }
         }
 

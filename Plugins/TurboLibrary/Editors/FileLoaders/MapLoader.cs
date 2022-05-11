@@ -95,9 +95,11 @@ namespace TurboLibrary.MuuntEditor
             {
                 MapTexture = new BflimTexture();
                 ((BflimTexture)MapTexture).InitDefault();
+                MapTexture.Name = "course_maptexture";
             }
 
             MapCamera = new MapCamera();
+
             if (isSwitch)
                 MapCamera.IsBigEndian = false;
             if (isSwitch)

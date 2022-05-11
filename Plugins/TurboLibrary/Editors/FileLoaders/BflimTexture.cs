@@ -310,11 +310,13 @@ namespace TurboLibrary
 
             writer.SetByteOrder(true);
             writer.Write(ImageData);
+
+            var headerPos = writer.Position;
             writer.WriteStruct(FileHeaderInfo);
             writer.WriteStruct(ImageInfo);
 
             //write file size
-            using (writer.TemporarySeek(12, System.IO.SeekOrigin.Begin)) {
+            using (writer.TemporarySeek(headerPos + 12, System.IO.SeekOrigin.Begin)) {
                 writer.Write((uint)writer.BaseStream.Length);
             }
         }
@@ -345,10 +347,10 @@ namespace TurboLibrary
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public class FileHeader
         {
-            public uint magic;
-            public ushort bom;
+            public uint magic = 0x464C494D;
+            public ushort bom = 0xFEFF;
             public ushort headerSize = 0x14;
-            public uint version;
+            public uint version = 0x02020000;
             public uint fileSize;
             public ushort numBlocks = 1;
             public ushort padding;
@@ -357,7 +359,7 @@ namespace TurboLibrary
         [StructLayout(LayoutKind.Sequential, Pack = 1)]
         public class ImageHeader
         {
-            public uint magic;
+            public uint magic = 0x696D6167;
             public uint blockSize = 0x10;
             public short Width;
             public short Height;

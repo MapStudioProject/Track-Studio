@@ -121,6 +121,8 @@ namespace TrackStudio
                 ImGui.End();
             }
 
+            SetupDocks();
+
             List<Workspace> removedWindows = new List<Workspace>();
             foreach (var workspace in Workspaces)
             {
@@ -161,6 +163,13 @@ namespace TrackStudio
             //Progress bar
             if (ProcessLoading.Instance.IsLoading)
                 ProcessLoading.Instance.Draw(_window.Width, _window.Height);
+        }
+
+        private void SetupDocks()
+        {
+            var dock_id = ImGui.GetID("##DockspaceRoot");
+
+            SetupParentDock(dock_id, Workspaces);
         }
 
         #region MainMenuBar
@@ -608,8 +617,9 @@ namespace TrackStudio
             bool canSave = Workspace.ActiveWorkspace != null;
             SaveMenu.Enabled = canSave;
             SaveAsMenu.Enabled = canSave;
-           // SaveProjectMenu.Enabled = canSave;
-          //  SaveAsProjectMenu.Enabled = canSave;
+            // SaveProjectMenu.Enabled = canSave;
+            //  SaveAsProjectMenu.Enabled = canSave;
+            UpdateDockLayout = true;
         }
 
         private void ClearWorkspace()

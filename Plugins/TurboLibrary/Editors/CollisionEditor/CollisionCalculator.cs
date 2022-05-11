@@ -92,7 +92,7 @@ namespace TurboLibrary
             //Wall
             new string[]{ "Concrete", "Cliff", "Metal", "Wood", "Ice", "Snow", "Ivy", "Rainbow" },
             //Wall 2
-            new string[]{ "Chocolate", "Musical", "Techno fence", "Glass", "Candy", "Sponge", "Paper", "Cookie" },
+            new string[]{ "Chocolate", "Musical", "Techno Fence", "Glass", "Candy", "Sponge", "Paper", "Cookie" },
             //Wall 3
             new string[]{ "Leaf", "Car", "None", "None", "None", "None", "None", "None" },
             //LWALL
@@ -203,6 +203,7 @@ namespace TurboLibrary
             "Trickable (Speed Required)", //0x2000
             //Sticky collision typically used for stronger gravity
             "High Gravity", //0x4000
+            "High Gravity + Trickable", //0x5000
             "High Gravity + Bouncy?", //0x8000
         };
     }

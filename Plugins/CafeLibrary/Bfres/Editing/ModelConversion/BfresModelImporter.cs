@@ -193,6 +193,13 @@ namespace CafeLibrary.ModelConversion
                 //Single bones would use a direct bone index with rigid skinning
                 if (riggedBones?.Count > 1)
                     vertexSkinCount = CalculateSkinCount(mesh.Vertices);
+                //Apply rigid bodies so vertices are in world space
+                if (riggedBones?.Count == 1)
+                {
+                    var bn = model.Skeleton.BreathFirstOrder().Where(x => x.Name == riggedBones[0]).FirstOrDefault();
+                    if (bn != null)
+                        mesh.TransformVertices(bn.WorldTransform);
+                }
 
                 //Todo. This basically reimports meshes with the original skin count to target as
                 /*    if (importSettings.Meshes.Any(x => x.Name == mesh.Name))
@@ -296,10 +303,6 @@ namespace CafeLibrary.ModelConversion
                         }
                     }
                 }
-
-                if (mesh.ParentBone != null)
-                    mesh.TransformVertices(mesh.ParentBone.WorldTransform);
-
                 var names = fmdl.Shapes.Values.Select(x => x.Name).ToList();
 
                 Shape fshp = new Shape();

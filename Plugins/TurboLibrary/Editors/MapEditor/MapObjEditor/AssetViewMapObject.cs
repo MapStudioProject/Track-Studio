@@ -39,8 +39,8 @@ namespace TurboLibrary.MuuntEditor
         {
             string resName = obj.ResNames.FirstOrDefault();
             string icon = "Node";
-            if (IconManager.HasIcon($"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{resName}.png"))
-                icon = $"{Runtime.ExecutableDir}\\Lib\\Images\\MapObjects\\{resName}.png";
+            if (IconManager.HasIcon(System.IO.Path.Combine(Runtime.ExecutableDir,"Lib","Images","MapObjects",$"{resName}.png")))
+                icon = System.IO.Path.Combine(Runtime.ExecutableDir,"Lib","Images","MapObjects",$"{resName}.png");
 
             assets.Add(new MapObjectAsset($"MapObject_{obj.ObjId}")
             {

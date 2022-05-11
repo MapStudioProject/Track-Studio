@@ -41,9 +41,9 @@ namespace TurboLibrary.LightingEditor
 
             if (ImGui.BeginCombo($"Preset", selectedPreset))
             {
-                if (Directory.Exists("Presets\\Env"))
+                if (Directory.Exists(System.IO.Path.Combine("Presets","Env")))
                 {
-                    foreach (var file in Directory.GetFiles("Presets\\Env"))
+                    foreach (var file in Directory.GetFiles(System.IO.Path.Combine("Presets","Env")))
                     {
                         string name = System.IO.Path.GetFileNameWithoutExtension(file);
                         bool isSelected = name == selectedPreset;
@@ -122,11 +122,11 @@ namespace TurboLibrary.LightingEditor
 
         private void SavePreset(string name)
         {
-            if (!Directory.Exists($"{Runtime.ExecutableDir}\\Presets\\Env"))
-                Directory.CreateDirectory($"{Runtime.ExecutableDir}\\Presets\\Env");
+            if (!Directory.Exists(System.IO.Path.Combine(Runtime.ExecutableDir,"Presets","Env")))
+                Directory.CreateDirectory(System.IO.Path.Combine(Runtime.ExecutableDir,"Presets","Env"));
 
             var courseArea = LightingEngine.LightSettings.Resources.EnvFiles["course_area.baglenv"];
-            courseArea.SaveFile($"{Runtime.ExecutableDir}\\Presets\\Env\\{name}.baglenv");
+            courseArea.SaveFile(System.IO.Path.Combine(Runtime.ExecutableDir,"Presets","Env",$"{name}.baglenv"));
         }
 
         private Vector4 GetAreaColor(int index)

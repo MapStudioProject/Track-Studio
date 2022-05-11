@@ -27,7 +27,7 @@ namespace TurboLibrary
             MessageAchiveFile.Files["Common.msbt"] = MessageTable.Save();
             var sarcFile = SARC_Parser.PackN(MessageAchiveFile).Item2;
 
-            string modPath = $"{GlobalSettings.ModOutputPath}\\UI\\{currentLanguage}\\message.sarc";
+            string modPath = System.IO.Path.Combine(GlobalSettings.ModOutputPath,"UI",currentLanguage,"message.sarc");
             if (!string.IsNullOrEmpty(GlobalSettings.ModOutputPath))
             {
                 string dir = System.IO.Path.GetDirectoryName(modPath);
@@ -54,7 +54,7 @@ namespace TurboLibrary
                 if (MessageTable == null)
                 {
                     if (!string.IsNullOrEmpty(currentLanguage))
-                        ImGui.TextColored(ThemeHandler.Theme.Error, $"Failed to find file for 'ui\\{ currentLanguage}\\Common.msbt'. Make sure your game path is configured!");
+                        ImGui.TextColored(ThemeHandler.Theme.Error, $"Failed to find file for '{System.IO.Path.Combine("ui",currentLanguage,"Common.msbt")}'. Make sure your game path is configured!");
                     return;
                 }
 
@@ -104,7 +104,7 @@ namespace TurboLibrary
 
         protected override void LoadMessageData()
         {
-            string path = GlobalSettings.GetContentPath($"UI\\{currentLanguage}\\message.sarc");
+            string path = GlobalSettings.GetContentPath(System.IO.Path.Combine("UI",currentLanguage,"message.sarc"));
             if (File.Exists(path))
             {
                 filePath = path;

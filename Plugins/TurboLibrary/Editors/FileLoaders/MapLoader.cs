@@ -126,10 +126,10 @@ namespace TurboLibrary.MuuntEditor
             //Load either the project directory or working directory
             string GetFile(string filePath)
             {
-                if (File.Exists($"{folder}\\{filePath}"))
-                    return $"{folder}\\{filePath}";
+                if (File.Exists(System.IO.Path.Combine(folder,filePath)))
+                    return System.IO.Path.Combine(folder,filePath);
                 else
-                    return $"{workingDir}\\{filePath}";
+                    return System.IO.Path.Combine(workingDir,filePath);
             }
 
             LoadColllsion(GetFile("course.kcl"));
@@ -259,7 +259,7 @@ namespace TurboLibrary.MuuntEditor
             if (!File.Exists(filePath))
                 return;
 
-            var elink = GlobalSettings.GetContentPath("common\\effect\\elink.bin");
+            var elink = GlobalSettings.GetContentPath(System.IO.Path.Combine("common","effect","elink.bin"));
             EffectLibrary.EffectManager.Instance.LoadElink(elink);
 
             ProcessLoading.Instance.Update(95, 100, "Loading Course Effects");

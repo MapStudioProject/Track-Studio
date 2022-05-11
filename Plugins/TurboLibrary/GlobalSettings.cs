@@ -35,7 +35,7 @@ namespace TurboLibrary
         /// </summary>
         public static string ModOutputPath { get; set; }
 
-        public static bool IsMK8D => File.Exists($"{GamePath}\\RaceCommon\\TS_PolicePackun\\TS_PolicePackun.bfres");
+        public static bool IsMK8D => File.Exists(System.IO.Path.Combine(GamePath,"RaceCommon","TS_PolicePackun","TS_PolicePackun.bfres"));
 
         public static PathSettings PathDrawer = new PathSettings();
 
@@ -56,15 +56,15 @@ namespace TurboLibrary
         public static string GetContentPath(string relativePath)
         {
             //Update first then base package.
-            if (File.Exists($"{ModOutputPath}\\{relativePath}")) return $"{ModOutputPath}\\{relativePath}";
-            if (File.Exists($"{UpdatePath}\\{relativePath}")) return $"{UpdatePath}\\{relativePath}";
-            if (File.Exists($"{GamePath}\\{relativePath}")) return $"{GamePath}\\{relativePath}";
+            if (File.Exists(System.IO.Path.Combine(ModOutputPath,relativePath))) return System.IO.Path.Combine(ModOutputPath,relativePath);
+            if (File.Exists(System.IO.Path.Combine(UpdatePath,relativePath))) return System.IO.Path.Combine(UpdatePath,relativePath);
+            if (File.Exists(System.IO.Path.Combine(GamePath,relativePath))) return System.IO.Path.Combine(GamePath,relativePath);
 
             //4 individual DLCs. Each directory is divided by content and permissive info.
-            if (File.Exists($"{AOCPath}\\0013\\{relativePath}")) return $"{AOCPath}\\0013\\{relativePath}";
-            if (File.Exists($"{AOCPath}\\0015\\{relativePath}")) return $"{AOCPath}\\0015\\{relativePath}";
-            if (File.Exists($"{AOCPath}\\0017\\{relativePath}")) return $"{AOCPath}\\0017\\{relativePath}";
-            if (File.Exists($"{AOCPath}\\0019\\{relativePath}")) return $"{AOCPath}\\0019\\{relativePath}";
+            if (File.Exists(System.IO.Path.Combine(AOCPath,"0013",relativePath))) return System.IO.Path.Combine(AOCPath,"0013",relativePath);
+            if (File.Exists(System.IO.Path.Combine(AOCPath,"0015",relativePath))) return System.IO.Path.Combine(AOCPath,"0015",relativePath);
+            if (File.Exists(System.IO.Path.Combine(AOCPath,"0017",relativePath))) return System.IO.Path.Combine(AOCPath,"0017",relativePath);
+            if (File.Exists(System.IO.Path.Combine(AOCPath,"0019",relativePath))) return System.IO.Path.Combine(AOCPath,"0019",relativePath);
 
             return relativePath;
         }
@@ -72,7 +72,7 @@ namespace TurboLibrary
         static void LoadObjFlow()
         {
             //Find the data base and load it
-            string path = GetContentPath($"data\\objflow.byaml");
+            string path = GetContentPath(System.IO.Path.Combine("data","objflow.byaml"));
             if (!System.IO.File.Exists(path))
                 return;
 

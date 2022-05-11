@@ -145,15 +145,15 @@ namespace TurboLibrary
             SaveProjectFile(folder, MapLoader.CollisionFile);
             /*    SaveProjectFile(folder, MapLoader.BgenvFile);
                 if (MapLoader.MapCamera != null)
-                    MapLoader.MapCamera.Save($"{folder}\\course_mapcamera.bin");
+                    MapLoader.MapCamera.Save(System.IO.Path.Combine(folder,"course_mapcamera.bin"));
                 if (MapLoader.MapTexture != null && MapLoader.MapTexture is BflimTexture)
-                    ((BflimTexture)MapLoader.MapTexture).Save(File.OpenWrite($"{folder}\\course_maptexture.bflim"));*/
+                    ((BflimTexture)MapLoader.MapTexture).Save(File.OpenWrite(System.IO.Path.Combine(folder,"course_maptexture.bflim")));*/
         }
 
         private void SaveProjectFile(string folder, IFileFormat fileFormat)
         {
             if (fileFormat != null)
-                fileFormat.Save(File.OpenWrite($"{folder}\\{fileFormat.FileInfo.FileName}"));
+                fileFormat.Save(File.OpenWrite(System.IO.Path.Combine(folder,fileFormat.FileInfo.FileName)));
         }
 
         public override void PrintErrors()

@@ -24,8 +24,8 @@ namespace TurboLibrary
             if (!PluginConfig.Init)
                 PluginConfig.Load();
 
-            GlobalShaders.AddShader("KCL", "KCL\\CollisionDefault");
-            GlobalShaders.AddShader("MINIMAP", "Turbo\\MinimapFilter");
+            GlobalShaders.AddShader("KCL", System.IO.Path.Combine("KCL","CollisionDefault"));
+            GlobalShaders.AddShader("MINIMAP", System.IO.Path.Combine("Turbo","MinimapFilter"));
         }
     }
 }

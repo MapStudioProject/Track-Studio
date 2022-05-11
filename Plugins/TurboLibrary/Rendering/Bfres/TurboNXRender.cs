@@ -141,11 +141,11 @@ namespace CafeLibrary.Rendering
         {
             //Reflective cubemap
            var cubemap = GLTextureCubeArray.FromDDS(
-                new DDS($"{Runtime.ExecutableDir}\\Resources\\CubemapHDR.dds"));
+                new DDS(Path.Combine(Runtime.ExecutableDir,"Resources","CubemapHDR.dds")));
 
             CubemapManager.InitDefault(cubemap);
 
-            CubemapManager.CubeMapTextureArray = GLTexture2DArray.FromDDS(new DDS($"{Runtime.ExecutableDir}\\Resources\\CubemapHDR.dds"));
+            CubemapManager.CubeMapTextureArray = GLTexture2DArray.FromDDS(new DDS(Path.Combine(Runtime.ExecutableDir,"Resources","CubemapHDR.dds")));
             DiffuseLightmapTextureArray = GLTexture2DArray.FromDDS(new DDS[2]
             {
                 new DDS(new MemoryStream(Resources.CubemapLightmap)),

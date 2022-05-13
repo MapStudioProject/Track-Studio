@@ -65,6 +65,11 @@ namespace TurboLibrary
 
         public void DeserializeReferences(CourseDefinition courseDefinition)
         {
+            //Quick adjustment if paths are removed and there are negative references
+            if (_pathIndex != null && _pathIndex.Value == -1) _pathIndex = null;
+            if (_pullPathIndex != null && _pullPathIndex.Value == -1) _pullPathIndex = null;
+            if (_areaObjIndex != null && _areaObjIndex.Value == -1) _areaObjIndex = null;
+            //Setup references
             Path = _pathIndex == null ? null : courseDefinition.Paths[_pathIndex.Value];
             PullPath = _pullPathIndex == null ? null : courseDefinition.PullPaths[_pullPathIndex.Value];
             Obj = _areaObjIndex == null ? null : courseDefinition.Objs[_areaObjIndex.Value];

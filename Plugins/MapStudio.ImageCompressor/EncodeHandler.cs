@@ -14,6 +14,10 @@ namespace MapStudio.ImageCompressor
             return FormatList.ContainsKey(format);
         }
 
+        public bool IsSupportedPlatform() {
+            return true;
+        }
+        
         public bool Decode(TexFormat format, byte[] input, int width, int height, out byte[] output)
         {
             output = null;

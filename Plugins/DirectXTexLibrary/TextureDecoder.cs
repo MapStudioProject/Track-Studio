@@ -12,6 +12,10 @@ namespace DirectXTexLibrary
             return true;
         }
 
+        public bool IsSupportedPlatform() {
+            return RuntimeInformation.IsOSPlatform(OSPlatform.Windows); 
+        }
+
         public bool Decode(TexFormat format, byte[] input, int width, int height, out byte[] output)
         {
             if (format.ToString().StartsWith("BC"))

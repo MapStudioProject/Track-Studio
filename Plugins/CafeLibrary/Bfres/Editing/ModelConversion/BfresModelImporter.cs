@@ -345,7 +345,7 @@ namespace CafeLibrary.ModelConversion
                 //Generate boundings for the mesh
                 List<IOVertex> vertices = mesh.Vertices;
 
-                var boundingBox = CalculateBoundingBox(vertices, model.Skeleton.BreathFirstOrder(), fshp.VertexSkinCount > 0);
+                var boundingBox = CalculateBoundingBox(vertices, model.Skeleton.BreathFirstOrder(), fshp, fshp.VertexSkinCount > 0);
                 fshp.SubMeshBoundings.Add(boundingBox); //Create bounding for total mesh
                 fshp.SubMeshBoundings.Add(boundingBox); //Create bounding for single sub meshes
 
@@ -600,7 +600,7 @@ namespace CafeLibrary.ModelConversion
 
         }
 
-        private static Bounding CalculateBoundingBox(List<IOVertex> vertices, List<IOBone> bones, bool isSmoothSkinning)
+        private static Bounding CalculateBoundingBox(List<IOVertex> vertices, List<IOBone> bones, Shape fshp, bool isSmoothSkinning)
         {
             float minX = float.MaxValue;
             float minY = float.MaxValue;
@@ -629,12 +629,21 @@ namespace CafeLibrary.ModelConversion
 
             for (int i = 0; i < vertices.Count; i++)
             {
-                minX = Math.Min(minX, vertices[i].Position.X);
-                minY = Math.Min(minY, vertices[i].Position.Y);
-                minZ = Math.Min(minZ, vertices[i].Position.Z);
-                maxX = Math.Max(maxX, vertices[i].Position.X);
-                maxY = Math.Max(maxY, vertices[i].Position.Y);
-                maxZ = Math.Max(maxZ, vertices[i].Position.Z);
+                var position = vertices[i].Position;
+
+                //Reset rigid skinning types to local space
+                if (fshp.VertexSkinCount == 0 && bones.Count > 0)
+                {
+                    var transform = bones[fshp.BoneIndex].WorldTransform;
+                    System.Numerics.Matrix4x4.Invert(transform, out System.Numerics.Matrix4x4 inverted);
+                    position = System.Numerics.Vector3.Transform(position, inverted);
+                }
+                minX = Math.Min(minX, position.X);
+                minY = Math.Min(minY, position.Y);
+                minZ = Math.Min(minZ, position.Z);
+                maxX = Math.Max(maxX, position.X);
+                maxY = Math.Max(maxY, position.Y);
+                maxZ = Math.Max(maxZ, position.Z);
             }
 
             return CalculateBoundingBox(

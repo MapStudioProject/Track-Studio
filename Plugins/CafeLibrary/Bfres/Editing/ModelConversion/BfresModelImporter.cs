@@ -93,6 +93,11 @@ namespace CafeLibrary.ModelConversion
 
                 Material fmat = new Material();
                 fmat.Name = mat.Label != null ? mat.Label : mat.Name;
+                if (string.IsNullOrEmpty(fmat.Name))
+                    continue;
+
+                fmat.Name = Utils.RenameDuplicateString(fmat.Name, fmdl.Materials.Keys.ToList());
+
                 if (mat.DiffuseMap != null)
                 {
                     fmat.Samplers.Add("_a0", new Sampler() { Name = "_a0", TexSampler = new TexSampler()});

@@ -156,7 +156,7 @@ namespace TurboLibrary
         /// Gets or sets a value indicating whether collision detection with this Obj will be skipped.
         /// </summary>
         [ByamlMember(Optional = true)]
-        [BindGUI("USE_COLLISION", Category = "OBJECT", ColumnIndex = 0)]
+        [BindGUI("DISABLE_COLLISION", Category = "OBJECT", ColumnIndex = 0)]
         public bool? NoCol { get; set; }
 
         /// <summary>

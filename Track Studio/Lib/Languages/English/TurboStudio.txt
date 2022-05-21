@@ -47,7 +47,7 @@ WIFI = WiFi
 WIFI2P = WiFi2P
 
 NAME - Name
-USE_COLLISION - Use Collision
+DISABLE_COLLISION - Disable Collision
 TOP_VIEW - Top View
 SINGLE - Single
 PATH_SPEED - Path Speed

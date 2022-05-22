@@ -698,8 +698,8 @@ namespace CafeLibrary.ModelConversion
             List<Vector4F> Tangents = new List<Vector4F>();
             List<Vector4F> Bitangents = new List<Vector4F>();
 
-            int numTexCoords = vertices.Max(x => x.UVs.Count);
-            int numColors = vertices.Max(x => x.Colors.Count);
+            int numTexCoords = Math.Max(vertices.Max(x => x.UVs.Count), 4);
+            int numColors = Math.Max(vertices.Max(x => x.Colors.Count), 4);
 
             Vector4F[][] TexCoords = new Vector4F[numTexCoords][];
             Vector4F[][] Colors = new Vector4F[numColors][];

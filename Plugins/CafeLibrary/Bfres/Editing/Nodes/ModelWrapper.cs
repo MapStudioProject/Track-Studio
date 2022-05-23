@@ -1956,8 +1956,21 @@ namespace CafeLibrary
                         case "_u1":
                         case "_u2":
                         case "_u3":
-                            //Remap to uv0 if no other layer is present.
-                            attributeMapping[att.Key] = "_u0";
+                            int channelID = int.Parse(att.Key.Replace("_u", ""));
+                            int layer = channelID + 1;
+
+                            //Add extra UV layers
+                            for (int i = 0; i < this.Vertices.Count; i++)
+                            {
+                                var texCoords = this.Vertices[i].TexCoords.ToList();
+                                //Fill in missing slots
+                                for (int u = 0; u < layer; u++)
+                                    if (texCoords.Count < layer) //Add UV layers until it reaches the target layer count
+                                        texCoords.Add(texCoords[0]);
+                                this.Vertices[i].TexCoords = texCoords.ToArray();
+                            }
+                            AddAttributeData(att.Key, GX2AttribFormat.Format_16_16_Single);
+                            updateBuffer = true;
                             break;
                         case "_t0":
                             this.CalculateTangentBitangent(0);

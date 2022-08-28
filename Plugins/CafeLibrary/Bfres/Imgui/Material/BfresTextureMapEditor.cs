@@ -212,6 +212,8 @@ namespace CafeLibrary
 
                 if (ImGui.BeginChild("uv_viewport1", new Vector2(width, uvWindowHeight)))
                 {
+                    var pos = ImGui.GetCursorScreenPos();
+
                     if (onLoad)
                     {
                         var meshes = material.GetMappedMeshes();
@@ -224,6 +226,12 @@ namespace CafeLibrary
 
                     UVViewport.ActiveTextureMap = material.TextureMaps[index];
                     UVViewport.Render((int)width, (int)uvWindowHeight);
+
+                    ImGui.SetCursorScreenPos(pos);
+                    if (ImGui.Checkbox("Show UVs", ref UVViewport.DisplayUVs))
+                    {
+
+                    }
                 }
                 ImGui.EndChild();
 

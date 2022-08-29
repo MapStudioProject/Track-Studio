@@ -286,7 +286,7 @@ namespace TurboLibrary.MuuntEditor
                 if (area.AreaType == AreaType.Roam)
                     ImguiCustomWidgets.ObjectLinkSelector(TranslationSource.GetText("RELATIVE_OBJECT"), render.UINode.Tag, "Obj");
                 else if (area.AreaType == AreaType.Pull)
-                    ImguiCustomWidgets.ObjectLinkSelector(TranslationSource.GetText("RELATIVE_PULL_PATH"), render.UINode.Tag, "PullPath");
+                    DisplayGroupLinkUI<PullPath, PullPathPoint>(TranslationSource.GetText("RELATIVE_PULL_PATH"), (Area)render.UINode.Tag, "PullPath");
                 else if (area.AreaType == AreaType.Camera)
                 {
                     AreaUI.Render(area);
@@ -325,6 +325,29 @@ namespace TurboLibrary.MuuntEditor
             };
 
             return render;
+        }
+
+        private void DisplayGroupLinkUI<TPath, TPoint>(string text, Area area, string properyName)
+        where TPath : PathBase<TPath, TPoint>
+        where TPoint : PathPointBase<TPath, TPoint>, new()
+        {
+            EventHandler onLink = (sender, e) => {
+                area.NotifyPropertyChanged(properyName);
+            };
+
+            foreach (var render in GLContext.ActiveContext.Scene.Objects)
+            {
+                if (render is PathRender<TPath, TPoint>)
+                {
+                    var path = render as PathRender<TPath, TPoint>;
+                    ImguiCustomWidgets.ObjectLinkSelector(TranslationSource.GetText(text), area, properyName, path.NodeFolder.Children, onLink);
+                }
+                else if (render is CubePathRender<TPath, TPoint>)
+                {
+                    var path = render as CubePathRender<TPath, TPoint>;
+                    ImguiCustomWidgets.ObjectLinkSelector(TranslationSource.GetText(text), area, properyName, path.NodeFolder.Children, onLink);
+                }
+            }
         }
 
         private void ReloadIcon(NodeBase node, Area area)

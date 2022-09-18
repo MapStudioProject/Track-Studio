@@ -111,13 +111,11 @@ namespace TurboLibrary.MuuntEditor
 
         public void Add(EditableObject render, bool undo = false)
         {
-            Renderers.Add(render);
             MapEditor.AddRender(render, undo);
         }
 
         public void Remove(EditableObject render, bool undo = false)
         {
-            Renderers.Remove(render);
             MapEditor.RemoveRender(render, undo);
         }
 
@@ -162,6 +160,16 @@ namespace TurboLibrary.MuuntEditor
             render.UINode.Tag = obj;
             render.UINode.Icon = Root.Icon;
             UpdateCameraLinks(render);
+            render.RemoveCallback += delegate
+            {
+                if (this.Renderers.Contains(render))
+                    this.Renderers.Remove(render);
+            };
+            render.AddCallback += delegate
+            {
+                if (!this.Renderers.Contains(render))
+                    this.Renderers.Add(render);
+            };
             render.UINode.GetHeader = () =>
             {
                 return $"Camera {render.UINode.Index}";

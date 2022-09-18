@@ -104,13 +104,11 @@ namespace TurboLibrary.MuuntEditor
 
         public void Add(EditableObject render, bool undo = false)
         {
-            Renderers.Add(render);
             MapEditor.AddRender(render, undo);
         }
 
         public void Remove(EditableObject render, bool undo = false)
         {
-            Renderers.Remove(render);
             MapEditor.RemoveRender(render, undo);
         }
 
@@ -168,6 +166,9 @@ namespace TurboLibrary.MuuntEditor
                 if (courseFile.IntroCameras.Contains(obj))
                     courseFile.IntroCameras.Remove(obj);
 
+                if (this.Renderers.Contains(render))
+                    this.Renderers.Remove(render);
+
                 //Remove references
                 foreach (var editor in MapEditor.Editors)
                 {
@@ -185,6 +186,9 @@ namespace TurboLibrary.MuuntEditor
 
                 if (!courseFile.IntroCameras.Contains(obj))
                     courseFile.IntroCameras.Add(obj);
+
+                if (!this.Renderers.Contains(render))
+                    this.Renderers.Add(render);
 
                 //Reload references
                 foreach (var editor in MapEditor.Editors)

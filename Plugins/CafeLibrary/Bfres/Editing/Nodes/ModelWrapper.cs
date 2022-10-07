@@ -1966,7 +1966,9 @@ namespace CafeLibrary
                                 //Fill in missing slots
                                 for (int u = 0; u < layer; u++)
                                     if (texCoords.Count < layer) //Add UV layers until it reaches the target layer count
-                                        texCoords.Add(texCoords[0]);
+                                    {
+                                        texCoords.Add(texCoords.Count > 0 ? texCoords[0] : new Vector2());
+                                    }
                                 this.Vertices[i].TexCoords = texCoords.ToArray();
                             }
                             AddAttributeData(att.Key, GX2AttribFormat.Format_16_16_Single);

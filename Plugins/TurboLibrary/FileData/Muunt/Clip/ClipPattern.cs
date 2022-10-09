@@ -7,7 +7,7 @@ namespace TurboLibrary
     /// Represents the clip pattern node in a course definition file.
     /// </summary>
     [ByamlObject]
-    public class ClipPattern
+    public class ClipPattern : ByamlData
     {
         // ---- PROPERTIES ---------------------------------------------------------------------------------------------
 

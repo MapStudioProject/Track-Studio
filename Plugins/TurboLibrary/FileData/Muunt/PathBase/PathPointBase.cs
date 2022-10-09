@@ -11,7 +11,7 @@ namespace TurboLibrary
     /// <typeparam name="TPath">The type of the path this point belongs to.</typeparam>
     /// <typeparam name="TPoint">The type of the point itself.</typeparam>
     [ByamlObject]
-    public abstract class PathPointBase<TPath, TPoint> : ICourseReferencable, INotifyPropertyChanged
+    public abstract class PathPointBase<TPath, TPoint> : ByamlData, ICourseReferencable, INotifyPropertyChanged
         where TPath : PathBase<TPath, TPoint>
         where TPoint : PathPointBase<TPath, TPoint>, ICourseReferencable, new()
     {

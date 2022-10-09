@@ -8,7 +8,7 @@ namespace TurboLibrary
     /// </summary>
     [ByamlObject]
     [DebuggerDisplay("{GetType().Name}  UnitIdNum={UnitIdNum}")]
-    public abstract class UnitObject
+    public abstract class UnitObject : ByamlData
     {
         // ---- PROPERTIES ---------------------------------------------------------------------------------------------
 

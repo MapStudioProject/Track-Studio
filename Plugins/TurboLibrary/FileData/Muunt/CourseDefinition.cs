@@ -8,7 +8,7 @@ using Toolbox.Core;
 
 namespace TurboLibrary
 {
-    public class CourseDefinition : IByamlSerializable
+    public class CourseDefinition : ByamlData, IByamlSerializable
     {
         // ---- CONSTRUCTORS & DESTRUCTOR ------------------------------------------------------------------------------
 

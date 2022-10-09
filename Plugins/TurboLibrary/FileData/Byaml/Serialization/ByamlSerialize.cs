@@ -25,6 +25,10 @@ namespace TurboLibrary
             if (value is Dictionary<string, dynamic>) bymlProperties = (Dictionary<string, dynamic>)value;
             else throw new Exception("Not a dictionary");
 
+            //Store original data to keep intact
+            if (section is ByamlData)
+                ((ByamlData)section).Values = bymlProperties;
+
             if (section is IByamlSerializable)
                 ((IByamlSerializable)section).DeserializeByaml(bymlProperties);
 
@@ -158,6 +162,16 @@ namespace TurboLibrary
                 }
 
                 bymlProperties.Add(name, SetBymlValue(properties[i].GetValue(section)));
+            }
+
+            if (section is ByamlData)
+            {
+                var unusedProperties = ((ByamlData)section).Values;
+                foreach (var val in unusedProperties)
+                {
+                    if (!bymlProperties.ContainsKey(val.Key))
+                        bymlProperties.Add(val.Key, val.Value);
+                }
             }
 
             return bymlProperties;

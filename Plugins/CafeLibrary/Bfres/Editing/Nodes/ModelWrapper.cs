@@ -749,7 +749,7 @@ namespace CafeLibrary
         /// Checks if the material is valid or not. 
         /// Determines based on having empty render data or not.
         /// </summary>
-        public bool IsMaterialInvalid => Material != null && Material.RenderInfos.Count == 0;
+        public bool IsMaterialInvalid => Material != null && Material.RenderInfos.Count == 0 && Material.ShaderAssign != null;
 
         public string ShaderArchiveName { get; set; }
         public string ShaderModelName { get; set; }
@@ -1650,14 +1650,18 @@ namespace CafeLibrary
             ShaderOptions = new Dictionary<string, string>();
             TextureMaps = new List<STGenericTextureMap>();
 
-            SamplerAssign = material.ShaderAssign.SamplerAssigns;
-            ShaderArchiveName = material.ShaderAssign.ShaderArchiveName;
-            ShaderModelName = material.ShaderAssign.ShadingModelName;
+            if (material.ShaderAssign != null)
+            {
+                SamplerAssign = material.ShaderAssign.SamplerAssigns;
+                ShaderArchiveName = material.ShaderAssign.ShaderArchiveName;
+                ShaderModelName = material.ShaderAssign.ShadingModelName;
+
+                foreach (var option in material.ShaderAssign.ShaderOptions)
+                    ShaderOptions.Add(option.Key, option.Value);
+            }
 
             foreach (var param in material.ShaderParams)
                 ShaderParams.Add(param.Key, param.Value);
-            foreach (var option in material.ShaderAssign.ShaderOptions)
-                ShaderOptions.Add(option.Key, option.Value);
 
             for (int i = 0; i < material.TextureRefs.Count; i++)
             {

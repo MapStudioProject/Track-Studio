@@ -1798,7 +1798,7 @@ namespace CafeLibrary
             for (int i = 0; i < Vertices.Count; i++)
             {
                 Vertices[i].Position = Vector3.TransformPosition(Vertices[i].Position, matrix);
-                Vertices[i].Normal = Vector3.TransformPosition(Vertices[i].Normal, matrix);
+                Vertices[i].Normal = Vector3.TransformNormal(Vertices[i].Normal, matrix);
 
                 position[i] = new Syroot.Maths.Vector4F(
                      Vertices[i].Position.X, Vertices[i].Position.Y, Vertices[i].Position.Z, 0);

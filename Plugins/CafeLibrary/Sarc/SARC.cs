@@ -80,7 +80,11 @@ namespace CafeLibrary
 
         public void SetFileData(string key, Stream stream)
         {
-            SarcData.Files[key] = stream.ToArray();
+            foreach (var f in files)
+            {
+                if (f.FileName == key)
+                    f.FileData = stream;
+            }
         }
 
         public void ClearFiles() { files.Clear(); }

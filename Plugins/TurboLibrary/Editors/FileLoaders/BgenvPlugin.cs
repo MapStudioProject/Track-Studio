@@ -156,6 +156,10 @@ namespace TurboLibrary
 
             LightingEngine.LightSettings.SaveArchive(BgenvArchive.SarcData.Files);
 
+            //Apply sarc list
+            foreach (var file in BgenvArchive.SarcData.Files)
+                BgenvArchive.SetFileData(file.Key, new MemoryStream(file.Value));
+
             BgenvArchive.Save(stream);
         }
     }

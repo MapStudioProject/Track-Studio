@@ -296,6 +296,18 @@ namespace CafeLibrary
             foreach (var bone in ModelRenderer.SkeletonRenderer.Bones)
                 if (bone.Parent == null)
                     SkeletonFolder.AddChild(bone.UINode);
+
+            foreach (var bone in ModelRenderer.SkeletonRenderer.Bones)
+            {
+                bone.UINode.CanRename = true;
+                bone.UINode.OnHeaderRenamed += delegate
+                {
+                    //Rename wrapper
+                    bone.BoneData.Name = bone.UINode.Header;
+                    //Rename raw bfres bone data
+                    ((FSKL.BfresBone)bone.BoneData).BoneData.Name = bone.UINode.Header;
+                };
+            }
         }
 
         public MenuItemModel[] GetContextMenuItems()

@@ -299,6 +299,7 @@ namespace CafeLibrary
 
             foreach (var bone in ModelRenderer.SkeletonRenderer.Bones)
             {
+                bone.UINode.ContextMenus.Add(new MenuItemModel("Rename", () => { bone.UINode.ActivateRename = true; }));
                 bone.UINode.CanRename = true;
                 bone.UINode.OnHeaderRenamed += delegate
                 {

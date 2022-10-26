@@ -35,7 +35,8 @@ namespace CafeLibrary
             if (ImGui.CollapsingHeader("Bone Info", ImGuiTreeNodeFlags.DefaultOpen))
             {
                 ImGuiHelper.InputFromBoolean("Visible", bone, "Visible");
-                ImGuiHelper.InputFromText("Name", bone, "Name", 200);
+                if (ImGuiHelper.InputFromText("Name", bone, "Name", 200))
+                    boneData.Name = bone.Name;
 
                 int index = bone.Index;
                 ImGui.SameLine(); ImGui.InputInt("Index", ref index);

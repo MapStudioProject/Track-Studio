@@ -5,11 +5,11 @@ A powerful MK8 map editor for creating and editing track models, objects, paths 
 
 <p align="center">
     <a href="https://ci.appveyor.com/project/KillzXGaming/track-studio">
-        <img src="https://ci.appveyor.com/api/projects/status/jqcx1xb06xp0txxa?svg=true"
+        <img src="https://ci.appveyor.com/api/projects/status/7e9dck74enr8yu32?svg=true"
             alt="Appveyor">
     </a>
     <a href="https://discord.gg/TjatyEE9NW">
-        <img src="https://img.shields.io/discord/1034629789128065044"
+        <img src="https://img.shields.io/discord/958107162972921906?color=%09%237289DA&label=discord"
             alt="Discord">
     </a>
 </p>

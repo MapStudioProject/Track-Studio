@@ -178,6 +178,8 @@ namespace TurboLibrary
 
         public void Save(Stream stream)
         {
+            this.FileInfo.Compression = null;
+
             foreach (var editor in this.Editors)
                 editor.OnSave(Resources.CourseDefinition);
 

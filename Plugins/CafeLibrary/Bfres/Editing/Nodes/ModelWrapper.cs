@@ -1575,12 +1575,16 @@ namespace CafeLibrary
             {
                 try
                 {
-                    if (dlg.FilePath.EndsWith(".zip"))
-                        LoadPreset(dlg.FilePath, true);
-                    else
+                    foreach (var node in UINode.Parent.Children.Where(x => x.IsSelected))
                     {
-                        Material.Import(dlg.FilePath, ResFile);
-                        Replace(Material);
+                        FMAT mat = node.Tag as FMAT;
+                        if (dlg.FilePath.EndsWith(".zip"))
+                            mat.LoadPreset(dlg.FilePath, true);
+                        else
+                        {
+                            mat.Material.Import(dlg.FilePath, ResFile);
+                            mat.Replace(mat.Material);
+                        }
                     }
                 }
                 catch (Exception ex)

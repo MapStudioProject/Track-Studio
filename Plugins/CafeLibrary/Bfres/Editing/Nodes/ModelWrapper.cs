@@ -915,9 +915,59 @@ namespace CafeLibrary
             }
         }
 
+        public IEnumerable<FMAT> GetSelectedMaterials()
+        {
+            var nodes = UINode.Parent.Children.Where(x => x.IsSelected);
+            return nodes.Select(x => x.Tag as FMAT);
+        }
+
+        public void BatchTextureName(string name, string sampler)
+        {
+            var index = this.Material.Samplers.IndexOf(sampler);
+            if (index == -1)
+                return;
+
+            foreach (var mat in GetSelectedMaterials())
+            {
+                mat.TextureMaps[index].Name = name;
+                mat.ReloadTextureMap(index);
+                mat.OnTextureUpdated(mat.Material.Samplers[index].Name, name, false);
+            }
+            OnTextureUpdated(Material.Samplers[index].Name, name, true);
+        }
+
+        public void BatchEditRenderInfo(RenderInfo renderInfo)
+        {
+            //Batch edit material render info
+            foreach (var mat in GetSelectedMaterials())
+            {
+                if (mat.Material.RenderInfos.ContainsKey(renderInfo.Name))
+                {
+                    if (renderInfo.Data is string[])
+                        mat.Material.RenderInfos[renderInfo.Name].SetValue((string[])renderInfo.Data);
+                    else if (renderInfo.Data is float[])
+                        mat.Material.RenderInfos[renderInfo.Name].SetValue((float[])renderInfo.Data);
+                    else if (renderInfo.Data is int[])
+                        mat.Material.RenderInfos[renderInfo.Name].SetValue((int[])renderInfo.Data);
+                }
+            }
+        }
+
+        public void BatchEditParams(ShaderParam param)
+        {
+            //Batch edit material params
+            foreach (var mat in GetSelectedMaterials())
+            {
+                if (mat.ShaderParams.ContainsKey(param.Name) && mat.ShaderParams[param.Name].Type == param.Type)
+                    mat.ShaderParams[param.Name].DataValue = param.DataValue;
+                mat.OnParamUpdated(param);
+            }
+        }
+
         public void OnParamUpdated(ShaderParam param, bool captureKeys = false)
         {
             var fmdl = UINode.Parent.Parent.Tag as FMDL;
+
             //Update renderer
             foreach (FSHP mesh in fmdl.Meshes)
             {
@@ -1575,9 +1625,8 @@ namespace CafeLibrary
             {
                 try
                 {
-                    foreach (var node in UINode.Parent.Children.Where(x => x.IsSelected))
+                    foreach (var mat in GetSelectedMaterials())
                     {
-                        FMAT mat = node.Tag as FMAT;
                         if (dlg.FilePath.EndsWith(".zip"))
                             mat.LoadPreset(dlg.FilePath, true);
                         else

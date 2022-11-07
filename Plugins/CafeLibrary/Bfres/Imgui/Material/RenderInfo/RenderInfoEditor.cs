@@ -122,6 +122,8 @@ namespace CafeLibrary
 
                 Selected.Clear();
                 Selected.Add(renderInfo);
+
+                material.BatchEditRenderInfo(renderInfo);
             });
         }
 

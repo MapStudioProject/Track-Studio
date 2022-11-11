@@ -35,9 +35,11 @@ namespace CafeLibrary
 
             if (ValuePresets.Count > 0 && renderInfo.Type == RenderInfoType.String)
             {
-                string value = renderInfo.GetValueStrings()[0];
                 if (ImGui.BeginCombo("Presets", ""))
                 {
+                    string[] values = renderInfo.GetValueStrings();
+                    string value = (values?.Length > 0 ? values[0] : "");
+
                     foreach (var val in ValuePresets)
                     {
                         bool isSelected = val == value;

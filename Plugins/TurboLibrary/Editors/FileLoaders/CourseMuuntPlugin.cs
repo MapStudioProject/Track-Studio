@@ -578,6 +578,7 @@ namespace TurboLibrary
             MapLoader.BfresEditor.Renderer.MeshPicking = false;
             MapLoader.CollisionFile.CollisionRender.IsVisible = false;
             MapLoader.CollisionFile.CollisionRender.CanSelect = false;
+            MapLoader.BfresEditor.Renderer.IsVisible = true;
 
             if (this.EditorMode == FileEditorMode.MapEditor) {
                 Workspace.ActiveEditor = this;
@@ -588,6 +589,7 @@ namespace TurboLibrary
             {
                 MapLoader.CollisionFile.CollisionRender.IsVisible = true;
                 MapLoader.CollisionFile.CollisionRender.CanSelect = true;
+                MapLoader.BfresEditor.Renderer.IsVisible = false;
 
                 Workspace.ActiveEditor = MapLoader.CollisionFile;
                 Workspace.SetupActiveEditor(MapLoader.CollisionFile);

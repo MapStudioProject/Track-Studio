@@ -568,7 +568,7 @@ namespace TrackStudio
             //Load asset based format
             if (!isProject)
             {
-                bool createNew = true;
+                bool createNew = !GlobalSettings.Current.Program.UseSameWorkspace;
 
                 Workspace workspace = Workspace.ActiveWorkspace;
                 if (createNew || workspace == null)

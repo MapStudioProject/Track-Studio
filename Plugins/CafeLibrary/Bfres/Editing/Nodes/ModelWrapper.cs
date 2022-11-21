@@ -1052,12 +1052,14 @@ namespace CafeLibrary
                 IconManager.TryAddIcon(UINode.Icon, tex);
             }
 
+            var iconColor = ThemeHandler.Theme.Text;
+
             if (BlendState.State == GLMaterialBlendState.BlendState.Translucent)
-                IconManager.DrawIcon('\uf5fd', new System.Numerics.Vector4(1, 1, 1, 0.2f));
+                IconManager.DrawIcon('\uf5fd', new System.Numerics.Vector4(iconColor.X, iconColor.Y, iconColor.Z, 0.2f));
             else if (BlendState.State == GLMaterialBlendState.BlendState.Mask)
                 IconManager.DrawIcon('\uf5fd', new System.Numerics.Vector4(0, 0.3f, 1, 1));
             else
-                IconManager.DrawIcon('\uf5fd', System.Numerics.Vector4.One);
+                IconManager.DrawIcon('\uf5fd', iconColor);
 
             ImGuiNET.ImGui.SameLine();
 

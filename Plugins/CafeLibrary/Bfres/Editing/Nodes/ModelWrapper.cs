@@ -1051,6 +1051,17 @@ namespace CafeLibrary
                 GLTexture tex = MaterialAsset.RenderIcon(64);
                 IconManager.TryAddIcon(UINode.Icon, tex);
             }
+
+            if (BlendState.State == GLMaterialBlendState.BlendState.Translucent)
+                IconManager.DrawIcon('\uf5fd', new System.Numerics.Vector4(1, 1, 1, 0.2f));
+            else if (BlendState.State == GLMaterialBlendState.BlendState.Mask)
+                IconManager.DrawIcon('\uf5fd', new System.Numerics.Vector4(0, 0.3f, 1, 1));
+            else
+                IconManager.DrawIcon('\uf5fd', System.Numerics.Vector4.One);
+
+            ImGuiNET.ImGui.SameLine();
+
+            ImGuiHelper.IncrementCursorPosX(5);
         }
 
         public void ReloadTextureMap(int index)

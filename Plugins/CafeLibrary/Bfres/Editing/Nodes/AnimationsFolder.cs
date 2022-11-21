@@ -31,7 +31,7 @@ namespace CafeLibrary
             BfresWrapper = bfres;
             ResFile = resFile;
             ContextMenus.Add(new MenuItemModel("New Skeleton Animation", AddSkeletalAnim));
-            ContextMenus.Add(new MenuItemModel("New Texture Animation", AddTextureAnim));
+            ContextMenus.Add(new MenuItemModel("New Texture Pattern Animation", AddTextureAnim));
             ContextMenus.Add(new MenuItemModel("New Shader Param Animation", AddShaderParamAnim));
             ContextMenus.Add(new MenuItemModel("New Tex SRT Animation", AddTexSRTAnim));
             ContextMenus.Add(new MenuItemModel("New Color Animation", AddColorAnim));

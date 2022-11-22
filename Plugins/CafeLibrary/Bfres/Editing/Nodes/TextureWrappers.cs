@@ -772,6 +772,7 @@ namespace CafeLibrary
                 });
             }
             var tex = BfresTextureImporter.ImportTexture(ResFile, BntxFile, texture.Name, surfaces, texture.Format, (uint)texture.Width, (uint)texture.Height, (uint)texture.MipCount);
+            tex.Name = texture.Name;
             var texNode = ProcessNewTexture(filePath, tex);
             var genericTex = ((STGenericTexture)texNode.Tag);
 

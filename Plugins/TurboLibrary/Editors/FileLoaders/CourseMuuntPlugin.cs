@@ -616,6 +616,9 @@ namespace TurboLibrary
                 Workspace.SetupActiveEditor(MapLoader.BfresEditor);
                 Workspace.ReloadEditors();
             }
+
+            Workspace.ViewportWindow.Pipeline.Files[0].Scene = Workspace.ActiveEditor.Scene;
+
             GLContext.ActiveContext.UpdateViewport = true;
         }
 

@@ -425,9 +425,9 @@ namespace TurboLibrary.LightingEditor
             var inputValue = (STColor)input.GetValue(obj);
             var color = new Vector4(inputValue.R, inputValue.G, inputValue.B, inputValue.A);
 
-            var flags = ImGuiColorEditFlags.HDR;
+            var flags = ImGuiColorEditFlags.HDR | ImGuiColorEditFlags.AlphaPreviewHalf;
 
-            if (ImGui.ColorButton($"##colorBtn{id}", color, flags, new Vector2(200, 22)))
+            if (ImGui.ColorButton($"##colorBtn{id}", color, flags, new Vector2(ImGui.GetColumnWidth() - 2, 22)))
             {
                 ImGui.OpenPopup($"colorPicker{id}");
             }
@@ -436,7 +436,7 @@ namespace TurboLibrary.LightingEditor
             if (ImGui.BeginPopup($"colorPicker{id}"))
             {
                 if (ImGui.ColorPicker4("##picker", ref color, flags 
-                    | ImGuiColorEditFlags.Float | ImGuiColorEditFlags.DisplayRGB
+                    | ImGuiColorEditFlags.Float | ImGuiColorEditFlags.DisplayRGB | ImGuiColorEditFlags.AlphaPreview
                     | ImGuiColorEditFlags.DisplayHex | ImGuiColorEditFlags.DisplayHSV | ImGuiColorEditFlags.AlphaBar))
                 {
                     input.SetValue(obj, new STColor()

@@ -437,7 +437,7 @@ namespace TurboLibrary.LightingEditor
             {
                 if (ImGui.ColorPicker4("##picker", ref color, flags 
                     | ImGuiColorEditFlags.Float | ImGuiColorEditFlags.DisplayRGB
-                    | ImGuiColorEditFlags.DisplayHex | ImGuiColorEditFlags.DisplayHSV))
+                    | ImGuiColorEditFlags.DisplayHex | ImGuiColorEditFlags.DisplayHSV | ImGuiColorEditFlags.AlphaBar))
                 {
                     input.SetValue(obj, new STColor()
                     {

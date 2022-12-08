@@ -435,22 +435,38 @@ namespace CafeLibrary
                 ModelImportDialog modelDlg = new ModelImportDialog();
                 modelDlg.Setup(this, ioscene, settings);
 
-                //Import the bfres model data
-                Model = BfresModelImporter.ImportModel(ResFile, Model, ioscene, filePath, settings);
-                ImportModel(Model, materials, settings);
-                onImported?.Invoke();
+                bool useDialog = true;
 
-                /*
-                DialogHandler.Show(modelDlg.Name, 700, 600, () =>
+                //Disable dialog for custom tracks, just to make the process for those easier
+                //Dialog is typically not necessary for those.
+                if (ResFile.Name.StartsWith("course_model"))
                 {
-                    modelDlg.Render();
-                }, (ok) =>
-                {
-                    if (!ok)
-                        return;
+                    useDialog = false;
+                }
 
-               
-                });*/
+                if (useDialog)
+                {
+                    DialogHandler.Show(modelDlg.Name, 700, 600, () =>
+                    {
+                        modelDlg.Render();
+                    }, (ok) =>
+                    {
+                        if (!ok)
+                            return;
+
+                        //Import the bfres model data
+                        Model = BfresModelImporter.ImportModel(ResFile, Model, ioscene, filePath, settings);
+                        ImportModel(Model, materials, settings);
+                        onImported?.Invoke();
+                    });
+                }
+                else
+                {
+                    //Import the bfres model data
+                    Model = BfresModelImporter.ImportModel(ResFile, Model, ioscene, filePath, settings);
+                    ImportModel(Model, materials, settings);
+                    onImported?.Invoke();
+                }
             }
             else
             {
@@ -1055,11 +1071,17 @@ namespace CafeLibrary
             var iconColor = ThemeHandler.Theme.Text;
 
             if (BlendState.State == GLMaterialBlendState.BlendState.Translucent)
-                IconManager.DrawIcon('\uf5fd', new System.Numerics.Vector4(iconColor.X, iconColor.Y, iconColor.Z, 0.2f));
+                IconManager.DrawIcon('\uf0c5', new System.Numerics.Vector4(iconColor.X, iconColor.Y, iconColor.Z, 0.2f));
             else if (BlendState.State == GLMaterialBlendState.BlendState.Mask)
-                IconManager.DrawIcon('\uf5fd', new System.Numerics.Vector4(0, 0.3f, 1, 1));
+            {
+                ImGuiNET.ImGui.PushFont(ImGuiController.FontIconRegular);
+                ImGuiNET.ImGui.TextUnformatted('\uf0c8'.ToString());
+
+                //IconManager.DrawIcon('\uf0c8', iconColor);
+                ImGuiNET.ImGui.PopFont();
+            }
             else
-                IconManager.DrawIcon('\uf5fd', iconColor);
+                IconManager.DrawIcon('\uf0c8', iconColor);
 
             ImGuiNET.ImGui.SameLine();
 

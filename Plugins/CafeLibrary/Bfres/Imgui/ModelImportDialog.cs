@@ -184,7 +184,7 @@ namespace CafeLibrary
             ImGui.SetColumnWidth(0, 200);
             ImGui.Checkbox($"Flip UVs", ref Settings.FlipUVs);
             ImGui.NextColumn();
-            ImGui.Checkbox($"Import Bones", ref Settings.ImportBones);
+            ImGui.Checkbox($"Use DAE Bones", ref Settings.ImportBones);
             ImGui.NextColumn();
             ImGui.Checkbox($"Enable Sub Mesh", ref Settings.EnableSubMesh);
             ImGui.NextColumn();

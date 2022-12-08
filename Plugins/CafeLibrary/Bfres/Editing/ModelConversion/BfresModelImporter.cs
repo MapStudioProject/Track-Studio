@@ -295,6 +295,9 @@ namespace CafeLibrary.ModelConversion
                 if (mesh.Vertices.Count == 0)
                     continue;
 
+                foreach (var v in mesh.Vertices)
+                    v.Envelope.NormalizeByteType();
+
                 MapStudio.UI.ProcessLoading.Instance.Update(meshIndex, model.Meshes.Count, $"Importing mesh {mesh.Name}");
 
                 var meshSettings = new ModelImportSettings.MeshSettings();
@@ -307,7 +310,7 @@ namespace CafeLibrary.ModelConversion
                         foreach (var v in mesh.Vertices)
                         {
                             //Optimize weights
-                            //v.Envelope.Optimize(meshSettings.SkinCount);
+                          //  v.Envelope.NormalizeByteType();
                         }
                     }
                 }
@@ -511,6 +514,44 @@ namespace CafeLibrary.ModelConversion
                     AddSubMesh(root, fshp, mesh, ref offset, ref indexList);
             }
 
+        }
+
+        /// <summary>
+        /// Makes sure all weights add up to 255.
+        /// Does not modify any locked weights.
+        /// </summary>
+        private static void NormalizeByteType(IEnumerable<IOBoneWeight> weights)
+        {
+            float scale = 1.0f / 255f;
+
+            int MaxWeight = 255;
+            var list = weights.ToList();
+
+            int id = 0;
+            foreach (IOBoneWeight b in weights)
+            {
+                id++;
+
+                if (b == null)
+                    continue;
+
+                int weight = (int)(Math.Round(b.Weight / scale, 2));
+
+                //Check if the weight is the last id
+                if (list.Count == id)
+                    weight = MaxWeight; //Set as the last amount of weights to normalize/fill the rest to equal 255
+
+                if (weight >= MaxWeight)
+                {
+                    weight = MaxWeight;
+                    MaxWeight = 0;
+                }
+                else
+                    MaxWeight -= weight;
+
+                //Turn back into float normally
+                b.Weight = weight * scale;
+            }
         }
 
         static void AddSubMesh(PolygonDivision.PolygonOctree subMesh, Shape shape, Mesh mesh,

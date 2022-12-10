@@ -760,7 +760,7 @@ namespace CafeLibrary.ModelConversion
             {
                 var vertex = vertices[v];
 
-                var position = vertex.Position;
+                var position = new System.Numerics.Vector3(vertex.Position.X, vertex.Position.Y, vertex.Position.Z);
                 var normal = vertex.Normal;
 
                 //Reset rigid skinning types to local space

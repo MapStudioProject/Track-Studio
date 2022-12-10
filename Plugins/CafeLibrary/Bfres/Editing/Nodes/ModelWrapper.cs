@@ -269,10 +269,10 @@ namespace CafeLibrary
             //Skeletons, materials and meshes
             this.Skeleton = new FSKL(this, Model.Skeleton);
 
-            if (ModelRenderer.SkeletonRenderer != null)
-                ModelRenderer.SkeletonRenderer.Dispose();
+            if (ModelRenderer.SkeletonRenderer == null)
+                ModelRenderer.SkeletonRenderer = new SkeletonRenderer(this.Skeleton);
 
-            ModelRenderer.SkeletonRenderer = new SkeletonRenderer(this.Skeleton);
+            ModelRenderer.SkeletonRenderer.Reload(this.Skeleton);
 
             foreach (var mat in Model.Materials.Values) {
                 var fmat = new FMAT(BfresWrapper, this, ResFile, mat);

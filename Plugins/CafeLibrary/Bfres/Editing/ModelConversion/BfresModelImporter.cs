@@ -18,7 +18,7 @@ namespace CafeLibrary.ModelConversion
 {
     public class BfresModelImporter
     {
-        static System.Numerics.Matrix4x4 GlobalTransform;
+        static System.Numerics.Matrix4x4 GlobalTransform = System.Numerics.Matrix4x4.Identity;
 
         public static Model ImportModel(ResFile resFile, Model model, IOScene scene, string filePath, ModelImportSettings importSettings)
         {
@@ -57,7 +57,6 @@ namespace CafeLibrary.ModelConversion
             string ext = Path.GetExtension(filePath);
             MapStudio.UI.ProcessLoading.Instance.Update(10, 100, $"Loading {ext} file.");
 
-            GlobalTransform = System.Numerics.Matrix4x4.Identity;
             IOScene scene = IOManager.LoadScene(filePath, settings);
 
             var fmdl = ConvertScene(resFile, model, scene, importSettings);
@@ -68,6 +67,12 @@ namespace CafeLibrary.ModelConversion
         static Model ConvertScene(ResFile resFile, Model fmdl, IOScene scene, ModelImportSettings importSettings)
         {
             var model = scene.Models.FirstOrDefault();
+
+            GlobalTransform = System.Numerics.Matrix4x4.Identity;
+            if (importSettings.Rotate90)
+                GlobalTransform = System.Numerics.Matrix4x4.CreateRotationX(IONET.Core.IOMath.MathExt.DegToRad(90));
+            if (importSettings.RotateNeg90)
+                GlobalTransform = System.Numerics.Matrix4x4.CreateRotationX(IONET.Core.IOMath.MathExt.DegToRad(-90));
 
             fmdl.Name = model.Name;
 
@@ -134,6 +139,9 @@ namespace CafeLibrary.ModelConversion
                     if (string.IsNullOrEmpty(bone.Name))
                         continue;
 
+                    if (bone.Parent == null && GlobalTransform != System.Numerics.Matrix4x4.Identity)
+                        bone.LocalTransform *= GlobalTransform;
+
                     Vector4F rotation = new Vector4F(
                         bone.RotationEuler.X,
                         bone.RotationEuler.Y,
@@ -143,6 +151,8 @@ namespace CafeLibrary.ModelConversion
                     if (fmdl.Skeleton.FlagsRotation == SkeletonFlagsRotation.Quaternion)
                         rotation = new Vector4F(bone.Rotation.X, bone.Rotation.Y, bone.Rotation.Z, bone.Rotation.W);
 
+                    var pos = bone.Translation;
+
                     var bfresBone = new Bone()
                     {
                         FlagsRotation = BoneFlagsRotation.EulerXYZ,
@@ -151,10 +161,7 @@ namespace CafeLibrary.ModelConversion
                         RigidMatrixIndex = -1,  //Gets calculated after
                         SmoothMatrixIndex = -1, //Gets calculated after
                         ParentIndex = (short)model.Skeleton.IndexOf(bone.Parent),
-                        Position = new Vector3F(
-                             bone.Translation.X,
-                             bone.Translation.Y,
-                             bone.Translation.Z),
+                        Position = new Vector3F(pos.X, pos.Y, pos.Z),
                         Scale = new Vector3F(
                              bone.Scale.X,
                              bone.Scale.Y,
@@ -286,6 +293,8 @@ namespace CafeLibrary.ModelConversion
             {
                 if (mesh.Vertices.Count == 0)
                     continue;
+
+                mesh.TransformVertices(GlobalTransform);
 
                 foreach (var v in mesh.Vertices)
                     v.Envelope.NormalizeByteType();
@@ -771,9 +780,6 @@ namespace CafeLibrary.ModelConversion
                     position = System.Numerics.Vector3.Transform(position, inverted);
                     normal = System.Numerics.Vector3.TransformNormal(normal, inverted);
                 }
-
-               // position = System.Numerics.Vector3.Transform(position, GlobalTransform);
-               // normal = System.Numerics.Vector3.Transform(normal, GlobalTransform);
 
                 Positions.Add(new Vector4F(
                     position.X,

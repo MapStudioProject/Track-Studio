@@ -199,7 +199,7 @@ namespace CafeLibrary.ModelConversion
                 var riggedBones = mesh.Vertices.SelectMany(x => x.Envelope.Weights?.Select(x => x.BoneName)).Distinct().ToList();
                 //Check if more than one bone is rigged to consider using it for skinning.
                 //Single bones would use a direct bone index with rigid skinning
-                if (riggedBones?.Count > 1)
+                if (riggedBones?.Count >= 1)
                     vertexSkinCount = CalculateSkinCount(mesh.Vertices);
                 //Apply rigid bodies so vertices are in world space
                 if (riggedBones?.Count == 1)

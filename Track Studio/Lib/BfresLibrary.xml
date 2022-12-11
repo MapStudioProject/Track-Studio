@@ -760,6 +760,13 @@
             <param name="key">The textual key to locate in the dictionary. The value can be <c>null</c>.</param>
             <returns><c>true</c> if <paramref name="key"/> was found in the dictionary; otherwise <c>false</c>.</returns>
         </member>
+        <member name="M:BfresLibrary.ResDict.GetKey(System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
         <member name="M:BfresLibrary.ResDict.IndexOf(System.String)">
             <summary>
             Searches for the specified <paramref name="key"/> and returns the zero-based index of the first occurrence
@@ -2395,6 +2402,12 @@
             Writes a BFRES signature consisting of 4 ASCII characters encoded as an <see cref="T:System.UInt32"/>.
             </summary>
             <param name="value">A valid signature.</param>
+        </member>
+        <member name="M:BfresLibrary.Core.ResFileSaver.Write(System.SByte[])">
+            <summary>
+            
+            </summary>
+            <param name="value"></param>
         </member>
         <member name="T:BfresLibrary.Core.ResStringComparer">
             <summary>

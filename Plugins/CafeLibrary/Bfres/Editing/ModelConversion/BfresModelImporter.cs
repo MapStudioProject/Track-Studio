@@ -297,7 +297,7 @@ namespace CafeLibrary.ModelConversion
                 mesh.TransformVertices(GlobalTransform);
 
                 foreach (var v in mesh.Vertices)
-                    v.Envelope.NormalizeByteType();
+                    NormalizeByteType(v.Envelope.Weights);
 
                 MapStudio.UI.ProcessLoading.Instance.Update(meshIndex, model.Meshes.Count, $"Importing mesh {mesh.Name}");
 

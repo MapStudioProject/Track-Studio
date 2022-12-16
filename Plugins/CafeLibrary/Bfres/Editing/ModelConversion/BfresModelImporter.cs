@@ -809,6 +809,9 @@ namespace CafeLibrary.ModelConversion
 
                 for (int i = 0; i < vertex.UVs?.Count; i++)
                 {
+                    if (i >= TexCoords.Length)
+                        continue;
+
                     TexCoords[i][v] = new Vector4F(
                         vertex.UVs[i].X,
                         1 - vertex.UVs[i].Y,

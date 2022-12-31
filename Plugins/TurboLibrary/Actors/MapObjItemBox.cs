@@ -37,6 +37,8 @@ namespace TurboLibrary.Actors
 
         private void ToggleMeshes(BfresRender render)
         {
+            if (Render == null) return;
+
             //Need to make sure the item box actually contains doubles so the double param doesn't make it disappear
             bool hasDoubleItemBox = render.Models.Any(x => x.Name.StartsWith("DoubleItemBox"));
             foreach (var model in render.Models)

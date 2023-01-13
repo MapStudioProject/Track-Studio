@@ -44,7 +44,11 @@ namespace TurboLibrary
         {
             RouteChange_Obj = new List<int>();
             for (int i = 0; i < RouteChangeObjects.Count; i++)
-                RouteChange_Obj.Add(courseDefinition.Objs.IndexOf(RouteChangeObjects[i]));
+            {
+                var id = courseDefinition.Objs.IndexOf(RouteChangeObjects[i]);
+                if (id != -1)
+                    RouteChange_Obj.Add(id);
+            }
         }
     }
 }

@@ -33,7 +33,8 @@ namespace TurboLibrary
         {
             RouteChangeObjects = new List<Obj>();
             foreach (var id in RouteChange_Obj)
-                RouteChangeObjects.Add(courseDefinition.Objs[id]);
+                if (id != -1)
+                    RouteChangeObjects.Add(courseDefinition.Objs[id]);
         }
 
         /// <summary>

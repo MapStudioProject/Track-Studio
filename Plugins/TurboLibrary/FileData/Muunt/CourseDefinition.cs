@@ -474,7 +474,7 @@ namespace TurboLibrary
         /// Gets or sets the list of <see cref="GCameraPath"/> instances.
         /// </summary>
         [ByamlMember("GCameraPath", Optional = true)]
-        public List<GCameraPath> GCameraPaths { get; set; }
+        public List<GCameraPath> GCameraPaths { get; set; } = new List<GCameraPath>();
 
         /// <summary>
         /// Gets or sets the list of <see cref="GlidePath"/> instances.
@@ -486,7 +486,7 @@ namespace TurboLibrary
         /// Gets or sets the list of <see cref="GravityPath"/> instances.
         /// </summary>
         [ByamlMember("GravityPath", Optional = true)]
-        public List<GravityPath> GravityPaths { get; set; }
+        public List<GravityPath> GravityPaths { get; set; } = new List<GravityPath>();
 
         /// <summary>
         /// Gets or sets the list of <see cref="ItemPath"/> instances.

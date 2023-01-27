@@ -183,7 +183,13 @@ namespace TurboLibrary
             foreach (var editor in this.Editors)
                 editor.OnSave(Resources.CourseDefinition);
 
-            MapLoader.CourseDefinition.Save(stream);
+            //Save data into memory first, then output to a file stream after
+            //This will prevent byaml corruption if file fails to save
+            var mem = new MemoryStream();
+            MapLoader.CourseDefinition.Save(mem);
+            using (var writer = new Toolbox.Core.IO.FileWriter(stream)) {
+                writer.Write(mem.ToArray());
+            }
         }
 
         private void DrawEditorList()

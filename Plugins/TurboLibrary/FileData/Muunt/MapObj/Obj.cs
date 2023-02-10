@@ -369,6 +369,12 @@ namespace TurboLibrary
             if (_pathPointIndex == -1) _pathPointIndex = null;
             if (_objPathIndex == -1) _objPathIndex = null;
             if (_objPathPointIndex == -1) _objPathPointIndex = null;
+            if (_lapPathIndex == -1) _lapPathIndex = null;
+            if (_lapPathPointIndex == -1) _lapPathPointIndex = null;
+            if (_enemyPath1Index == -1) _enemyPath1Index = null;
+            if (_enemyPath2Index == -1) _enemyPath2Index = null;
+            if (_itemPath1Index == -1) _itemPath1Index = null;
+            if (_itemPath2Index == -1) _itemPath2Index = null;
 
             if (_pathIndex != null)
                 System.Console.WriteLine($"Obj {ObjId} _pathIndex {_pathIndex}");

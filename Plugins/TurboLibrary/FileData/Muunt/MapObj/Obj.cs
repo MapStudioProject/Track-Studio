@@ -348,20 +348,20 @@ namespace TurboLibrary
             if (NoCol == false) NoCol = null;
 
             // References to paths and their points.
-            _pathIndex = Path == null ? null : (int?)courseDefinition.Paths.IndexOf(Path);
+            _pathIndex = Path == null ? null : (int?)courseDefinition.Paths?.IndexOf(Path);
             _pathPointIndex = PathPoint?.Index;
-            _lapPathIndex = LapPath == null ? null : (int?)courseDefinition.LapPaths.IndexOf(LapPath);
+            _lapPathIndex = LapPath == null ? null : (int?)courseDefinition.LapPaths?.IndexOf(LapPath);
             _lapPathPointIndex = LapPathPoint?.Index;
-            _objPathIndex = ObjPath == null ? null : (int?)courseDefinition.ObjPaths.IndexOf(ObjPath);
+            _objPathIndex = ObjPath == null ? null : (int?)courseDefinition.ObjPaths?.IndexOf(ObjPath);
             _objPathPointIndex = (ObjPath != null && ObjPathPoint != null) ? ObjPathPoint.Index : null;
-            _enemyPath1Index = EnemyPath1 == null ? null : (int?)courseDefinition.EnemyPaths.IndexOf(EnemyPath1);
-            _enemyPath2Index = EnemyPath2 == null ? null : (int?)courseDefinition.EnemyPaths.IndexOf(EnemyPath2);
-            _itemPath1Index = ItemPath1 == null ? null : (int?)courseDefinition.ItemPaths.IndexOf(ItemPath1);
-            _itemPath2Index = ItemPath2 == null ? null : (int?)courseDefinition.ItemPaths.IndexOf(ItemPath2);
+            _enemyPath1Index = EnemyPath1 == null ? null : (int?)courseDefinition.EnemyPaths?.IndexOf(EnemyPath1);
+            _enemyPath2Index = EnemyPath2 == null ? null : (int?)courseDefinition.EnemyPaths?.IndexOf(EnemyPath2);
+            _itemPath1Index = ItemPath1 == null ? null : (int?)courseDefinition.ItemPaths?.IndexOf(ItemPath1);
+            _itemPath2Index = ItemPath2 == null ? null : (int?)courseDefinition.ItemPaths?.IndexOf(ItemPath2);
 
             // References to other unit objects.
-            _areaIndex = ParentArea == null ? null : (int?)courseDefinition.Areas.IndexOf(ParentArea);
-            _objIndex = ParentObj == null ? null : (int?)courseDefinition.Objs.IndexOf(ParentObj);
+            _areaIndex = ParentArea == null ? null : (int?)courseDefinition.Areas?.IndexOf(ParentArea);
+            _objIndex = ParentObj == null ? null : (int?)courseDefinition.Objs?.IndexOf(ParentObj);
 
             if (_objIndex == -1) _objIndex = null;
             if (_areaIndex == -1) _areaIndex = null;

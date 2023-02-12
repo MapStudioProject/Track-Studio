@@ -120,12 +120,16 @@ namespace TurboLibrary
             var properties = section.GetType().GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             var fields = section.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
 
+            List<string> supportedValues = new List<string>();
+
             for (int i = 0; i < fields.Length; i++)
             {
                 //Only load properties with byaml attributes
                 var byamlAttribute = fields[i].GetCustomAttribute<ByamlMember>();
                 if (byamlAttribute == null)
                     continue;
+
+                supportedValues.Add(byamlAttribute.Key != null ? byamlAttribute.Key : fields[i].Name);
 
                 //Skip null optional values
                 if (byamlAttribute.Optional && fields[i].GetValue(section) == null)
@@ -142,6 +146,8 @@ namespace TurboLibrary
                 var byamlAttribute = properties[i].GetCustomAttribute<ByamlMember>();
                 if (byamlAttribute == null)
                     continue;
+
+                supportedValues.Add(byamlAttribute.Key != null ? byamlAttribute.Key : properties[i].Name);
 
                 //Skip null optional values
                 if (byamlAttribute.Optional && properties[i].GetValue(section) == null)
@@ -169,8 +175,8 @@ namespace TurboLibrary
                 var unusedProperties = ((ByamlData)section).Values;
                 foreach (var val in unusedProperties)
                 {
-                    //if (!bymlProperties.ContainsKey(val.Key))
-                      //  bymlProperties.Add(val.Key, val.Value);
+                    if (!supportedValues.Contains(val.Key) && !bymlProperties.ContainsKey(val.Key))
+                        bymlProperties.Add(val.Key, val.Value);
                 }
             }
 

@@ -131,13 +131,11 @@ namespace TurboLibrary.MuuntEditor
 
         public void Add(EditableObject render, bool undo = false)
         {
-            Renderers.Add(render);
             MapEditor.AddRender(render, undo);
         }
 
         public void Remove(EditableObject render, bool undo = false)
         {
-            Renderers.Remove(render);
             MapEditor.RemoveRender(render, undo);
         }
 
@@ -209,6 +207,14 @@ namespace TurboLibrary.MuuntEditor
             render.Transform.UpdateMatrix(true);
             obj.PropertyChanged += delegate
             {
+            };
+            render.AddCallback += delegate
+            {
+                Renderers.Add(render);
+            };
+            render.RemoveCallback += delegate
+            {
+                Renderers.Remove(render);
             };
             return render;
         }

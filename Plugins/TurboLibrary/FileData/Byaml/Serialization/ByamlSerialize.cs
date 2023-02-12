@@ -169,8 +169,8 @@ namespace TurboLibrary
                 var unusedProperties = ((ByamlData)section).Values;
                 foreach (var val in unusedProperties)
                 {
-                    if (!bymlProperties.ContainsKey(val.Key))
-                        bymlProperties.Add(val.Key, val.Value);
+                    //if (!bymlProperties.ContainsKey(val.Key))
+                      //  bymlProperties.Add(val.Key, val.Value);
                 }
             }
 

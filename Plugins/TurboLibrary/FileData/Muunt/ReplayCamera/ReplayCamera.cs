@@ -166,7 +166,7 @@ namespace TurboLibrary
         /// <param name="courseDefinition">The <see cref="CourseDefinition"/> providing the objects.</param>
         public void DeserializeReferences(CourseDefinition courseDefinition)
         {
-            Path = (_pathIndex == null || _pathIndex == -1) ? null : courseDefinition.Paths[_pathIndex.Value];
+            Path = (_pathIndex == null || _pathIndex == -1 || _pathIndex >= courseDefinition.Paths?.Count) ? null : courseDefinition.Paths[_pathIndex.Value];
             if (Path != null) Path.References.Add(this);
         }
 

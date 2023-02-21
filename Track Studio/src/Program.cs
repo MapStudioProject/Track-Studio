@@ -68,14 +68,17 @@ namespace TrackStudio
 
         static string GetRepoCompileDate(string folder)
         {
+            string assemblyVersion = Assembly.GetExecutingAssembly().GetName().Version.ToString();
+
             if (!File.Exists(Path.Combine(folder,"Version.txt")))
-                return "";
+                return $"v{assemblyVersion}";
 
             string[] versionInfo = File.ReadLines(Path.Combine(folder,"Version.txt")).ToArray();
             if (versionInfo.Length >= 3)
                 return $"{versionInfo[0]} Commit: {versionInfo[2]} Compile Date: {versionInfo[1]}";
 
-            return "";
+
+            return $"v{assemblyVersion}";
         }
 
         [Conditional("DEBUG")]

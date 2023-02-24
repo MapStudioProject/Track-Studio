@@ -234,7 +234,11 @@ namespace TurboLibrary.MuuntEditor
             if (filePath.EndsWith(".szs")) //Deluxe compresses collision files
             {
                 CollisionFile.FileInfo.Compression = new Toolbox.Core.Yaz0();
-                CollisionFile.Load(new MemoryStream(YAZ0.Decompress(filePath)));
+                //Verify if it is compressed incase of a bug
+                if (YAZ0.IsCompressed(filePath))
+                    CollisionFile.Load(new MemoryStream(YAZ0.Decompress(filePath)));
+                else
+                    CollisionFile.Load(File.OpenRead(filePath));
             }
             else
                 CollisionFile.Load(File.OpenRead(filePath));

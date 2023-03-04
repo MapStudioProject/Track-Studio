@@ -14,6 +14,7 @@ using Toolbox.Core.ViewModels;
 using Toolbox.Core.IO;
 using CafeLibrary.Rendering;
 using GLFrameworkEngine;
+using BrawlLib.Modeling.Triangle_Converter;
 
 namespace CafeLibrary
 {
@@ -1898,13 +1899,11 @@ namespace CafeLibrary
 
             for (int i = 0; i < Vertices.Count; i++)
             {
-                Vertices[i].Position = Vector3.TransformPosition(Vertices[i].Position, matrix);
-                Vertices[i].Normal = Vector3.TransformNormal(Vertices[i].Normal, matrix);
+                var pos = GetLocalVertexPosition(i, Vector3.TransformPosition(Vertices[i].Position, matrix));
+                var nrm = GetLocalVertexNormal(i, Vector3.TransformNormal(Vertices[i].Normal, matrix));
 
-                position[i] = new Syroot.Maths.Vector4F(
-                     Vertices[i].Position.X, Vertices[i].Position.Y, Vertices[i].Position.Z, 0);
-                normals[i] = new Syroot.Maths.Vector4F(
-                   Vertices[i].Normal.X, Vertices[i].Normal.Y, Vertices[i].Normal.Z, 0);
+                position[i] = new Syroot.Maths.Vector4F(pos.X, pos.Y, pos.Z, 0);
+                normals[i] = new Syroot.Maths.Vector4F(nrm.X, nrm.Y, nrm.Z, 0);
             }
 
             VertexBufferHelper helper = new VertexBufferHelper(VertexBuffer, ParentFile.ByteOrder);
@@ -2469,6 +2468,40 @@ namespace CafeLibrary
             }
         }
 
+        public Vector3 GetLocalVertexPosition(int index, Vector3 position)
+        {
+            if (VertexSkinCount != 1)
+            {
+                return position;
+            }
+            else
+            {
+                //Remap
+                var boneIndexList = ParentSkeleton.Skeleton.MatrixToBoneList;
+                //Get rigid bone
+                var bone = ParentSkeleton.Bones[boneIndexList[Vertices[index].BoneIndices[0]]];
+                var inverted = bone.Transform.Inverted();
+                return Vector3.TransformPosition(position, inverted); ;
+            }
+        }
+
+        public Vector3 GetLocalVertexNormal(int index, Vector3 normal)
+        {
+            if (VertexSkinCount != 1)
+            {
+                return normal;
+            }
+            else
+            {
+                //Remap
+                var boneIndexList = ParentSkeleton.Skeleton.MatrixToBoneList;
+                //Get rigid bone
+                var bone = ParentSkeleton.Bones[boneIndexList[Vertices[index].BoneIndices[0]]];
+                var inverted = bone.Transform.Inverted();
+                return Vector3.TransformNormal(normal, inverted); ;
+            }
+        }
+
         public void ApplyVertexData()
         {
             StudioLogger.WriteLine($"Updating mesh buffer {Shape.Name}");
@@ -2510,6 +2543,14 @@ namespace CafeLibrary
                 STVertex vertex = Vertices[v];
                 switch (att.Name)
                 {
+                    case "_p0":
+                        var pos = GetLocalVertexPosition(v, vertex.Position);
+                        data[v] = new Syroot.Maths.Vector4F(pos.X, pos.Y, pos.Z, 0);
+                        break;
+                    case "_n0":
+                        var nrm = GetLocalVertexNormal(v, vertex.Normal);
+                        data[v] = new Syroot.Maths.Vector4F(nrm.X, nrm.Y, nrm.Z, 0);
+                        break;
                     case "_t0":
                         data[v] = new Syroot.Maths.Vector4F(
                             vertex.Tangent.X, vertex.Tangent.Y, vertex.Tangent.Z, vertex.Tangent.W);

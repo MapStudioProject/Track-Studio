@@ -2510,14 +2510,6 @@ namespace CafeLibrary
                 STVertex vertex = Vertices[v];
                 switch (att.Name)
                 {
-                    case "_p0":
-                        data[v] = new Syroot.Maths.Vector4F(
-                            vertex.Position.X, vertex.Position.Y, vertex.Position.Z, 0);
-                        break;
-                    case "_n0":
-                        data[v] = new Syroot.Maths.Vector4F(
-                            vertex.Normal.X, vertex.Normal.Y, vertex.Normal.Z, 0);
-                        break;
                     case "_t0":
                         data[v] = new Syroot.Maths.Vector4F(
                             vertex.Tangent.X, vertex.Tangent.Y, vertex.Tangent.Z, vertex.Tangent.W);

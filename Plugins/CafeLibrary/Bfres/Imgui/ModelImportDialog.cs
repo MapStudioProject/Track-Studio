@@ -66,7 +66,7 @@ namespace CafeLibrary
                 if (fmdl.Meshes.Any(x => x.Name == mesh.Name))
                 {
                     var fshp = (FSHP)fmdl.Meshes.FirstOrDefault(x => x.Name == mesh.Name);
-                    //Keep matching materials for an import. User can readjust later
+                    //Keep matching materials for an import. User can re adjust later
                     meshSettings.MaterialName = fshp.Material.Name;
                     foreach (var att in fshp.VertexBuffer.Attributes.Values)
                         meshSettings.AttributeLayout.Add(new ModelImportSettings.AttributeInfo(att.Name, att.BufferIndex));
@@ -350,7 +350,11 @@ namespace CafeLibrary
                     }
                 }
                 ImGui.SameLine();
-                ImGui.Text($"{Settings.Meshes[i].PresetName}");
+                if (!string.IsNullOrEmpty(Settings.Meshes[i].PresetName))
+                    ImGui.Text($"{Settings.Meshes[i].PresetName}");
+                else
+                    ImGui.Text(Settings.Meshes[i].MaterialName);
+
                 ImGui.NextColumn();
             }
 

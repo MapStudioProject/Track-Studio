@@ -2476,10 +2476,8 @@ namespace CafeLibrary
             }
             else
             {
-                //Remap
-                var boneIndexList = ParentSkeleton.Skeleton.MatrixToBoneList;
                 //Get rigid bone
-                var bone = ParentSkeleton.Bones[boneIndexList[Vertices[index].BoneIndices[0]]];
+                var bone = ParentSkeleton.Bones[Vertices[index].BoneIndices[0]];
                 var inverted = bone.Transform.Inverted();
                 return Vector3.TransformPosition(position, inverted); ;
             }
@@ -2493,10 +2491,8 @@ namespace CafeLibrary
             }
             else
             {
-                //Remap
-                var boneIndexList = ParentSkeleton.Skeleton.MatrixToBoneList;
                 //Get rigid bone
-                var bone = ParentSkeleton.Bones[boneIndexList[Vertices[index].BoneIndices[0]]];
+                var bone = ParentSkeleton.Bones[Vertices[index].BoneIndices[0]];
                 var inverted = bone.Transform.Inverted();
                 return Vector3.TransformNormal(normal, inverted); ;
             }

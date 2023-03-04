@@ -798,7 +798,7 @@ namespace CafeLibrary.ModelConversion
                 var vertex = vertices[v];
 
                 var position = new System.Numerics.Vector3(vertex.Position.X, vertex.Position.Y, vertex.Position.Z);
-                var normal = vertex.Normal;
+                var normal = new System.Numerics.Vector3(vertex.Normal.X, vertex.Normal.Y, vertex.Normal.Z);
 
                 //Reset rigid skinning types to local space
                 if (fshp.VertexSkinCount == 0 && boneMatrices.Length > 0)
@@ -989,12 +989,12 @@ namespace CafeLibrary.ModelConversion
                 });
             }
 
-            foreach (var att in settings.AttributeLayout)
+         /*   foreach (var att in settings.AttributeLayout)
             {
                 var attribute = attributes.FirstOrDefault(x => x.Name == att.Name);
                 if (attribute != null)
                     attribute.BufferIndex = att.BufferIndex;
-            }
+            }*/
 
             vertexBufferHelper.Attributes = attributes;
             var buffer = vertexBufferHelper.ToVertexBuffer();

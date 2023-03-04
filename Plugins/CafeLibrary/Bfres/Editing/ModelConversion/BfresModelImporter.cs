@@ -13,6 +13,7 @@ using IONET.Core.Skeleton;
 using IONET.Core.Model;
 using IONET.Core;
 using IONET;
+using System.Numerics;
 
 namespace CafeLibrary.ModelConversion
 {
@@ -105,7 +106,7 @@ namespace CafeLibrary.ModelConversion
 
                 if (mat.DiffuseMap != null)
                 {
-                    fmat.Samplers.Add("_a0", new Sampler() { Name = "_a0", TexSampler = new TexSampler()});
+                    fmat.Samplers.Add("_a0", new Sampler() { Name = "_a0", TexSampler = new TexSampler() });
                     fmat.TextureRefs.Add(new TextureRef() { Name = GetTextureName(mat.DiffuseMap) });
                 }
                 if (mat.EmissionMap != null)
@@ -129,7 +130,7 @@ namespace CafeLibrary.ModelConversion
 
             if (importSettings.ImportBones)
             {
-                fmdl.Skeleton = new Skeleton();
+                fmdl.Skeleton = new BfresLibrary.Skeleton();
                 fmdl.Skeleton.FlagsRotation = SkeletonFlagsRotation.EulerXYZ;
 
                 MapStudio.UI.ProcessLoading.Instance.Update(50, 100, $"Loading bfres bones.");
@@ -177,6 +178,15 @@ namespace CafeLibrary.ModelConversion
                 fmdl.Skeleton.Bones.Add("Root", new Bone() { Name = "Root" });
             }
 
+            System.Numerics.Matrix4x4[] transforms = new System.Numerics.Matrix4x4[fmdl.Skeleton.Bones.Count];
+            for (int i = 0; i < fmdl.Skeleton.Bones.Count; i++)
+            {
+                var mat = GetWorldMatrix(fmdl.Skeleton, fmdl.Skeleton.Bones[i]);
+                Matrix4x4.Invert(mat, out Matrix4x4 inverted);
+                transforms[i] = inverted;
+
+            }
+
             List<int> smoothSkinningIndices = new List<int>();
             List<int> rigidSkinningIndices = new List<int>();
 
@@ -201,12 +211,13 @@ namespace CafeLibrary.ModelConversion
                 if (riggedBones?.Count >= 1)
                     vertexSkinCount = CalculateSkinCount(mesh.Vertices);
                 //Apply rigid bodies so vertices are in world space
-                if (riggedBones?.Count == 1)
+              /*  if (riggedBones?.Count == 1)
                 {
                     var bn = model.Skeleton.BreathFirstOrder().Where(x => x.Name == riggedBones[0]).FirstOrDefault();
                     if (bn != null)
                         mesh.TransformVertices(bn.WorldTransform);
-                }
+                }*/
+
 
                 //Todo. This basically reimports meshes with the original skin count to target as
                 /*    if (importSettings.Meshes.Any(x => x.Name == mesh.Name))
@@ -225,6 +236,8 @@ namespace CafeLibrary.ModelConversion
                         if (bn != null)
                         {
                             int index = fmdl.Skeleton.Bones.IndexOf(bn);
+                            if (index == -1)
+                                continue;
 
                             //Rigid skinning
                             if (vertexSkinCount == 1)
@@ -250,6 +263,12 @@ namespace CafeLibrary.ModelConversion
             List<int> skinningIndices = new List<int>();
             skinningIndices.AddRange(smoothSkinningIndices);
             skinningIndices.AddRange(rigidSkinningIndices);
+
+            foreach (var bone in fmdl.Skeleton.Bones)
+            {
+                bone.Value.SmoothMatrixIndex = -1;
+                bone.Value.RigidMatrixIndex = -1;
+            }
 
             //Next update the bone's skinning index value
             foreach (var index in smoothSkinningIndices)
@@ -348,7 +367,7 @@ namespace CafeLibrary.ModelConversion
 
                 //Generate a vertex buffer
                 VertexBuffer buffer = GenerateVertexBuffer(resFile, mesh, fshp,
-                    meshSettings, model.Skeleton.BreathFirstOrder(), fmdl.Skeleton, rigidSkinningIndices, smoothSkinningIndices);
+                    meshSettings,  transforms, fmdl.Skeleton, rigidSkinningIndices, smoothSkinningIndices);
 
                 fshp.VertexBufferIndex = (ushort)fmdl.VertexBuffers.Count;
                 fshp.VertexSkinCount = (byte)buffer.VertexSkinCount;
@@ -412,6 +431,24 @@ namespace CafeLibrary.ModelConversion
             }
 
             return fmdl;
+        }
+
+        static System.Numerics.Matrix4x4 GetWorldMatrix(BfresLibrary.Skeleton skeleton, Bone bone)
+        {
+            if (bone.ParentIndex != -1)
+                return CreateTransform(bone) * GetWorldMatrix(skeleton, skeleton.Bones[bone.ParentIndex]);
+            return CreateTransform(bone);
+        }
+
+        static System.Numerics.Matrix4x4 CreateTransform(Bone bone)
+        {
+            return System.Numerics.Matrix4x4.CreateScale(new System.Numerics.Vector3(
+                bone.Scale.X, bone.Scale.Y, bone.Scale.Z)) *
+                (System.Numerics.Matrix4x4.CreateRotationX(bone.Rotation.X) *
+                 System.Numerics.Matrix4x4.CreateRotationY(bone.Rotation.Y) *
+                 System.Numerics.Matrix4x4.CreateRotationZ(bone.Rotation.Z)) *
+                System.Numerics.Matrix4x4.CreateTranslation(new System.Numerics.Vector3(
+                bone.Position.X, bone.Position.Y, bone.Position.Z));
         }
 
         static void CalculateSubMeshes(ResFile resFile, Shape fshp, Mesh mesh, List<IOVertex> vertices, List<int> indices, bool enableSubMesh)
@@ -729,7 +766,7 @@ namespace CafeLibrary.ModelConversion
         }
 
         private static VertexBuffer GenerateVertexBuffer(ResFile resFile, IOMesh mesh, Shape fshp, ModelImportSettings.MeshSettings settings,
-           List<IOBone> bones, Skeleton fskl, List<int> rigidIndices, List<int> smoothIndices)
+           System.Numerics.Matrix4x4[] boneMatrices, BfresLibrary.Skeleton fskl, List<int> rigidIndices, List<int> smoothIndices)
         {
             List<IOVertex> vertices = mesh.Vertices;
 
@@ -764,21 +801,22 @@ namespace CafeLibrary.ModelConversion
                 var normal = vertex.Normal;
 
                 //Reset rigid skinning types to local space
-                if (fshp.VertexSkinCount == 0 && bones.Count > 0)
+                if (fshp.VertexSkinCount == 0 && boneMatrices.Length > 0)
                 {
-                    var transform = bones[fshp.BoneIndex].WorldTransform;
-                    System.Numerics.Matrix4x4.Invert(transform, out System.Numerics.Matrix4x4 inverted);
-                    position = System.Numerics.Vector3.Transform(position, inverted);
-                    normal = System.Numerics.Vector3.TransformNormal(normal, inverted);
+                    var transform = boneMatrices[fshp.BoneIndex];
+                    position = System.Numerics.Vector3.Transform(position, transform);
+                    normal = System.Numerics.Vector3.TransformNormal(normal, transform);
                 }
                 //Reset rigid skinning types to local space
                 if (fshp.VertexSkinCount == 1)
                 {
-                    var bone = bones.FirstOrDefault(x => x.Name == vertex.Envelope.Weights[0].BoneName);
-                    var transform = bone.WorldTransform;
-                    System.Numerics.Matrix4x4.Invert(transform, out System.Numerics.Matrix4x4 inverted);
-                    position = System.Numerics.Vector3.Transform(position, inverted);
-                    normal = System.Numerics.Vector3.TransformNormal(normal, inverted);
+                    int index = Array.FindIndex(fskl.Bones.Values.ToArray(), x => x.Name == vertex.Envelope.Weights[0].BoneName);
+                    if (index != -1)
+                    {
+                        var transform = boneMatrices[index];
+                        position = System.Numerics.Vector3.Transform(position, transform);
+                        normal = System.Numerics.Vector3.TransformNormal(normal, transform);
+                    }
                 }
 
                 Positions.Add(new Vector4F(

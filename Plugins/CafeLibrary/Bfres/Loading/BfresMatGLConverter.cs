@@ -22,6 +22,34 @@ namespace CafeLibrary.Rendering
             //Switch support
             if (mat.RenderInfos.ContainsKey("gsys_render_state_mode"))
                 ConvertSwitchRenderState(fmat, mat);
+
+            if (mat.RenderInfos.ContainsKey("display_face"))
+                ConvertSMORenderState(fmat, mat);
+        }
+
+        static void ConvertSMORenderState(FMAT fmat, Material mat)
+        {
+            string displayFace = GetRenderInfo(mat, "display_face");
+            if (displayFace == "front")
+            {
+                fmat.CullFront = false;
+                fmat.CullBack = true;
+            }
+            if (displayFace == "back")
+            {
+                fmat.CullFront = true;
+                fmat.CullBack = false;
+            }
+            if (displayFace == "both")
+            {
+                fmat.CullFront = false;
+                fmat.CullBack = false;
+            }
+            if (displayFace == "none")
+            {
+                fmat.CullFront = true;
+                fmat.CullBack = true;
+            }
         }
 
         static void ConvertWiiURenderState(FMAT fmat, Material mat, RenderState renderState)

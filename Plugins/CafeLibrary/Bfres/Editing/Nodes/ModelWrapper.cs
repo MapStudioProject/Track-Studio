@@ -967,6 +967,7 @@ namespace CafeLibrary
                     else if (renderInfo.Data is int[])
                         mat.Material.RenderInfos[renderInfo.Name].SetValue((int[])renderInfo.Data);
                 }
+                mat.UpdateRenderState();
             }
         }
 

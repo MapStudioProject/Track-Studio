@@ -15,6 +15,8 @@ using Toolbox.Core.IO;
 using CafeLibrary.Rendering;
 using GLFrameworkEngine;
 using BrawlLib.Modeling.Triangle_Converter;
+using IONET.Core.Model;
+using IONET.Core;
 
 namespace CafeLibrary
 {
@@ -392,6 +394,46 @@ namespace CafeLibrary
                     IONET.IOManager.ExportScene(scene, dlg.FilePath, new IONET.ExportSettings() { });
                     BfresWrapper.ExportTextures(Path.GetDirectoryName(dlg.FilePath));
                 }
+            }
+        }
+
+        internal void ExportSelectedMeshesDialog()
+        {
+            //Get selected meshes
+            var meshes = this.MeshFolder.Children.Where(x => x.IsSelected).ToList();
+            if (meshes.Count == 0) return;
+
+            var dlg = new ImguiFileDialog();
+            dlg.SaveDialog = true;
+            dlg.FileName = $"{this.Model.Name}.dae";
+            dlg.AddFilter(".dae", ".dae");
+
+            if (meshes.Count == 1) //Set export name as the selected mesh if only one is selected
+                dlg.FileName = meshes[0].Header;
+
+            if (dlg.ShowDialog())
+            {
+                var scene = BfresModelExporter.FromGeneric(ResFile, Model);
+                //Setup a scene with just the selected meshes
+                var meshScene = new IOScene();
+                var daeModel = new IOModel();
+                meshScene.Models.Add(daeModel);
+
+                //Load the scene with only selected meshes and attached materials
+                foreach (var mesh in scene.Models[0].Meshes)
+                {
+                    if (!meshes.Any(x => x.Header == mesh.Name))
+                        continue;
+
+                    daeModel.Meshes.Add(mesh);
+
+                    var mat = scene.Materials.FirstOrDefault(x => x.Name == mesh.Polygons[0].MaterialName);
+                    if (!meshScene.Materials.Contains(mat))
+                        meshScene.Materials.Add(mat);
+                }
+                //Export
+                IONET.IOManager.ExportScene(meshScene, dlg.FilePath, new IONET.ExportSettings() { });
+                //  BfresWrapper.ExportTextures(Path.GetDirectoryName(dlg.FilePath));
             }
         }
 
@@ -2122,6 +2164,9 @@ namespace CafeLibrary
             };
             UINode.Tag = this;
             UINode.ContextMenus.Add(new MenuItemModel("Rename", () => UINode.ActivateRename = true));
+            UINode.ContextMenus.Add(new MenuItemModel(""));
+
+            UINode.ContextMenus.Add(new MenuItemModel("Export", () => ModelWrapper.ExportSelectedMeshesDialog()));
             UINode.ContextMenus.Add(new MenuItemModel(""));
 
             UINode.ContextMenus.Add(new MenuItemModel("Recalculate Tangent/Bitangent", RecalculateTanBitanAction));

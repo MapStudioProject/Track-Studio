@@ -322,9 +322,9 @@ namespace CafeLibrary.ModelConversion
 
                 var meshSettings = new ModelImportSettings.MeshSettings();
 
-                if (importSettings.Meshes.Any(x => x.Name == mesh.Name))
+                if (importSettings.Meshes.Any(x => x.MeshData == mesh))
                 {
-                    meshSettings = importSettings.Meshes.FirstOrDefault(x => x.Name == mesh.Name);
+                    meshSettings = importSettings.Meshes.FirstOrDefault(x => x.MeshData == mesh);
                     if (meshSettings.SkinCount > 0)
                     {
                         foreach (var v in mesh.Vertices)
@@ -337,7 +337,13 @@ namespace CafeLibrary.ModelConversion
                 var names = fmdl.Shapes.Values.Select(x => x.Name).ToList();
 
                 Shape fshp = new Shape();
+                if (string.IsNullOrEmpty(mesh.Name))
+                    mesh.Name = "Mesh";
+
                 fshp.Name = Utils.RenameDuplicateString(mesh.Name, names, 0, 2);
+
+                meshSettings.Name = fshp.Name;
+
                 fshp.MaterialIndex = 0;
                 fshp.BoneIndex = 0;
                 fshp.VertexSkinCount = (byte)skinCounts[meshIndex++];
@@ -359,7 +365,7 @@ namespace CafeLibrary.ModelConversion
 
                 //Get the original material and map by string key
                 string material = mesh.Polygons[0].MaterialName;
-                int materialIndex = scene.Materials.FindIndex(x => x.Name == material);
+                int materialIndex = fmdl.Materials.IndexOf(material);
                 if (materialIndex != -1)
                     fshp.MaterialIndex = (ushort)materialIndex;
                 else

@@ -365,6 +365,12 @@ namespace CafeLibrary.ModelConversion
 
                 //Get the original material and map by string key
                 string material = mesh.Polygons[0].MaterialName;
+                foreach (var mat in scene.Materials)
+                {
+                    if (!string.IsNullOrEmpty(mat.Label) && mat.Name == material)
+                        material = mat.Label;
+                }
+
                 int materialIndex = fmdl.Materials.IndexOf(material);
                 if (materialIndex != -1)
                     fshp.MaterialIndex = (ushort)materialIndex;

@@ -106,27 +106,7 @@ namespace CafeLibrary
                 {
                     DrawGlobalSettings();
                 }
-                if (ImGui.CollapsingHeader("Mesh Settings", ImGuiTreeNodeFlags.DefaultOpen))
-                {
-                    var wndsize = new Vector2(ImGui.GetWindowWidth() - 4, ImGui.GetWindowHeight() - ImGui.GetCursorPosY() - 37);
-                    ImGui.BeginChild("##mesh_sett", wndsize);
 
-                    var listsize = new Vector2(ImGui.GetColumnWidth() - 6, ImGui.GetWindowHeight() - 20);
-                    ImGui.PushStyleColor(ImGuiCol.ChildBg, ImGui.GetStyle().Colors[(int)ImGuiCol.FrameBg]);
-                    if (ImGui.BeginChild("##mesh_list", listsize))
-                    {
-                        DrawMeshList();
-                    }
-                    ImGui.EndChild();
-
-                    ImGui.PopStyleColor();
-
-                    ImGui.EndChild();
-                }
-                ImGui.EndTabItem();
-            }
-            if (ImguiCustomWidgets.BeginTab("importTab", "Advanced"))
-            {
                 if (ImGui.CollapsingHeader("Mesh Settings", ImGuiTreeNodeFlags.DefaultOpen))
                 {
                     var wndsize = new Vector2(ImGui.GetWindowWidth() - 4, ImGui.GetWindowHeight() - ImGui.GetCursorPosY() - 37);
@@ -162,6 +142,7 @@ namespace CafeLibrary
 
                 ImGui.EndTabItem();
             }
+
             ImGui.EndTabBar();
 
                 var pos = ImGui.GetWindowHeight() - 26;
@@ -251,7 +232,10 @@ namespace CafeLibrary
                 }
 
                 ImGui.NextColumn();
-                ImGui.Text($"{Settings.Meshes[i].ImportedMaterial}");
+                if (!string.IsNullOrEmpty(Settings.Meshes[i].PresetName))
+                    ImGui.Text($"{Settings.Meshes[i].PresetName}");
+                else
+                    ImGui.Text(Settings.Meshes[i].MaterialName);
                 ImGui.NextColumn();
             }
 

@@ -205,7 +205,7 @@ namespace CafeLibrary
             for (int i = 0; i < Settings.Meshes.Count; i++)
             {
                 bool select = selectedMeshIndices.Contains(i);
-                if (ImGui.Selectable($"   {' '}   {Settings.Meshes[i].Name}", select))
+                if (ImGui.Selectable($"   {' '}   {Settings.Meshes[i].Name}", select, ImGuiSelectableFlags.SpanAllColumns))
                 {
                     if (!ImGui.GetIO().KeyShift)
                         selectedMeshIndices.Clear();
@@ -236,109 +236,6 @@ namespace CafeLibrary
                     ImGui.Text($"{Settings.Meshes[i].PresetName}");
                 else
                     ImGui.Text(Settings.Meshes[i].MaterialName);
-                ImGui.NextColumn();
-            }
-
-            ImGui.Columns(1);
-        }
-
-        private void DrawMeshList()
-        {
-            ImGui.Columns(2);
-            ImGuiHelper.BoldText("Meshes");
-            ImGui.NextColumn();
-
-            ImGuiHelper.BoldText("Materials Preset");
-            ImGui.NextColumn();
-
-            for (int i = 0; i < Settings.Meshes.Count; i++)
-            {
-                bool select = selectedMeshIndices.Contains(i);
-                if (ImGui.Selectable($"   {' '}   {Settings.Meshes[i].Name}", select))
-                {
-                    if (!ImGui.GetIO().KeyShift)
-                        selectedMeshIndices.Clear();
-
-                    selectedMeshIndices.Add(i);
-
-                    //Selection range
-                    if (ImGui.GetIO().KeyShift)
-                    {
-                        var lowIndex = selectedMeshIndices.Min();
-                        for (int j = lowIndex; j < i; j++)
-                        {
-                            if (!selectedMeshIndices.Contains(j))
-                                selectedMeshIndices.Add(j);
-                        }
-                    }
-                }
-                if (ImGui.IsItemFocused() && !select)
-                {
-                    if (!ImGui.GetIO().KeyShift)
-                        selectedMeshIndices.Clear();
-
-                    selectedMeshIndices.Add(i);
-                }
-
-                ImGui.NextColumn();
-                if (ImGui.Button($"  {'\uf5fd'}   ##{Settings.Meshes[i].Name}matpreset"))
-                {
-                    //reload preset folder
-                    PresetWindow.OnCancelled = null;
-                    PresetWindow.OnCancelled += delegate
-                    {
-                        ImGui.CloseCurrentPopup();
-                    };
-                    PresetWindow.OnApplied = null;
-                    PresetWindow.OnApplied += delegate
-                    {
-                        ImGui.CloseCurrentPopup();
-
-                        var preset = PresetWindow.GetSelectedPresetData();
-                        var presetPath = preset.FilePath;
-                        var name = preset.Name;
-                        //Show atleast one level of the tree to see the category the preset is inside
-                        if (preset.Parent != null)
-                            name = Path.Combine(preset.Parent.Header,name);
-
-                        //Batch edit
-                        foreach (var index in selectedMeshIndices)
-                        {
-                            Settings.Meshes[index].KeepTextures = PresetWindow.KeepTextures();
-                            Settings.Meshes[index].PresetName = name;
-                            Settings.Meshes[index].MaterialName = Settings.Meshes[index].ImportedMaterial;
-                            Settings.Meshes[index].MaterialRawFile = presetPath;
-                        }
-                    };
-                    openPresetWindow = true;
-                }
-                ImGui.SameLine();
-                //External file selector
-                if (ImGui.Button($"  {'\uf15b'}   "))
-                {
-                    var dlg = new ImguiFileDialog();
-                    dlg.SaveDialog = false;
-                    dlg.AddFilter(".bfmat", ".bfmat");
-                    dlg.AddFilter(".json", ".json");
-                    dlg.AddFilter(".zip", ".zip");
-
-                    if (dlg.ShowDialog())
-                    {
-                        var name = System.IO.Path.GetFileNameWithoutExtension(dlg.FilePath);
-                        foreach (var index in selectedMeshIndices)
-                        {
-                            Settings.Meshes[index].PresetName = name;
-                            Settings.Meshes[index].MaterialName = Settings.Meshes[index].ImportedMaterial;
-                            Settings.Meshes[index].MaterialRawFile = dlg.FilePath;
-                        }
-                    }
-                }
-                ImGui.SameLine();
-                if (!string.IsNullOrEmpty(Settings.Meshes[i].PresetName))
-                    ImGui.Text($"{Settings.Meshes[i].PresetName}");
-                else
-                    ImGui.Text(Settings.Meshes[i].MaterialName);
-
                 ImGui.NextColumn();
             }
 

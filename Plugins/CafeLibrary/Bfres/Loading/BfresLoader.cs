@@ -272,7 +272,7 @@ namespace CafeLibrary.Rendering
                 matRender.Dispose();
 
             matRender = new BfresMaterialRender(render, model);
-            if (render.ShaderFiles.Any(x => x.Name == mat.ShaderAssign.ShaderArchiveName))
+            if (render.ShaderFiles.Any(x => x.Name == mat.ShaderAssign?.ShaderArchiveName))
             {
                 if (TargetShader != null)
                     matRender = (BfresMaterialRender)Activator.CreateInstance(TargetShader, render, model);

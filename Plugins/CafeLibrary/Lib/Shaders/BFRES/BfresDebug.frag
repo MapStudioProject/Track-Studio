@@ -8,6 +8,7 @@ uniform sampler2D NormalMapTexture;
 uniform sampler2D AmbientOccusionBakeTexture;
 uniform sampler2D ShadowBakeTexture;
 uniform sampler2D IndirectLightBakeTexture;
+uniform sampler2DArray IndirectLightBakeTextureArray;
 
 uniform int debugShading;
 uniform vec4 highlight_color;
@@ -19,6 +20,7 @@ uniform int AreaIndex;
 uniform int isSelected;
 uniform int hasProbes;
 uniform int isNormalMapBC1;
+uniform int isLightmapArray;
 
 in vec2 texCoord0;
 in vec3 normal;
@@ -127,7 +129,12 @@ void main(){
         outputColor.rgb = texture(ShadowBakeTexture,texCoordBake0).ggg;
     if (debugShading == DISPLAY_LIGHTMAP)
     {
-        vec4 light_tex = texture(IndirectLightBakeTexture,texCoordBake1);
+        vec4 light_tex = vec4(0);
+        if (isLightmapArray == 1)
+             light_tex = texture(IndirectLightBakeTextureArray, vec3(texCoordBake1, 0));
+        else
+             light_tex = texture(IndirectLightBakeTexture,texCoordBake1);
+
         outputColor.rgb = light_bake_scale * light_tex.rgb * light_tex.a;
 
         if (hasProbes == 1)

@@ -477,6 +477,7 @@ namespace CafeLibrary.Rendering
         public virtual void SetDebugTextureUniforms(GLContext control, ShaderProgram shader)
         {
             shader.SetTexture(RenderTools.blackTex, "default", 5);
+            shader.SetInt("isLightmapArray", 0);
 
             int id = 5;
             for (int i = 0; i < Material.TextureMaps?.Count; i++)
@@ -512,7 +513,14 @@ namespace CafeLibrary.Rendering
                     continue;
 
                 var binded = BindTexture(shader, sampler, GetTextures(), Material.TextureMaps[i], name, id);
-                shader.SetInt(uniformName, id++);
+                //Check if lightmap is a type of array texture
+                if (binded is GLTexture2DArray && uniformName == "IndirectLightBakeTexture")
+                {
+                    shader.SetInt("isLightmapArray", 1);
+                    shader.SetInt("IndirectLightBakeTextureArray", id++);
+                }
+                else
+                    shader.SetInt(uniformName, id++);
             }
 
             GL.ActiveTexture(TextureUnit.Texture0);

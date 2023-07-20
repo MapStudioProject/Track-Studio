@@ -1125,7 +1125,7 @@ namespace CafeLibrary
                 ImGuiNET.ImGui.PopFont();
             }
             else
-                IconManager.DrawIcon('\uf0c8', iconColor);
+                IconManager.DrawIcon('\uf0c5', iconColor);
 
             ImGuiNET.ImGui.SameLine();
 

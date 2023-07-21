@@ -478,6 +478,7 @@ namespace CafeLibrary.Rendering
         {
             shader.SetTexture(RenderTools.blackTex, "default", 5);
             shader.SetInt("isLightmapArray", 0);
+            shader.SetInt("IndirectLightBakeTextureArray", -1);
 
             int id = 5;
             for (int i = 0; i < Material.TextureMaps?.Count; i++)
@@ -525,6 +526,7 @@ namespace CafeLibrary.Rendering
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.BindTexture(TextureTarget.Texture2DArray, 0);
         }
 
         public virtual void SetTextureUniforms(GLContext control, ShaderProgram shader)

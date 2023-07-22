@@ -468,6 +468,9 @@ namespace CafeLibrary.Rendering
 
                     //Each constant and curve get's their own value using a value offset
                     for (int j = 0; j < numConstants; j++) {
+                        if (constantIndex + j >= matAnim.Constants.Count)
+                            continue;
+
                         var constant = matAnim.Constants[constantIndex + j];
                         float value = constant.Value;
                         bool isInit = constant.Value.Int32 > 0 && constant.Value.Int32 < 6;

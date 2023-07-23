@@ -479,6 +479,7 @@ namespace CafeLibrary.Rendering
             shader.SetTexture(RenderTools.blackTex, "default", 5);
             shader.SetInt("isLightmapArray", 0);
             shader.SetInt("IndirectLightBakeTextureArray", -1);
+            shader.SetInt("IndirectLightBakeTexture", -1);
 
             int id = 5;
             for (int i = 0; i < Material.TextureMaps?.Count; i++)
@@ -517,6 +518,11 @@ namespace CafeLibrary.Rendering
                 //Check if lightmap is a type of array texture
                 if (binded is GLTexture2DArray && uniformName == "IndirectLightBakeTexture")
                 {
+                    //bind to seperate slot due to some bug
+                    id++;
+
+                    GL.ActiveTexture(TextureUnit.Texture0 + id);
+
                     shader.SetInt("isLightmapArray", 1);
                     shader.SetInt("IndirectLightBakeTextureArray", id++);
                 }

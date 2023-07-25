@@ -89,7 +89,8 @@ namespace CafeLibrary
                 {
                     if (limitUniformsUsedByShaderCode && shaderInfo != null &&
                         !shaderInfo.UsedVertexStageUniforms.Contains(param.Name) &&
-                        !shaderInfo.UsedPixelStageUniforms.Contains(param.Name))
+                        !shaderInfo.UsedPixelStageUniforms.Contains(param.Name) &&
+                        param.Name != "gsys_area_env_index_diffuse")
                         continue;
 
                     if (material.AnimatedParams.ContainsKey(param.Name))

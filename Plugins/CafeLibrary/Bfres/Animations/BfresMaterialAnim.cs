@@ -168,6 +168,7 @@ namespace CafeLibrary.Rendering
             return new MenuItemModel[]
             {
                 new MenuItemModel("Export", ExportAction),
+                new MenuItemModel("Replace", ReplaceAction),
                 new MenuItemModel(""),
                 new MenuItemModel("Rename", () => UINode.ActivateRename = true),
                 new MenuItemModel(""),
@@ -179,13 +180,27 @@ namespace CafeLibrary.Rendering
         {
             var dlg = new ImguiFileDialog();
             dlg.SaveDialog = true;
-            dlg.FileName = $"{MaterialAnim.Name}.json";
+            dlg.FileName = $"{MaterialAnim.Name}.bfmaa";
             dlg.AddFilter(".bfmaa", ".bfmaa");
             dlg.AddFilter(".json", ".json");
 
             if (dlg.ShowDialog()) {
                 OnSave();
                 MaterialAnim.Export(dlg.FilePath, ResFile);
+            }
+        }
+
+        private void ReplaceAction()
+        {
+            var dlg = new ImguiFileDialog();
+            dlg.FileName = $"{MaterialAnim.Name}.bfmaa";
+            dlg.AddFilter(".bfmaa", ".bfmaa");
+          //  dlg.AddFilter(".json", ".json");
+
+            if (dlg.ShowDialog())
+            {
+                MaterialAnim.Import(dlg.FilePath, ResFile);
+                Reload(MaterialAnim);
             }
         }
 

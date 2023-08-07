@@ -14,9 +14,9 @@ using Toolbox.Core.ViewModels;
 using Toolbox.Core.IO;
 using CafeLibrary.Rendering;
 using GLFrameworkEngine;
-using BrawlLib.Modeling.Triangle_Converter;
 using IONET.Core.Model;
 using IONET.Core;
+using static GLFrameworkEngine.SkeletonRenderer;
 
 namespace CafeLibrary
 {
@@ -208,10 +208,6 @@ namespace CafeLibrary
             UINode.AddChild(MaterialFolder);
             UINode.AddChild(SkeletonFolder);
 
-            SkeletonFolder.TagUI.UIDrawer += delegate
-            {
-            };
-
             MaterialFolder.ContextMenus.Add(new MenuItemModel("Add Material", AddMaterialDialog));
 
             if (ModelRenderer == null) {
@@ -269,13 +265,12 @@ namespace CafeLibrary
             if (Model.Name == "CausticsArea")
                 ModelRenderer.IsVisible = false;
 
-            //Skeletons, materials and meshes
-            this.Skeleton = new FSKL(this, Model.Skeleton);
-
             if (ModelRenderer.SkeletonRenderer == null)
                 ModelRenderer.SkeletonRenderer = new SkeletonRenderer(this.Skeleton);
 
-            ModelRenderer.SkeletonRenderer.Reload(this.Skeleton);
+            //Skeletons, materials and meshes
+            this.Skeleton = new FSKL(this, Model.Skeleton, SkeletonFolder, ModelRenderer.SkeletonRenderer);
+
 
             foreach (var mat in Model.Materials.Values) {
                 var fmat = new FMAT(BfresWrapper, this, ResFile, mat);
@@ -293,24 +288,6 @@ namespace CafeLibrary
                 //Add to renderer
                 fshp.MeshAsset = BfresLoader.AddMesh(ResFile, BfresWrapper.Renderer, ModelRenderer, Model, shape);
                 fshp.SetupRender(fshp.MeshAsset);
-            }
-
-            SkeletonFolder.Children.Clear();
-            foreach (var bone in ModelRenderer.SkeletonRenderer.Bones)
-                if (bone.Parent == null)
-                    SkeletonFolder.AddChild(bone.UINode);
-
-            foreach (var bone in ModelRenderer.SkeletonRenderer.Bones)
-            {
-                bone.UINode.ContextMenus.Add(new MenuItemModel("Rename", () => { bone.UINode.ActivateRename = true; }));
-                bone.UINode.CanRename = true;
-                bone.UINode.OnHeaderRenamed += delegate
-                {
-                    //Rename wrapper
-                    bone.BoneData.Name = bone.UINode.Header;
-                    //Rename raw bfres bone data
-                    ((FSKL.BfresBone)bone.BoneData).BoneData.Name = bone.UINode.Header;
-                };
             }
         }
 
@@ -2702,12 +2679,175 @@ namespace CafeLibrary
         public Skeleton Skeleton { get; set; }
         public FMDL Model { get; set; }
 
-        public FSKL(FMDL fmdl, Skeleton skeleton)
+        private NodeBase FolderUI;
+
+        private SkeletonRenderer Renderer;
+
+        public FSKL(FMDL fmdl, Skeleton skeleton, NodeBase folder, SkeletonRenderer render)
         {
             Model = fmdl;
             Skeleton = skeleton;
+            FolderUI = folder;
+            Renderer = render;
 
             Reload();
+
+            FolderUI.ContextMenus.Add(new MenuItemModel("Add Bone", () =>
+            {
+                AddNewBoneAction(FolderUI, null);
+            }));
+
+            //Add nodes attached from renderer instances
+            FolderUI.Children.Clear();
+            foreach (var bone in Renderer.Bones)
+                if (bone.Parent == null)
+                    FolderUI.AddChild(bone.UINode);
+
+            foreach (var bone in Renderer.Bones)
+                PrepareBoneUI(bone.UINode, bone.BoneData);
+        }
+
+        private void PrepareBoneUI(NodeBase node, STBone bone)
+        {
+            node.ContextMenus.Clear();
+            node.ContextMenus.Add(new MenuItemModel("Rename", () => { node.ActivateRename = true; }));
+            node.ContextMenus.Add(new MenuItemModel(""));
+            node.ContextMenus.Add(new MenuItemModel("Add", () =>
+            {
+                AddNewBoneAction(node, bone);
+            }));
+            node.ContextMenus.Add(new MenuItemModel("Remove", () =>
+            {
+                RemoveBoneAction(node, bone);
+            }));
+
+            node.CanRename = true;
+            node.OnHeaderRenamed += delegate
+            {
+                //Rename wrapper
+                bone.Name = node.Header;
+                //Rename raw bfres bone data
+                ((FSKL.BfresBone)bone).BoneData.Name = node.Header;
+            };
+        }
+
+        private void RemoveBoneAction(NodeBase node, STBone removedBone)
+        {
+            List<STBone> bonesToRemove = GetAllChildren(removedBone);
+            if (this.Bones.Count == bonesToRemove.Count)
+            {
+                TinyFileDialog.MessageBoxErrorOk($"Atleast 1 bone is needed to be present!");
+                return;
+            }
+
+            var result = TinyFileDialog.MessageBoxInfoYesNo(
+                string.Format("Are you sure you want to remove {0}? This cannot be undone!", removedBone.Name));
+
+            if (result != 1)
+                return;
+
+            //Remove from gui
+            if (node.Parent != null)
+                node.Parent.Children.Remove(node);
+
+            foreach (var bone in bonesToRemove)
+            {
+                //Remove from parent
+                var parent = bone.Parent;
+                if (parent != null)
+                    parent.Children.Remove(parent);
+
+                //Remove from bone render
+                RemoveBoneRender(bone);
+
+                //Remove from generic skeleton
+                this.Bones.Remove(bone);
+
+                //Remove from bfres skeleton data
+                if (Skeleton.Bones.ContainsKey(bone.Name))
+                    Skeleton.Bones.RemoveKey(bone.Name);
+            }
+        }
+
+        private void AddNewBoneAction(NodeBase parentNode, STBone parent)
+        {
+            var nameList = this.Bones.Select(x => x.Name).ToList();
+            string name = Utils.RenameDuplicateString("NewBone", nameList);
+
+            Vector3 position = new Vector3();
+            //copy parent position if parented
+            if (parent != null)
+                position = parent.Position;
+
+            var genericBone = this.AddBone(new Bone()
+            {
+                Name = name,
+                Position = new Syroot.Maths.Vector3F(position.X, position.Y, position.Z),
+                ParentIndex = parent != null ? (short)parent.Index : (short)-1,
+            });
+            var render = AddBoneRender(genericBone);
+            PrepareBoneUI(render.UINode, genericBone);
+        }
+
+
+        //Todo these will be ported to glframework when library is updated to latest
+        public BoneRender AddBoneRender(STBone bone)
+        {
+            var render = new BoneRender(bone);
+            Renderer.Bones.Add(render);
+
+            var parent = Renderer.Bones.FirstOrDefault(x => x.BoneData == bone.Parent);
+            render.SetParent(parent);
+
+            return render;
+        }
+
+        public void RemoveBoneRender(STBone bone)
+        {
+            var render = Renderer.Bones.FirstOrDefault(x => x.BoneData == bone);
+            if (render != null)
+                Renderer.Bones.Remove(render);
+        }
+
+        private List<STBone> GetAllChildren(STBone bone)
+        {
+            List<STBone> bones = new List<STBone>();
+            foreach (var child in bone.Children)
+                bones.AddRange(GetAllChildren(child));
+            return bones;
+        }
+
+        public BfresBone AddBone(Bone bone)
+        {
+            var genericBone = new BfresBone(this, Skeleton, bone)
+            {
+                Name = bone.Name,
+                ParentIndex = bone.ParentIndex,
+                Position = new OpenTK.Vector3(
+                        bone.Position.X,
+                        bone.Position.Y,
+                        bone.Position.Z),
+                Scale = new OpenTK.Vector3(
+                        bone.Scale.X,
+                        bone.Scale.Y,
+                        bone.Scale.Z),
+            };
+
+            if (bone.FlagsRotation == BoneFlagsRotation.EulerXYZ)
+            {
+                genericBone.EulerRotation = new OpenTK.Vector3(
+                    bone.Rotation.X, bone.Rotation.Y, bone.Rotation.Z);
+            }
+            else
+                genericBone.Rotation = new OpenTK.Quaternion(
+                     bone.Rotation.X, bone.Rotation.Y,
+                     bone.Rotation.Z, bone.Rotation.W);
+
+            Bones.Add(genericBone);
+
+            this.Reset();
+
+            return genericBone;
         }
 
         public void Reload()
@@ -2742,6 +2882,8 @@ namespace CafeLibrary
             }
 
             Reset();
+
+            Renderer.Reload(this);
         }
 
         public class BfresBone : STBone, IPropertyUI

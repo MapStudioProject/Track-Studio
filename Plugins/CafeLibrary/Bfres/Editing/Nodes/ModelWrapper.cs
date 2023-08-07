@@ -2778,9 +2778,6 @@ namespace CafeLibrary
             string name = Utils.RenameDuplicateString("NewBone", nameList);
 
             Vector3 position = new Vector3();
-            //copy parent position if parented
-            if (parent != null)
-                position = parent.Position;
 
             var genericBone = this.AddBone(new Bone()
             {

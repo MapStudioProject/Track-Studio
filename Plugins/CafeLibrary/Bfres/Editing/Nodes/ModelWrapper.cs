@@ -2737,6 +2737,7 @@ namespace CafeLibrary
         private void RemoveBoneAction(NodeBase node, STBone removedBone)
         {
             List<STBone> bonesToRemove = GetAllChildren(removedBone);
+            bonesToRemove.Add(removedBone);
             if (this.Bones.Count == bonesToRemove.Count)
             {
                 TinyFileDialog.MessageBoxErrorOk($"Atleast 1 bone is needed to be present!");

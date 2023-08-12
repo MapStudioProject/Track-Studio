@@ -2706,7 +2706,6 @@ namespace CafeLibrary
             foreach (var bone in Renderer.Bones)
             {
                 PrepareBoneUI(bone.UINode, bone.BoneData);
-                PrepareRender(bone, (BfresBone)bone.BoneData);
             }
         }
 
@@ -2788,30 +2787,7 @@ namespace CafeLibrary
             });
             var render = AddBoneRender(genericBone);
             PrepareBoneUI(render.UINode, genericBone);
-            PrepareRender(render, genericBone);
         }
-
-        private void PrepareRender(BoneRender render, BfresBone bone)
-        {
-            render.Transform.TransformUpdated += delegate
-            {
-                //Turn into local space
-                var local = render.Transform.TransformMatrix;
-                if (bone.Parent != null)
-                    local = render.Transform.TransformMatrix * bone.Parent.Transform.Inverted();
-
-                Vector3 position = local.ExtractTranslation();
-                var rotation = local.ExtractRotation();
-                var scale = local.ExtractScale();
-
-                bone.Position = position;
-                bone.Rotation = rotation;
-                bone.Scale = scale;
-
-                bone.UpdateBfresTransform();
-            };
-        }
-
 
         //Todo these will be ported to glframework when library is updated to latest
         public BoneRender AddBoneRender(STBone bone)
@@ -2829,7 +2805,9 @@ namespace CafeLibrary
         {
             var render = Renderer.Bones.FirstOrDefault(x => x.BoneData == bone);
             if (render != null)
+            {
                 Renderer.Bones.Remove(render);
+            }
         }
 
         private List<STBone> GetAllChildren(STBone bone)

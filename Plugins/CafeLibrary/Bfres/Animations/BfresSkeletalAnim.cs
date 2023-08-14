@@ -11,6 +11,7 @@ using OpenTK;
 using GLFrameworkEngine;
 using MapStudio.UI;
 using UIFramework;
+using System.IO;
 
 namespace CafeLibrary.Rendering
 {
@@ -99,11 +100,21 @@ namespace CafeLibrary.Rendering
             dlg.FileName = $"{SkeletalAnim.Name}.json";
             dlg.AddFilter(".bfska", ".bfska");
             dlg.AddFilter(".json", ".json");
+            dlg.AddFilter(".anim", ".anim");
 
             if (dlg.ShowDialog())
             {
                 OnSave();
-                SkeletalAnim.Export(dlg.FilePath, ResFile);
+
+                switch (Path.GetExtension(dlg.FilePath))
+                {
+                    case ".anim":
+                        SkeletonAnimExporter.Export(SkeletalAnim, GetActiveSkeleton(), dlg.FilePath);
+                        break;
+                    default:
+                        SkeletalAnim.Export(dlg.FilePath, ResFile);
+                        break;
+                }
             }
         }
 
@@ -114,10 +125,22 @@ namespace CafeLibrary.Rendering
             dlg.FileName = $"{SkeletalAnim.Name}.json";
             dlg.AddFilter(".bfska", ".bfska");
             dlg.AddFilter(".json", ".json");
+            dlg.AddFilter(".anim", ".anim");
 
             if (dlg.ShowDialog())
             {
-                SkeletalAnim.Import(dlg.FilePath, ResFile);
+                switch (Path.GetExtension(dlg.FilePath))
+                {
+                    case ".anim":
+                        SkeletonAnimImporter.Import(SkeletalAnim, GetActiveSkeleton(), dlg.FilePath, new SkeletonAnimImporter.Settings()
+                        {
+
+                        });
+                        break;
+                    default:
+                        SkeletalAnim.Import(dlg.FilePath, ResFile);
+                        break;
+                }
                 Reload(SkeletalAnim);
             }
         }
@@ -214,16 +237,32 @@ namespace CafeLibrary.Rendering
                 return null;
 
             var models = ((BfresRender)DataCache.ModelCache[ModelName]).Models;
-            if (models.Count == 0) return null;
 
-            if (!((BfresRender)DataCache.ModelCache[ModelName]).InFrustum)
-                return null;
-
-            foreach (var model in models)
+            foreach (var file in DataCache.ModelCache.Values)
             {
-                if (model.IsVisible)
-                    skeletons.Add(model.ModelData.Skeleton);
+                foreach (var model in file.Models)
+                {
+                    if (model.IsVisible)
+                        skeletons.Add(model.ModelData.Skeleton);
+                }
             }
+
+        /*    if (models.Count == 0)
+            {
+           
+            }
+            else
+            {
+                foreach (var model in models)
+                {
+                    if (model.IsVisible)
+                        skeletons.Add(model.ModelData.Skeleton);
+                }
+            }*/
+
+           // if (!((BfresRender)DataCache.ModelCache[ModelName]).InFrustum)
+            //    return null;
+
             return skeletons.ToArray();
         }
 
@@ -242,8 +281,11 @@ namespace CafeLibrary.Rendering
             if (!((BfresRender)DataCache.ModelCache[ModelName]).InFrustum)
                 return null;
 
-            if (((BfresModelRender)models[0]).IsVisible)
-                return ((BfresModelRender)models[0]).ModelData.Skeleton;
+            foreach (var model in models)
+            {
+                if (model.IsVisible)
+                    return model.ModelData.Skeleton;
+            }
             return null;
         }
 

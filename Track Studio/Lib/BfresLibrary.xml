@@ -1138,6 +1138,12 @@
             Represents the texture transformation mode used in <see cref="T:BfresLibrary.TexSrt"/> />.
             </summary>
         </member>
+        <member name="T:BfresLibrary.StringCache">
+            <summary>
+            A cache of strings that are saved through raw IDs in place of the pointer field of a name offset.
+            This is used and required for TOTK models.
+            </summary>
+        </member>
         <member name="T:BfresLibrary.TextureRef">
             <summary>
             Represents a reference to a <see cref="P:BfresLibrary.TextureRef.Texture"/> instance by name.
@@ -4223,12 +4229,6 @@
             <summary>
             Gets or sets the number of bones influencing the vertices stored in this buffer. 0 influences equal
             rigidbodies (no skinning), 1 equal rigid skinning and 2 or more smooth skinning.
-            </summary>
-        </member>
-        <member name="P:BfresLibrary.VertexBuffer.VertexCount">
-            <summary>
-            Gets the number of vertices stored by the <see cref="P:BfresLibrary.VertexBuffer.Buffers"/>. It is calculated from the size of the first
-            <see cref="T:BfresLibrary.Buffer"/> in bytes divided by the <see cref="P:BfresLibrary.Buffer.Stride"/>.
             </summary>
         </member>
         <member name="P:BfresLibrary.VertexBuffer.Attributes">

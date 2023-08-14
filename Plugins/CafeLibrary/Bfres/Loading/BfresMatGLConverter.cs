@@ -121,12 +121,15 @@ namespace CafeLibrary.Rendering
             //Alpha test
             string alphaTest = GetRenderInfo(mat, "gsys_alpha_test_enable");
             string alphaFunc = GetRenderInfo(mat, "gsys_alpha_test_func");
-            float alphaValue = GetRenderInfo(mat, "gsys_alpha_test_value");
+            float? alphaValue = GetRenderInfo(mat, "gsys_alpha_test_value");
 
             string colorOp = GetRenderInfo(mat, "gsys_color_blend_rgb_op");
             string colorDst = GetRenderInfo(mat, "gsys_color_blend_rgb_dst_func");
             string colorSrc = GetRenderInfo(mat, "gsys_color_blend_rgb_src_func");
-            float[] blendColorF32 = mat.RenderInfos["gsys_color_blend_const_color"].GetValueSingles();
+
+            float[] blendColorF32 = new float[4] { 1f, 1f, 1f, 1f };
+            if (mat.RenderInfos.ContainsKey("gsys_color_blend_const_color"))
+                blendColorF32 = mat.RenderInfos["gsys_color_blend_const_color"].GetValueSingles();
 
             string alphaOp = GetRenderInfo(mat, "gsys_color_blend_alpha_op");
             string alphaDst = GetRenderInfo(mat, "gsys_color_blend_alpha_dst_func");
@@ -176,7 +179,7 @@ namespace CafeLibrary.Rendering
             fmat.BlendState.DepthTest = depthTest == "true";
             fmat.BlendState.DepthWrite = depthWrite == "true";
             fmat.BlendState.AlphaTest = alphaTest == "true";
-            fmat.BlendState.AlphaValue = alphaValue;
+            fmat.BlendState.AlphaValue = alphaValue.HasValue ? alphaValue.Value : 0.5f;
 
             if (alphaFunc == "always")
                 fmat.BlendState.AlphaFunction = AlphaFunction.Always;

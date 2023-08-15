@@ -109,8 +109,7 @@ namespace CafeLibrary.Rendering
                 switch (Path.GetExtension(dlg.FilePath))
                 {
                     case ".anim":
-                        var skeleton = GetActiveSkeletons().FirstOrDefault();
-                        SkeletonAnimExporter.Export(SkeletalAnim, skeleton, dlg.FilePath);
+                        SkeletonAnimExporter.Export(SkeletalAnim, GetActiveSkeleton(), dlg.FilePath);
                         break;
                     default:
                         SkeletalAnim.Export(dlg.FilePath, ResFile);
@@ -237,8 +236,6 @@ namespace CafeLibrary.Rendering
             if (!DataCache.ModelCache.ContainsKey(ModelName))
                 return null;
 
-            var models = ((BfresRender)DataCache.ModelCache[ModelName]).Models;
-
             foreach (var file in DataCache.ModelCache.Values)
             {
                 foreach (var model in file.Models)
@@ -247,23 +244,6 @@ namespace CafeLibrary.Rendering
                         skeletons.Add(model.ModelData.Skeleton);
                 }
             }
-
-        /*    if (models.Count == 0)
-            {
-           
-            }
-            else
-            {
-                foreach (var model in models)
-                {
-                    if (model.IsVisible)
-                        skeletons.Add(model.ModelData.Skeleton);
-                }
-            }*/
-
-           // if (!((BfresRender)DataCache.ModelCache[ModelName]).InFrustum)
-            //    return null;
-
             return skeletons.ToArray();
         }
 
@@ -273,20 +253,51 @@ namespace CafeLibrary.Rendering
         /// <returns></returns>
         public override STSkeleton GetActiveSkeleton()
         {
-            if (!DataCache.ModelCache.ContainsKey(ModelName))
-                return null;
-
-            var models = ((BfresRender)DataCache.ModelCache[ModelName]).Models;
-            if (models.Count == 0) return null;
-
-            if (!((BfresRender)DataCache.ModelCache[ModelName]).InFrustum)
-                return null;
-
-            foreach (var model in models)
+            STSkeleton IsSkeletonInAnimation(STSkeleton skeleton)
             {
-                if (model.IsVisible)
-                    return model.ModelData.Skeleton;
+                //Check if all the bones in the animation are present in the skeleton
+                bool areAllBonesPresent = skeleton.Bones.Count > 0;
+                foreach (var bone in skeleton.Bones)
+                {
+                    var animBone = skeleton.SearchBone(bone.Name);
+
+                    if (animBone == null)
+                        areAllBonesPresent = false;
+                }
+                if (areAllBonesPresent)
+                    return skeleton;
+                return null;
             }
+
+            //parent resource cache
+            if (DataCache.ModelCache.ContainsKey(ModelName))
+            {
+                //check for models present
+                var models = ((BfresRender)DataCache.ModelCache[ModelName]).Models;
+
+                //Return individual skeleton for single model files
+                if (models.Count == 1)
+                    return models[0].ModelData.Skeleton;
+
+                //Search multiple FMDL to find matching bones
+                foreach (var model in models)
+                {
+                    var skeleton = IsSkeletonInAnimation(model.ModelData.Skeleton);
+                    if (skeleton != null)
+                        return skeleton;
+                }
+            }
+
+            //Lastly check for active render and if skeleton is visible/active
+            foreach (var file in DataCache.ModelCache.Values)
+            {
+                foreach (var model in file.Models)
+                {
+                    if (file.IsVisible && model.IsVisible)
+                        return model.ModelData.Skeleton;
+                }
+            }
+
             return null;
         }
 

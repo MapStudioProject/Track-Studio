@@ -109,7 +109,8 @@ namespace CafeLibrary.Rendering
                 switch (Path.GetExtension(dlg.FilePath))
                 {
                     case ".anim":
-                        SkeletonAnimExporter.Export(SkeletalAnim, GetActiveSkeleton(), dlg.FilePath);
+                        var skeleton = GetActiveSkeletons().FirstOrDefault();
+                        SkeletonAnimExporter.Export(SkeletalAnim, skeleton, dlg.FilePath);
                         break;
                     default:
                         SkeletalAnim.Export(dlg.FilePath, ResFile);

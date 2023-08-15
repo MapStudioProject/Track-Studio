@@ -19,6 +19,11 @@ namespace CafeLibrary
     {
         public static void Export(SkeletalAnim fskaAnimation, STSkeleton skeleton, string filePath)
         {
+            if (skeleton  == null)
+            {
+                throw new Exception($"No skeleton found to export animation!");
+            }
+
             IOAnimation anm = new IOAnimation();
             anm.Name = Path.GetFileNameWithoutExtension(filePath);
             anm.StartFrame = 0;

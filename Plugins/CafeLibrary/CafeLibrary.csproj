@@ -87,6 +87,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="ZstdSharp.Port" Version="0.7.2" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\GLFrameworkEngine\GLFrameworkEngine.csproj" />
     <ProjectReference Include="..\..\MapStudio.UI\MapStudio.UI.csproj" />
     <ProjectReference Include="..\..\Toolbox.Core\Toolbox.Core.csproj" />

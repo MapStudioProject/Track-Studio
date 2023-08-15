@@ -5,11 +5,18 @@ using System.Text;
 using System.IO;
 using Toolbox.Core;
 using Newtonsoft.Json;
+using MapStudio.UI;
 
 namespace CafeLibrary
 {
-    public class PluginConfig
+    public class PluginConfig : IPluginConfig
     {
+        [JsonProperty]
+        public static string TotkGamePath = "";
+
+        public static bool IsValidTotkGamePath;
+
+
         [JsonProperty]
         public static string MaterialPreset = "";
 
@@ -34,6 +41,17 @@ namespace CafeLibrary
         }
 
         /// <summary>
+        /// Renders the current configuration UI.
+        /// </summary>
+        public void DrawUI()
+        {
+            if (ImguiCustomWidgets.PathSelector("TOTK Game Path", ref TotkGamePath, IsValidTotkGamePath))
+            {
+                Save();
+            }
+        }
+
+        /// <summary>
         /// Saves the current configuration to json on disc.
         /// </summary>
         public void Save()
@@ -44,8 +62,7 @@ namespace CafeLibrary
 
         private void Reload()
         {
-
-
+            IsValidTotkGamePath = File.Exists(Path.Combine(TotkGamePath, "Shader", "ExternalBinaryString.bfres.mc"));
             init = true;
         }
     }

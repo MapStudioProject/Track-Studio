@@ -62,7 +62,7 @@ namespace CafeLibrary
 
             AddSkeletalAnimation(anim);
 
-            if (SkeletalAnimsFolder.Children.Count == 1) AddChild(SkeletalAnimsFolder);
+            if (SkeletalAnimsFolder.Parent == null) AddChild(SkeletalAnimsFolder);
         }
 
         private void AddTextureAnim()
@@ -73,7 +73,7 @@ namespace CafeLibrary
 
             AddTexturePatternAnimation(anim);
 
-            if (TexPatternAnimsFolder.Children.Count == 1) AddChild(TexPatternAnimsFolder);
+            if (TexPatternAnimsFolder.Parent == null) AddChild(TexPatternAnimsFolder);
         }
 
         private void AddColorAnim()
@@ -84,7 +84,7 @@ namespace CafeLibrary
 
             AddColorAnimation(anim);
 
-            if (ColorParamAnimsFolder.Children.Count == 1) AddChild(ColorParamAnimsFolder);
+            if (ColorParamAnimsFolder.Parent == null) AddChild(ColorParamAnimsFolder);
         }
 
         private void AddTexSRTAnim()
@@ -95,7 +95,7 @@ namespace CafeLibrary
 
             AddTextureSRTAnimation(anim);
 
-            if (TexSRTParamAnimsFolder.Children.Count == 1) AddChild(TexSRTParamAnimsFolder);
+            if (TexSRTParamAnimsFolder.Parent == null) AddChild(TexSRTParamAnimsFolder);
         }
 
         private void AddShaderParamAnim()
@@ -106,7 +106,7 @@ namespace CafeLibrary
 
             AddShaderParamAnimation(anim);
 
-            if (ShaderParamAnimsFolder.Children.Count == 1) AddChild(ShaderParamAnimsFolder);
+            if (ShaderParamAnimsFolder.Parent == null) AddChild(ShaderParamAnimsFolder);
         }
 
         public void OnSave()

@@ -21,6 +21,7 @@ uniform int isSelected;
 uniform int hasProbes;
 uniform int isNormalMapBC1;
 uniform int isLightmapArray;
+uniform int hasLightmap;
 
 in vec2 texCoord0;
 in vec3 normal;
@@ -128,7 +129,7 @@ void main(){
         vec4 light_tex = vec4(0);
         if (isLightmapArray == 1)
              light_tex = texture(IndirectLightBakeTextureArray, vec3(texCoordBake1, 0));
-        else
+        else if (hasLightmap == 1)
              light_tex = texture(IndirectLightBakeTexture,texCoordBake1);
 
         outputColor.rgb = light_bake_scale * light_tex.rgb * light_tex.a;

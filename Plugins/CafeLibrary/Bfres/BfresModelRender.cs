@@ -207,6 +207,7 @@ namespace CafeLibrary.Rendering
                         context.UseSRBFrameBuffer = true;
 
                     context.CurrentShader = BfresRender.DebugShader;
+                    BfresRender.DebugShader.Enable();
 
                     ((BfresMaterialRender)mesh.MaterialAsset).SetRenderState();
                     ((BfresMaterialRender)mesh.MaterialAsset).RenderDebugMaterials(context,
@@ -216,22 +217,23 @@ namespace CafeLibrary.Rendering
                     context.CurrentShader.SetInt("AreaIndex", ((BfresMaterialRender)mesh.MaterialAsset).AreaIndex);
                     context.CurrentShader.SetBoolToInt("isSelected", parentRender.IsSelected || mesh.IsSelected);
 
-                    
+
                     //Selection clear color
-                    /* if (parentRender.MeshPicking)
-                     {
-                         if (mesh.IsSelected)
-                             context.EnableSelectionMask();
-                         else
-                             context.DisableSelectionMask();
-                     }
-                     else
-                     {
-                         if (parentRender.IsSelected)
-                             context.EnableSelectionMask();
-                         else
-                             context.DisableSelectionMask();
-                     }*/
+                    //Selection clear color
+                    if (parentRender.MeshPicking)
+                    {
+                        if (mesh.IsSelected)
+                            context.EnableSelectionMask();
+                        else
+                            context.DisableSelectionMask();
+                    }
+                    else
+                    {
+                        if (parentRender.IsSelected)
+                            context.EnableSelectionMask();
+                        else
+                            context.DisableSelectionMask();
+                    }
 
                     DrawMesh(context.CurrentShader, parentRender, mesh);
                 }

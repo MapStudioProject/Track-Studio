@@ -34,7 +34,6 @@ in vec2 texCoordBake1;
 in vec3 probeLight;
 
 out vec4 fragOutput;
-out vec4 selectionMask;
 
 const int DISPLAY_NORMALS = 1;
 const int DISPLAY_LIGHTING = 2;
@@ -67,9 +66,6 @@ vec3 ReconstructNormal(in vec2 t_NormalXY) {
 void main(){
     vec4 outputColor = vec4(1);
     vec2 displayTexCoord = texCoord0;
-    selectionMask = vec4(0);
-    if (isSelected == 1)
-        selectionMask = vec4(1.0);
 
     vec3 N = normal;
 

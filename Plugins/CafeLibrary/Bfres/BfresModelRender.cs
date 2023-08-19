@@ -219,7 +219,6 @@ namespace CafeLibrary.Rendering
 
 
                     //Selection clear color
-                    //Selection clear color
                     if (parentRender.MeshPicking)
                     {
                         if (mesh.IsSelected)

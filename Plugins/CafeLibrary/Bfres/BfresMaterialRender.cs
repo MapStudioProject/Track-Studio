@@ -514,20 +514,18 @@ namespace CafeLibrary.Rendering
                 if (uniformName == string.Empty)
                     continue;
 
+                GL.ActiveTexture(TextureUnit.Texture0 + id);
                 var binded = BindTexture(shader, sampler, GetTextures(), Material.TextureMaps[i], name, id);
                 //Check if lightmap is a type of array texture
                 if (binded is GLTexture2DArray && uniformName == "IndirectLightBakeTexture")
                 {
-                    //bind to seperate slot due to some bug
-                    id++;
-
-                    GL.ActiveTexture(TextureUnit.Texture0 + id);
-
                     shader.SetInt("isLightmapArray", 1);
                     shader.SetInt("IndirectLightBakeTextureArray", id++);
                 }
                 else
+                {
                     shader.SetInt(uniformName, id++);
+                }
             }
 
             GL.ActiveTexture(TextureUnit.Texture0);
@@ -559,6 +557,7 @@ namespace CafeLibrary.Rendering
                 if (uniformName == string.Empty)
                     continue;
 
+                GL.ActiveTexture(TextureUnit.Texture0 + id);
                 var binded = BindTexture(shader, sampler, GetTextures(), Material.TextureMaps[i], name, id);
                 shader.SetInt(uniformName, id++);
             }
@@ -593,9 +592,6 @@ namespace CafeLibrary.Rendering
             if (name == null)
                 return null;
 
-            GL.ActiveTexture(TextureUnit.Texture0 + id);
-            GL.BindTexture(TextureTarget.Texture2D, RenderTools.defaultTex.ID);
-
             if (textures.ContainsKey(name))
                 return BindGLTexture(textures[name], textureMap, sampler);
 
@@ -604,6 +600,8 @@ namespace CafeLibrary.Rendering
                 if (model.Textures.ContainsKey(name))
                     return BindGLTexture(model.Textures[name], textureMap, sampler);
             }
+
+            GL.BindTexture(TextureTarget.Texture2D, RenderTools.defaultTex.ID);
 
             return RenderTools.defaultTex;
         }

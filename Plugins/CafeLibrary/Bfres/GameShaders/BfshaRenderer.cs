@@ -573,6 +573,7 @@ namespace CafeLibrary.Rendering
                 if (this.Material.AnimatedSamplers.ContainsKey(texMap.Sampler))
                     name = this.Material.AnimatedSamplers[texMap.Sampler];
 
+                GL.ActiveTexture(TextureUnit.Texture0 + id);
                 BindTexture(shader, sampler, GetTextures(), texMap, name, id);
                 SetTexture(shader, locationInfo.VertexLocation, locationInfo.FragmentLocation, ref id);
             }

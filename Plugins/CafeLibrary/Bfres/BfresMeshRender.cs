@@ -340,6 +340,9 @@ namespace CafeLibrary.Rendering
             for (int i = 0; i < Attributes.Count; i++)
             {
                 var att = Attributes[i];
+                if (vao.ContainsAttribute(att.UniformName))
+                    continue;
+
                 vao.AddAttribute(
                     att.UniformName,
                     att.ElementCount,

@@ -523,6 +523,11 @@ namespace CafeLibrary.Rendering
                 //Check if lightmap is a type of array texture
                 if (binded is GLTexture2DArray && uniformName == "IndirectLightBakeTexture")
                 {
+                    //bind to next slot
+                    id++;
+
+                    GL.ActiveTexture(TextureUnit.Texture0 + id);
+                    binded.Bind();
                     shader.SetInt("isLightmapArray", 1);
                     shader.SetInt("IndirectLightBakeTextureArray", id++);
                 }

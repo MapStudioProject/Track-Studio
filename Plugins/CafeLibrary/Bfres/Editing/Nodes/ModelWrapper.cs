@@ -1914,13 +1914,31 @@ namespace CafeLibrary
 
         public void UpdateTransformedVertices(Matrix4 matrix)
         {
+            if (matrix == Matrix4.Identity)
+                return;
+
             Syroot.Maths.Vector4F[] position = new Syroot.Maths.Vector4F[Vertices.Count];
             Syroot.Maths.Vector4F[] normals = new Syroot.Maths.Vector4F[Vertices.Count];
 
             for (int i = 0; i < Vertices.Count; i++)
             {
-                var pos = GetLocalVertexPosition(i, Vector3.TransformPosition(Vertices[i].Position, matrix));
-                var nrm = GetLocalVertexNormal(i, Vector3.TransformNormal(Vertices[i].Normal, matrix));
+                Vertices[i].Position = Vector3.TransformPosition(Vertices[i].Position, matrix);
+                Vertices[i].Normal = Vector3.TransformNormal(Vertices[i].Normal, matrix);
+
+                Vector3 pos = Vertices[i].Position;
+                Vector3 nrm = Vertices[i].Normal;
+
+                if (VertexSkinCount == 1 || VertexSkinCount == 0)
+                {
+                    var boneId = (int)this.Shape.BoneIndex;
+                    if (VertexSkinCount == 1)
+                        boneId = this.ParentModel.Skeleton.MatrixToBoneList[Vertices[i].BoneIndices[0]];
+
+                    var transform = ModelWrapper.Skeleton.Bones[boneId].Transform;
+                    Matrix4.Invert(ref transform, out Matrix4 invert);
+                    pos = Vector3.TransformPosition(pos, invert);
+                    nrm = Vector3.TransformNormal(nrm, invert);
+                }
 
                 position[i] = new Syroot.Maths.Vector4F(pos.X, pos.Y, pos.Z, 0);
                 normals[i] = new Syroot.Maths.Vector4F(nrm.X, nrm.Y, nrm.Z, 0);

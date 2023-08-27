@@ -316,9 +316,6 @@ namespace CafeLibrary.ModelConversion
 
                 mesh.TransformVertices(GlobalTransform);
 
-                foreach (var v in mesh.Vertices)
-                    NormalizeByteType(v.Envelope.Weights);
-
                 MapStudio.UI.ProcessLoading.Instance.Update(meshIndex, model.Meshes.Count, $"Importing mesh {mesh.Name}");
 
                 var meshSettings = new ModelImportSettings.MeshSettings();
@@ -326,14 +323,6 @@ namespace CafeLibrary.ModelConversion
                 if (importSettings.Meshes.Any(x => x.MeshData == mesh))
                 {
                     meshSettings = importSettings.Meshes.FirstOrDefault(x => x.MeshData == mesh);
-                    if (meshSettings.SkinCount > 0)
-                    {
-                        foreach (var v in mesh.Vertices)
-                        {
-                            //Optimize weights
-                            v.Envelope.NormalizeByteType();
-                        }
-                    }
                 }
                 var names = fmdl.Shapes.Values.Select(x => x.Name).ToList();
 
@@ -348,6 +337,16 @@ namespace CafeLibrary.ModelConversion
                 fshp.MaterialIndex = 0;
                 fshp.BoneIndex = 0;
                 fshp.VertexSkinCount = (byte)skinCounts[meshIndex++];
+
+                foreach (var v in mesh.Vertices)
+                {
+                    //limit the skin count 
+                    var weights = v.Envelope.Weights.Where(x => x.Weight != 0).ToList();
+                    if (weights.Count > fshp.VertexSkinCount)
+                        v.Envelope.LimtSkinCount(fshp.VertexSkinCount);
+
+                    NormalizeByteType(v.Envelope.Weights);
+                }
 
                 fshp.SkinBoneIndices = new List<ushort>();
                 foreach (var vertex in mesh.Vertices)
@@ -576,10 +575,10 @@ namespace CafeLibrary.ModelConversion
             float scale = 1.0f / 255f;
 
             int MaxWeight = 255;
-            var list = weights.ToList();
+            var list = weights.OrderBy(x => x.Weight).ToList();
 
             int id = 0;
-            foreach (IOBoneWeight b in weights)
+            foreach (IOBoneWeight b in list)
             {
                 id++;
 

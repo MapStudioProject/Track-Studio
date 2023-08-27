@@ -421,24 +421,18 @@ namespace CafeLibrary.ModelConversion
 
                 if (importSettings.EnableLODs)
                 {
-                    var lod1 = new Mesh()
+                    for (int i = 0; i < importSettings.LODCount; i++)
                     {
-                        FirstVertex = 0,
-                        SubMeshes = bMesh.SubMeshes.ToList(),
-                        IndexBuffer = bMesh.IndexBuffer,
-                        PrimitiveType = bMesh.PrimitiveType,
-                    };
-                    lod1.SetIndices(bMesh.GetIndices().ToList(), bMesh.IndexFormat);
-                    fshp.Meshes.Add(lod1);
-                    var lod2 = new Mesh()
-                    {
-                        FirstVertex = 0,
-                        SubMeshes = bMesh.SubMeshes.ToList(),
-                        IndexBuffer = bMesh.IndexBuffer,
-                        PrimitiveType = bMesh.PrimitiveType,
-                    };
-                    lod2.SetIndices(bMesh.GetIndices().ToList(), bMesh.IndexFormat);
-                    fshp.Meshes.Add(lod2);
+                        var lod = new Mesh()
+                        {
+                            FirstVertex = 0,
+                            SubMeshes = bMesh.SubMeshes.ToList(),
+                            IndexBuffer = bMesh.IndexBuffer,
+                            PrimitiveType = bMesh.PrimitiveType,
+                        };
+                        lod.SetIndices(bMesh.GetIndices().ToList(), bMesh.IndexFormat);
+                        fshp.Meshes.Add(lod);
+                    }
                 }
 
                 //Calculate the bounding tree

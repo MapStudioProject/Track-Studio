@@ -25,6 +25,8 @@ namespace CafeLibrary
         public List<MeshSettings> Meshes = new List<MeshSettings>();
         public List<string> Materials = new List<string>();
 
+        public int LODCount = 2;
+
         public string MaterialPresetName = "";
 
         public MaterialPresetWindow PresetWindow = new MaterialPresetWindow();

@@ -331,7 +331,7 @@ namespace CafeLibrary.ModelConversion
                         foreach (var v in mesh.Vertices)
                         {
                             //Optimize weights
-                          //  v.Envelope.NormalizeByteType();
+                            v.Envelope.NormalizeByteType();
                         }
                     }
                 }

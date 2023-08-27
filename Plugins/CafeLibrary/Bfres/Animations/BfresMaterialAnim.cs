@@ -318,9 +318,12 @@ namespace CafeLibrary.Rendering
                 material.Material.AnimatedSamplers.Remove(track.Name);
 
             var value = (int)track.GetFrameValue(this.Frame);
-            var texture = TextureList[value];
-            if (texture != null)
-                material.Material.AnimatedSamplers.Add(track.Name, texture);
+            if (TextureList.Count > value)
+            {
+                var texture = TextureList[value];
+                if (texture != null)
+                    material.Material.AnimatedSamplers.Add(track.Name, texture);
+            }
         }
 
         private void ParseParamTrack(BfresMaterialRender matRender, STAnimGroup group, ParamTrack track)

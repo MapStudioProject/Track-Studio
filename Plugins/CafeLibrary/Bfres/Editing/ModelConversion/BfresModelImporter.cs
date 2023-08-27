@@ -174,7 +174,8 @@ namespace CafeLibrary.ModelConversion
                 }
             }
 
-            if (fmdl.Skeleton.Bones.Count == 0) {
+            if (fmdl.Skeleton.Bones.Count == 0)
+            {
                 fmdl.Skeleton.Bones.Add("Root", new Bone() { Name = "Root" });
             }
 
@@ -351,6 +352,13 @@ namespace CafeLibrary.ModelConversion
                 fshp.SkinBoneIndices = new List<ushort>();
                 foreach (var vertex in mesh.Vertices)
                 {
+                    if (importSettings.OverrideVertexColors)
+                    {
+                        vertex.SetColor(importSettings.ColorOverride.X,
+                                        importSettings.ColorOverride.Y,
+                                        importSettings.ColorOverride.Z,
+                                        importSettings.ColorOverride.W, 0);
+                    }
                     if (importSettings.FlipUVs)
                     {
                         for (int i = 0; i < vertex.UVs.Count; i++)
@@ -385,7 +393,7 @@ namespace CafeLibrary.ModelConversion
 
                 //Generate a vertex buffer
                 VertexBuffer buffer = GenerateVertexBuffer(resFile, mesh, fshp,
-                    meshSettings,  transforms, fmdl.Skeleton, rigidSkinningIndices, smoothSkinningIndices);
+                    meshSettings, transforms, fmdl.Skeleton, rigidSkinningIndices, smoothSkinningIndices);
 
                 fshp.VertexBufferIndex = (ushort)fmdl.VertexBuffers.Count;
                 fshp.VertexSkinCount = (byte)buffer.VertexSkinCount;
@@ -402,8 +410,8 @@ namespace CafeLibrary.ModelConversion
                 Vector3F max = boundingBox.Center + boundingBox.Extent;
                 float sphereRadius = (float)(boundingBox.Center.Length + boundingBox.Extent.Length);
 
-               // var sphereRadius = GetBoundingSphereFromRegion(new Vector4F(
-               //     min.X, min.Y, min.Z, 1), new Vector4F(max.X, max.Y, max.Z, 1));
+                // var sphereRadius = GetBoundingSphereFromRegion(new Vector4F(
+                //     min.X, min.Y, min.Z, 1), new Vector4F(max.X, max.Y, max.Z, 1));
 
                 fshp.RadiusArray.Add(sphereRadius); //Total radius (per LOD)
 
@@ -919,7 +927,7 @@ namespace CafeLibrary.ModelConversion
                 }
             }
 
-            if(missingBones.Count > 0)
+            if (missingBones.Count > 0)
             {
                 foreach (var bone in missingBones)
                     StudioLogger.WriteWarning($"Missing bone {bone} on mesh {mesh.Name}");
@@ -1030,7 +1038,6 @@ namespace CafeLibrary.ModelConversion
         public class MeshSettings
         {
             public bool UseNormal { get; set; }
-
             public bool UseBoneWeights { get; set; }
             public bool UseBoneIndices { get; set; }
             public bool UseTangents { get; set; }

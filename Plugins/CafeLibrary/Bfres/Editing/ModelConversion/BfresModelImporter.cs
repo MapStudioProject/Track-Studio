@@ -211,20 +211,21 @@ namespace CafeLibrary.ModelConversion
                 if (riggedBones?.Count >= 1)
                     vertexSkinCount = CalculateSkinCount(mesh.Vertices);
                 //Apply rigid bodies so vertices are in world space
-              /*  if (riggedBones?.Count == 1)
-                {
-                    var bn = model.Skeleton.BreathFirstOrder().Where(x => x.Name == riggedBones[0]).FirstOrDefault();
-                    if (bn != null)
-                        mesh.TransformVertices(bn.WorldTransform);
-                }*/
+                /*  if (riggedBones?.Count == 1)
+                  {
+                      var bn = model.Skeleton.BreathFirstOrder().Where(x => x.Name == riggedBones[0]).FirstOrDefault();
+                      if (bn != null)
+                          mesh.TransformVertices(bn.WorldTransform);
+                  }*/
 
 
                 //Todo. This basically reimports meshes with the original skin count to target as
-                /*    if (importSettings.Meshes.Any(x => x.Name == mesh.Name))
-                    {
-                        var meshSettings = importSettings.Meshes.FirstOrDefault(x => x.Name == mesh.Name);
+                if (importSettings.Meshes.Any(x => x.Name == mesh.Name))
+                {
+                    var meshSettings = importSettings.Meshes.FirstOrDefault(x => x.Name == mesh.Name);
+                    if (meshSettings != null)
                         vertexSkinCount = (uint)meshSettings.SkinCount;
-                    }*/
+                }
 
                 skinCounts[sindex++] = vertexSkinCount;
 

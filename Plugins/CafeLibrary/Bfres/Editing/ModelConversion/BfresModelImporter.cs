@@ -428,7 +428,7 @@ namespace CafeLibrary.ModelConversion
                         IndexBuffer = bMesh.IndexBuffer,
                         PrimitiveType = bMesh.PrimitiveType,
                     };
-                    lod1.SetIndices(bMesh.GetIndices().ToList());
+                    lod1.SetIndices(bMesh.GetIndices().ToList(), bMesh.IndexFormat);
                     fshp.Meshes.Add(lod1);
                     var lod2 = new Mesh()
                     {
@@ -437,7 +437,7 @@ namespace CafeLibrary.ModelConversion
                         IndexBuffer = bMesh.IndexBuffer,
                         PrimitiveType = bMesh.PrimitiveType,
                     };
-                    lod2.SetIndices(bMesh.GetIndices().ToList());
+                    lod2.SetIndices(bMesh.GetIndices().ToList(), bMesh.IndexFormat);
                     fshp.Meshes.Add(lod2);
                 }
 

@@ -351,6 +351,12 @@ namespace CafeLibrary.ModelConversion
                 fshp.SkinBoneIndices = new List<ushort>();
                 foreach (var vertex in mesh.Vertices)
                 {
+                    if (importSettings.FlipUVs)
+                    {
+                        for (int i = 0; i < vertex.UVs.Count; i++)
+                            vertex.SetUV(vertex.UVs[i].X, 1 - vertex.UVs[i].Y, i);
+                    }
+
                     foreach (var weight in vertex.Envelope.Weights)
                     {
                         var bn = fmdl.Skeleton.Bones.Values.Where(x => x.Name == weight.BoneName).FirstOrDefault();

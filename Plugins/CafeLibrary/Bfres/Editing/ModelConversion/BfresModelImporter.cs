@@ -795,6 +795,10 @@ namespace CafeLibrary.ModelConversion
             int numTexCoords = Math.Min(vertices.Max(x => x.UVs.Count), 4);
             int numColors = Math.Min(vertices.Max(x => x.Colors.Count), 4);
 
+            //force vertex color usage
+            if (settings.Colors.Enable && numColors == 0)
+                numColors = 1;
+
             Vector4F[][] TexCoords = new Vector4F[numTexCoords][];
             Vector4F[][] Colors = new Vector4F[numColors][];
 
@@ -877,6 +881,9 @@ namespace CafeLibrary.ModelConversion
                         vertex.Colors[i].W);
                 }
 
+                if (settings.Colors.Enable && vertex.Colors?.Count <= 0)
+                    Colors[0][v] = new Vector4F(1, 1, 1, 1);
+
                 int[] indices = new int[4];
                 float[] weights = new float[4];
                 for (int j = 0; j < vertex.Envelope.Weights?.Count; j++)
@@ -906,7 +913,8 @@ namespace CafeLibrary.ModelConversion
 
                 if (hasWeights && settings.BoneIndices.Enable && fshp.VertexSkinCount > 0)
                 {
-                    BoneWeights.Add(new Vector4F(weights[0], weights[1], weights[2], weights[3]));
+                    if (fshp.VertexSkinCount > 1)
+                        BoneWeights.Add(new Vector4F(weights[0], weights[1], weights[2], weights[3]));
                     BoneIndices.Add(new Vector4F(indices[0], indices[1], indices[2], indices[3]));
                 }
             }
@@ -1001,12 +1009,17 @@ namespace CafeLibrary.ModelConversion
                 });
             }
 
-         /*   foreach (var att in settings.AttributeLayout)
+            //Ensure all attributes from the current layout exist to use
+            bool useCustomLayout = settings.AttributeLayout.All(x => attributes.Any(y => y.Name == x.Name));
+            if (useCustomLayout)
             {
-                var attribute = attributes.FirstOrDefault(x => x.Name == att.Name);
-                if (attribute != null)
-                    attribute.BufferIndex = att.BufferIndex;
-            }*/
+                foreach (var att in settings.AttributeLayout)
+                {
+                    var attribute = attributes.FirstOrDefault(x => x.Name == att.Name);
+                    if (attribute != null)
+                        attribute.BufferIndex = att.BufferIndex;
+                }
+            }
 
             vertexBufferHelper.Attributes = attributes;
             var buffer = vertexBufferHelper.ToVertexBuffer();

@@ -72,7 +72,7 @@ namespace CafeLibrary.Rendering
             MaterialAnim.Loop = this.Loop;
 
             int hash = BfresAnimations.CalculateGroupHashes(this);
-            if (hash != Hash) //Generate anim data
+            if (IsEdited || hash != Hash) //Generate anim data
                 MaterialAnimConverter.ConvertAnimation(this, MaterialAnim);
             Hash = hash;
         }

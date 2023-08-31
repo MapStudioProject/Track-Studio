@@ -154,10 +154,10 @@ namespace CafeLibrary.Rendering
                 else if (subGroup is MaterialAnimGroup)
                     CalculateTrackHashes(((MaterialAnimGroup)subGroup).Tracks);
                 else
-                {
-                    foreach (var g in subGroup.SubAnimGroups)
-                        CalculateGroupHash(g);
-                }
+                    CalculateTrackHashes(subGroup.GetTracks());
+
+                foreach (var g in subGroup.SubAnimGroups)
+                    CalculateGroupHash(g);
             }
             foreach (var group in animation.AnimGroups)
                 CalculateGroupHash(group);

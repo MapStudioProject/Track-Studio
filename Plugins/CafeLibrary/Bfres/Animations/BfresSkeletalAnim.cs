@@ -215,7 +215,7 @@ namespace CafeLibrary.Rendering
 
             int hash = BfresAnimations.CalculateGroupHashes(this);
 
-            if (hash != Hash)
+            if (IsEdited || hash != Hash)
                 SkeletalAnimConverter.ConvertAnimation(this, SkeletalAnim);
 
             Hash = hash;

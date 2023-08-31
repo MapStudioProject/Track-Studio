@@ -36,6 +36,8 @@ namespace CafeLibrary.Rendering
 
         private string ModelName = null;
 
+        private int Hash;
+
         public STSkeleton SkeletonOverride = null;
 
         public ResFile ResFile { get; set; }
@@ -208,8 +210,15 @@ namespace CafeLibrary.Rendering
         }
 
         public void OnSave() {
-            if (IsEdited)
+            SkeletalAnim.FrameCount = (int)this.FrameCount;
+            SkeletalAnim.Loop = this.Loop;
+
+            int hash = BfresAnimations.CalculateGroupHashes(this);
+
+            if (hash != Hash)
                 SkeletalAnimConverter.ConvertAnimation(this, SkeletalAnim);
+
+            Hash = hash;
         }
 
         public BfresSkeletalAnim Clone()
@@ -364,6 +373,8 @@ namespace CafeLibrary.Rendering
             }
             if (ResFile != null)
                  SkeletalAnimUI.ReloadTree(Root, this, ResFile);
+
+            Hash = BfresAnimations.CalculateGroupHashes(this);
         }
 
         public override void NextFrame()

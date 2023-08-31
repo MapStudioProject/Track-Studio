@@ -17,6 +17,8 @@ namespace CafeLibrary.Rendering
     {
         private string ModelName = null;
 
+        private int Hash;
+
         //Root for animation tree
         public TreeNode Root { get; set; }
 
@@ -69,11 +71,10 @@ namespace CafeLibrary.Rendering
             MaterialAnim.FrameCount = (int)this.FrameCount;
             MaterialAnim.Loop = this.Loop;
 
-            if (!IsEdited)
-                return;
-
-            //Generate anim data
-            MaterialAnimConverter.ConvertAnimation(this, MaterialAnim);
+            int hash = BfresAnimations.CalculateGroupHashes(this);
+            if (hash != Hash) //Generate anim data
+                MaterialAnimConverter.ConvertAnimation(this, MaterialAnim);
+            Hash = hash;
         }
 
         public void OnNameChanged(string newName)
@@ -526,6 +527,8 @@ namespace CafeLibrary.Rendering
 
             if (ResFile != null)
                 MaterialAnimUI.ReloadTree(Root, this, ResFile);
+
+            Hash = BfresAnimations.CalculateGroupHashes(this);
         }
 
         public class MaterialAnimGroup : STAnimGroup

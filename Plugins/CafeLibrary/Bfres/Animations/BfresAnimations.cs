@@ -117,6 +117,43 @@ namespace CafeLibrary.Rendering
             }
         }
 
+        /// <summary>
+        /// Calculates a unique hash to determine if the animation has been changed.
+        /// </summary>
+        /// <returns></returns>
+        public static int CalculateGroupHashes(STAnimation animation)
+        {
+            int hash = 0;
+
+            void CalculateGroupHash(STAnimGroup subGroup)
+            {
+                hash += subGroup.Name.GetHashCode();
+
+                foreach (var track in subGroup.GetTracks())
+                {
+                    hash += track.InterpolationType.GetHashCode();
+
+                    foreach (var kf in track.KeyFrames)
+                    {
+                        hash += kf.Frame.GetHashCode();
+                        hash += kf.Value.GetHashCode();
+                        if (kf is STHermiteKeyFrame)
+                        {
+                            hash += ((STHermiteKeyFrame)kf).TangentIn.GetHashCode();
+                            hash += ((STHermiteKeyFrame)kf).TangentOut.GetHashCode();
+                        }
+                    }
+                }
+
+                foreach (var g in subGroup.SubAnimGroups)
+                    CalculateGroupHash(g);
+            }
+            foreach (var group in animation.AnimGroups)
+                CalculateGroupHash(group);
+
+            return hash;
+        }
+
         //Method to extract the slopes from a cubic curve
         //Need to get the time, delta, out and next in slope values
         public static float[] GetSlopes(AnimCurve curve, float index)

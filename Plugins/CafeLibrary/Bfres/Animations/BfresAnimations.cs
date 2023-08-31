@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Toolbox.Core.Animations;
 using BfresLibrary;
+using static CafeLibrary.Rendering.BfresMaterialAnim;
 
 namespace CafeLibrary.Rendering
 {
@@ -125,11 +126,9 @@ namespace CafeLibrary.Rendering
         {
             int hash = 0;
 
-            void CalculateGroupHash(STAnimGroup subGroup)
+            void CalculateTrackHashes(List<STAnimationTrack> tracks)
             {
-                hash += subGroup.Name.GetHashCode();
-
-                foreach (var track in subGroup.GetTracks())
+                foreach (var track in tracks)
                 {
                     hash += track.InterpolationType.GetHashCode();
 
@@ -144,9 +143,21 @@ namespace CafeLibrary.Rendering
                         }
                     }
                 }
+            }
 
-                foreach (var g in subGroup.SubAnimGroups)
-                    CalculateGroupHash(g);
+            void CalculateGroupHash(STAnimGroup subGroup)
+            {
+                hash += subGroup.Name.GetHashCode();
+
+                if (subGroup is ParamAnimGroup)
+                    CalculateTrackHashes(((ParamAnimGroup)subGroup).Tracks);
+                else if (subGroup is MaterialAnimGroup)
+                    CalculateTrackHashes(((MaterialAnimGroup)subGroup).Tracks);
+                else
+                {
+                    foreach (var g in subGroup.SubAnimGroups)
+                        CalculateGroupHash(g);
+                }
             }
             foreach (var group in animation.AnimGroups)
                 CalculateGroupHash(group);

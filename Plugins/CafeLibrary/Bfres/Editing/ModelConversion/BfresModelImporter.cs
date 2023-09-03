@@ -266,6 +266,11 @@ namespace CafeLibrary.ModelConversion
             skinningIndices.AddRange(smoothSkinningIndices);
             skinningIndices.AddRange(rigidSkinningIndices);
 
+            //No valid skinning present so reset skin counts all to 0
+            //This can occur if rigging is mapped to bones not present in the current boneset and has no rigging originally
+            if (skinningIndices.Count == 0)
+                skinCounts = new uint[model.Meshes.Count];
+
             foreach (var bone in fmdl.Skeleton.Bones)
             {
                 bone.Value.SmoothMatrixIndex = -1;
@@ -1033,25 +1038,6 @@ namespace CafeLibrary.ModelConversion
             var buffer = vertexBufferHelper.ToVertexBuffer();
             buffer.VertexSkinCount = (byte)fshp.VertexSkinCount;
             return buffer;
-        }
-
-        public class MeshSettings
-        {
-            public bool UseNormal { get; set; }
-            public bool UseBoneWeights { get; set; }
-            public bool UseBoneIndices { get; set; }
-            public bool UseTangents { get; set; }
-            public bool UseBitangents { get; set; }
-
-            public GX2AttribFormat PositionFormat = GX2AttribFormat.Format_32_32_32_Single;
-            public GX2AttribFormat NormalFormat = GX2AttribFormat.Format_10_10_10_2_SNorm;
-            public GX2AttribFormat TexCoordFormat = GX2AttribFormat.Format_16_16_Single;
-            public GX2AttribFormat ColorFormat = GX2AttribFormat.Format_16_16_16_16_Single;
-            public GX2AttribFormat TangentFormat = GX2AttribFormat.Format_8_8_8_8_SNorm;
-            public GX2AttribFormat BitangentFormat = GX2AttribFormat.Format_8_8_8_8_SNorm;
-
-            public GX2AttribFormat BoneIndicesFormat = GX2AttribFormat.Format_8_8_8_8_UInt;
-            public GX2AttribFormat BoneWeightsFormat = GX2AttribFormat.Format_8_8_8_8_UNorm;
         }
     }
 }

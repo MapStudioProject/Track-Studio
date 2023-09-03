@@ -580,7 +580,11 @@ namespace CafeLibrary
             ImGui.NextColumn();
 
             ImGui.PushItemWidth(ImGui.GetColumnWidth(1) - 15);
-            ImGui.InputInt("##Skin Count", ref mesh.SkinCount);
+            if (ImGui.InputInt("##Skin Count", ref mesh.SkinCount))
+            {
+                foreach (var msh in selectedMeshIndices)
+                    Settings.Meshes[msh].SkinCount = mesh.SkinCount;
+            }
             ImGui.NextColumn();
 
             ImGui.Columns(1);

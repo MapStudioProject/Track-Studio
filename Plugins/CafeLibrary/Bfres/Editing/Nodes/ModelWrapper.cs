@@ -2080,6 +2080,8 @@ namespace CafeLibrary
         /// </summary>
         public void UpdateAttributeBuffers()
         {
+            return;
+
             var attributeMapping = Material.Material.ShaderAssign.AttribAssigns;
             bool updateBuffer = false;
             foreach (var att in attributeMapping)

@@ -3330,6 +3330,11 @@
             Gets or sets the visible flag to display the material.
             </summary>
         </member>
+        <member name="P:BfresLibrary.Material.ShaderInfoV10">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:BfresLibrary.Material.TextureRefs">
             <summary>
             Gets or sets the list of <see cref="T:BfresLibrary.TextureRef"/> instances referencing the <see cref="!:Texture"/> instances
@@ -3808,6 +3813,11 @@
         <member name="P:BfresLibrary.Model.UserData">
             <summary>
             Gets or sets customly attached <see cref="P:BfresLibrary.Model.UserData"/> instances.
+            </summary>
+        </member>
+        <member name="F:BfresLibrary.Model.ShaderAssign">
+            <summary>
+            
             </summary>
         </member>
         <member name="P:BfresLibrary.Model.TotalVertexCount">
@@ -5762,6 +5772,14 @@
             </summary>
             <param name="resFile">The <see cref="!:Bfres.ResFile"/> instance to save.</param>
             <param name="fileName">The name of the file to save the data into.</param>
+        </member>
+        <member name="M:BfresLibrary.Switch.Core.ResFileSwitchSaver.SaveStringsRelocated(System.Collections.Generic.IEnumerable{System.String},System.Text.Encoding)">
+            <summary>
+            Reserves space for offsets to the <paramref name="strings"/> written later in the string pool with the
+            specified <paramref name="encoding"/>
+            </summary>
+            <param name="strings">The names to save.</param>
+            <param name="encoding">The <see cref="T:System.Text.Encoding"/> in which the names will be stored.</param>
         </member>
         <member name="M:BfresLibrary.Switch.Core.ResFileSwitchSaver.SaveFieldFileSize">
             <summary>

@@ -71,20 +71,6 @@ namespace CafeLibrary
             if (!Directory.Exists(folder))
                 Directory.CreateDirectory(folder);
 
-            void TransferZDic(string path)
-            {
-                //Check if old directory contains the file and move it
-                string fileOld = Path.Combine(Runtime.ExecutableDir, "Lib", "ZstdDictionaries", path);
-                string fileNew = Path.Combine(folder, path);
-                if (!File.Exists(fileNew) && File.Exists(fileOld))
-                {
-                    File.Move(fileOld, fileNew);
-                }
-            }
-            TransferZDic("bcett.byml.zsdic");
-            TransferZDic("pack.zsdic");
-            TransferZDic("zs.zsdic");
-
             if (Directory.Exists(folder))
             {
                 void CheckZDic(string fileName, string expectedExtension)

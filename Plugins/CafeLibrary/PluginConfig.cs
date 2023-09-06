@@ -6,6 +6,7 @@ using System.IO;
 using Toolbox.Core;
 using Newtonsoft.Json;
 using MapStudio.UI;
+using ImGuiNET;
 
 namespace CafeLibrary
 {
@@ -47,7 +48,15 @@ namespace CafeLibrary
         {
             if (ImguiCustomWidgets.PathSelector("TOTK Game Path", ref TotkGamePath, IsValidTotkGamePath))
             {
+                ZDic.DumpExternalDictionaries();
                 Save();
+            }
+            if (IsValidTotkGamePath)
+            {
+                if (ImGui.Button("Dump ZS Dictionaries"))
+                {
+                    ZDic.DumpExternalDictionaries();
+                }
             }
         }
 

@@ -68,6 +68,8 @@ namespace CafeLibrary
                         return;
 
                     PluginConfig.TotkGamePath = dlg.SelectedPath;
+
+                    ZDic.DumpExternalDictionaries();
                     PluginConfig.Instance.Save();
                 }
             }

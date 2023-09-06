@@ -339,9 +339,6 @@ namespace CafeLibrary
 
         public void Save(Stream stream) {
 
-            if (ResFile.VersionMajor2 >= 10)
-                throw new Exception($"Version 10 bfres is not supported yet but will in a later update!");
-
             ModelFolder.OnSave();
 
             if (UpdateTransformedVertices)

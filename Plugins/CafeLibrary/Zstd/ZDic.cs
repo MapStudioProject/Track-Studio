@@ -21,14 +21,21 @@ namespace CafeLibrary
             if (!Directory.Exists(target))
                 Directory.CreateDirectory(target);
 
-            var archive = STFileLoader.OpenFileFormat(path) as IArchiveFile;
-            if (archive != null)
+            try
             {
-                foreach (var dic in archive.Files)
+                var archive = STFileLoader.OpenFileFormat(path) as IArchiveFile;
+                if (archive != null)
                 {
-                    string filePath = Path.Combine(target, dic.FileName);
-                    dic.FileData.SaveToFile(filePath);
+                    foreach (var dic in archive.Files)
+                    {
+                        string filePath = Path.Combine(target, dic.FileName);
+                        dic.FileData.SaveToFile(filePath);
+                    }
                 }
+            }
+            catch
+            {
+
             }
         }
     }

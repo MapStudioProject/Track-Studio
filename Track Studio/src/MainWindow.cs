@@ -574,6 +574,15 @@ namespace TrackStudio
                 if (createNew || workspace == null)
                 {
                     workspace = new Workspace(this.GlobalSettings, GetWorkspaceID());
+
+                    //Update default camera placement from here for now until UI framework is updated
+                    var camera = workspace.ViewportWindow.Pipeline._context.Camera;
+                    if (camera.Mode == Camera.CameraMode.Inspect)
+                    {
+                        camera.TargetDistance = 5;
+                        camera.TargetPosition = new OpenTK.Vector3();
+                    }
+
                     createNew = true;
                 }
 

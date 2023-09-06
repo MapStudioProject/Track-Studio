@@ -12,7 +12,7 @@ namespace CafeLibrary
 {
     public class TextureSelectionDialog
     {
-        public static Dictionary<string, GLFrameworkEngine.GenericRenderer.TextureView> Textures;
+        public static Dictionary<string, GLFrameworkEngine.GenericRenderer.TextureView> Textures = new Dictionary<string, GLFrameworkEngine.GenericRenderer.TextureView>();
 
         public static string OutputName = "";
         public static string Previous = "";
@@ -49,8 +49,18 @@ namespace CafeLibrary
             bool hasInput = false;
             if (ImGui.BeginPopup("textureSelector1", ImGuiWindowFlags.NoScrollbar | ImGuiWindowFlags.NoScrollWithMouse))
             {
+                ImGui.AlignTextToFramePadding();
+                ImGui.Text($"   {IconManager.EDIT_ICON}  ");
+
+                ImGui.SameLine();
+                ImGui.AlignTextToFramePadding();
+                ImGui.InputText("##OutputName", ref OutputName, 0x100);
+
                 if (ImGui.IsKeyDown((int)ImGuiKey.Enter))
                 {
+                    if (!string.IsNullOrEmpty(OutputName))
+                        hasInput = true;
+
                     ImGui.CloseCurrentPopup();
                 }
 
@@ -81,9 +91,12 @@ namespace CafeLibrary
 
                         bool isSelected = OutputName == tex.Key;
 
-                        var sourceTex = tex.Value.OriginalSource;
-                        IconManager.DrawTexture(tex.Key, sourceTex);
-                        ImGui.SameLine();
+                        if (tex.Value != null)
+                        {
+                            var sourceTex = tex.Value.OriginalSource;
+                            IconManager.DrawTexture(tex.Key, sourceTex);
+                            ImGui.SameLine();
+                        }
 
                         if (!scrolled && isSelected)
                         {

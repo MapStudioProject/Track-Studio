@@ -250,6 +250,17 @@ namespace CafeLibrary.Rendering
             return materials;
         }
 
+        /// <summary>
+        /// Gets the parent render that this animation belongs to.
+        /// </summary>
+        public BfresRender GetParentRender()
+        {
+            if (DataCache.ModelCache.ContainsKey(ModelName))
+                return (BfresRender)DataCache.ModelCache[ModelName];
+
+            return null;
+        }
+
         public BfresMaterialRender[] GetMaterials()
         {
             List<BfresMaterialRender> materials = new List<BfresMaterialRender>();

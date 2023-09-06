@@ -54,6 +54,22 @@ namespace CafeLibrary
         {
             //External string check for V10 bfres
             var externalFlags = MeshCodec.GetExternalFlags(stream);
+            //External flags used
+            if (externalFlags.HasFlag(MeshCodec.ExternalFlags.HasExternalGPU) || this.FileInfo.FileName.EndsWith(".mc"))
+            {
+                //Ensure it uses mc compressor for save
+                if (this.FileInfo.Compression == null)
+                {
+                    this.FileInfo.Compression = new MeshCodecFormat();
+
+                    //add on .mc extension for save
+                    if (!this.FileInfo.FileName.EndsWith(".mc"))
+                        this.FileInfo.FileName += ".mc";
+                    if (!this.FileInfo.FilePath.EndsWith(".mc"))
+                        this.FileInfo.FilePath += ".mc";
+                }
+            }
+            //External strings used. Check for external binary file in mesh codec prepare
             if (externalFlags.HasFlag(MeshCodec.ExternalFlags.HasExternalString))
                 MeshCodec.Prepare();
 

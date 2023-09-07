@@ -46,12 +46,11 @@ namespace CafeLibrary
 
         public Stream Compress(Stream stream)
         {
-            var mem = new MemoryStream();
-            using var compressionStream = new CompressionStream(mem);
+            using var compressor = new Compressor();
             {
-                stream.CopyTo(compressionStream);
+                var compressedData = compressor.Wrap(stream.ToArray());
+                return new MemoryStream(compressedData.ToArray());
             }
-            return new MemoryStream(mem.ToArray());
         }
 
         public static byte[] Decompress(byte[] src)

@@ -43,7 +43,7 @@ namespace CafeLibrary.Rendering
                     else
                         vaoAtt.Type = VertexAttribPointerType.Float;
 
-                    if (att.Name.Contains("_i") || att.Name.Contains("_w"))
+                    if (shape.VertexSkinCount != 0 && (att.Name.Contains("_i") || att.Name.Contains("_w")))
                         vaoAtt.ElementCount = (int)MathF.Min(shape.VertexSkinCount, 4);
 
                     attributes.Add(vaoAtt);
@@ -81,7 +81,7 @@ namespace CafeLibrary.Rendering
                             else
                                 vaoAtt.Type = VertexAttribPointerType.Float;
 
-                            if (att.Name.Contains("_i") || att.Name.Contains("_w"))
+                            if (shape.VertexSkinCount != 0 && (att.Name.Contains("_i") || att.Name.Contains("_w")))
                                 vaoAtt.ElementCount = (int)MathF.Min(shape.VertexSkinCount, 4);
 
                             attributes.Add(vaoAtt);

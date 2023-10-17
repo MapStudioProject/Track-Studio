@@ -56,6 +56,7 @@ namespace TurboLibrary.MuuntEditor
         private void LoadParameterUI(Obj mapObject, IEnumerable<object> selected)
         {
             var names = mapObject.GetParameterNames();
+            bool isInDatabase = ParamDatabase.ParameterObjs.ContainsKey(mapObject.ObjId);
 
             ImGui.Checkbox(TranslationSource.GetText("DISPLAY_UNUSED"), ref DisplayUnusedParams);
             ImGui.BeginColumns("params8", 2);
@@ -66,7 +67,7 @@ namespace TurboLibrary.MuuntEditor
                     continue;
 
                 string name = names[i] == null ? TranslationSource.GetText("UNUSED") : names[i];
-                if (DisplayFloat($"##param{i}", name, ref param)) {
+                if (DisplayFloat($"##param{i}", name, ref param) || !isInDatabase) {
                     foreach (Obj obj in selected)
                     {
                         obj.Params[i] = param;

@@ -380,8 +380,12 @@ namespace TurboLibrary
 
             _targetObjIndex = TargetObjs == null ? null : new List<int>(); ;
 
-            foreach (var obj in TargetObjs)
-                _targetObjIndex.Add((int)courseDefinition.Objs?.IndexOf(obj));
+            if (TargetObjs != null)
+            {
+                foreach (var obj in TargetObjs)
+                    _targetObjIndex.Add((int)courseDefinition.Objs?.IndexOf(obj));
+            }
+
 
 
             if (_objIndex == -1) _objIndex = null;

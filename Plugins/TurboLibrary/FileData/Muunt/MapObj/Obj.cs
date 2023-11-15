@@ -34,6 +34,9 @@ namespace TurboLibrary
         private int? _itemPath1Index;
         [ByamlMember("Obj_ItemPath2", Optional = true)]
         private int? _itemPath2Index;
+        [ByamlMember("Obj_TargetObj", Optional = true)]
+        private List<int>? _targetObjIndex;
+        
 
         // References to other unit objects.
         [ByamlMember("Area_Obj", Optional = true)]
@@ -241,6 +244,11 @@ namespace TurboLibrary
         public Obj ParentObj { get; set; }
 
         /// <summary>
+        /// Gets or sets the <see cref="Obj"/> this Obj is targeted to.
+        /// </summary>
+        public List<Obj> TargetObjs { get; set; }
+
+        /// <summary>
         /// Gets or sets the game modes in which this Obj will appear.
         /// </summary>
         public ModeInclusion ModeInclusion { get; set; }
@@ -335,6 +343,13 @@ namespace TurboLibrary
             ParentArea = _areaIndex == null ? null : courseDefinition.Areas[_areaIndex.Value];
             ParentObj = _objIndex == null ? null : courseDefinition.Objs[_objIndex.Value];
 
+            if (_targetObjIndex != null)
+            {
+                TargetObjs = new List<Obj>();
+                foreach (var idx in _targetObjIndex)
+                    TargetObjs.Add(courseDefinition.Objs[idx]);
+            }
+
             if (Path != null) Path.References.Add(this);
         }
 
@@ -362,6 +377,12 @@ namespace TurboLibrary
             // References to other unit objects.
             _areaIndex = ParentArea == null ? null : (int?)courseDefinition.Areas?.IndexOf(ParentArea);
             _objIndex = ParentObj == null ? null : (int?)courseDefinition.Objs?.IndexOf(ParentObj);
+
+            _targetObjIndex = TargetObjs == null ? null : new List<int>(); ;
+
+            foreach (var obj in TargetObjs)
+                _targetObjIndex.Add((int)courseDefinition.Objs?.IndexOf(obj));
+
 
             if (_objIndex == -1) _objIndex = null;
             if (_areaIndex == -1) _areaIndex = null;

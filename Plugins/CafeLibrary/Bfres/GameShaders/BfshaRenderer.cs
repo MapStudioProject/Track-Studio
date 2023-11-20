@@ -573,15 +573,47 @@ namespace CafeLibrary.Rendering
                 if (this.Material.AnimatedSamplers.ContainsKey(texMap.Sampler))
                     name = this.Material.AnimatedSamplers[texMap.Sampler];
 
-                GL.ActiveTexture(TextureUnit.Texture0 + id);
-                BindTexture(shader, sampler, GetTextures(), texMap, name, id);
-                SetTexture(shader, locationInfo.VertexLocation, locationInfo.FragmentLocation, ref id);
+                var tex = BindTexture(shader, sampler, GetTextures(), texMap, name, id);
+                if (tex != null)
+                {
+                    tex = CheckTargetType(tex, shader, locationInfo.FragmentLocation);
+
+                    GL.ActiveTexture(TextureUnit.Texture0 + id);
+                    tex.Bind();
+                    SetTexture(shader, locationInfo.VertexLocation, locationInfo.FragmentLocation, ref id);
+
+                    GL.ActiveTexture(TextureUnit.Texture0);
+                }
             }
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, 0);
             GL.BindTexture(TextureTarget.TextureCubeMap, 0);
             GL.BindTexture(TextureTarget.Texture2DArray, 0);
+        }
+
+        private GLTexture CheckTargetType(GLTexture tex, ShaderProgram shader, int location)
+        {
+            string uniform_name = ConvertSamplerID(location, false);
+            if (!shader.UniformTypeInfo.ContainsKey(uniform_name))
+                return tex;
+
+            var type = shader.UniformTypeInfo[uniform_name];
+            //Check if type is correct
+            if (tex.Target == TextureTarget.Texture2D && type == ActiveUniformType.Sampler2DArray)
+            {
+                //Type is wrong, find or create a sub texture with the correct type usage
+                foreach (var t in tex.SubTextures)
+                {
+                    if (t.Target == TextureTarget.Texture2DArray)
+                        return t;
+                }
+                var copy = GLTexture2D.ToArrayCopy(tex);
+                tex.SubTextures.Add(copy);
+
+                return copy;
+            }
+            return tex;
         }
 
         public virtual GLTexture GetExternalTexture(GLContext control, string sampler)

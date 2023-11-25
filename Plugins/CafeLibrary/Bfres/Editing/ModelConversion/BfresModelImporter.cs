@@ -828,6 +828,8 @@ namespace CafeLibrary.ModelConversion
 
                 var position = new System.Numerics.Vector3(vertex.Position.X, vertex.Position.Y, vertex.Position.Z);
                 var normal = new System.Numerics.Vector3(vertex.Normal.X, vertex.Normal.Y, vertex.Normal.Z);
+                var tangent = new System.Numerics.Vector3(vertex.Tangent.X, vertex.Tangent.Y, vertex.Tangent.Z);
+                var binormal = new System.Numerics.Vector3(vertex.Binormal.X, vertex.Binormal.Y, vertex.Binormal.Z);
 
                 //Reset rigid skinning types to local space
                 if (fshp.VertexSkinCount == 0 && boneMatrices.Length > 0)
@@ -835,6 +837,8 @@ namespace CafeLibrary.ModelConversion
                     var transform = boneMatrices[fshp.BoneIndex];
                     position = System.Numerics.Vector3.Transform(position, transform);
                     normal = System.Numerics.Vector3.TransformNormal(normal, transform);
+                    tangent = System.Numerics.Vector3.TransformNormal(tangent, transform);
+                    binormal = System.Numerics.Vector3.TransformNormal(binormal, transform);
                 }
                 //Reset rigid skinning types to local space
                 if (fshp.VertexSkinCount == 1)
@@ -845,6 +849,8 @@ namespace CafeLibrary.ModelConversion
                         var transform = boneMatrices[index];
                         position = System.Numerics.Vector3.Transform(position, transform);
                         normal = System.Numerics.Vector3.TransformNormal(normal, transform);
+                        tangent = System.Numerics.Vector3.TransformNormal(tangent, transform);
+                        binormal = System.Numerics.Vector3.TransformNormal(binormal, transform);
                     }
                 }
 
@@ -861,17 +867,17 @@ namespace CafeLibrary.ModelConversion
                 if (settings.Tangent.Enable)
                 {
                     Tangents.Add(new Vector4F(
-                        vertex.Tangent.X,
-                        vertex.Tangent.Y,
-                        vertex.Tangent.Z, 0));
+                        tangent.X,
+                        tangent.Y,
+                        tangent.Z, 0));
                 }
 
                 if (settings.Bitangent.Enable)
                 {
                     Bitangents.Add(new Vector4F(
-                        vertex.Binormal.X,
-                        vertex.Binormal.Y,
-                        vertex.Binormal.Z, 0));
+                        binormal.X,
+                        binormal.Y,
+                        binormal.Z, 0));
                 }
 
                 for (int i = 0; i < vertex.UVs?.Count; i++)
@@ -978,13 +984,15 @@ namespace CafeLibrary.ModelConversion
 
             for (int i = 0; i < TexCoords.Length; i++)
             {
+                var format = i == 0 ? settings.UVs.Format : settings.UV_Layers.Format;
+
                 if (settings.UseTexCoord[i])
                 {
                     attributes.Add(new VertexBufferHelperAttrib()
                     {
                         Name = $"_u{i}",
                         Data = TexCoords[i],
-                        Format = settings.UVs.Format,
+                        Format = format,
                     });
                 }
             }

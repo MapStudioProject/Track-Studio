@@ -76,6 +76,7 @@ namespace CafeLibrary
             public AttributeSettings Position = new AttributeSettings(true, GX2AttribFormat.Format_32_32_32_Single, PositionFormats);
             public AttributeSettings Normal = new AttributeSettings(true, GX2AttribFormat.Format_10_10_10_2_SNorm, NormalsFormats);
             public AttributeSettings UVs = new AttributeSettings(true, GX2AttribFormat.Format_16_16_Single, UVFormats);
+            public AttributeSettings UV_Layers = new AttributeSettings(true, GX2AttribFormat.Format_32_32_Single, UVFormats);
             public AttributeSettings Colors = new AttributeSettings(true, GX2AttribFormat.Format_8_8_8_8_UNorm, ColorFormats);
             public AttributeSettings Tangent = new AttributeSettings(true, GX2AttribFormat.Format_8_8_8_8_SNorm, TangentFormats);
             public AttributeSettings Bitangent = new AttributeSettings(true, GX2AttribFormat.Format_8_8_8_8_SNorm, BiTangentFormats);

@@ -869,7 +869,7 @@ namespace CafeLibrary.ModelConversion
                     Tangents.Add(new Vector4F(
                         tangent.X,
                         tangent.Y,
-                        tangent.Z, 0));
+                        tangent.Z, 1));
                 }
 
                 if (settings.Bitangent.Enable)
@@ -877,7 +877,7 @@ namespace CafeLibrary.ModelConversion
                     Bitangents.Add(new Vector4F(
                         binormal.X,
                         binormal.Y,
-                        binormal.Z, 0));
+                        binormal.Z, 1));
                 }
 
                 for (int i = 0; i < vertex.UVs?.Count; i++)

@@ -32,9 +32,11 @@ namespace TurboLibrary
         public void DeserializeReferences(CourseDefinition courseDefinition)
         {
             RouteChangeObjects = new List<Obj>();
-            foreach (var id in RouteChange_Obj)
-                if (id != -1)
+            if (RouteChange_Obj != null)
+            {
+                foreach (var id in RouteChange_Obj.Where(x => x != -1))
                     RouteChangeObjects.Add(courseDefinition.Objs[id]);
+            }
         }
 
         /// <summary>

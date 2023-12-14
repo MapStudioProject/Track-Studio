@@ -12,6 +12,8 @@ using GLFrameworkEngine;
 using MapStudio.UI;
 using UIFramework;
 using System.IO;
+using IONET.Collada.Core.Controller;
+using ImGuiNET;
 
 namespace CafeLibrary.Rendering
 {
@@ -103,6 +105,8 @@ namespace CafeLibrary.Rendering
             dlg.AddFilter(".bfska", ".bfska");
             dlg.AddFilter(".json", ".json");
             dlg.AddFilter(".anim", ".anim");
+            //dlg.AddFilter(".gltf", ".gltf");
+            //dlg.AddFilter(".glb", ".glb");
 
             if (dlg.ShowDialog())
             {
@@ -111,7 +115,43 @@ namespace CafeLibrary.Rendering
                 switch (Path.GetExtension(dlg.FilePath))
                 {
                     case ".anim":
-                        SkeletonAnimExporter.Export(SkeletalAnim, GetActiveSkeleton(), dlg.FilePath);
+                    case ".gltf":
+                    case ".glb":
+                        var models = GetActiveSkeletonModels();
+                        if (models.Count == 1)
+                        {
+                            SkeletonAnimExporter.Export(SkeletalAnim, models[0].Skeleton, dlg.FilePath);
+                        }
+                        else
+                        {
+                            STGenericModel selected_model = models.FirstOrDefault();
+
+                            DialogHandler.Show("Select Model", 250, 100, () =>
+                            {
+                                if (ImGui.BeginChild("select"))
+                                {
+                                    foreach (var model in models)
+                                    {
+                                        bool selected = selected_model == model;
+                                        if (ImGui.Selectable(model.Name, selected))
+                                            selected_model = model;
+
+                                        if (selected && ImGui.IsItemHovered() && ImGui.IsMouseDoubleClicked(0))
+                                            DialogHandler.ClosePopup(true);
+                                    }
+                                    if (ImGui.Button("Ok", new System.Numerics.Vector2(240, 22)))
+                                        DialogHandler.ClosePopup(true);
+                                }
+                                ImGui.EndChild();
+                            }, (o) =>
+                            {
+                                if (o)
+                                {
+                                    SkeletonAnimExporter.Export(SkeletalAnim, selected_model.Skeleton, dlg.FilePath);
+                                }
+                            });
+                        }
+
                         break;
                     default:
                         SkeletalAnim.Export(dlg.FilePath, ResFile);
@@ -128,12 +168,16 @@ namespace CafeLibrary.Rendering
             dlg.AddFilter(".bfska", ".bfska");
             dlg.AddFilter(".json", ".json");
             dlg.AddFilter(".anim", ".anim");
+           // dlg.AddFilter(".gltf", ".gltf");
+           // dlg.AddFilter(".glb", ".glb");
 
             if (dlg.ShowDialog())
             {
                 switch (Path.GetExtension(dlg.FilePath))
                 {
                     case ".anim":
+                    case ".gltf":
+                    case ".glb":
                         SkeletonAnimImporter.Import(SkeletalAnim, GetActiveSkeleton(), dlg.FilePath, new SkeletonAnimImporter.Settings()
                         {
 
@@ -254,6 +298,55 @@ namespace CafeLibrary.Rendering
                 }
             }
             return skeletons.ToArray();
+        }
+
+        /// <summary>
+        /// Gets the active skeleton visbile in the scene that may be used for animation.
+        /// </summary>
+        /// <returns></returns>
+        public List<STGenericModel> GetActiveSkeletonModels()
+        {
+            List<STGenericModel> list = new List<STGenericModel>();
+
+            STSkeleton IsSkeletonInAnimation(STSkeleton skeleton)
+            {
+                //Check if all the bones in the animation are present in the skeleton
+                bool areAllBonesPresent = skeleton.Bones.Count > 0;
+                foreach (var bone in skeleton.Bones)
+                {
+                    var animBone = skeleton.SearchBone(bone.Name);
+
+                    if (animBone == null)
+                        areAllBonesPresent = false;
+                }
+                if (areAllBonesPresent)
+                    return skeleton;
+                return null;
+            }
+
+            //parent resource cache
+            if (DataCache.ModelCache.ContainsKey(ModelName))
+            {
+                //check for models present
+                var models = ((BfresRender)DataCache.ModelCache[ModelName]).Models;
+                //Search multiple FMDL to find matching bones
+                foreach (var model in models)
+                    if (model.ModelData.Name != "Pupil") //MK8 ignore pupils
+                        list.Add(model.ModelData);
+                return list;
+            }
+
+            //Lastly check for active render and if skeleton is visible/active
+            foreach (var file in DataCache.ModelCache.Values)
+            {
+                foreach (var model in file.Models)
+                {
+                    if (file.IsVisible && model.IsVisible && model.ModelData.Name != "Pupil") //MK8 ignore pupils
+                        list.Add(model.ModelData);
+                }
+                return list;
+            }
+            return null;
         }
 
         /// <summary>

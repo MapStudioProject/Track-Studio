@@ -178,10 +178,47 @@ namespace CafeLibrary.Rendering
                     case ".anim":
                     case ".gltf":
                     case ".glb":
-                        SkeletonAnimImporter.Import(SkeletalAnim, GetActiveSkeleton(), dlg.FilePath, new SkeletonAnimImporter.Settings()
-                        {
 
-                        });
+                        var models = GetActiveSkeletonModels();
+                        if (models.Count == 1)
+                        {
+                            SkeletonAnimImporter.Import(SkeletalAnim, models[0].Skeleton, dlg.FilePath, new SkeletonAnimImporter.Settings()
+                            {
+
+                            });
+                        }
+                        else
+                        {
+                            STGenericModel selected_model = models.FirstOrDefault();
+
+                            DialogHandler.Show("Select Model", 250, 100, () =>
+                            {
+                                if (ImGui.BeginChild("select"))
+                                {
+                                    foreach (var model in models)
+                                    {
+                                        bool selected = selected_model == model;
+                                        if (ImGui.Selectable(model.Name, selected))
+                                            selected_model = model;
+
+                                        if (selected && ImGui.IsItemHovered() && ImGui.IsMouseDoubleClicked(0))
+                                            DialogHandler.ClosePopup(true);
+                                    }
+                                    if (ImGui.Button("Ok", new System.Numerics.Vector2(240, 22)))
+                                        DialogHandler.ClosePopup(true);
+                                }
+                                ImGui.EndChild();
+                            }, (o) =>
+                            {
+                                if (o)
+                                {
+                                    SkeletonAnimImporter.Import(SkeletalAnim, selected_model.Skeleton, dlg.FilePath, new SkeletonAnimImporter.Settings()
+                                    {
+
+                                    });
+                                }
+                            });
+                        }
                         break;
                     default:
                         SkeletalAnim.Import(dlg.FilePath, ResFile);

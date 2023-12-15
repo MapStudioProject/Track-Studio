@@ -70,11 +70,13 @@ namespace CafeLibrary.Rendering
         {
             MaterialAnim.FrameCount = (int)this.FrameCount;
             MaterialAnim.Loop = this.Loop;
-            this.TextureList = GetTextureList(this);
 
             int hash = BfresAnimations.CalculateGroupHashes(this);
             if (IsEdited || hash != Hash) //Generate anim data
+            {
+                this.TextureList = GetTextureList(this);
                 MaterialAnimConverter.ConvertAnimation(this, MaterialAnim);
+            }
             Hash = hash;
         }
 

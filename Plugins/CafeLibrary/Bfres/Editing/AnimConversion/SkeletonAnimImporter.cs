@@ -112,7 +112,6 @@ namespace CafeLibrary
                             boneAnim.FlagsBase |= BoneAnimFlagsBase.Scale;
                             break;
                     }
-                    continue;
                 }
 
                 switch (track.ChannelType)

@@ -38,6 +38,7 @@ namespace CafeLibrary
             }));
             Root.ContextMenus.Add(new MenuItem("Rename", () => Root.ActivateRename = true));
 
+            Root.Children.Clear();
             foreach (BfresSkeletalAnim.BoneAnimGroup group in anim.AnimGroups)
                 Root.AddChild(GetGroupNode(anim, group));
 

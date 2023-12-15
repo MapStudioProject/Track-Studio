@@ -47,17 +47,26 @@ namespace CafeLibrary
             foreach (var anim in ioanim.Groups)
                 fskaAnimation.BoneAnims.Add(CreateBoneAnim(anim, skeleton, settings));
 
-            //Sort by parent order, just to match more accurately
+            //Sort by traverse order, just to match more accurately
+            Dictionary<string, int> boneOrder = new Dictionary<string, int>();
 
-            int FindParentIndex(BoneAnim boneAnim)
+            void TraverseBones(STBone bone)
             {
-                var bone = skeleton.SearchBone(boneAnim.Name);
-                if (bone != null && bone.Parent != null)
-                    return skeleton.Bones.IndexOf(bone.Parent);
-                return -1;
+                //Add bone to traverse order
+                if (!boneOrder.ContainsKey(bone.Name))
+                    boneOrder.Add(bone.Name, boneOrder.Count);
+                //Go through each child
+                foreach (var child in bone.Children)
+                    TraverseBones(child);   
             }
+            //Get traversal order starting from root
+            foreach (var bone in skeleton.Bones.Where(x => x.Parent == null))
+                    TraverseBones(bone);
 
-            fskaAnimation.BoneAnims = fskaAnimation.BoneAnims.OrderBy(x => FindParentIndex(x)).ToList();
+            int GetOrderIndex(BoneAnim boneAnim) =>
+                boneOrder.ContainsKey(boneAnim.Name) ? boneOrder[boneAnim.Name] : -1;
+
+            fskaAnimation.BoneAnims = fskaAnimation.BoneAnims.OrderBy(x => GetOrderIndex(x)).ToList();
 
 
             //Bind indices that are set at runtime. 

@@ -925,7 +925,7 @@ namespace CafeLibrary
         public void CheckErrors()
         {
             //Check for valid normal map format
-            if (Material.ShaderAssign.ShaderOptions.ContainsKey("gsys_normalmap_BC1"))
+            if (Material.ShaderAssign != null && Material.ShaderAssign.ShaderOptions.ContainsKey("gsys_normalmap_BC1"))
             {
                 //Option for shader encoding as BC1. If 0 the shader expects BC5 SNORM, if 1 it uses BC1 UNORM
                 string value = Material.ShaderAssign.ShaderOptions["gsys_normalmap_BC1"];

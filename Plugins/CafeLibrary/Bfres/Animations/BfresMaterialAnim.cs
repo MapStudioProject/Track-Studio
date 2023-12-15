@@ -70,11 +70,37 @@ namespace CafeLibrary.Rendering
         {
             MaterialAnim.FrameCount = (int)this.FrameCount;
             MaterialAnim.Loop = this.Loop;
+            this.TextureList = GetTextureList(this);
 
             int hash = BfresAnimations.CalculateGroupHashes(this);
             if (IsEdited || hash != Hash) //Generate anim data
                 MaterialAnimConverter.ConvertAnimation(this, MaterialAnim);
             Hash = hash;
+        }
+
+        static List<string> GetTextureList(BfresMaterialAnim anim)
+        {
+            //Prepare an optimal texture list with only used textures
+            List<string> textureList = new List<string>();
+
+            foreach (STAnimGroup group in anim.AnimGroups)
+            {
+                foreach (var track in group.GetTracks())
+                {
+                    if (!(track is BfresMaterialAnim.SamplerTrack))
+                        continue;
+
+                    foreach (var key in track.KeyFrames)
+                    {
+                        var texture = anim.TextureList[(int)key.Value];
+                        if (!textureList.Contains(texture))
+                            textureList.Add(texture);
+
+                        key.Value = textureList.IndexOf(texture);
+                    }
+                }
+            }
+            return textureList;
         }
 
         public void OnNameChanged(string newName)

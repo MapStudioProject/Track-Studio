@@ -108,7 +108,7 @@ namespace TurboLibrary
             }
 
             // Gravity paths.
-            if (GravityPaths == null)
+            if (GravityPaths == null || courseDefinition.GravityPaths == null)
             {
                 _gravityPathIndices = null;
             }

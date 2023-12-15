@@ -2506,6 +2506,8 @@ namespace CafeLibrary
                         var bone = ParentSkeleton.Bones[index];
                         vertex.Position = Vector3.TransformPosition(vertex.Position, bone.Transform);
                         vertex.Normal = Vector3.TransformNormal(vertex.Normal, bone.Transform);
+                        vertex.Tangent = new Vector4(Vector3.TransformNormal(vertex.Tangent.Xyz, bone.Transform), vertex.Tangent.W);
+                        vertex.Bitangent = new Vector4(Vector3.TransformNormal(vertex.Bitangent.Xyz, bone.Transform), vertex.Tangent.W);
                     }
                 }
             }
@@ -2591,12 +2593,14 @@ namespace CafeLibrary
                         data[v] = new Syroot.Maths.Vector4F(nrm.X, nrm.Y, nrm.Z, 0);
                         break;
                     case "_t0":
+                        var tan = GetLocalVertexNormal(v, vertex.Tangent.Xyz);
                         data[v] = new Syroot.Maths.Vector4F(
-                            vertex.Tangent.X, vertex.Tangent.Y, vertex.Tangent.Z, vertex.Tangent.W);
+                            tan.X, tan.Y, tan.Z, vertex.Tangent.W);
                         break;
                     case "_b0":
+                        var btan = GetLocalVertexNormal(v, vertex.Tangent.Xyz);
                         data[v] = new Syroot.Maths.Vector4F(
-                            vertex.Bitangent.X, vertex.Bitangent.Y, vertex.Bitangent.Z, vertex.Bitangent.W);
+                            btan.X, btan.Y, btan.Z, vertex.Bitangent.W);
                         break;
                     case "_u0":
                         data[v] = new Syroot.Maths.Vector4F(

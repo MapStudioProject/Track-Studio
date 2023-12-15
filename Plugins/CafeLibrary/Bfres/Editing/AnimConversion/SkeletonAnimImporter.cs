@@ -78,7 +78,7 @@ namespace CafeLibrary
             foreach (var track in animation.Tracks)
             {
                 //insert into base pos instead if 1 frame
-                if (track.KeyFrames.Count == 1)
+                if (track.KeyFrames.Count >= 1)
                 {
                     switch (track.ChannelType)
                     {

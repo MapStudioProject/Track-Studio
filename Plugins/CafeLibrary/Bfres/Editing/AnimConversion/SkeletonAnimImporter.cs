@@ -47,6 +47,19 @@ namespace CafeLibrary
             foreach (var anim in ioanim.Groups)
                 fskaAnimation.BoneAnims.Add(CreateBoneAnim(anim, skeleton, settings));
 
+            //Sort by parent order, just to match more accurately
+
+            int FindParentIndex(BoneAnim boneAnim)
+            {
+                var bone = skeleton.SearchBone(boneAnim.Name);
+                if (bone != null && bone.Parent != null)
+                    return skeleton.Bones.IndexOf(bone.Parent);
+                return -1;
+            }
+
+            fskaAnimation.BoneAnims = fskaAnimation.BoneAnims.OrderBy(x => FindParentIndex(x)).ToList();
+
+
             //Bind indices that are set at runtime. 
             fskaAnimation.BindIndices = new ushort[fskaAnimation.BoneAnims.Count];
             for (int i = 0; i < fskaAnimation.BindIndices.Length; i++)

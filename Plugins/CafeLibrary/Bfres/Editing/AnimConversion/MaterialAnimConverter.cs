@@ -23,7 +23,10 @@ namespace CafeLibrary
             animation.Baked = false;
             animation.MaterialAnims = new List<MaterialDataAnimHelper>();
             animation.Loop = anim.Loop;
-            animation.TextureList = anim.TextureList;
+            //Get texture list with only used texture keys
+            animation.TextureList = GetTextureList(anim);
+            //Update in wrapper
+            anim.TextureList = animation.TextureList.ToList();
 
             foreach (STAnimGroup group in anim.AnimGroups)
             {
@@ -89,6 +92,31 @@ namespace CafeLibrary
             }
 
             MaterialAnimHelper.FromStruct(animTarget, animation);
+        }
+
+        static List<string> GetTextureList(BfresMaterialAnim anim)
+        {
+            //Prepare an optmimal texture list with only used textures
+            List<string> textureList = new List<string>();
+
+            foreach (STAnimGroup group in anim.AnimGroups)
+            {
+                foreach (var track in group.GetTracks())
+                {
+                    if (!(track is BfresMaterialAnim.SamplerTrack))
+                        continue;
+
+                    foreach (var key in track.KeyFrames)
+                    {
+                        var texture = anim.TextureList[(int)key.Value];
+                        if (!textureList.Contains(texture))
+                            textureList.Add(texture);
+
+                        key.Value = textureList.IndexOf(texture);
+                    }
+                }
+            }
+            return textureList;
         }
 
         static CurveAnimHelper ConvertCurve(BfresAnimationTrack track, uint target)

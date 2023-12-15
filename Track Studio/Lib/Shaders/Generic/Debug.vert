@@ -145,12 +145,18 @@ void main(){
 	    if (SkinCount > 0)
 		    worldPosition = skin(worldPosition.xyz, index);
 	    if (SkinCount > 0)
+        {
 		    normal = skinNormal(normal.xyz, index);
+		    tangent.xyz = skinNormal(tangent.xyz, index);
+		    bitangent.xyz = skinNormal(bitangent.xyz, index);
+        }
         //Single bind models that have no skinning to the bone they are mapped to
         if (SkinCount == 0)
         {
             worldPosition = RigidBindTransform * worldPosition;
             normal = mat3(RigidBindTransform) * normal;
+            tangent.xyz = mat3(RigidBindTransform) * tangent.xyz;
+            bitangent.xyz = mat3(RigidBindTransform) * bitangent.xyz;
         }
     }
 

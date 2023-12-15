@@ -135,18 +135,20 @@ namespace CafeLibrary
                             break;
                     }
                 }
-
-                switch (track.ChannelType)
+                if (track.KeyFrames.Count > 1)
                 {
-                    case IOAnimationTrackType.PositionX: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.PositionX)); break;
-                    case IOAnimationTrackType.PositionY: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.PositionY)); break;
-                    case IOAnimationTrackType.PositionZ: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.PositionZ)); break;
-                    case IOAnimationTrackType.RotationEulerX: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.RotateX)); break;
-                    case IOAnimationTrackType.RotationEulerY: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.RotateY)); break;
-                    case IOAnimationTrackType.RotationEulerZ: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.RotateZ)); break;
-                    case IOAnimationTrackType.ScaleX: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.ScaleX)); break;
-                    case IOAnimationTrackType.ScaleY: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.ScaleY)); break;
-                    case IOAnimationTrackType.ScaleZ: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.ScaleZ)); break;
+                    switch (track.ChannelType)
+                    {
+                        case IOAnimationTrackType.PositionX: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.PositionX)); break;
+                        case IOAnimationTrackType.PositionY: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.PositionY)); break;
+                        case IOAnimationTrackType.PositionZ: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.PositionZ)); break;
+                        case IOAnimationTrackType.RotationEulerX: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.RotateX)); break;
+                        case IOAnimationTrackType.RotationEulerY: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.RotateY)); break;
+                        case IOAnimationTrackType.RotationEulerZ: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.RotateZ)); break;
+                        case IOAnimationTrackType.ScaleX: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.ScaleX)); break;
+                        case IOAnimationTrackType.ScaleY: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.ScaleY)); break;
+                        case IOAnimationTrackType.ScaleZ: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.ScaleZ)); break;
+                    }
                 }
             }
 

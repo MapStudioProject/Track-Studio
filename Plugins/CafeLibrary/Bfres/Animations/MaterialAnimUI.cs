@@ -232,6 +232,10 @@ namespace CafeLibrary
                 parent.Children.Remove(trackNode);
                 anim.IsEdited = true;
             }));
+            trackNode.OnHeaderRenamed += delegate
+            {
+                track.Name = trackNode.Header;
+            };
 
             return trackNode;
         }

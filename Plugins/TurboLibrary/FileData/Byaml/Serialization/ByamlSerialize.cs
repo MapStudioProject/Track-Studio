@@ -122,7 +122,7 @@ namespace TurboLibrary
             {
                 //Generate a unit ID unique to the object if set to 0
                 if (((UnitObject)section).UnitIdNum == 0)
-                    ((UnitObject)section).UnitIdNum = UnitIDRng.Next(0, 100000);
+                    ((UnitObject)section).UnitIdNum = UnitIDRng.Next(1, 100000);
             }
 
             var properties = section.GetType().GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);

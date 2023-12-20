@@ -63,14 +63,14 @@ namespace TurboLibrary.MuuntEditor
             for (int i = 0; i < 8; i++)
             {
                 var param = mapObject.Params[i];
-                if (!DisplayUnusedParams && names[i] == null)
+                if (!DisplayUnusedParams && names[i] == null && isInDatabase)
                     continue;
 
                 string name = names[i] == null ? TranslationSource.GetText("UNUSED") : names[i];
                 if (!isInDatabase)
                     name = $"Param {i}";
 
-                if (DisplayFloat($"##param{i}", name, ref param) || !isInDatabase) {
+                if (DisplayFloat($"##param{i}", name, ref param)) {
                     foreach (Obj obj in selected)
                     {
                         obj.Params[i] = param;

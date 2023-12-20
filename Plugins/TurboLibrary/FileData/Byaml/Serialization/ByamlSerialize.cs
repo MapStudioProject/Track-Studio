@@ -11,6 +11,8 @@ namespace TurboLibrary
 {
     public class ByamlSerialize
     {
+        public static Random UnitIDRng = new Random(0x100);
+
         public static void Deserialize(object section, dynamic value)
         {
             if (value is IList)

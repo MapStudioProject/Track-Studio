@@ -118,6 +118,12 @@ namespace TurboLibrary
                 bymlProperties.Add("Z", ((ByamlVector3F)section).Z);
                 return bymlProperties;
             }
+            if (section is UnitObject)
+            {
+                //Generate a unit ID unique to the object if set to 0
+                if (((UnitObject)section).UnitIdNum == 0)
+                    ((UnitObject)section).UnitIdNum = UnitIDRng.Next(0, 100000);
+            }
 
             var properties = section.GetType().GetProperties(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
             var fields = section.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);

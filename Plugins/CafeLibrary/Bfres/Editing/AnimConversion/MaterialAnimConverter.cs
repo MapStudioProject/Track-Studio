@@ -23,7 +23,7 @@ namespace CafeLibrary
             animation.Baked = false;
             animation.MaterialAnims = new List<MaterialDataAnimHelper>();
             animation.Loop = anim.Loop;
-            animation.TextureList = animation.TextureList.ToList();
+            animation.TextureList = anim.TextureList.ToList();
 
             foreach (STAnimGroup group in anim.AnimGroups)
             {

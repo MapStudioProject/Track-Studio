@@ -37,7 +37,7 @@ namespace TurboLibrary
         /// Gets or sets the field of view angle of the camera at this part of the path.
         /// </summary>
         [ByamlMember]
-        [BindGUI("Map Camer aFovy", Category = "Properties")]
+        [BindGUI("Map Camera Fovy", Category = "Properties")]
         public int MapCameraFovy { get; set; }
 
         /// <summary>

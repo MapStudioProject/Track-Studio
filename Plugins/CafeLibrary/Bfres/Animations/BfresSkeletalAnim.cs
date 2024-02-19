@@ -14,6 +14,8 @@ using UIFramework;
 using System.IO;
 using IONET.Collada.Core.Controller;
 using ImGuiNET;
+using IONET.Core.Animation;
+using Syroot.Maths;
 
 namespace CafeLibrary.Rendering
 {
@@ -262,6 +264,25 @@ namespace CafeLibrary.Rendering
                                     }
                                     boneAnim.ApplySegmentScaleCompensate = tempBoneAnim.ApplySegmentScaleCompensate;
                                     boneAnim.FlagsBase = tempBoneAnim.FlagsBase;
+
+                                    if (boneAnim.Name == "Root")
+                                        continue;
+
+                                    if (boneAnim.FlagsBase.HasFlag(BoneAnimFlagsBase.Translate) && boneAnim.BaseData.Translate.Length == 0)
+                                    {
+                                        var mask = ~BoneAnimFlagsBase.Translate;
+                                        boneAnim.FlagsBase = boneAnim.FlagsBase & mask;
+                                    }
+                                    if (boneAnim.FlagsBase.HasFlag(BoneAnimFlagsBase.Rotate) && boneAnim.BaseData.Rotate.Equals(Vector4F.Zero))
+                                    {
+                                        var mask = ~BoneAnimFlagsBase.Rotate;
+                                        boneAnim.FlagsBase = boneAnim.FlagsBase & mask;
+                                    }
+                                    if (boneAnim.FlagsBase.HasFlag(BoneAnimFlagsBase.Scale) && boneAnim.BaseData.Scale.Length == 0)
+                                    {
+                                        var mask = ~BoneAnimFlagsBase.Scale;
+                                        boneAnim.FlagsBase = boneAnim.FlagsBase & mask;
+                                    }
                                 }
                             }
                         }
@@ -595,8 +616,8 @@ namespace CafeLibrary.Rendering
 
                     update = true;
 
-                    Vector3 position = bone.Position;
-                    Vector3 scale = bone.Scale;
+                    OpenTK.Vector3 position = bone.Position;
+                    OpenTK.Vector3 scale = bone.Scale;
 
                     if (boneAnim.Translate.X.HasKeys)
                         position.X = boneAnim.Translate.X.GetFrameValue(Frame) * GLContext.PreviewScale;
@@ -633,7 +654,7 @@ namespace CafeLibrary.Rendering
                     }
                     else
                     {
-                        Vector3 rotationEuluer = bone.EulerRotation;
+                        OpenTK.Vector3 rotationEuluer = bone.EulerRotation;
                         if (boneAnim.Rotate.X.HasKeys)
                             rotationEuluer.X = boneAnim.Rotate.X.GetFrameValue(Frame);
                         if (boneAnim.Rotate.X.HasKeys)

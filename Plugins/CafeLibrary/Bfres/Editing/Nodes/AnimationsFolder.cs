@@ -8,6 +8,8 @@ using Toolbox.Core.Animations;
 using Toolbox.Core;
 using BfresLibrary;
 using CafeLibrary.Rendering;
+using MapStudio.UI;
+using System.IO;
 
 namespace CafeLibrary
 {
@@ -35,6 +37,20 @@ namespace CafeLibrary
             ContextMenus.Add(new MenuItemModel("New Shader Param Animation", AddShaderParamAnim));
             ContextMenus.Add(new MenuItemModel("New Tex SRT Animation", AddTexSRTAnim));
             ContextMenus.Add(new MenuItemModel("New Color Animation", AddColorAnim));
+
+            SkeletalAnimsFolder.ContextMenus.Add(new MenuItemModel("New Skeleton Animation", AddSkeletalAnim));
+            SkeletalAnimsFolder.ContextMenus.Add(new MenuItemModel(""));
+            SkeletalAnimsFolder.ContextMenus.Add(new MenuItemModel("Export All", ExportAllSkeletalAnim));
+            SkeletalAnimsFolder.ContextMenus.Add(new MenuItemModel(""));
+            SkeletalAnimsFolder.ContextMenus.Add(new MenuItemModel("Import Multiple", ImportAllSkeletalAnim));
+            SkeletalAnimsFolder.ContextMenus.Add(new MenuItemModel("Replace Multiple", ReplaceAllSkeletalAnim));
+            SkeletalAnimsFolder.ContextMenus.Add(new MenuItemModel("Replace Multiple Bone Config", ReplaceAllSkeletalAnimBoneConfig));
+            
+
+            TexPatternAnimsFolder.ContextMenus.Add(new MenuItemModel("New Texture Pattern Animation", AddTextureAnim));
+            ShaderParamAnimsFolder.ContextMenus.Add(new MenuItemModel("New Shader Param Animation", AddShaderParamAnim));
+            TexSRTParamAnimsFolder.ContextMenus.Add(new MenuItemModel("New Tex SRT Animation", AddTexSRTAnim));
+            ColorParamAnimsFolder.ContextMenus.Add(new MenuItemModel("New Color Animation", AddColorAnim));
 
             Reload();
         }
@@ -109,6 +125,102 @@ namespace CafeLibrary
             if (ShaderParamAnimsFolder.Parent == null) AddChild(ShaderParamAnimsFolder);
         }
 
+        private void ExportAllSkeletalAnim()
+        {
+            var dlg = new ImguiFolderDialog { Title = "Export Folder" };
+
+            if (dlg.ShowDialog())
+            {
+                foreach (BfresSkeletalAnim bfresSkeletalAnim in BfresWrapper.Renderer.SkeletalAnimations)
+                {
+                    string filePath = Path.Combine(dlg.SelectedPath, bfresSkeletalAnim.Name + ".json");
+                    bfresSkeletalAnim.ExportAction(filePath);
+                }
+            }
+
+            Reload();
+        }
+
+        private void ImportAllSkeletalAnim()
+        {
+            var dlg = new ImguiFileDialog();
+            dlg.SaveDialog = false;
+            dlg.MultiSelect = true;
+
+            dlg.AddFilter(".bfska", ".bfska");
+            dlg.AddFilter(".json", ".json");
+            dlg.AddFilter(".anim", ".anim");
+            // dlg.AddFilter(".gltf", ".gltf");
+            // dlg.AddFilter(".glb", ".glb");
+
+            if (dlg.ShowDialog())
+            {
+                foreach (string dlgFilePath in dlg.FilePaths)
+                {
+                    string fileName = Path.GetFileName(dlgFilePath).Split(".")[0];
+
+                    ResFile.SkeletalAnims.TryGetValue(fileName, out var skeletalAnim);
+
+                    var anim = skeletalAnim ?? new SkeletalAnim() { Name = fileName, FlagsRotate = SkeletalAnimFlagsRotate.EulerXYZ };
+                    anim.Name = Utils.RenameDuplicateString(anim.Name, ResFile.SkeletalAnims.Keys.Select(x => x).ToList());
+                    anim.Import(dlgFilePath, ResFile);
+
+                    if (skeletalAnim is null)
+                        ResFile.SkeletalAnims.Add(anim.Name, anim);
+                    AddSkeletalAnimation(anim);
+
+                    if (SkeletalAnimsFolder.Parent == null) AddChild(SkeletalAnimsFolder);
+                }
+            }
+
+            Reload();
+        }
+
+        private void ReplaceAllSkeletalAnim()
+        {
+            ReplaceAllSkeletalAnim(false);
+        }
+
+        private void ReplaceAllSkeletalAnimBoneConfig()
+        {
+            ReplaceAllSkeletalAnim(true);
+        }
+
+        private void ReplaceAllSkeletalAnim(bool boneConfigOnly)
+        {
+            var dlg = new ImguiFileDialog();
+            dlg.SaveDialog = false;
+            dlg.MultiSelect = true;
+
+            if (!boneConfigOnly)
+            {
+                dlg.AddFilter(".bfska", ".bfska");
+                dlg.AddFilter(".anim", ".anim");
+                // dlg.AddFilter(".gltf", ".gltf");
+                // dlg.AddFilter(".glb", ".glb");
+            }
+            dlg.AddFilter(".json", ".json");
+
+            if (dlg.ShowDialog())
+            {
+                foreach (BfresSkeletalAnim bfresSkeletalAnim in BfresWrapper.Renderer.SkeletalAnimations)
+                {
+                    foreach (string dlgFilePath in dlg.FilePaths)
+                    {
+                        string fileName = Path.GetFileName(dlgFilePath).Split(".")[0];
+                        if (fileName != bfresSkeletalAnim.Name)
+                        {
+                            continue;
+                        }
+
+                        bfresSkeletalAnim.ReplaceAction(dlgFilePath, boneConfigOnly);
+                    }
+                }
+            }
+
+            Reload();
+        }
+
         public void OnSave()
         {
             foreach (var anim in SkeletalAnimsFolder.Children)
@@ -126,6 +238,11 @@ namespace CafeLibrary
         public void Reload()
         {
             Children.Clear();
+            SkeletalAnimsFolder.Children.Clear();
+            ShaderParamAnimsFolder.Children.Clear();
+            ColorParamAnimsFolder.Children.Clear();
+            TexSRTParamAnimsFolder.Children.Clear();
+            TexPatternAnimsFolder.Children.Clear();
 
             foreach (var anim in ResFile.SkeletalAnims.Values)
                 if (!SkeletalAnimsFolder.Children.Any(x => x.Tag == anim))

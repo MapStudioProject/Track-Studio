@@ -91,6 +91,8 @@ namespace CafeLibrary.Rendering
                 new MenuItemModel("Export", ExportAction),
                 new MenuItemModel("Replace", ReplaceAction),
                 new MenuItemModel(""),
+                new MenuItemModel("Replace Bone Config", ReplaceBoneConfigAction),
+                new MenuItemModel(""),
                 new MenuItemModel("Rename", () => UINode.ActivateRename = true),
                 new MenuItemModel(""),
                 new MenuItemModel("Delete", DeleteAction)
@@ -98,6 +100,11 @@ namespace CafeLibrary.Rendering
         }
 
         private void ExportAction()
+        {
+            ExportAction(null);
+        }
+        
+        public void ExportAction(string? filePath)
         {
             var dlg = new ImguiFileDialog();
             dlg.SaveDialog = true;
@@ -108,11 +115,14 @@ namespace CafeLibrary.Rendering
             //dlg.AddFilter(".gltf", ".gltf");
             //dlg.AddFilter(".glb", ".glb");
 
-            if (dlg.ShowDialog())
+            if (filePath is not null || dlg.ShowDialog())
             {
+                string usedFilePath = filePath ?? dlg.FilePath;
+                string usedFileExt = Path.GetExtension(usedFilePath);
+
                 OnSave();
 
-                switch (Path.GetExtension(dlg.FilePath))
+                switch (usedFileExt)
                 {
                     case ".anim":
                     case ".gltf":
@@ -120,7 +130,7 @@ namespace CafeLibrary.Rendering
                         var models = GetActiveSkeletonModels();
                         if (models.Count == 1)
                         {
-                            SkeletonAnimExporter.Export(SkeletalAnim, models[0].Skeleton, dlg.FilePath);
+                            SkeletonAnimExporter.Export(SkeletalAnim, models[0].Skeleton, usedFilePath);
                         }
                         else
                         {
@@ -147,14 +157,14 @@ namespace CafeLibrary.Rendering
                             {
                                 if (o)
                                 {
-                                    SkeletonAnimExporter.Export(SkeletalAnim, selected_model.Skeleton, dlg.FilePath);
+                                    SkeletonAnimExporter.Export(SkeletalAnim, selected_model.Skeleton, usedFilePath);
                                 }
                             });
                         }
 
                         break;
                     default:
-                        SkeletalAnim.Export(dlg.FilePath, ResFile);
+                        SkeletalAnim.Export(usedFilePath, ResFile);
                         break;
                 }
             }
@@ -162,18 +172,34 @@ namespace CafeLibrary.Rendering
 
         private void ReplaceAction()
         {
+            ReplaceAction(null, false);
+        }
+
+        private void ReplaceBoneConfigAction()
+        {
+            ReplaceAction(null, true);
+        }
+
+        public void ReplaceAction(string? filePath, bool boneConfigOnly)
+        {
             var dlg = new ImguiFileDialog();
             dlg.SaveDialog = false;
             dlg.FileName = $"{SkeletalAnim.Name}.json";
-            dlg.AddFilter(".bfska", ".bfska");
-            dlg.AddFilter(".json", ".json");
-            dlg.AddFilter(".anim", ".anim");
-           // dlg.AddFilter(".gltf", ".gltf");
-           // dlg.AddFilter(".glb", ".glb");
 
-            if (dlg.ShowDialog())
+            if (!boneConfigOnly)
             {
-                switch (Path.GetExtension(dlg.FilePath))
+                dlg.AddFilter(".bfska", ".bfska");
+                dlg.AddFilter(".anim", ".anim");
+                // dlg.AddFilter(".gltf", ".gltf");
+                // dlg.AddFilter(".glb", ".glb");
+            }
+            dlg.AddFilter(".json", ".json");
+
+            if (filePath is not null || dlg.ShowDialog())
+            {
+                string usedFilePath = filePath ?? dlg.FilePath;
+                string usedFileExt = Path.GetExtension(usedFilePath);
+                switch (usedFileExt)
                 {
                     case ".anim":
                     case ".gltf":
@@ -182,7 +208,7 @@ namespace CafeLibrary.Rendering
                         var models = GetActiveSkeletonModels();
                         if (models.Count == 1)
                         {
-                            SkeletonAnimImporter.Import(SkeletalAnim, models[0].Skeleton, dlg.FilePath, new SkeletonAnimImporter.Settings()
+                            SkeletonAnimImporter.Import(SkeletalAnim, models[0].Skeleton, usedFilePath, new SkeletonAnimImporter.Settings()
                             {
 
                             });
@@ -212,7 +238,7 @@ namespace CafeLibrary.Rendering
                             {
                                 if (o)
                                 {
-                                    SkeletonAnimImporter.Import(SkeletalAnim, selected_model.Skeleton, dlg.FilePath, new SkeletonAnimImporter.Settings()
+                                    SkeletonAnimImporter.Import(SkeletalAnim, selected_model.Skeleton, usedFilePath, new SkeletonAnimImporter.Settings()
                                     {
 
                                     });
@@ -220,8 +246,32 @@ namespace CafeLibrary.Rendering
                             });
                         }
                         break;
+                    case ".json":
+                        if (boneConfigOnly)
+                        {
+                            SkeletalAnim tempSkeletalAnim = new SkeletalAnim();
+                            tempSkeletalAnim.Import(usedFilePath, ResFile);
+
+                            foreach (BoneAnim tempBoneAnim in tempSkeletalAnim.BoneAnims)
+                            {
+                                foreach (BoneAnim boneAnim in SkeletalAnim.BoneAnims)
+                                {
+                                    if (tempBoneAnim.Name != boneAnim.Name)
+                                    {
+                                        continue;
+                                    }
+                                    boneAnim.ApplySegmentScaleCompensate = tempBoneAnim.ApplySegmentScaleCompensate;
+                                    boneAnim.FlagsBase = tempBoneAnim.FlagsBase;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            SkeletalAnim.Import(usedFilePath, ResFile);
+                        }
+                        break;
                     default:
-                        SkeletalAnim.Import(dlg.FilePath, ResFile);
+                        SkeletalAnim.Import(usedFilePath, ResFile);
                         break;
                 }
                 Reload(SkeletalAnim);

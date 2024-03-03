@@ -370,7 +370,8 @@ namespace CafeLibrary.Rendering
                 foreach (var model in models)
                     if (model.ModelData.Name != "Pupil") //MK8 ignore pupils
                         list.Add(model.ModelData);
-                return list;
+                if (list.Count > 0)
+                    return list;
             }
 
             //Lastly check for active render and if skeleton is visible/active
@@ -381,7 +382,8 @@ namespace CafeLibrary.Rendering
                     if (file.IsVisible && model.IsVisible && model.ModelData.Name != "Pupil") //MK8 ignore pupils
                         list.Add(model.ModelData);
                 }
-                return list;
+                if (list.Count > 0)
+                    return list;
             }
             return null;
         }

@@ -343,6 +343,8 @@ namespace CafeLibrary
                 ImGui.InputInt("LOD Count", ref Settings.LODCount, 1);
             }
 
+            ImGui.Checkbox($"Enable Sub Meshes (Experimental)", ref Settings.EnableSubMesh);
+            
             ImGui.EndColumns();
         }
 

@@ -62,39 +62,60 @@ namespace CafeLibrary
             List<Triangle> zstrip = new List<Triangle>();
             Triangle zseltri = triangles[0];
             int zindex = 0;
+
             while (true)
             {
-                //Check triangles in the Z direction
-
-                //Distance between current triangle set
-                while (triangles[zindex].GetMinZ() - zseltri.GetMinZ() <= distMax) //Add triangles within 1000 units to be in the same group
+                // Distance between current triangle set
+                while (triangles[zindex].GetMinZ() - zseltri.GetMinZ() <= distMax) // Add triangles within 1000 units to be in the same group
                 {
                     zstrip.Add(triangles[zindex]);
                     zindex++;
-                    //Last triangle, break the loop
+                    // Last triangle, break the loop
                     if (zindex == triangles.Count) break;
                 }
                 zstrip = zstrip.OrderBy(face => face.GetMinX()).ToList();
-                //Check triangles in the X direction
+
+                // Check triangles in the X direction
                 List<Triangle> xstrip = new List<Triangle>();
                 var xseltri = zstrip[0];
                 int xindex = 0;
                 while (true)
                 {
-                    //Distance between current triangle set
-                    while (zstrip[xindex].GetMinX() - xseltri.GetMinX() <= distMax) //Add triangles within 1000 units to be in the same group
+                    // Distance between current triangle set
+                    while (zstrip[xindex].GetMinX() - xseltri.GetMinX() <= distMax) // Add triangles within 1000 units to be in the same group
                     {
                         xstrip.Add(zstrip[xindex]);
                         xindex++;
-                        //Last triangle, break the loop
+                        // Last triangle, break the loop
                         if (xindex == zstrip.Count) break;
                     }
-                    GenerateDiv(xstrip);
+
+                    // Check triangles in the Y direction
+                    List<Triangle> ystrip = new List<Triangle>();
+                    var yseltri = xstrip[0];
+                    int yindex = 0;
+                    while (true)
+                    {
+                        // Distance between current triangle set
+                        while (xstrip[yindex].GetMinY() - yseltri.GetMinY() <= distMax) // Add triangles within 1000 units to be in the same group
+                        {
+                            ystrip.Add(xstrip[yindex]);
+                            yindex++;
+                            // Last triangle, break the loop
+                            if (yindex == xstrip.Count) break;
+                        }
+                        GenerateDiv(ystrip);
+
+                        if (yindex == xstrip.Count) break;
+                        yseltri = xstrip[yindex];
+                        ystrip.Clear();
+                    }
 
                     if (xindex == zstrip.Count) break;
                     xseltri = zstrip[xindex];
                     xstrip.Clear();
                 }
+
                 if (zindex == triangles.Count) break;
                 zseltri = triangles[zindex];
                 zstrip.Clear();
@@ -118,9 +139,11 @@ namespace CafeLibrary
         public List<Vector3> Vertices = new List<Vector3>();
 
         public float GetMinX() => Vertices.Min(x => x.X);
+        public float GetMinY() => Vertices.Min(x => x.Y);
         public float GetMinZ() => Vertices.Min(x => x.Z);
 
         public float GetMaxX() => Vertices.Max(x => x.X);
+        public float GetMaxY() => Vertices.Max(x => x.Y);
         public float GetMaxZ() => Vertices.Max(x => x.Z);
     }
 }

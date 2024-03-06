@@ -118,11 +118,18 @@ namespace CafeLibrary
             else
             {
                 curve.Interpolation = AnimCurveType.Linear;
-                foreach (STKeyFrame key in track.KeyFrames)
+                for (int i = 0; i < track.KeyFrames.Count; i++)
                 {
-                    curve.KeyFrames.Add(key.Frame, new KeyFrame()
+                    var key = track.KeyFrames[i];
+
+                    float delta = 0;
+                    if (i < track.KeyFrames.Count - 1)
+                        delta = track.KeyFrames[i + 1].Value - key.Value;
+
+                    curve.KeyFrames.Add(key.Frame, new LinearKeyFrame()
                     {
                         Value = (float)key.Value,
+                        Delta = delta,
                     });
                 }
             }

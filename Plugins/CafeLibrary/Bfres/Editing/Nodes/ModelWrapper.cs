@@ -2845,6 +2845,10 @@ namespace CafeLibrary
 
             var parent = Renderer.Bones.FirstOrDefault(x => x.BoneData == bone.Parent);
             render.SetParent(parent);
+            if (parent == null) //add rooot bones to folder
+            {
+                this.FolderUI.AddChild(render.UINode);
+            }
 
             return render;
         }

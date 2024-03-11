@@ -73,13 +73,13 @@ jobs:
         dotnet-version: 6.0.x
 
     - name: Restore dependancies
-      run: dotnet restore -r ${{ matrix.runtime }} Track Studio.sln
+      run: dotnet restore -r ${{ matrix.runtime }} Track-Studio.sln
 
     - name: Build
-      run: dotnet build -c Release --no-restore Track Studio.sln
+      run: dotnet build -c Release --no-restore Track-Studio.sln
 
     - name: Publish
-      run: dotnet publish -c Release -r ${{ matrix.runtime }} --no-restore Track Studio
+      run: dotnet publish -c Release -r ${{ matrix.runtime }} --no-restore Track-Studio
 
     - uses: actions/upload-artifact@v3
       with:

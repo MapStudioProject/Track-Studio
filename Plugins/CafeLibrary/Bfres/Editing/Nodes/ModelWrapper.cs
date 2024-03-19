@@ -298,6 +298,8 @@ namespace CafeLibrary
                 new MenuItemModel("Export", ExportDialog),
                 new MenuItemModel("Replace", ReplaceDialog),
                 new MenuItemModel(""),
+                new MenuItemModel("Replace (MK8 Sub Division)", ReplaceDialogWithSubMeshCalc),
+                new MenuItemModel(""),
                 new MenuItemModel("Rename", () => UINode.ActivateRename = true),
                 new MenuItemModel(""),
                 new MenuItemModel("Add", AddModelDialog),
@@ -435,12 +437,34 @@ namespace CafeLibrary
             }
         }
 
-        public void ImportModel(string filePath, bool replacing = false, Action onImported = null)
+        public void ReplaceDialogWithSubMeshCalc()
+        {
+            var dlg = new ImguiFileDialog();
+            dlg.SaveDialog = false;
+            dlg.AddFilter(".bfmdl", ".bfmdl");
+            dlg.AddFilter(".dae", ".dae");
+            dlg.AddFilter(".fbx", ".fbx");
+
+            if (dlg.ShowDialog())
+            {
+                try
+                {
+                    ImportModel(dlg.FilePath, true, null, true);
+                }
+                catch (Exception ex)
+                {
+                    DialogHandler.ShowException(ex);
+                }
+            }
+        }
+
+        public void ImportModel(string filePath, bool replacing = false, Action onImported = null, bool use_sub_mesh = false)
         {
             ProcessLoading.Instance.IsLoading = true;
             var materials = this.Model.Materials.Values.ToList();
             var settings = BfresWrapper.ImportSettings;
             settings.Replacing = replacing;
+            settings.EnableSubMesh = use_sub_mesh;
 
             if (!filePath.EndsWith(".bfmdl"))
             {
@@ -2821,6 +2845,10 @@ namespace CafeLibrary
 
             var parent = Renderer.Bones.FirstOrDefault(x => x.BoneData == bone.Parent);
             render.SetParent(parent);
+            if (parent == null) //add rooot bones to folder
+            {
+                this.FolderUI.AddChild(render.UINode);
+            }
 
             return render;
         }

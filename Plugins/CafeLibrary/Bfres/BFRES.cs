@@ -123,31 +123,7 @@ namespace CafeLibrary
 
         public override void RenderSaveFileSettings()
         {
-            var comp = FileInfo.Compression == null ? "None" : FileInfo.Compression.ToString();
-            if (ImGui.BeginCombo("Compression", comp))
-            {
-                bool select = comp == "None";
-                if (ImGui.Selectable("None", select)) {
-                    FileInfo.Compression = null;
-                }
-                if (select)
-                    ImGui.SetItemDefaultFocus();
-
-                foreach (var compTypes in Toolbox.Core.FileManager.GetCompressionFormats())
-                {
-                    select = comp == compTypes.ToString();
-                    if (ImGui.Selectable(compTypes.ToString(), select)) {
-                        FileInfo.Compression = compTypes;
-                    }
-
-                    if (select)
-                        ImGui.SetItemDefaultFocus();
-                }
-                ImGui.EndCombo();
-            }
-            if (ImGui.DragInt("Yaz0 Level (1 fast, 9 slow)", ref Runtime.Yaz0CompressionLevel, 1, 1, 9)) {
-
-            }
+            base.RenderSaveFileSettings();
         }
 
         private void Reload()

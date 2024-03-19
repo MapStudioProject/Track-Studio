@@ -59,6 +59,7 @@ Track tutorial [here](https://mapstudioproject.github.io/TrackStudioDocs/tutoria
 - mellinoe and IMGUI Team - for c# port and creating the IMGUI library
 - Atlas & Wexos for researching and helping aspects of the game
 - MelonSpeedruns for program icon
+- Riidefi for improved yaz0 compressor. https://github.com/riidefi/RiiStudio/tree/master/source/szs
 
 Beta Testers
 

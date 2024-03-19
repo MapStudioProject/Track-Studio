@@ -503,45 +503,33 @@ namespace CafeLibrary.ModelConversion
 
         static void CalculateMeshDivision(List<IOVertex> vertices, Shape fshp, Mesh mesh, List<int> indices, ref List<uint> indexList, bool enableSubMesh)
         {
-            bool divide = false;
             if (enableSubMesh)
             {
-                var bb = fshp.SubMeshBoundings[0];
-                int numSubMeshes = 2;
+                //Divided up. Update the index list, boundings and sub mesh lists
+                indexList.Clear();
+                var divided = PolygonDivision.Divide(vertices, indices);
 
-                fshp.SubMeshBoundingIndices.Clear();
                 fshp.SubMeshBoundingNodes.Clear();
                 fshp.SubMeshBoundings.Clear();
-                for (int i = 0; i < numSubMeshes; i++)
-                {
-                    ushort index = (ushort)i;
 
-                    fshp.SubMeshBoundingIndices.Add(index);
-                    fshp.SubMeshBoundings.Add(bb);
-                    fshp.SubMeshBoundingNodes.Add(new BoundingNode()
-                    {
-                        NextSibling = index,
-                        LeftChildIndex = index,
-                        RightChildIndex = index,
-                        Unknown = index,
-                        SubMeshCount = 1,
-                        SubMeshIndex = index,
-                    });
-                }
+                int offset = 0;
+                foreach (var root in divided)
+                    AddSubMesh(root, ref fshp, ref mesh, ref offset, ref indexList);
 
-                //Single mesh
-                mesh.SubMeshes.Add(new SubMesh()
+                Console.WriteLine($"fshp {fshp.Name} submeshes {mesh.SubMeshes.Count}");
+
+                fshp.SubMeshBoundingIndices.Add(0);
+                fshp.SubMeshBoundingNodes.Add(new BoundingNode()
                 {
-                    Offset = 0,
-                    Count = (uint)indices.Count,
-                });
-                mesh.SubMeshes.Add(new SubMesh()
-                {
-                    Offset = 0,
-                    Count = 1,
+                    LeftChildIndex = 0,
+                    RightChildIndex = 0,
+                    NextSibling = 0,
+                    SubMeshIndex = 0,
+                    Unknown = 0,
+                    SubMeshCount = (ushort)mesh.SubMeshes.Count,
                 });
             }
-            else if (!divide)
+            else 
             {
                 //Single mesh
                 mesh.SubMeshes.Add(new SubMesh()
@@ -560,23 +548,6 @@ namespace CafeLibrary.ModelConversion
                     SubMeshCount = 1,
                 });
             }
-            else
-            {
-                //Divided up. Update the index list, boundings and sub mesh lists
-                indexList.Clear();
-                var divided = PolygonDivision.Divide(vertices, indices, new PolygonDivision.PolygonSettings()
-                {
-
-                });
-                int offset = 0;
-
-                fshp.SubMeshBoundingNodes.Clear();
-                fshp.SubMeshBoundings.Clear();
-
-                foreach (var root in divided)
-                    AddSubMesh(root, fshp, mesh, ref offset, ref indexList);
-            }
-
         }
 
         /// <summary>
@@ -617,21 +588,31 @@ namespace CafeLibrary.ModelConversion
             }
         }
 
-        static void AddSubMesh(PolygonDivision.PolygonOctree subMesh, Shape shape, Mesh mesh,
-      ref int offset, ref List<uint> indexList)
+        static void AddSubMesh(DivSubMesh subMesh, ref Shape shape, ref Mesh mesh, ref int offset, ref List<uint> indexList)
         {
-            indexList.AddRange(subMesh.TriangleIndices.Select(x => (uint)x).ToList());
+            offset += indexList.Count;
+            indexList.AddRange(subMesh.Faces.Select(x => (uint)x).ToList());
 
-            offset += subMesh.TriangleIndices.Count;
+            int index = mesh.SubMeshes.Count;
 
             mesh.SubMeshes.Add(new SubMesh()
             {
                 Offset = (uint)offset,
-                Count = (uint)indexList.Count,
+                Count = (uint)subMesh.Faces.Count,
             });
 
-            foreach (var child in subMesh.Children)
-                AddSubMesh(child, shape, mesh, ref offset, ref indexList);
+            var center = (subMesh.Min + subMesh.Max) / 2.0f;
+            var extent = (subMesh.Max - subMesh.Min) / 2.0f;
+
+            var boundingBox = new Bounding()
+            {
+                Center = new Vector3F(center.X, center.Y, center.Z),
+                Extent = new Vector3F(extent.X, extent.Y, extent.Z),
+            };
+            float sphereRadius = System.Numerics.Vector3.Distance(center, subMesh.Max);
+
+            shape.SubMeshBoundings.Add(boundingBox);
+            shape.RadiusArray.Add(sphereRadius);
         }
 
         private static float CalculateRadius(float horizontalLeg, float verticalLeg)
@@ -765,21 +746,16 @@ namespace CafeLibrary.ModelConversion
 
         private static Bounding CalculateBoundingBox(Vector3F min, Vector3F max)
         {
-            Vector3F center = max + min;
-
             Console.WriteLine($"min {min}");
             Console.WriteLine($"max {max}");
 
-            float xxMax = GetExtent(max.X, min.X);
-            float yyMax = GetExtent(max.Y, min.Y);
-            float zzMax = GetExtent(max.Z, min.Z);
-
-            Vector3F extend = new Vector3F(xxMax, yyMax, zzMax);
+            var center = (min + max) / 2.0f;
+            var extent = (max - min) / 2.0f;
 
             return new Bounding()
             {
                 Center = new Vector3F(center.X, center.Y, center.Z),
-                Extent = new Vector3F(extend.X, extend.Y, extend.Z),
+                Extent = new Vector3F(extent.X, extent.Y, extent.Z),
             };
         }
 

@@ -73,7 +73,12 @@ namespace CafeLibrary.Rendering
         public void UpdateFrustum(GLContext context, BfresRender render)
         {
             for (int i = 0; i < Meshes.Count; i++)
-                MeshInFrustum[i] = IsMeshInFustrum(context, render, Meshes[i]);
+            {
+                if (Meshes[i].VertexSkinCount == 0) //only check static meshes atm as rigged boudnings are not checked
+                    MeshInFrustum[i] = IsMeshInFustrum(context, render, Meshes[i]);
+                else
+                    MeshInFrustum[i] = true;
+            }
         }
 
         public void Draw(GLContext context, Pass pass, BfresRender parentRender)

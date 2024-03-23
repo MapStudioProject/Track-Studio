@@ -52,7 +52,8 @@ namespace CafeLibrary
                             if (value == "False") value = "0";
                             if (value == "True") value = "1";
 
-                            if (value == m.ShaderModel.StaticOptions[option.Key].defaultChoice)
+                            var op = m.ShaderModel.StaticOptions[option.Key];
+                            if (value == op.choices[(int)op.defaultIndex])
                                 continue;
                         }
                     }

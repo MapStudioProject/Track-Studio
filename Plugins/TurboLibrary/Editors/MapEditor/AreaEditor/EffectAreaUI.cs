@@ -55,7 +55,7 @@ namespace TurboLibrary
 
                             if (add)
                             {
-                                prop.SetValue(obj, effectSW | effect);
+                                prop.SetValue(obj, (EffectArea.EffectSWFlags)BitUtility.SetBit((uint)effectSW, i, true));
                             }
                         }
                         else
@@ -64,7 +64,7 @@ namespace TurboLibrary
                             ImGui.SameLine();
 
                             if (remove)
-                                prop.SetValue(obj, effectSW & effect);
+                                prop.SetValue(obj, (EffectArea.EffectSWFlags)BitUtility.SetBit((uint)effectSW, i, false));
                         }
 
                         if (ImGui.Selectable(effect.ToString(), effectSW.HasFlag(effect)))

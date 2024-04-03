@@ -197,6 +197,7 @@ namespace CafeLibrary
                 if (ImGui.InputText("Name", ref name, 200)) {
                     texMapSel.Name = name;
                     material.BatchTextureName(name, materialData.Samplers[index].Name);
+                    material.ReloadTextureMap(index);
                 }
             } 
 

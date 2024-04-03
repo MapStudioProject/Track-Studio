@@ -271,11 +271,7 @@ namespace CafeLibrary.Rendering
                 if (model.IsVisible)
                     model.Draw(control, pass, this);
 
-            //Draw debug boundings
             if (Runtime.RenderBoundingBoxes)
-                this.BoundingNode.Box.DrawSolid(control, this.Transform.TransformMatrix, Vector4.One);
-
-           // if (Runtime.RenderBoundingBoxes)
                 DrawBoundings(control);
 
             GL.Enable(EnableCap.CullFace);
@@ -375,7 +371,7 @@ namespace CafeLibrary.Rendering
                             }
                             else
                             {
-                                //   BoundingBoxRender.Draw(control, bb.Box.Min, bb.Box.Max);
+                                BoundingBoxRender.Draw(control, bb.Box.Min, bb.Box.Max);
                             }
                         }
                     }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CafeLibrary.Rendering;
 using ImGuiNET;
 
 namespace CafeLibrary
@@ -12,6 +13,7 @@ namespace CafeLibrary
         static List<int> SelectedIndices = new List<int>();
 
         static Dictionary<string, string> LoadedOptions = new Dictionary<string, string>();
+        static bool filter_defaults = true;
 
         public static void Reset()
         {
@@ -25,6 +27,12 @@ namespace CafeLibrary
                 foreach (var op in material.ShaderOptions)
                     LoadedOptions.Add(op.Key, op.Value);
             }
+
+            if (material.MaterialAsset is BfshaRenderer)
+            {
+                ImGui.Checkbox("Filter Default Options", ref filter_defaults);
+            }
+
             RenderHeader(material);
             ImGui.PushStyleColor(ImGuiCol.ChildBg, ImGui.GetStyle().Colors[(int)ImGuiCol.FrameBg]);
 
@@ -35,6 +43,21 @@ namespace CafeLibrary
                 int index = 0;
                 foreach (var option in LoadedOptions)
                 {
+                    if (filter_defaults && material.MaterialAsset is BfshaRenderer)
+                    {
+                        var m = material.MaterialAsset as BfshaRenderer;
+                        if (m.ShaderModel.StaticOptions.ContainsKey(option.Key))
+                        {
+                            string value = option.Value;
+                            if (value == "False") value = "0";
+                            if (value == "True") value = "1";
+
+                            var op = m.ShaderModel.StaticOptions[option.Key];
+                            if (value == op.choices[(int)op.defaultIndex])
+                                continue;
+                        }
+                    }
+
                     if (SelectedIndices.Contains(index))
                     {
                         if (ImGui.CollapsingHeader(option.Key, ImGuiTreeNodeFlags.DefaultOpen))

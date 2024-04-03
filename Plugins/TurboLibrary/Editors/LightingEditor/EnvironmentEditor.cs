@@ -31,7 +31,6 @@ namespace TurboLibrary.LightingEditor
                     //Reset fog to defaults
                     courseArea.FogObjects[i].Enable = false;
                     courseArea.FogObjects[i].Color = new STColor(1, 1, 1, 1);
-                    courseArea.FogObjects[i].Direction = new Syroot.Maths.Vector3F(0, 0, -1);
                     courseArea.FogObjects[i].Start = 1000.0f;
                     courseArea.FogObjects[i].End = 10000.0f;
                 }

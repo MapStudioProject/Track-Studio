@@ -151,6 +151,12 @@ namespace CafeLibrary
                     }
                 }
             }
+            if (ImGui.CollapsingHeader("Sub Meshes"))
+            {
+                var mesh = fshp.Shape.Meshes[0];
+                for (int i = 0; i < mesh.SubMeshes.Count; i++)
+                    ImGui.Selectable($"SubMesh_{i}");
+            }
             if (ImGui.CollapsingHeader("Shape Keys"))
             {
 

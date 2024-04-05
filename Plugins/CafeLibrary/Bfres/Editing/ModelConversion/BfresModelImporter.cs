@@ -346,9 +346,8 @@ namespace CafeLibrary.ModelConversion
 
                 foreach (var v in mesh.Vertices)
                 {
-                    //limit the skin count 
-                    var weights = v.Envelope.Weights.Where(x => x.Weight != 0).ToList();
-                    if (weights.Count > fshp.VertexSkinCount)
+                    //limit the skin count
+                    if (v.Envelope.Weights.Count > fshp.VertexSkinCount)
                         v.Envelope.LimtSkinCount(fshp.VertexSkinCount);
 
                     NormalizeByteType(v.Envelope.Weights);

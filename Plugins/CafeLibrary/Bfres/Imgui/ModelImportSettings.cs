@@ -38,6 +38,9 @@ namespace CafeLibrary
         public bool ReplaceMatchingMeshes = true;
         public bool KeepOrginalMaterialsOnReplace = false;
 
+        public bool GlobalLimitSkinCount = true;
+        public int LimitSkinCount = 4;
+
         public int LODCount = 2;
 
         public Vector4 ColorOverride = Vector4.One;

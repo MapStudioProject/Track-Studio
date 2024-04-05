@@ -346,6 +346,12 @@ namespace CafeLibrary.ModelConversion
 
                 foreach (var v in mesh.Vertices)
                 {
+                    // Global Limit
+                    if (importSettings.GlobalLimitSkinCount && fshp.VertexSkinCount > importSettings.LimitSkinCount)
+                    {
+                        fshp.VertexSkinCount = (byte)importSettings.LimitSkinCount;
+                    }
+
                     //limit the skin count
                     if (v.Envelope.Weights.Count > fshp.VertexSkinCount)
                         v.Envelope.LimtSkinCount(fshp.VertexSkinCount);

@@ -343,6 +343,13 @@ namespace CafeLibrary
                 ImGui.InputInt("LOD Count", ref Settings.LODCount, 1);
             }
 
+            ImGui.Checkbox($"Limit Skin Count", ref Settings.GlobalLimitSkinCount);
+
+            if (Settings.GlobalLimitSkinCount)
+            {
+                ImGui.InputInt("Skin Count", ref Settings.LimitSkinCount, 4);
+            }
+
             ImGui.Checkbox($"Enable Sub Meshes (Experimental)", ref Settings.EnableSubMesh);
             
             ImGui.EndColumns();

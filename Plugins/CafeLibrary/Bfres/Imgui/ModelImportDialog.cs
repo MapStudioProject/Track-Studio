@@ -347,7 +347,7 @@ namespace CafeLibrary
 
             if (Settings.GlobalLimitSkinCount)
             {
-                ImGui.InputInt("Skin Count", ref Settings.LimitSkinCount, 4);
+                ImGui.InputInt("Skin Count", ref Settings.LimitSkinCount, 1);
             }
 
             ImGui.Checkbox($"Enable Sub Meshes (Experimental)", ref Settings.EnableSubMesh);

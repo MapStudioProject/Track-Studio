@@ -72,6 +72,9 @@ namespace CafeLibrary.ModelConversion
             //Load the vertex buffer into the helper to easily access the data.
             VertexBufferHelper helper = new VertexBufferHelper(model.VertexBuffers[shape.VertexBufferIndex], resFile.ByteOrder);
 
+            // Calculate used buffers
+            int indexWeightBuffers = (int)Math.Ceiling(shape.VertexSkinCount / 4.0f);
+
             //Get all the necessary attributes
             var positions = TryGetValues(helper, "_p0");
             var normals = TryGetValues(helper, "_n0");
@@ -79,8 +82,15 @@ namespace CafeLibrary.ModelConversion
             var colors = TryGetChannelValues(helper, "_c");
             var tangents = TryGetValues(helper, "_t0");
             var bitangents = TryGetValues(helper, "_b0");
-            var weights0 = TryGetValues(helper, "_w0");
-            var indices0 = TryGetValues(helper, "_i0");
+
+            
+            List<Syroot.Maths.Vector4F[]> weightsList = new List<Syroot.Maths.Vector4F[]>();
+            List<Syroot.Maths.Vector4F[]> indicesList = new List<Syroot.Maths.Vector4F[]>();
+            for (int i = 0; i < indexWeightBuffers; i++)
+            {
+                weightsList.Add(TryGetValues(helper, $"_w{i}"));
+                indicesList.Add(TryGetValues(helper, $"_i{i}"));
+            }
 
             //Get the position attribute and use the length for the vertex count
             for (int v = 0; v < positions.Length; v++)
@@ -114,22 +124,25 @@ namespace CafeLibrary.ModelConversion
                     if (i > 3)
                         break;
 
-                    //Skip 0 weights
-                    if (weights0.Length > 0 && weights0[v][i] == 0)
-                        continue;
-
-                    int index = model.Skeleton.MatrixToBoneList[(int)indices0[v][i]];
-
-                    var daeWeight = new IOBoneWeight();
-                    daeWeight.BoneName = model.Skeleton.Bones[index].Name;
-                    daeWeight.Weight = weights0.Length > 0 ? weights0[v][i] : 1.0f;
-                    vertex.Envelope.Weights.Add(daeWeight);
-
-                    if (shape.VertexSkinCount == 1)
+                    for (int j = 0; j < indexWeightBuffers; j++)
                     {
-                        var bone = skeleton.BreathFirstOrder()[index];
-                        vertex.Position = Vector3.Transform(vertex.Position, bone.WorldTransform);
-                        vertex.Normal = Vector3.Transform(vertex.Normal, bone.WorldTransform);
+                        //Skip 0 weights
+                        if (weightsList[j].Length > 0 && weightsList[j][v][i] == 0)
+                            continue;
+
+                        int index = model.Skeleton.MatrixToBoneList[(int)indicesList[j][v][i]];
+
+                        var daeWeight = new IOBoneWeight();
+                        daeWeight.BoneName = model.Skeleton.Bones[index].Name;
+                        daeWeight.Weight = weightsList[j].Length > 0 ? weightsList[j][v][i] : 1.0f;
+                        vertex.Envelope.Weights.Add(daeWeight);
+
+                        if (shape.VertexSkinCount == 1)
+                        {
+                            var bone = skeleton.BreathFirstOrder()[index];
+                            vertex.Position = Vector3.Transform(vertex.Position, bone.WorldTransform);
+                            vertex.Normal = Vector3.Transform(vertex.Normal, bone.WorldTransform);
+                        }
                     }
                 }
             }

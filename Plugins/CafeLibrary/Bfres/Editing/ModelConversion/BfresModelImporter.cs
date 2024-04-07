@@ -779,10 +779,12 @@ namespace CafeLibrary.ModelConversion
             VertexBufferHelper vertexBufferHelper = new VertexBufferHelper(
                 new VertexBuffer(), resFile.ByteOrder);
 
+            int indiceWeightBuffers = (int)Math.Ceiling(fshp.VertexSkinCount / 4.0f);
+
             List<Vector4F> Positions = new List<Vector4F>();
             List<Vector4F> Normals = new List<Vector4F>();
-            List<Vector4F> BoneWeights = new List<Vector4F>();
-            List<Vector4F> BoneIndices = new List<Vector4F>();
+            List<List<Vector4F>> BoneWeightsList = new List<List<Vector4F>>();
+            List<List<Vector4F>> BoneIndicesList = new List<List<Vector4F>>();
             List<Vector4F> Tangents = new List<Vector4F>();
             List<Vector4F> Bitangents = new List<Vector4F>();
 
@@ -792,6 +794,13 @@ namespace CafeLibrary.ModelConversion
             //force vertex color usage
             if (settings.Colors.Enable && numColors == 0)
                 numColors = 1;
+
+            // Init Indice Weight Buffers
+            for (int i = 0; i < indiceWeightBuffers; i++)
+            {
+                BoneIndicesList.Add(new List<Vector4F>());
+                BoneWeightsList.Add(new List<Vector4F>());
+            }
 
             Vector4F[][] TexCoords = new Vector4F[numTexCoords][];
             Vector4F[][] Colors = new Vector4F[numColors][];
@@ -884,8 +893,8 @@ namespace CafeLibrary.ModelConversion
                 if (settings.Colors.Enable && vertex.Colors?.Count <= 0)
                     Colors[0][v] = new Vector4F(1, 1, 1, 1);
 
-                int[] indices = new int[4];
-                float[] weights = new float[4];
+                int[] indices = new int[fshp.VertexSkinCount];
+                float[] weights = new float[fshp.VertexSkinCount];
                 for (int j = 0; j < vertex.Envelope.Weights?.Count; j++)
                 {
                     int index = Array.FindIndex(fskl.Bones.Values.ToArray(), x => x.Name == vertex.Envelope.Weights[j].BoneName);
@@ -913,9 +922,63 @@ namespace CafeLibrary.ModelConversion
 
                 if (hasWeights && settings.BoneIndices.Enable && fshp.VertexSkinCount > 0)
                 {
-                    if (fshp.VertexSkinCount > 1)
-                        BoneWeights.Add(new Vector4F(weights[0], weights[1], weights[2], weights[3]));
-                    BoneIndices.Add(new Vector4F(indices[0], indices[1], indices[2], indices[3]));
+                    for (int i = 0; i < indiceWeightBuffers; i++)
+                    {
+                        int currentStartingIndex = i * 4;
+                        int xIndex = currentStartingIndex;
+                        int yIndex = currentStartingIndex + 1;
+                        int zIndex = currentStartingIndex + 2;
+                        int wIndex = currentStartingIndex + 3;
+
+                        if (fshp.VertexSkinCount > 1)
+                        {
+                            Vector4F weight4F = new Vector4F(0, 0, 0, 0);
+                            if (xIndex < weights.Length)
+                            {
+                                weight4F.X = weights[currentStartingIndex];
+                            }
+
+                            if (yIndex < weights.Length)
+                            {
+                                weight4F.Y = weights[currentStartingIndex + 1];
+                            }
+
+                            if (zIndex < weights.Length)
+                            {
+                                weight4F.Z = weights[currentStartingIndex + 2];
+                            }
+
+                            if (wIndex < weights.Length)
+                            {
+                                weight4F.W = weights[currentStartingIndex + 3];
+                            }
+
+                            BoneWeightsList[i].Add(weight4F);
+                        }
+
+                        Vector4F indice4F = new Vector4F(0, 0, 0, 0);
+                        if (xIndex < indices.Length)
+                        {
+                            indice4F.X = indices[currentStartingIndex];
+                        }
+
+                        if (yIndex < indices.Length)
+                        {
+                            indice4F.Y = indices[currentStartingIndex + 1];
+                        }
+
+                        if (zIndex < indices.Length)
+                        {
+                            indice4F.Z = indices[currentStartingIndex + 2];
+                        }
+
+                        if (wIndex < indices.Length)
+                        {
+                            indice4F.W = indices[currentStartingIndex + 3];
+                        }
+
+                        BoneIndicesList[i].Add(indice4F);
+                    }
                 }
             }
 
@@ -991,24 +1054,30 @@ namespace CafeLibrary.ModelConversion
                 }
             }
 
-            if (BoneIndices.Count > 0)
+            if (BoneIndicesList.Count > 0)
             {
-                attributes.Add(new VertexBufferHelperAttrib()
+                for (int i = 0; i < BoneIndicesList.Count; i++)
                 {
-                    Name = "_i0",
-                    Data = BoneIndices.ToArray(),
-                    Format = settings.BoneIndices.Format,
-                });
+                    attributes.Add(new VertexBufferHelperAttrib()
+                    {
+                        Name = $"_i{i}",
+                        Data = BoneIndicesList[i].ToArray(),
+                        Format = settings.BoneIndices.Format,
+                    });
+                }
             }
 
-            if (BoneWeights.Count > 0)
+            if (BoneWeightsList.Count > 0)
             {
-                attributes.Add(new VertexBufferHelperAttrib()
+                for (int i = 0; i < BoneWeightsList.Count; i++)
                 {
-                    Name = "_w0",
-                    Data = BoneWeights.ToArray(),
-                    Format = settings.BoneWeights.Format,
-                });
+                    attributes.Add(new VertexBufferHelperAttrib()
+                    {
+                        Name = $"_w{i}",
+                        Data = BoneWeightsList[i].ToArray(),
+                        Format = settings.BoneWeights.Format,
+                    });
+                }
             }
 
             //Ensure all attributes from the current layout exist to use

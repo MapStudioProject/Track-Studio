@@ -18,8 +18,8 @@ namespace CafeLibrary
         public AttributeSettings Colors = new AttributeSettings(true, GX2AttribFormat.Format_32_32_32_Single, ColorFormats);
         public AttributeSettings Tangent = new AttributeSettings(true, GX2AttribFormat.Format_32_32_32_Single, TangentFormats);
         public AttributeSettings Bitangent = new AttributeSettings(true, GX2AttribFormat.Format_32_32_32_Single, BiTangentFormats);
-        public AttributeSettings BoneWeights = new AttributeSettings(true, GX2AttribFormat.Format_16_16_16_16_Single, WeightFormats);
-        public AttributeSettings BoneIndices = new AttributeSettings(true, GX2AttribFormat.Format_16_16_16_16_UInt, BoneIndicesFormats);
+        public AttributeSettings BoneWeights = new AttributeSettings(true, GX2AttribFormat.Format_32_32_32_32_Single, WeightFormats);
+        public AttributeSettings BoneIndices = new AttributeSettings(true, GX2AttribFormat.Format_32_32_32_32_UInt, BoneIndicesFormats);
 
         public bool ResetUVParams = true;
         public bool ReseColorParams = true;
@@ -89,8 +89,8 @@ namespace CafeLibrary
             public AttributeSettings Colors = new AttributeSettings(true, GX2AttribFormat.Format_32_32_32_Single, ColorFormats);
             public AttributeSettings Tangent = new AttributeSettings(true, GX2AttribFormat.Format_32_32_32_Single, TangentFormats);
             public AttributeSettings Bitangent = new AttributeSettings(true, GX2AttribFormat.Format_32_32_32_Single, BiTangentFormats);
-            public AttributeSettings BoneWeights = new AttributeSettings(true, GX2AttribFormat.Format_16_16_16_16_Single, WeightFormats);
-            public AttributeSettings BoneIndices = new AttributeSettings(true, GX2AttribFormat.Format_16_16_16_16_UInt, BoneIndicesFormats);
+            public AttributeSettings BoneWeights = new AttributeSettings(true, GX2AttribFormat.Format_32_32_32_32_Single, WeightFormats);
+            public AttributeSettings BoneIndices = new AttributeSettings(true, GX2AttribFormat.Format_32_32_32_32_UInt, BoneIndicesFormats);
 
             public List<AttributeInfo> AttributeLayout = new List<AttributeInfo>();
 

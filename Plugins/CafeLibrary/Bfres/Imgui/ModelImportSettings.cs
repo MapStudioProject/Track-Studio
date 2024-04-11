@@ -41,8 +41,8 @@ namespace CafeLibrary
         public bool GlobalLimitSkinCount = false;
         public int LimitSkinCount = 4;
 
-        public bool GlobalSimSkinCount = true;
-        public int SimSkinCount = 16;
+        public bool GlobalCustomDataSkinCount = false;
+        public int GlobalDataSkinCount = 16;
 
         public int LODCount = 2;
 
@@ -74,7 +74,10 @@ namespace CafeLibrary
 
             public uint UVLayerCount;
 
-            public int SkinCount;
+            public int MeshSkinCount;
+
+            public bool UseCustomDataSkinCount;
+            public int DataSkinCount;
 
             public bool[] UseTexCoord { get; set; } = new bool[] { true, true, true, true };
             public bool[] UseColor { get; set; } = new bool[] { true, true, true, true };

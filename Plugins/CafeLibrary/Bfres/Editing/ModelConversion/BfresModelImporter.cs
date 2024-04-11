@@ -225,7 +225,7 @@ namespace CafeLibrary.ModelConversion
                 {
                     var meshSettings = importSettings.Meshes.FirstOrDefault(x => x.Name == mesh.Name);
                     if (meshSettings != null)
-                        vertexSkinCount = (uint)meshSettings.SkinCount;
+                        vertexSkinCount = (uint)meshSettings.MeshSkinCount;
                 }
 
                 skinCounts[sindex++] = vertexSkinCount;
@@ -459,10 +459,14 @@ namespace CafeLibrary.ModelConversion
                 //Calculate the bounding tree
                 // CalculateBoundingTree(fshp);
 
-                // Global Simulate
-                if (importSettings.GlobalSimSkinCount)
+                // Simulate Data Skin Count
+                if (meshSettings.UseCustomDataSkinCount)
                 {
-                    fshp.VertexSkinCount = (byte)importSettings.SimSkinCount;
+                    fshp.VertexSkinCount = (byte)meshSettings.DataSkinCount;
+                }
+                else if (importSettings.GlobalCustomDataSkinCount)
+                {
+                    fshp.VertexSkinCount = (byte)importSettings.GlobalDataSkinCount;
                 }
 
                 //Finally add the shape to the model

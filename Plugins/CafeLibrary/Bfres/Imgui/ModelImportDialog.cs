@@ -50,7 +50,8 @@ namespace CafeLibrary
                 meshSettings.MeshData = mesh;
                 meshSettings.Name = mesh.Name;
                 meshSettings.MaterialName = "";
-                meshSettings.SkinCount = mesh.Vertices.Max(x => x.Envelope.Weights.Count);
+                meshSettings.MeshSkinCount = mesh.Vertices.Max(x => x.Envelope.Weights.Count);
+                meshSettings.DataSkinCount = meshSettings.MeshSkinCount;
                 meshSettings.Normal.Enable = mesh.HasNormals;
                 meshSettings.UVs.Enable = mesh.HasUVSet(0);
                 meshSettings.UVLayerCount = (uint)MathF.Max(mesh.Vertices.Max(x => x.UVs.Count), 1);
@@ -82,6 +83,10 @@ namespace CafeLibrary
                         meshSettings.MaterialName = material.Name;
                         break;
                     }
+                }
+                if (settings.KeepOrginalMaterialsOnReplace && meshSettings.MaterialName == "")
+                {
+                    meshSettings.MaterialName = fmdl.Materials[0].Name;
                 }
 
                 if (!Settings.Materials.Contains(meshSettings.ImportedMaterial))
@@ -358,11 +363,11 @@ namespace CafeLibrary
                 ImGui.InputInt("Skin Count", ref Settings.LimitSkinCount, 1);
             }
 
-            ImGui.Checkbox($"Simulate Skin Count", ref Settings.GlobalSimSkinCount);
+            ImGui.Checkbox($"Simulate Skin Count", ref Settings.GlobalCustomDataSkinCount);
 
-            if (Settings.GlobalSimSkinCount)
+            if (Settings.GlobalCustomDataSkinCount)
             {
-                ImGui.InputInt("Simulated Skin Count", ref Settings.SimSkinCount, 1);
+                ImGui.InputInt("Simulated Skin Count", ref Settings.GlobalDataSkinCount, 1);
             }
 
             ImGui.Checkbox($"Enable Sub Meshes (Experimental)", ref Settings.EnableSubMesh);
@@ -600,16 +605,34 @@ namespace CafeLibrary
             foreach (var msh in selectedMeshIndices)
                 total += Settings.Meshes[msh].CalculateVertexBufferSize();
 
-            ImGui.Text("Skin Count: ");
+            ImGui.Text("Mesh Skin Count: ");
             ImGui.NextColumn();
 
             ImGui.PushItemWidth(ImGui.GetColumnWidth(1) - 15);
-            if (ImGui.InputInt("##Skin Count", ref mesh.SkinCount))
+            if (ImGui.InputInt("##Mesh Skin Count", ref mesh.MeshSkinCount))
             {
                 foreach (var msh in selectedMeshIndices)
-                    Settings.Meshes[msh].SkinCount = mesh.SkinCount;
+                    Settings.Meshes[msh].MeshSkinCount = mesh.MeshSkinCount;
             }
             ImGui.NextColumn();
+
+            ImGui.Columns(1);
+
+            ImGui.Checkbox("Use Custom Data Skin Count", ref mesh.UseCustomDataSkinCount);
+
+            if (mesh.UseCustomDataSkinCount)
+            {
+                ImGui.Text("Data Skin Count: ");
+                ImGui.NextColumn();
+
+                ImGui.PushItemWidth(ImGui.GetColumnWidth(1) - 15);
+                if (ImGui.InputInt("##Data Skin Count", ref mesh.DataSkinCount))
+                {
+                    foreach (var msh in selectedMeshIndices)
+                        Settings.Meshes[msh].DataSkinCount = mesh.DataSkinCount;
+                }
+                ImGui.NextColumn();
+            }
 
             ImGui.Columns(1);
 

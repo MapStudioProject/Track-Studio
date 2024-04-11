@@ -70,10 +70,18 @@ namespace CafeLibrary
                 if (fmdl.Meshes.Any(x => x.Name == mesh.Name))
                 {
                     var fshp = (FSHP)fmdl.Meshes.FirstOrDefault(x => x.Name == mesh.Name);
-                    //Keep matching materials for an import. User can re adjust later
-                    meshSettings.MaterialName = fshp.Material.Name;
                     foreach (var att in fshp.VertexBuffer.Attributes.Values)
                         meshSettings.AttributeLayout.Add(new ModelImportSettings.AttributeInfo(att.Name, att.BufferIndex));
+                }
+
+                // Select Similar Materials
+                foreach (STGenericMaterial material in fmdl.Materials)
+                {
+                    if (mesh.Polygons[0].MaterialName.Contains(material.Name))
+                    {
+                        meshSettings.MaterialName = material.Name;
+                        break;
+                    }
                 }
 
                 if (!Settings.Materials.Contains(meshSettings.ImportedMaterial))
@@ -348,6 +356,13 @@ namespace CafeLibrary
             if (Settings.GlobalLimitSkinCount)
             {
                 ImGui.InputInt("Skin Count", ref Settings.LimitSkinCount, 1);
+            }
+
+            ImGui.Checkbox($"Simulate Skin Count", ref Settings.GlobalSimSkinCount);
+
+            if (Settings.GlobalSimSkinCount)
+            {
+                ImGui.InputInt("Simulated Skin Count", ref Settings.SimSkinCount, 1);
             }
 
             ImGui.Checkbox($"Enable Sub Meshes (Experimental)", ref Settings.EnableSubMesh);

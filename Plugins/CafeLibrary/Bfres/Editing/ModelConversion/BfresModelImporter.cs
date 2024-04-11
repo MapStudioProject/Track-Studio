@@ -392,7 +392,10 @@ namespace CafeLibrary.ModelConversion
                 foreach (var mat in scene.Materials)
                 {
                     if (!string.IsNullOrEmpty(mat.Label) && mat.Name == material)
+                    {
                         material = mat.Label;
+                        break;
+                    } 
                 }
 
                 int materialIndex = fmdl.Materials.IndexOf(material);
@@ -455,6 +458,12 @@ namespace CafeLibrary.ModelConversion
 
                 //Calculate the bounding tree
                 // CalculateBoundingTree(fshp);
+
+                // Global Simulate
+                if (importSettings.GlobalSimSkinCount)
+                {
+                    fshp.VertexSkinCount = (byte)importSettings.SimSkinCount;
+                }
 
                 //Finally add the shape to the model
                 fmdl.Shapes.Add(fshp.Name, fshp);
@@ -930,31 +939,28 @@ namespace CafeLibrary.ModelConversion
                         int zIndex = currentStartingIndex + 2;
                         int wIndex = currentStartingIndex + 3;
 
-                        if (fshp.VertexSkinCount > 1)
+                        Vector4F weight4F = new Vector4F(0, 0, 0, 0);
+                        if (xIndex < weights.Length)
                         {
-                            Vector4F weight4F = new Vector4F(0, 0, 0, 0);
-                            if (xIndex < weights.Length)
-                            {
-                                weight4F.X = weights[currentStartingIndex];
-                            }
-
-                            if (yIndex < weights.Length)
-                            {
-                                weight4F.Y = weights[currentStartingIndex + 1];
-                            }
-
-                            if (zIndex < weights.Length)
-                            {
-                                weight4F.Z = weights[currentStartingIndex + 2];
-                            }
-
-                            if (wIndex < weights.Length)
-                            {
-                                weight4F.W = weights[currentStartingIndex + 3];
-                            }
-
-                            BoneWeightsList[i].Add(weight4F);
+                            weight4F.X = weights[currentStartingIndex];
                         }
+
+                        if (yIndex < weights.Length)
+                        {
+                            weight4F.Y = weights[currentStartingIndex + 1];
+                        }
+
+                        if (zIndex < weights.Length)
+                        {
+                            weight4F.Z = weights[currentStartingIndex + 2];
+                        }
+
+                        if (wIndex < weights.Length)
+                        {
+                            weight4F.W = weights[currentStartingIndex + 3];
+                        }
+
+                        BoneWeightsList[i].Add(weight4F);
 
                         Vector4F indice4F = new Vector4F(0, 0, 0, 0);
                         if (xIndex < indices.Length)

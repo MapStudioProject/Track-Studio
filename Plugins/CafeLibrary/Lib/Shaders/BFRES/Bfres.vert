@@ -38,7 +38,7 @@ uniform mat4 mtxMdl;
 uniform mat4 mtxCam;
 
 // Skinning uniforms
-uniform mat4 bones[170];
+uniform mat4 bones[252];
 uniform int SkinCount;
 uniform int UseSkinning;
 uniform int BoneIndex;

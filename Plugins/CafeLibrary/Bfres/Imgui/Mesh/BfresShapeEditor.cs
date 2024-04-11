@@ -20,7 +20,7 @@ namespace CafeLibrary
             ImGui.BeginTabBar("meshTab");
             if (ImguiCustomWidgets.BeginTab("meshTab", "Shape Data"))
             {
-                RenderShapeUI(fshp);
+                RenderShapeUI(ref fshp);
                 ImGui.EndTabItem();
             }
             if (ImguiCustomWidgets.BeginTab("meshTab", "Material Data"))
@@ -31,14 +31,17 @@ namespace CafeLibrary
             ImGui.EndTabBar();
         }
 
-        private void RenderShapeUI(FSHP fshp)
+        private void RenderShapeUI(ref FSHP fshp)
         {
             if (ImGui.CollapsingHeader("Shape Info", ImGuiTreeNodeFlags.DefaultOpen))
             {
                 ImGuiHelper.InputFromText("Name", fshp, "Name", 0x200);
 
                 int skinCount = (int)fshp.VertexSkinCount;
-                ImGui.InputInt("Skin Count", ref skinCount, 0);
+                ImGui.InputInt("Skin Count", ref skinCount, 1);
+                fshp.VertexSkinCount = (uint)skinCount;
+                fshp.Shape.VertexSkinCount = (byte)skinCount;
+                fshp.VertexBuffer.VertexSkinCount = (byte)skinCount;
             }
             if (ImGui.CollapsingHeader("Material Info", ImGuiTreeNodeFlags.DefaultOpen))
             {

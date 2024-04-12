@@ -7,6 +7,7 @@ using GLFrameworkEngine;
 using OpenTK.Graphics.OpenGL;
 using OpenTK;
 using Toolbox.Core;
+using System.Runtime.InteropServices;
 
 namespace CafeLibrary.Rendering
 {
@@ -25,7 +26,8 @@ namespace CafeLibrary.Rendering
 
         public SkeletonRenderer SkeletonRenderer;
 
-        public void ResetAnimations() {
+        public void ResetAnimations()
+        {
             foreach (var bone in ModelData.Skeleton.Bones)
                 bone.Visible = true;
 
@@ -40,23 +42,23 @@ namespace CafeLibrary.Rendering
             modelCache.ModelData = new STGenericModel();
             modelCache.BoundingNode = model.BoundingNode;
             var skeletonCache = model.ModelData.Skeleton;
-/*
-            var skeleton = new STSkeleton();
-            modelCache.ModelData.Skeleton = skeleton;
+            /*
+                        var skeleton = new STSkeleton();
+                        modelCache.ModelData.Skeleton = skeleton;
 
-            for (int i = 0; i < skeletonCache.Bones.Count; i++)
-            {
-                skeleton.Bones.Add(new STBone(skeleton)
-                {
-                    Name = skeletonCache.Bones[i].Name,
-                    Position = skeletonCache.Bones[i].Position,
-                    Rotation = skeletonCache.Bones[i].Rotation,
-                    Scale = skeletonCache.Bones[i].Scale,
-                    ParentIndex = skeletonCache.Bones[i].ParentIndex,
-                });
-            }*/
+                        for (int i = 0; i < skeletonCache.Bones.Count; i++)
+                        {
+                            skeleton.Bones.Add(new STBone(skeleton)
+                            {
+                                Name = skeletonCache.Bones[i].Name,
+                                Position = skeletonCache.Bones[i].Position,
+                                Rotation = skeletonCache.Bones[i].Rotation,
+                                Scale = skeletonCache.Bones[i].Scale,
+                                ParentIndex = skeletonCache.Bones[i].ParentIndex,
+                            });
+                        }*/
 
-             modelCache.ModelData = model.ModelData;
+            modelCache.ModelData = model.ModelData;
             modelCache.MeshInFrustum = new bool[model.Meshes.Count];
             for (int i = 0; i < model.Meshes.Count; i++)
                 modelCache.MeshInFrustum[i] = true;
@@ -86,12 +88,14 @@ namespace CafeLibrary.Rendering
             if (!IsVisible)
                 return;
 
-            if (DebugShaderRender.DebugRendering != DebugShaderRender.DebugRender.Default) {
+            if (DebugShaderRender.DebugRendering != DebugShaderRender.DebugRender.Default)
+            {
                 DrawMeshes(context, parentRender, pass, RenderPass.DEBUG);
             }
             else
             {
-                foreach (var mesh in Meshes) {
+                foreach (var mesh in Meshes)
+                {
                     if (pass != mesh.Pass || !mesh.IsVisible || mesh.UseColorBufferPass)
                         continue;
 
@@ -133,7 +137,8 @@ namespace CafeLibrary.Rendering
             if (!IsVisible)
                 return;
 
-            foreach (var mesh in Meshes) {
+            foreach (var mesh in Meshes)
+            {
                 if (!mesh.IsCubeMap && !mesh.RenderInCubeMap)
                     continue;
 
@@ -289,7 +294,8 @@ namespace CafeLibrary.Rendering
                     context.DisableSelectionMask();
             }
 
-            if (PluginConfig.UseGameShaders && mesh.MaterialAsset is BfshaRenderer && !BfresRender.DrawDebugAreaID) {
+            if (PluginConfig.UseGameShaders && mesh.MaterialAsset is BfshaRenderer && !BfresRender.DrawDebugAreaID)
+            {
                 DrawCustomShaderRender(context, parentRender, mesh, 0);
             }
             else //Draw default if not using game shader rendering.
@@ -304,7 +310,8 @@ namespace CafeLibrary.Rendering
         private void DrawCustomShaderRender(GLContext context, BfresRender parentRender, BfresMeshRender mesh, int stage = 0)
         {
             var materialAsset = ((BfshaRenderer)mesh.MaterialAsset);
-            if (!materialAsset.HasValidProgram) {
+            if (!materialAsset.HasValidProgram)
+            {
                 materialAsset.DrawEmptyMaterial(context, parentRender.Transform.TransformMatrix, mesh);
                 return;
             }
@@ -317,7 +324,7 @@ namespace CafeLibrary.Rendering
 
             context.CurrentShader = materialAsset.Shader;
             ((BfshaRenderer)mesh.MaterialAsset).ParentRenderer = parentRender;
-          ((BfshaRenderer)mesh.MaterialAsset).Render(context, this, parentRender.Transform, materialAsset.Shader, mesh);
+            ((BfshaRenderer)mesh.MaterialAsset).Render(context, this, parentRender.Transform, materialAsset.Shader, mesh);
             //Draw the mesh
             int lod = mesh.GetDisplayLevel(GLContext.ActiveContext, parentRender);
             mesh.DrawCustom(context.CurrentShader, lod);
@@ -340,7 +347,7 @@ namespace CafeLibrary.Rendering
             shader.SetInt("SkinCount", mesh.VertexSkinCount);
             shader.SetInt("UseSkinning", enableSkinning ? 1 : 0);
 
-            int lod = mesh.GetDisplayLevel(GLContext.ActiveContext, parentRender);            
+            int lod = mesh.GetDisplayLevel(GLContext.ActiveContext, parentRender);
 
             //Draw the mesh
             if (usePolygonOffset)
@@ -368,14 +375,29 @@ namespace CafeLibrary.Rendering
         {
             GL.Uniform1(GL.GetUniformLocation(programID, "UseSkinning"), 1);
 
+            GsysSkeleton gsysSkeletonBuffer = new GsysSkeleton();
+            gsysSkeletonBuffer.cBoneMatrices = new Matrix4[1300];
+
             for (int i = 0; i < skeleton.Bones.Count; i++)
             {
                 Matrix4 transform = skeleton.Bones[i].Transform;
-                //Check if the bone is smooth skinning aswell for accuracy purposes.
                 if (useInverse)
                     transform = skeleton.Bones[i].Inverse * skeleton.Bones[i].Transform;
-                GL.UniformMatrix4(GL.GetUniformLocation(programID, String.Format("bones[{0}]", i)), false, ref transform);
+
+                gsysSkeletonBuffer.cBoneMatrices[i] = transform;
             }
+
+            int bufferSize = Marshal.SizeOf<GsysSkeleton>();
+            IntPtr bufferData = Marshal.AllocHGlobal(bufferSize);
+            Marshal.StructureToPtr(gsysSkeletonBuffer, bufferData, false);
+
+            int ssboId;
+            GL.GenBuffers(1, out ssboId);
+            GL.BindBuffer(BufferTarget.ShaderStorageBuffer, ssboId);
+            GL.BufferData(BufferTarget.ShaderStorageBuffer, bufferSize, bufferData, BufferUsageHint.DynamicDraw);
+            GL.BindBufferBase(BufferRangeTarget.ShaderStorageBuffer, 3, ssboId);
+
+            Marshal.FreeHGlobal(bufferData);
         }
 
         public void Dispose()
@@ -383,5 +405,12 @@ namespace CafeLibrary.Rendering
             foreach (var mesh in Meshes)
                 mesh.Dispose();
         }
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    struct GsysSkeleton
+    {
+        [MarshalAs(UnmanagedType.ByValArray, SizeConst = 1300)]
+        public Matrix4[] cBoneMatrices;
     }
 }

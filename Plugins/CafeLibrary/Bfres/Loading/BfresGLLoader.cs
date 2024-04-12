@@ -213,6 +213,12 @@ namespace CafeLibrary.Rendering
                         case "_n0": return GLConstants.VNormal;
                         case "_w0": return GLConstants.VBoneWeight;
                         case "_i0": return GLConstants.VBoneIndex;
+                        case "_w1": return GLConstants.VBoneWeight2;
+                        case "_i1": return GLConstants.VBoneIndex2;
+                        case "_w2": return GLConstants.VBoneWeight3;
+                        case "_i2": return GLConstants.VBoneIndex3;
+                        case "_w3": return GLConstants.VBoneWeight4;
+                        case "_i3": return GLConstants.VBoneIndex4;
                         case "_u0": return GLConstants.VTexCoord0;
                         case "_u1": return GLConstants.VTexCoord1;
                         case "_u2": return GLConstants.VTexCoord2;

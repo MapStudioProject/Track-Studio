@@ -7,6 +7,7 @@ using ImGuiNET;
 using MapStudio.UI;
 using IONET.Core;
 using Toolbox.Core;
+using IONET.Core.Model;
 
 namespace CafeLibrary
 {
@@ -76,11 +77,11 @@ namespace CafeLibrary
                 }
 
                 // Select Similar Materials
-                foreach (STGenericMaterial material in fmdl.Materials)
+                foreach (IOMaterial material in scene.Materials)
                 {
-                    if (mesh.Polygons[0].MaterialName.Contains(material.Name))
+                    if (mesh.Polygons[0].MaterialName == material.Name && fmdl.Materials.Any(x => x.Name == material.Label))
                     {
-                        meshSettings.MaterialName = material.Name;
+                        meshSettings.MaterialName = material.Label;
                         break;
                     }
                 }

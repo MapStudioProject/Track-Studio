@@ -209,6 +209,9 @@ namespace CafeLibrary
             UINode.AddChild(SkeletonFolder);
 
             MaterialFolder.ContextMenus.Add(new MenuItemModel("Add Material", AddMaterialDialog));
+            MaterialFolder.ContextMenus.Add(new MenuItemModel("Export All - JSON", ExportMaterialsToJsonDialog));
+            MaterialFolder.ContextMenus.Add(new MenuItemModel("Export All - BFMAT", ExportMaterialsToBfmatDialog));
+            MaterialFolder.ContextMenus.Add(new MenuItemModel("Export All - ZIP", ExportMaterialsToZipDialog));
 
             if (ModelRenderer == null) {
                 ModelRenderer = new BfresModelRender();
@@ -308,6 +311,36 @@ namespace CafeLibrary
                     BfresWrapper.ModelFolder.RemoveModel(this);
                 }),
             };
+        }
+
+        private void ExportMaterialsToJsonDialog()
+        {
+            ExportMaterialsDialog(".json");
+        }
+
+        private void ExportMaterialsToZipDialog()
+        {
+            ExportMaterialsDialog(".zip");
+        }
+
+        private void ExportMaterialsToBfmatDialog()
+        {
+            ExportMaterialsDialog(".bfmat");
+        }
+
+        private void ExportMaterialsDialog(string format)
+        {
+            var dlg = new ImguiFolderDialog();
+            dlg.Title = "Pick export Folder";
+
+            if (dlg.ShowDialog())
+            {
+                foreach (var materialItem in Model.Materials)
+                {
+                    string exportPath = Path.Join(dlg.SelectedPath, $"{materialItem.Value.Name}{format}");
+                    materialItem.Value.Export(exportPath, ResFile);
+                }
+            }
         }
 
         private void AddMaterialDialog()

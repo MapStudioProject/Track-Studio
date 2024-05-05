@@ -61,6 +61,20 @@ namespace CafeLibrary
             ResFile.Models.Clear();
 
             foreach (FMDL fmdl in Models) {
+
+                // Recreate materials list
+                List<Material> materials = new List<Material>();
+                foreach(var item in fmdl.Model.Materials)
+                {
+                    materials.Add(item.Value);
+                }
+                fmdl.Model.Materials.Clear();
+                foreach (Material material in materials)
+                {
+                    fmdl.Model.Materials.Add(material.Name, material);
+                }
+
+                // Update ResFile
                 ResFile.Models.Add(fmdl.Name, fmdl.Model);
                 foreach (FMAT mat in fmdl.Materials) {
                     mat.OnSave();

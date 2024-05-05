@@ -223,6 +223,7 @@ namespace CafeLibrary
             UINode.AddChild(SkeletonFolder);
 
             MaterialFolder.ContextMenus.Add(new MenuItemModel("Add Material", AddMaterialDialog));
+            MaterialFolder.ContextMenus.Add(new MenuItemModel(""));
             MaterialFolder.ContextMenus.Add(new MenuItemModel("Export All - JSON", ExportMaterialsToJsonDialog));
             MaterialFolder.ContextMenus.Add(new MenuItemModel("Export All - BFMAT", ExportMaterialsToBfmatDialog));
             MaterialFolder.ContextMenus.Add(new MenuItemModel("Export All - ZIP", ExportMaterialsToZipDialog));
@@ -2274,14 +2275,18 @@ namespace CafeLibrary
             if (result != 1)
                 return;
 
+
             if (MeshAsset != null)
             {
-                foreach (BfresModelRender model in ModelWrapper.BfresWrapper.Renderer.Models)
+                foreach (BfresModelRender modelRender in ModelWrapper.BfresWrapper.Renderer.Models)
                 {
-                    if (model.Meshes.Contains(MeshAsset))
+                    if (modelRender.Meshes.Contains(MeshAsset))
                     {
-                        model.Meshes.Remove(MeshAsset);
-                        MeshAsset.OnRemoved?.Invoke(MeshAsset, EventArgs.Empty);
+                        foreach (FSHP model in ModelWrapper.GetSelectedMeshes())
+                        {
+                            modelRender.Meshes.Remove(model.MeshAsset);
+                            model.MeshAsset.OnRemoved?.Invoke(MeshAsset, EventArgs.Empty);
+                        }
                     }
                 }
             }

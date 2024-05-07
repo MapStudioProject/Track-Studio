@@ -37,6 +37,7 @@ namespace CafeLibrary
 
         public bool ReplaceMatchingMeshes = true;
         public bool KeepOrginalMaterialsOnReplace = true;
+        public bool SkipMeshesWithInvalidMaterials = true;
 
         public bool GlobalLimitSkinCount = false;
         public int LimitSkinCount = 4;

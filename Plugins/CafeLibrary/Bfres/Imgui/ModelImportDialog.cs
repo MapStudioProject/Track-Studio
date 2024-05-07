@@ -85,10 +85,6 @@ namespace CafeLibrary
                         break;
                     }
                 }
-                if (settings.KeepOrginalMaterialsOnReplace && meshSettings.MaterialName == "")
-                {
-                    meshSettings.MaterialName = fmdl.Materials[0].Name;
-                }
 
                 if (!Settings.Materials.Contains(meshSettings.ImportedMaterial))
                     Settings.Materials.Add(meshSettings.ImportedMaterial);
@@ -303,6 +299,8 @@ namespace CafeLibrary
             bool useMaterial = !Settings.KeepOrginalMaterialsOnReplace;
             if (ImGui.Checkbox("Use Custom Material", ref useMaterial))
                 Settings.KeepOrginalMaterialsOnReplace = !useMaterial;
+
+            ImGui.Checkbox("Skip Meshes With Invalid Materials", ref Settings.SkipMeshesWithInvalidMaterials);
 
             if (useMaterial)
             {

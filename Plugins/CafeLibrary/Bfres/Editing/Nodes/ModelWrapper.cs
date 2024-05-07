@@ -593,6 +593,13 @@ namespace CafeLibrary
             model.Materials.Clear();
             foreach (var meshSetting in settings.Meshes)
             {
+                // Skip invalid meshes
+                if (meshSetting == null ||
+                    (settings.SkipMeshesWithInvalidMaterials && meshSetting.MaterialName == ""))
+                {
+                    continue;
+                }
+
                 //Original target material from the current material list
                 var mat = materials.FirstOrDefault(x => x.Name == meshSetting.MaterialName);
                 var shape = model.Shapes[meshSetting.Name];

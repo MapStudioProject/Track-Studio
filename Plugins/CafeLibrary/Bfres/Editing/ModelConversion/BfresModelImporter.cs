@@ -325,11 +325,18 @@ namespace CafeLibrary.ModelConversion
                 MapStudio.UI.ProcessLoading.Instance.Update(meshIndex, model.Meshes.Count, $"Importing mesh {mesh.Name}");
 
                 var meshSettings = new ModelImportSettings.MeshSettings();
-
                 if (importSettings.Meshes.Any(x => x.MeshData == mesh))
                 {
                     meshSettings = importSettings.Meshes.FirstOrDefault(x => x.MeshData == mesh);
                 }
+
+                // Skip invalid meshes
+                if (meshSettings == null || 
+                    (importSettings.SkipMeshesWithInvalidMaterials && meshSettings.MaterialName == ""))
+                {
+                    continue;
+                }
+
                 var names = fmdl.Shapes.Values.Select(x => x.Name).ToList();
 
                 Shape fshp = new Shape();

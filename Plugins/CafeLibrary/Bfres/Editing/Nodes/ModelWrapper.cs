@@ -228,6 +228,8 @@ namespace CafeLibrary
             MaterialFolder.ContextMenus.Add(new MenuItemModel("Export All - BFMAT", ExportMaterialsToBfmatDialog));
             MaterialFolder.ContextMenus.Add(new MenuItemModel("Export All - ZIP", ExportMaterialsToZipDialog));
 
+            MeshFolder.ContextMenus.Add(new MenuItemModel("Recalculate Tangent/Bitangent", RecalculateTanBitanActionAll));
+
             if (ModelRenderer == null) {
                 ModelRenderer = new BfresModelRender();
                 BfresWrapper.Renderer.Models.Add(ModelRenderer);
@@ -400,6 +402,15 @@ namespace CafeLibrary
                 Materials.Add(fmat);
                 if (!this.Model.Materials.ContainsKey(fmat.Name))
                     this.Model.Materials.Add(fmat.Name, fmat.Material);
+            }
+        }
+        private void RecalculateTanBitanActionAll()
+        {
+            FMDL modelWrapper = MeshFolder.Parent.Tag as FMDL;
+            foreach (FSHP mesh in modelWrapper.Meshes)
+            {
+                mesh.CalculateTangentBitangent(mesh.Material.GetNormalMapUVIndex());
+                mesh.ApplyVertexData();
             }
         }
 
@@ -651,6 +662,8 @@ namespace CafeLibrary
                     mesh.Material.LoadPreset(meshSetting.MaterialRawFile, meshSetting.KeepTextures);
                 }
             }
+
+            RecalculateTanBitanActionAll();
 
             ProcessLoading.Instance.Update(100, 100, $"Finished importing model!");
             ProcessLoading.Instance.IsLoading = false;
@@ -1028,6 +1041,34 @@ namespace CafeLibrary
                     }
                 }
             }
+        }
+
+        public int GetNormalMapUVIndex()
+        {
+            //for BOTW if it uses UV layer 2 for normal maps use second UV map
+            if (Material.ShaderAssign.ShaderOptions.ContainsKey("uking_texture2_texcoord"))
+            {
+                float value = float.Parse(Material.ShaderAssign.ShaderOptions["uking_texture2_texcoord"]);
+                return (int)value;
+            }
+
+            //for TOTK use o_texture2_texcoord to find required uv layer for tangents
+            if (Material.ShaderAssign.ShaderOptions.ContainsKey("o_texture2_texcoord"))
+            {
+                return int.TryParse(Material.ShaderAssign.ShaderOptions["o_texture2_texcoord"], out int UseUVIndex) ? UseUVIndex : 0;
+            }
+
+            //For 3D world
+            if (Material.ShaderAssign.ShaderOptions.ContainsKey("cIsEnableNormalMap"))
+            {
+                float value = float.Parse(Material.ShaderAssign.ShaderOptions["cIsEnableNormalMap"]);
+                if (value == 1)
+                {
+                    return 1;
+                }
+            }
+
+            return 0;
         }
 
         public IEnumerable<FMAT> GetSelectedMaterials()
@@ -2388,9 +2429,9 @@ namespace CafeLibrary
 
         private void RecalculateTanBitanAction()
         {
-            foreach (var mesh in ModelWrapper.GetSelectedMeshes())
+            foreach (FSHP mesh in ModelWrapper.GetSelectedMeshes())
             {
-                mesh.CalculateTangentBitangent(0);
+                mesh.CalculateTangentBitangent(mesh.Material.GetNormalMapUVIndex());
                 mesh.ApplyVertexData();
             }
         }

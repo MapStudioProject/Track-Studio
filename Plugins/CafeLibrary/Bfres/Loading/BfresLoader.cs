@@ -159,8 +159,17 @@ namespace CafeLibrary.Rendering
                 for (int i = 0; i < resFile.ExternalFiles.Count; i++)
                 {
                     string fileName = resFile.ExternalFiles.Keys.ToList()[i];
-                    if (fileName.EndsWith(".bfsha")) {
-                        renderer.ShaderFiles.Add(new BfshaLibrary.BfshaFile(new System.IO.MemoryStream(resFile.ExternalFiles[i].Data)));
+                    if (fileName.EndsWith(".bfsha"))
+                    {
+                        //catch as certain bfsha versions (latest wii u) do not load correctly atm)
+                        try
+                        {
+                            renderer.ShaderFiles.Add(new BfshaLibrary.BfshaFile(new System.IO.MemoryStream(resFile.ExternalFiles[i].Data)));
+                        }
+                        catch
+                        {
+
+                        }
                     }
                 }
             }

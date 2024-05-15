@@ -60,7 +60,11 @@ namespace CafeLibrary
                     foreach (var param in mat.ShaderParams)
                     {
                         if (material.Material.ShaderParams.ContainsKey(param.Key))
-                            material.Material.ShaderParams[param.Key].DataValue = param.Value.DataValue;
+                        {
+                            //Ensure param data types match incase other param types change between files.
+                            if (material.Material.ShaderParams[param.Key].Type == param.Value.Type)
+                                material.Material.ShaderParams[param.Key].DataValue = param.Value.DataValue;
+                        }
                     }
                     material.UpdateMaterialBlock();
                     GLContext.ActiveContext.UpdateViewport = true;

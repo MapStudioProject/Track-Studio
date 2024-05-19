@@ -850,6 +850,10 @@ namespace CafeLibrary
                     return "";
                 return Material.ShaderAssign.ShaderArchiveName;
             }
+            set
+            {
+                Material.ShaderAssign.ShaderArchiveName = value;
+            }
         }
 
         /// <summary>
@@ -862,6 +866,10 @@ namespace CafeLibrary
                 if (Material.ShaderAssign == null)
                     return "";
                 return Material.ShaderAssign.ShadingModelName;
+            }
+            set
+            {
+                Material.ShaderAssign.ShadingModelName = value;
             }
         }
 

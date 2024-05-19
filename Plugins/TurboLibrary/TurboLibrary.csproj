@@ -24,9 +24,6 @@
     <Reference Include="AampLibraryCSharp">
       <HintPath>..\..\Track Studio\Lib\AampLibraryCSharp.dll</HintPath>
     </Reference>
-    <Reference Include="BfresLibrary">
-      <HintPath>..\..\Track Studio\Lib\BfresLibrary.dll</HintPath>
-    </Reference>
     <Reference Include="BfshaLibrary">
       <HintPath>..\..\Track Studio\Lib\BfshaLibrary.dll</HintPath>
     </Reference>
@@ -41,9 +38,6 @@
     </Reference>
     <Reference Include="ImGui.NET">
       <HintPath>..\..\Track Studio\Lib\ImGui.NET.dll</HintPath>
-    </Reference>
-    <Reference Include="IONET">
-      <HintPath>..\..\Track Studio\Lib\IONET.dll</HintPath>
     </Reference>
     <Reference Include="KclLibrary">
       <HintPath>..\..\Track Studio\Lib\KclLibrary.dll</HintPath>
@@ -60,15 +54,15 @@
     <Reference Include="Ryujinx.Graphics.Shader">
       <HintPath>..\..\Track Studio\Lib\Ryujinx.Graphics.Shader.dll</HintPath>
     </Reference>
-    <Reference Include="Syroot.BinaryData">
-      <HintPath>..\..\Track Studio\Lib\Syroot.BinaryData.dll</HintPath>
-    </Reference>
-    <Reference Include="Syroot.Maths">
-      <HintPath>..\..\Track Studio\Lib\Syroot.Maths.dll</HintPath>
-    </Reference>
-    <Reference Include="Syroot.NintenTools.NSW.Bntx">
-      <HintPath>..\..\Track Studio\Lib\Syroot.NintenTools.NSW.Bntx.dll</HintPath>
-    </Reference>
+	<Reference Include="Syroot.BinaryData">
+		<HintPath>..\..\Track Studio\Lib\Syroot.BinaryData.dll</HintPath>
+	</Reference>
+	<Reference Include="Syroot.Maths">
+		<HintPath>..\..\Track Studio\Lib\Syroot.Maths.dll</HintPath>
+	</Reference>
+	<Reference Include="Syroot.NintenTools.NSW.Bntx">
+		<HintPath>..\..\Track Studio\Lib\Syroot.NintenTools.NSW.Bntx.dll</HintPath>
+	</Reference>
   </ItemGroup>
 
   <ItemGroup>
@@ -91,6 +85,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\BfresLibrary\BfresLibrary\BfresLibrary.csproj" />
+    <ProjectReference Include="..\..\..\IONET\IONET\IONET.csproj" />
     <ProjectReference Include="..\..\GLFrameworkEngine\GLFrameworkEngine.csproj" />
     <ProjectReference Include="..\..\MapStudio.UI\MapStudio.UI.csproj" />
     <ProjectReference Include="..\..\Toolbox.Core\Toolbox.Core.csproj" />

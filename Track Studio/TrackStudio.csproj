@@ -27,6 +27,7 @@
 	</ItemGroup>
   
 	<ItemGroup>
+	  <ProjectReference Include="..\..\BfresLibrary\BfresLibrary\BfresLibrary.csproj" />
 	  <ProjectReference Include="..\GLFrameworkEngine\GLFrameworkEngine.csproj" />
 	  <ProjectReference Include="..\MapStudio.UI\MapStudio.UI.csproj" />
 	  <ProjectReference Include="..\Plugins\CafeLibrary\CafeLibrary.csproj" />
@@ -43,10 +44,10 @@
 	    <HintPath>Lib\OpenTK.dll</HintPath>
 	  </Reference>
 	  <Reference Include="Syroot.BinaryData">
-	    <HintPath>Lib\Syroot.BinaryData.dll</HintPath>
+		<HintPath>Lib\Syroot.BinaryData.dll</HintPath>
 	  </Reference>
 	  <Reference Include="Syroot.Maths">
-	    <HintPath>Lib\Syroot.Maths.dll</HintPath>
+		<HintPath>Lib\Syroot.Maths.dll</HintPath>
 	  </Reference>
 	</ItemGroup>
   

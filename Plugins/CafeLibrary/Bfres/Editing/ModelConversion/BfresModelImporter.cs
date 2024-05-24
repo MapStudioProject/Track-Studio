@@ -341,7 +341,7 @@ namespace CafeLibrary.ModelConversion
                 meshSettings.Name = fshp.Name;
 
                 fshp.MaterialIndex = 0;
-                fshp.BoneIndex = 0;
+                fshp.BoneIndex = meshSettings.BoneIndex;
                 fshp.VertexSkinCount = (byte)skinCounts[meshIndex++];
 
                 foreach (var v in mesh.Vertices)

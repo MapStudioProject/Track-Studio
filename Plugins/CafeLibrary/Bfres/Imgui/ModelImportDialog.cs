@@ -74,6 +74,8 @@ namespace CafeLibrary
                     meshSettings.MaterialName = fshp.Material.Name;
                     foreach (var att in fshp.VertexBuffer.Attributes.Values)
                         meshSettings.AttributeLayout.Add(new ModelImportSettings.AttributeInfo(att.Name, att.BufferIndex));
+
+                    meshSettings.BoneIndex = (ushort)fshp.BoneIndex;
                 }
 
                 if (!Settings.Materials.Contains(meshSettings.ImportedMaterial))

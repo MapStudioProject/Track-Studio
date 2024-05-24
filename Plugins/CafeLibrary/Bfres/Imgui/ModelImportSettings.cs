@@ -30,7 +30,7 @@ namespace CafeLibrary
         public bool RotateNeg90 = false;
         public bool EnableLODs = false;
         public bool EnableSubMesh = false;
-        public bool ImportBones = true;
+        public bool ImportBones = false;
 
         public bool RecalculateNormals = false;
         public bool OverrideVertexColors = false;
@@ -69,6 +69,8 @@ namespace CafeLibrary
             public uint UVLayerCount;
 
             public int SkinCount;
+
+            public ushort BoneIndex = 0; //single binded bone
 
             public bool[] UseTexCoord { get; set; } = new bool[] { true, true, true, true };
             public bool[] UseColor { get; set; } = new bool[] { true, true, true, true };

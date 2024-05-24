@@ -57,6 +57,7 @@ namespace CafeLibrary.Rendering
         public List<BfresSkeletalAnim> SkeletalAnimations = new List<BfresSkeletalAnim>();
         public List<BfresMaterialAnim> MaterialAnimations = new List<BfresMaterialAnim>();
         public List<BfresCameraAnim> CameraAnimations = new List<BfresCameraAnim>();
+        public List<BfresVisibilityAnim> VisAnimations = new List<BfresVisibilityAnim>();
 
         public List<BfshaLibrary.BfshaFile> ShaderFiles = new List<BfshaLibrary.BfshaFile>();
 

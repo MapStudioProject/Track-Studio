@@ -109,6 +109,14 @@ namespace CafeLibrary.ModelConversion
                 if (bitangents.Length > 0)
                     vertex.Binormal = new Vector3(bitangents[v].X, bitangents[v].Y, bitangents[v].Z);
 
+                if (shape.VertexSkinCount == 0)
+                {
+                    var bone = skeleton.BreathFirstOrder()[shape.BoneIndex];
+                    vertex.Position = Vector3.Transform(vertex.Position, bone.WorldTransform);
+                    vertex.Normal = Vector3.Transform(vertex.Normal, bone.WorldTransform);
+                    vertex.Tangent = Vector3.Transform(vertex.Tangent, bone.WorldTransform);
+                }
+
                 for (int i = 0; i < shape.VertexSkinCount; i++)
                 {
                     if (i > 3)
@@ -125,18 +133,12 @@ namespace CafeLibrary.ModelConversion
                     daeWeight.Weight = weights0.Length > 0 ? weights0[v][i] : 1.0f;
                     vertex.Envelope.Weights.Add(daeWeight);
 
-                    if (shape.VertexSkinCount == 0)
-                    {
-                        var bone = skeleton.BreathFirstOrder()[shape.BoneIndex];
-                        vertex.Position = Vector3.Transform(vertex.Position, bone.WorldTransform);
-                        vertex.Normal = Vector3.Transform(vertex.Normal, bone.WorldTransform);
-                    }
-
                     if (shape.VertexSkinCount == 1)
                     {
                         var bone = skeleton.BreathFirstOrder()[index];
                         vertex.Position = Vector3.Transform(vertex.Position, bone.WorldTransform);
                         vertex.Normal = Vector3.Transform(vertex.Normal, bone.WorldTransform);
+                        vertex.Tangent = Vector3.Transform(vertex.Tangent, bone.WorldTransform);
                     }
                 }
             }

@@ -354,15 +354,17 @@ namespace CafeLibrary.Rendering
             if (TextureList.Count == 0)
                 return;
 
-            if (material.Material.AnimatedSamplers.ContainsKey(track.Name))
-                material.Material.AnimatedSamplers.Remove(track.Name);
-
             var value = (int)track.GetFrameValue(this.Frame);
             if (TextureList.Count > value)
             {
                 var texture = TextureList[value];
                 if (texture != null)
-                    material.Material.AnimatedSamplers.Add(track.Name, texture);
+                {
+                    if (material.Material.AnimatedSamplers.ContainsKey(track.Name))
+                        material.Material.AnimatedSamplers[track.Name] = texture;
+                    else
+                        material.Material.AnimatedSamplers.Add(track.Name, texture);
+                }
             }
         }
 

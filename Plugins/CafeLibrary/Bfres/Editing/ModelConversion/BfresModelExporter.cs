@@ -125,6 +125,13 @@ namespace CafeLibrary.ModelConversion
                     daeWeight.Weight = weights0.Length > 0 ? weights0[v][i] : 1.0f;
                     vertex.Envelope.Weights.Add(daeWeight);
 
+                    if (shape.VertexSkinCount == 0)
+                    {
+                        var bone = skeleton.BreathFirstOrder()[shape.BoneIndex];
+                        vertex.Position = Vector3.Transform(vertex.Position, bone.WorldTransform);
+                        vertex.Normal = Vector3.Transform(vertex.Normal, bone.WorldTransform);
+                    }
+
                     if (shape.VertexSkinCount == 1)
                     {
                         var bone = skeleton.BreathFirstOrder()[index];

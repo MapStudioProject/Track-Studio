@@ -35,12 +35,12 @@ namespace CafeLibrary
                 Vector3 min = new Vector3(float.MaxValue);
                 Vector3 max = new Vector3(float.MinValue);
 
-                List<ushort> faces = new List<ushort>();
+                List<uint> faces = new List<uint>();
                 foreach (var tri in xstrip)
                 {
                     foreach (var index in tri.Indices)
                     {
-                        faces.Add((ushort)index);
+                        faces.Add((uint)index);
 
                         max.X = MathF.Max(vertices[index].Position.X, max.X);
                         max.Y = MathF.Max(vertices[index].Position.Y, max.Y);
@@ -127,7 +127,7 @@ namespace CafeLibrary
 
     public class DivSubMesh
     {
-        public List<ushort> Faces = new List<ushort>();
+        public List<uint> Faces = new List<uint>();
 
         public Vector3 Min;
         public Vector3 Max;

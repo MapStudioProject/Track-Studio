@@ -58,7 +58,7 @@ namespace CafeLibrary
                         {
                             var fmdl = material.UINode.Parent.Parent.Tag as FMDL;
                             foreach (FMAT mat in fmdl.GetSelectedMaterials())
-                                material.LoadPreset(PresetWindow.GetSelectedPreset(), PresetWindow.KeepTextures());
+                                mat.LoadPreset(PresetWindow.GetSelectedPreset(), PresetWindow.KeepTextures());
                         }
                     });
                 }

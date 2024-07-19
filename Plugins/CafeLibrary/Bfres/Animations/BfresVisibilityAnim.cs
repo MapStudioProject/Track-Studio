@@ -95,7 +95,7 @@ namespace CafeLibrary
             var dlg = new ImguiFileDialog();
             dlg.SaveDialog = true;
             dlg.FileName = $"{VisibilityAnim.Name}.json";
-            dlg.AddFilter(".bfvis", ".bfvis");
+            dlg.AddFilter(".bfbvi", ".bfbvi");
             dlg.AddFilter(".json", ".json");
 
             if (dlg.ShowDialog())
@@ -110,13 +110,14 @@ namespace CafeLibrary
             var dlg = new ImguiFileDialog();
             dlg.SaveDialog = false;
             dlg.FileName = $"{VisibilityAnim.Name}.json";
-            dlg.AddFilter(".bfska", ".bfska");
+            dlg.AddFilter(".bfbvi", ".bfbvi");
             dlg.AddFilter(".json", ".json");
-            dlg.AddFilter(".anim", ".anim");
 
             if (dlg.ShowDialog())
             {
                 VisibilityAnim.Import(dlg.FilePath, ResFile);
+                VisibilityAnim.Name = this.Name;
+
                 Reload(VisibilityAnim);
             }
         }
@@ -146,6 +147,16 @@ namespace CafeLibrary
 
                     ParseKeyTrack(bone, group);
                 }
+            }
+        }
+
+        public override void Reset()
+        {
+            var skeletons = GetActiveSkeletons();
+            foreach (var skeleton in skeletons)
+            {
+                foreach (var bone in skeleton.Bones)
+                    bone.Visible = true;
             }
         }
 
@@ -186,6 +197,9 @@ namespace CafeLibrary
                         BfresAnimations.GenerateKeys(group.Track, curve);
                 }
             }
+
+            Root.Children.Clear();
+
             if (ResFile != null)
                 BoneVisAnimUI.ReloadTree(Root, this, VisibilityAnim);
 

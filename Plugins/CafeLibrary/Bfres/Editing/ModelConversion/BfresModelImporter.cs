@@ -518,16 +518,19 @@ namespace CafeLibrary.ModelConversion
 
                 Console.WriteLine($"fshp {fshp.Name} submeshes {mesh.SubMeshes.Count}");
 
-                fshp.SubMeshBoundingIndices.Add(0);
-                fshp.SubMeshBoundingNodes.Add(new BoundingNode()
+                for (int i = 0; i < fshp.SubMeshBoundings.Count; i++)
                 {
-                    LeftChildIndex = 0,
-                    RightChildIndex = 0,
-                    NextSibling = 0,
-                    SubMeshIndex = 0,
-                    Unknown = 0,
-                    SubMeshCount = (ushort)mesh.SubMeshes.Count,
-                });
+                    fshp.SubMeshBoundingIndices.Add((ushort)i);
+                    fshp.SubMeshBoundingNodes.Add(new BoundingNode()
+                    {
+                        LeftChildIndex = 0,
+                        RightChildIndex = 0,
+                        NextSibling = 0,
+                        SubMeshIndex = (ushort)i,
+                        Unknown = 0,
+                        SubMeshCount = 1,
+                    });
+                }
             }
             else 
             {

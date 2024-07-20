@@ -523,11 +523,11 @@ namespace CafeLibrary.ModelConversion
                     fshp.SubMeshBoundingIndices.Add((ushort)i);
                     fshp.SubMeshBoundingNodes.Add(new BoundingNode()
                     {
-                        LeftChildIndex = 0,
-                        RightChildIndex = 0,
-                        NextSibling = 0,
+                        LeftChildIndex = (ushort)i, //can match current node idx
+                        RightChildIndex = (ushort)i, //can match current node idx
+                        NextSibling = (ushort)(i < fshp.SubMeshBoundings.Count - 1 ? i + 1 : i), //next or last idx
                         SubMeshIndex = (ushort)i,
-                        Unknown = 0,
+                        Unknown = (ushort)i, //always current idx
                         SubMeshCount = 1,
                     });
                 }

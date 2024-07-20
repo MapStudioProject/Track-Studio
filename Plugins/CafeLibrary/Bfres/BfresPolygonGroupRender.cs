@@ -62,6 +62,8 @@ namespace CafeLibrary.Rendering
                 if (node != null)
                     boundingIndex = shape.SubMeshBoundingNodes.IndexOf(node);
 
+                Console.WriteLine($"{boundingIndex} boundingIndex {node.Unknown} {node.LeftChildIndex} {node.RightChildIndex} {node.NextSibling}");
+
                 var bounding = shape.SubMeshBoundings[boundingIndex < shape.SubMeshBoundings.Count ? boundingIndex : 0];
                 var center = new Vector3(
                     bounding.Center.X,

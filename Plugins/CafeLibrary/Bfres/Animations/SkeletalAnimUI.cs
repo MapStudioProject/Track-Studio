@@ -29,7 +29,7 @@ namespace CafeLibrary
             Root.IsExpanded = true;
             Root.ContextMenus.Add(new MenuItem("Add Bone", () =>
             {
-                var boneGroup = new BfresSkeletalAnim.BoneAnimGroup();
+                var boneGroup = new BfresSkeletalAnim.BoneAnimGroup(new BoneAnim());
                 boneGroup.Name = "NewBone";
                 anim.AnimGroups.Add(boneGroup);
                 //Add to ui
@@ -54,6 +54,7 @@ namespace CafeLibrary
             boneNode.CanRename = true;
             boneNode.OnHeaderRenamed += delegate
             {
+                group.BoneAnimData.Name = boneNode.Header;
                 group.Name = boneNode.Header;
             };
             boneNode.ContextMenus.Add(new MenuItem("Rename", () => boneNode.ActivateRename = true));

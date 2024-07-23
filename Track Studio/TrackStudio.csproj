@@ -39,6 +39,9 @@
 	  <Reference Include="ImGui.NET">
 	    <HintPath>Lib\ImGui.NET.dll</HintPath>
 	  </Reference>
+	  <Reference Include="IONET">
+	    <HintPath>Lib\IONET.dll</HintPath>
+	  </Reference>
 	  <Reference Include="OpenTK">
 	    <HintPath>Lib\OpenTK.dll</HintPath>
 	  </Reference>

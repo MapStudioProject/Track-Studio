@@ -105,8 +105,7 @@ namespace CafeLibrary.Rendering
             dlg.AddFilter(".bfska", ".bfska");
             dlg.AddFilter(".json", ".json");
             dlg.AddFilter(".anim", ".anim");
-            //dlg.AddFilter(".gltf", ".gltf");
-            //dlg.AddFilter(".glb", ".glb");
+            dlg.AddFilter(".smd", ".smd");
 
             if (dlg.ShowDialog())
             {
@@ -117,6 +116,7 @@ namespace CafeLibrary.Rendering
                     case ".anim":
                     case ".gltf":
                     case ".glb":
+                    case ".smd":
                         var models = GetActiveSkeletonModels();
                         if (models.Count == 1)
                         {
@@ -168,8 +168,10 @@ namespace CafeLibrary.Rendering
             dlg.AddFilter(".bfska", ".bfska");
             dlg.AddFilter(".json", ".json");
             dlg.AddFilter(".anim", ".anim");
-           // dlg.AddFilter(".gltf", ".gltf");
-           // dlg.AddFilter(".glb", ".glb");
+            dlg.AddFilter(".smd", ".smd");
+
+            // dlg.AddFilter(".gltf", ".gltf");
+            // dlg.AddFilter(".glb", ".glb");
 
             if (dlg.ShowDialog())
             {
@@ -178,7 +180,7 @@ namespace CafeLibrary.Rendering
                     case ".anim":
                     case ".gltf":
                     case ".glb":
-
+                    case ".smd":
                         var models = GetActiveSkeletonModels();
                         if (models.Count == 1)
                         {

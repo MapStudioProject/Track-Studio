@@ -4393,7 +4393,7 @@
         </member>
         <member name="P:BfresLibrary.ResFile.Textures">
             <summary>
-            Gets or sets the stored <see cref="!:Texture"/> (FTEX) instances.
+            Gets or sets the stored <see cref="T:Syroot.NintenTools.NSW.Bntx.Texture"/> (FTEX) instances.
             </summary>
         </member>
         <member name="P:BfresLibrary.ResFile.SkeletalAnims">

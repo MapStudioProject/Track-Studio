@@ -100,9 +100,11 @@ namespace CafeLibrary
 
                         parent.AddChild(matPreset);
                     }
-                    catch
+                    catch (Exception ex)
                     {
-
+                        NodeBase n = new NodeBase($"{Path.GetFileNameWithoutExtension(preset)}");
+                        n.Icon = IconManager.WARNING_ICON.ToString();
+                        parent.AddChild(n);
                     }
                 }
             }

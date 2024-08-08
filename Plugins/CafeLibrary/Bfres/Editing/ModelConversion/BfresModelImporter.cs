@@ -135,6 +135,18 @@ namespace CafeLibrary.ModelConversion
 
                 MapStudio.UI.ProcessLoading.Instance.Update(50, 100, $"Loading bfres bones.");
 
+                //temp fix for custom tracks having root breaking things
+                //Custom tracks need custom bones, but bones cannot transform most materials due to not being used in shaders
+                //Here we apply the root to be identify, and inverse all the children by the matrix
+                var bone_list = model.Skeleton.BreathFirstOrder();
+                foreach (var root in bone_list.Where(x => x.Parent == null))
+                {
+                    foreach (var child in root.Children)
+                        child.WorldTransform *= root.WorldTransform;
+
+                    root.WorldTransform = Matrix4x4.Identity;
+                }
+
                 foreach (var bone in model.Skeleton.BreathFirstOrder())
                 {
                     if (string.IsNullOrEmpty(bone.Name))

@@ -486,6 +486,7 @@ namespace CafeLibrary
                 if (ResFile.Name.StartsWith("course_model"))
                 {
                     useDialog = false;
+                    settings.ImportBones = true;
                 }
 
                 if (useDialog)

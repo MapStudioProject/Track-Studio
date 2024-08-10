@@ -347,7 +347,8 @@ namespace TurboLibrary
             {
                 TargetObjs = new List<Obj>();
                 foreach (var idx in _targetObjIndex)
-                    TargetObjs.Add(courseDefinition.Objs[idx]);
+                    if (idx != -1 && idx < courseDefinition.Objs.Count)
+                        TargetObjs.Add(courseDefinition.Objs[idx]);
             }
 
             if (Path != null) Path.References.Add(this);

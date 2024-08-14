@@ -14,6 +14,7 @@ namespace TurboLibrary
             { 1021, new float[8] { 0, 0, 1, 3, 100, 0, 0, 0 }},  // Basabasa
             { 1036, new float[8] { 1, 0, 0, 0, 0, 0, 0, 0 }},  // PcBalloon
             { 1040, new float[8] { 1, 0, 0, 0, 0, 0, 0, 0 }},  // TowerKuribo
+            { 3026, new float[8] { 6, 5, 5, 6, 0, 0, 0, 1 }}, // DL_Metro
             { 4048, new float[8] { 0, 700, 2300, 400, 0, 0, 0, 0 }},  // BDSandGeyser
         };
 
@@ -169,7 +170,7 @@ namespace TurboLibrary
         {    2013, new string[8] {null, null, null, null, null, null, null, null} },  // ButterflySp
         {    2014, new string[8] {null, null, null, null, null, null, null, null} },  // WPFountain
         {    2015, new string[8] {"Counter Clockwise {0/1}", "Initial Rotation", null, null, null, null, null, null} },  // WsFirebar
-        {    2016, new string[8] { "Counter Clockwise {0/1}", "Initial Rotation", null, null, null, null, null, null} },  // WsFirering
+        {    2016, new string[8] {"Counter Clockwise {0/1}", "Initial Rotation", null, null, null, null, null, null} },  // WsFirering
         {    2017, new string[8] {"Unknown 1", "Unknown 2", "Unknown 3", "Unknown 4", "Unknown 5", null, null, null} },  // CmnWaterCurrent
         {    2018, new string[8] {null, null, null, null, null, null, null, null} },  // Balloon
         {    2021, new string[8] {null, null, null, null, null, null, null, null} },  // CmnCloud
@@ -243,7 +244,7 @@ namespace TurboLibrary
         {    2098, new string[8] {null, null, null, null, null, null, null, null} },  // DL_BbStartLogoB
         {    2099, new string[8] {null, null, null, null, null, null, null, null} },  // DL_AnimalFountain
         {    2100, new string[8] {null, null, null, null, null, null, null, null} },  // DL_AnimalSmoke
-        {    3002, new string[8] { "Initial Delay", "Unknown 2", "Launch Velocity", "Launch Angle (Degrees)", null, null, null, null} },  // Rock1
+        {    3002, new string[8] {"Initial Delay", "Unknown 2", "Launch Velocity", "Launch Angle (Degrees)", null, null, null, null} },  // Rock1
         {    3004, new string[8] {"Unknown 1", null, null, null, null, null, null, null} },  // CarA
         {    3006, new string[8] {"Unknown 1", "Unknown 2", null, null, null, null, null, null} },  // TruckA
         {    3007, new string[8] {null, null, null, null, null, null, null, null} },  // DkAirship
@@ -262,7 +263,7 @@ namespace TurboLibrary
         {    3023, new string[8] {null, null, null, null, null, null, null, null} },  // GessoShuttle
         {    3024, new string[8] {"Unknown 1", null, null, null, null, null, null, null} },  // DL_WarioTram
         {    3025, new string[8] {null, null, null, null, null, null, null, null} },  // DL_WarioTramB
-        {    3026, new string[8] {"Unknown 1", "Unknown 2", "Unknown 3", "Unknown 4", "Unknown 5", "Unknown 6", "Unknown 7", "Unknown 8"} },  // DL_Metro
+        {    3026, new string[8] {"Number of trains", "Unknown 2", "Unknown 3", "Unknown 4", "First respawn duration (#frames)", "Consecutive respawn duration (#frames)", "Train color ({0 red/1 blue})", "Unknown 8"} },  // DL_Metro
         {    3027, new string[8] {null, null, null, null, null, null, null, null} },  // DL_AnimalTrain
         {    4004, new string[8] {"Unknown 1", "Unknown 2", "Unknown 3", null, null, null, null, null} },  // ClockGearY
         {    4005, new string[8] {"Unknown 1", "Unknown 2", "Unknown 3", null, null, null, null, null} },  // ClockHandL

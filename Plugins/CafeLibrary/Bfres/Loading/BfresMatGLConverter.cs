@@ -25,30 +25,57 @@ namespace CafeLibrary.Rendering
 
             if (mat.RenderInfos.ContainsKey("display_face"))
                 ConvertSMORenderState(fmat, mat);
+
+            //pmttyd
+            if (mat.RenderInfos.ContainsKey("culling"))
+                ConvertPMTTYDRenderState(fmat, mat);
+        }
+
+        static void ConvertPMTTYDRenderState(FMAT fmat, Material mat)
+        {
+            string cullFace = GetRenderInfo(mat, "culling");
+            switch (cullFace)
+            {
+                case "none":
+                    fmat.CullFront = false;
+                    fmat.CullBack = false;
+                    break;
+                case "back":
+                    fmat.CullFront = false;
+                    fmat.CullBack = true;
+                    break;
+                case "front":
+                    fmat.CullFront = true;
+                    fmat.CullBack = false;
+                    break;
+                case "both":
+                    fmat.CullFront = true;
+                    fmat.CullBack = true;
+                    break;
+            }
         }
 
         static void ConvertSMORenderState(FMAT fmat, Material mat)
         {
             string displayFace = GetRenderInfo(mat, "display_face");
-            if (displayFace == "front")
+            switch (displayFace)
             {
-                fmat.CullFront = false;
-                fmat.CullBack = true;
-            }
-            if (displayFace == "back")
-            {
-                fmat.CullFront = true;
-                fmat.CullBack = false;
-            }
-            if (displayFace == "both")
-            {
-                fmat.CullFront = false;
-                fmat.CullBack = false;
-            }
-            if (displayFace == "none")
-            {
-                fmat.CullFront = true;
-                fmat.CullBack = true;
+                case "none":
+                    fmat.CullFront = true;
+                    fmat.CullBack = true;
+                    break;
+                case "back":
+                    fmat.CullFront = true;
+                    fmat.CullBack = false;
+                    break;
+                case "front":
+                    fmat.CullFront = false;
+                    fmat.CullBack = true;
+                    break;
+                case "both":
+                    fmat.CullFront = false;
+                    fmat.CullBack = false;
+                    break;
             }
         }
 

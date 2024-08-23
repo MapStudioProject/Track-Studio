@@ -976,19 +976,13 @@ namespace CafeLibrary
             }
         }
 
-        public IEnumerable<FMAT> GetSelectedMaterials()
-        {
-            var nodes = UINode.Parent.Children.Where(x => x.IsSelected);
-            return nodes.Select(x => x.Tag as FMAT);
-        }
-
         public void BatchTextureName(string name, string sampler)
         {
             var index = this.Material.Samplers.IndexOf(sampler);
             if (index == -1)
                 return;
 
-            foreach (var mat in GetSelectedMaterials())
+            foreach (var mat in ModelWrapper.GetSelectedMaterials())
             {
                 mat.TextureMaps[index].Name = name;
                 mat.ReloadTextureMap(index);
@@ -1000,7 +994,7 @@ namespace CafeLibrary
         public void BatchEditRenderInfo(RenderInfo renderInfo)
         {
             //Batch edit material render info
-            foreach (var mat in GetSelectedMaterials())
+            foreach (var mat in ModelWrapper.GetSelectedMaterials())
             {
                 if (mat.Material.RenderInfos.ContainsKey(renderInfo.Name))
                 {
@@ -1018,7 +1012,7 @@ namespace CafeLibrary
         public void BatchEditParams(ShaderParam param)
         {
             //Batch edit material params
-            foreach (var mat in GetSelectedMaterials())
+            foreach (var mat in ModelWrapper.GetSelectedMaterials())
             {
                 if (mat.ShaderParams.ContainsKey(param.Name) && mat.ShaderParams[param.Name].Type == param.Type)
                     mat.ShaderParams[param.Name].DataValue = param.DataValue;
@@ -1706,7 +1700,7 @@ namespace CafeLibrary
             {
                 try
                 {
-                    foreach (var mat in GetSelectedMaterials())
+                    foreach (var mat in ModelWrapper.GetSelectedMaterials())
                     {
                         if (dlg.FilePath.EndsWith(".zip"))
                             mat.LoadPreset(dlg.FilePath, true);

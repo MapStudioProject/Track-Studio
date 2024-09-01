@@ -92,7 +92,7 @@ namespace AGraphicsLibrary
 
                     cubemapFilter.SetMatrix4x4("view", ref captureViews[i]);
 
-                    GL.ClearColor(1, 0, 0, 1);
+                    GL.ClearColor(0, 0, 0, 1);
                     GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
                     RenderTools.DrawCube();
                 }

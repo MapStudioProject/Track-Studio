@@ -1,13 +1,35 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Toolbox.Core;
 
 namespace TurboLibrary
 {
     public class ParamDatabase
     {
+        static string GetPath() => System.IO.Path.Combine(Runtime.ExecutableDir, "User", $"MapObjDB.json");
+
+        public static void Load()
+        {
+            var path = GetPath();
+            if (!File.Exists(path))
+                Save();
+            else
+            {
+                ParameterObjs = JsonConvert.DeserializeObject<Dictionary<int, string[]>>(File.ReadAllText(path));
+            }
+        }
+
+        public static void Save()
+        {
+            string json = JsonConvert.SerializeObject(ParameterObjs, Formatting.Indented);
+            File.WriteAllText(GetPath(), json);
+        }
+
         public static Dictionary<int, float[]> ParameterDefaults = new Dictionary<int, float[]>()
         {
             { 1012, new float[8] { 0, 5, 0, 0, 0, 0, 0, 0 }},  // Sanbo
@@ -160,6 +182,7 @@ namespace TurboLibrary
         {    1173, new string[8] {null, null, null, null, null, null, null, null} },  // DL_ItemBoxMetro
         {    1174, new string[8] {null, null, null, null, null, null, null, null} },  // DL_WdBarrel
         {    1175, new string[8] {null, null, null, null, null, null, null, null} },  // DL_WdBarrelR
+        {    1202, new string[8] {"Fall Distance", "Flip (Degrees)", "Fall State Time", "Initial Smash Delay", null, null, null, null} },  // Battan
         {    2004, new string[8] {null, null, null, null, null, null, null, null} },  // ChimneySmoke
         {    2006, new string[8] {null, null, null, null, null, null, null, null} },  // Fountain
         {    2007, new string[8] {"Initial Delay", "Life Time", "Unknown 3", null, null, null, null, null} },  // VolFlame

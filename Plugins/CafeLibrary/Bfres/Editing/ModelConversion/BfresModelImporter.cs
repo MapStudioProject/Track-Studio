@@ -604,7 +604,11 @@ namespace CafeLibrary.ModelConversion
 
         static void AddSubMesh(DivSubMesh subMesh, ref Shape shape, ref Mesh mesh, ref List<uint> indexList)
         {
-            var offset = indexList.Count;
+            bool isUshort = (mesh.IndexFormat == GX2IndexFormat.UInt16 ||
+                         mesh.IndexFormat == GX2IndexFormat.UInt16LittleEndian);
+
+            var stride = isUshort ? sizeof(ushort) : sizeof(uint);
+            var offset = indexList.Count * stride;
             indexList.AddRange(subMesh.Faces.Select(x => (uint)x).ToList());
 
             int index = mesh.SubMeshes.Count;

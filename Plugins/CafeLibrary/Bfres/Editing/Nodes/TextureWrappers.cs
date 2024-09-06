@@ -731,8 +731,15 @@ namespace CafeLibrary
         {
             foreach (var tex in this.Children)
             {
-                var texData = tex.Tag as STGenericTexture;
-                texData.Export(Path.Combine(folder,$"{tex.Header}{ext}"), new TextureExportSettings());
+                try
+                {
+                    var texData = tex.Tag as STGenericTexture;
+                    texData.Export(Path.Combine(folder, $"{tex.Header}{ext}"), new TextureExportSettings());
+                }
+                catch
+                {
+
+                }
             }
             FileUtility.OpenFolder(folder);
         }

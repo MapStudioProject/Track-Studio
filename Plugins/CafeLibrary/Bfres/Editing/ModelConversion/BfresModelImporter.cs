@@ -524,9 +524,8 @@ namespace CafeLibrary.ModelConversion
                 fshp.SubMeshBoundingNodes.Clear();
                 fshp.SubMeshBoundings.Clear();
 
-                int offset = 0;
                 foreach (var root in divided)
-                    AddSubMesh(root, ref fshp, ref mesh, ref offset, ref indexList);
+                    AddSubMesh(root, ref fshp, ref mesh, ref indexList);
 
                 Console.WriteLine($"fshp {fshp.Name} submeshes {mesh.SubMeshes.Count}");
 
@@ -603,9 +602,9 @@ namespace CafeLibrary.ModelConversion
             }
         }
 
-        static void AddSubMesh(DivSubMesh subMesh, ref Shape shape, ref Mesh mesh, ref int offset, ref List<uint> indexList)
+        static void AddSubMesh(DivSubMesh subMesh, ref Shape shape, ref Mesh mesh, ref List<uint> indexList)
         {
-            offset += indexList.Count;
+            var offset = indexList.Count;
             indexList.AddRange(subMesh.Faces.Select(x => (uint)x).ToList());
 
             int index = mesh.SubMeshes.Count;

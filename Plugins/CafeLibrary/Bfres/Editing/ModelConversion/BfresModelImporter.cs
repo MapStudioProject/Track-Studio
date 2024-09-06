@@ -493,10 +493,6 @@ namespace CafeLibrary.ModelConversion
             List<uint> indexList = new List<uint>();
             indexList = indices.Select(x => (uint)x).ToList();
 
-            //If a mesh's vertex data is split into parts, we can create sub meshes with their own boundings
-            CalculateMeshDivision(vertices, fshp, mesh, indices, ref indexList, enableSubMesh);
-
-            //Finally setup the full index list of the entire mesh
             GX2IndexFormat Format = GX2IndexFormat.UInt16;
             if (resFile.IsPlatformSwitch)
             {
@@ -510,10 +506,14 @@ namespace CafeLibrary.ModelConversion
                     Format = GX2IndexFormat.UInt32;
             }
 
+            //If a mesh's vertex data is split into parts, we can create sub meshes with their own boundings
+            CalculateMeshDivision(vertices, fshp, mesh, Format, indices, ref indexList, enableSubMesh);
+
+            //Finally setup the full index list of the entire mesh
             mesh.SetIndices(indexList, Format);
         }
 
-        static void CalculateMeshDivision(List<IOVertex> vertices, Shape fshp, Mesh mesh, List<int> indices, ref List<uint> indexList, bool enableSubMesh)
+        static void CalculateMeshDivision(List<IOVertex> vertices, Shape fshp, Mesh mesh, GX2IndexFormat format, List<int> indices, ref List<uint> indexList, bool enableSubMesh)
         {
             if (enableSubMesh)
             {
@@ -525,7 +525,7 @@ namespace CafeLibrary.ModelConversion
                 fshp.SubMeshBoundings.Clear();
 
                 foreach (var root in divided)
-                    AddSubMesh(root, ref fshp, ref mesh, ref indexList);
+                    AddSubMesh(root, format, ref fshp, ref mesh, ref indexList);
 
                 Console.WriteLine($"fshp {fshp.Name} submeshes {mesh.SubMeshes.Count}");
 
@@ -602,10 +602,10 @@ namespace CafeLibrary.ModelConversion
             }
         }
 
-        static void AddSubMesh(DivSubMesh subMesh, ref Shape shape, ref Mesh mesh, ref List<uint> indexList)
+        static void AddSubMesh(DivSubMesh subMesh, GX2IndexFormat format, ref Shape shape, ref Mesh mesh, ref List<uint> indexList)
         {
-            bool isUshort = (mesh.IndexFormat == GX2IndexFormat.UInt16 ||
-                         mesh.IndexFormat == GX2IndexFormat.UInt16LittleEndian);
+            bool isUshort = (format == GX2IndexFormat.UInt16 ||
+                             format == GX2IndexFormat.UInt16LittleEndian);
 
             var stride = isUshort ? sizeof(ushort) : sizeof(uint);
             var offset = indexList.Count * stride;

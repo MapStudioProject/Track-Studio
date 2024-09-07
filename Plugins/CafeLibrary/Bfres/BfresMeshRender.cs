@@ -227,6 +227,8 @@ namespace CafeLibrary.Rendering
             GL.DepthFunc(DepthFunction.Lequal);
             GL.DepthRange(0.0, 1.0);
             GL.DepthMask(true);
+            GL.Disable(EnableCap.AlphaTest);
+            GL.AlphaFunc(AlphaFunction.Gequal, 0.5f);
         }
 
         int indexBuffer = -1;

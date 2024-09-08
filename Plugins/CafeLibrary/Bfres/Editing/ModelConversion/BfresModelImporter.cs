@@ -632,10 +632,7 @@ namespace CafeLibrary.ModelConversion
                 Center = new Vector3F(center.X, center.Y, center.Z),
                 Extent = new Vector3F(extent.X, extent.Y, extent.Z),
             };
-            float sphereRadius = System.Numerics.Vector3.Distance(center, subMesh.Max);
-
             shape.SubMeshBoundings.Add(boundingBox);
-            shape.RadiusArray.Add(sphereRadius);
         }
 
         private static float CalculateRadius(float horizontalLeg, float verticalLeg)

@@ -521,6 +521,9 @@ namespace CafeLibrary.ModelConversion
                 indexList.Clear();
                 var divided = PolygonDivision.Divide(vertices, indices);
 
+                //keep first bounding as it determines camera frustum
+                var boundingFull = fshp.SubMeshBoundings.FirstOrDefault();
+
                 fshp.SubMeshBoundingNodes.Clear();
                 fshp.SubMeshBoundings.Clear();
 
@@ -542,6 +545,8 @@ namespace CafeLibrary.ModelConversion
                         SubMeshCount = 1,
                     });
                 }
+                //Full bounding at the end
+                fshp.SubMeshBoundings.Add(boundingFull);
             }
             else 
             {

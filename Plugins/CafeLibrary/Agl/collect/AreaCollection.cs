@@ -157,36 +157,17 @@ namespace AGraphicsLibrary
             var combined = scaleMat * rotationMat * translateMat;
             var vertexHelper = new VertexBufferHelper(VertexData, ResFile.ByteOrder);
 
-            float minX = float.MaxValue;
-            float minY = float.MaxValue;
-            float minZ = float.MaxValue;
-            float maxX = float.MinValue;
-            float maxY = float.MinValue;
-            float maxZ = float.MinValue;
-            foreach (var attribute in vertexHelper.Attributes)
-            {
-                if (attribute.Name == "_p0")
-                {
-                    for (int i = 0; i < attribute.Data.Length; i++)
-                    {
-                        Vector3 vertexPosition = new Vector3(
-                         attribute.Data[i].X,
-                         attribute.Data[i].Y,
-                         attribute.Data[i].Z);
+            var center = new Vector3(
+                MeshData.SubMeshBoundings[0].Center.X,
+                MeshData.SubMeshBoundings[0].Center.Y,
+                MeshData.SubMeshBoundings[0].Center.Z);
+            var extent = new Vector3(
+                 MeshData.SubMeshBoundings[0].Extent.X,
+                 MeshData.SubMeshBoundings[0].Extent.Y,
+                 MeshData.SubMeshBoundings[0].Extent.Z);
 
-                        maxX = System.Math.Max(maxX, vertexPosition.X);
-                        maxY = System.Math.Max(maxY, vertexPosition.Y);
-                        maxZ = System.Math.Max(maxZ, vertexPosition.Z);
-
-                        minX = System.Math.Min(minX, vertexPosition.X);
-                        minY = System.Math.Min(minY, vertexPosition.Y);
-                        minZ = System.Math.Min(minZ, vertexPosition.Z);
-                    }
-                }
-            }
-
-            Vector3 min = new Vector3(minX, minY, minZ);
-            Vector3 max = new Vector3(maxX, maxY, maxZ);
+            Vector3 min = center - extent;
+            Vector3 max = center + extent;
             Min = Vector3.Transform(min, combined) * GLFrameworkEngine.GLContext.PreviewScale;
             Max = Vector3.Transform(max, combined) * GLFrameworkEngine.GLContext.PreviewScale;
         }

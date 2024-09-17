@@ -54,6 +54,19 @@ namespace CafeLibrary
             boneNode.CanRename = true;
             boneNode.OnHeaderRenamed += delegate
             {
+                //not changed
+                if (group.BoneAnimData.Name == boneNode.Header)
+                    return;
+
+                //Dupe name
+                if (anim.AnimGroups.Any(x => x.Name == boneNode.Header))
+                {
+                    TinyFileDialog.MessageBoxErrorOk($"Name {boneNode.Header} already exists!");
+                    //revert
+                    boneNode.Header = group.BoneAnimData.Name;
+                    return;
+                }
+
                 group.BoneAnimData.Name = boneNode.Header;
                 group.Name = boneNode.Header;
             };

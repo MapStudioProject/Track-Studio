@@ -11,6 +11,7 @@ using Toolbox.Core.Animations;
 using ImGuiNET;
 using static MapStudio.UI.AnimationTree;
 using System.Numerics;
+using static GLFrameworkEngine.RenderablePath;
 
 namespace CafeLibrary
 {
@@ -63,6 +64,19 @@ namespace CafeLibrary
             boneNode.CanRename = true;
             boneNode.OnHeaderRenamed += delegate
             {
+                //not changed
+                if (group.Name == boneNode.Header)
+                    return;
+
+                //Dupe name
+                if (anim.AnimGroups.Any(x => x.Name == boneNode.Header))
+                {
+                    TinyFileDialog.MessageBoxErrorOk($"Name {boneNode.Header} already exists!");
+                    //revert
+                    boneNode.Header = group.Name;
+                    return;
+                }
+
                 group.Name = boneNode.Header;
                 group.Track.Name = boneNode.Header;
             };

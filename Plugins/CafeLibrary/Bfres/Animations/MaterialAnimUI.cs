@@ -65,6 +65,19 @@ namespace CafeLibrary
             matNode.CanRename = true;
             matNode.OnHeaderRenamed += delegate
             {
+                //not changed
+                if (group.Name == matNode.Header)
+                    return;
+
+                //Dupe name
+                if (anim.MaterialAnim.MaterialAnimDataList.Any(x => x.Name == matNode.Header))
+                {
+                    TinyFileDialog.MessageBoxErrorOk($"Name {matNode.Header} already exists!");
+                    //revert
+                    matNode.Header = group.Name;
+                    return;
+                }
+
                 //Update bfres data
                 foreach (var mat in anim.MaterialAnim.MaterialAnimDataList)
                 {

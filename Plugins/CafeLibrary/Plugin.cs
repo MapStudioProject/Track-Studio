@@ -15,7 +15,8 @@ namespace CafeLibrary
 
         public Plugin()
         {
-           // UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Bfres File", typeof(BFRES));
+            UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Bfres File (Switch)", typeof(BFRES));
+            UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Bfres File (WiiU)", typeof(BFRES));
 
             //Load plugin specific data. This is where the game path is stored.
             if (!PluginConfig.init)

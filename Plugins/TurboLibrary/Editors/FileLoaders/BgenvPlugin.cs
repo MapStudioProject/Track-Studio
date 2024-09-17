@@ -40,7 +40,7 @@ namespace TurboLibrary
             return false;
         }
 
-        public override bool CreateNew()
+        public override bool CreateNew(string menu_name)
         {
             FileInfo = new File_Info();
             FileInfo.FileName = "course_model.bgenv";

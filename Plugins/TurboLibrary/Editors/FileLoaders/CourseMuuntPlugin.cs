@@ -14,6 +14,7 @@ using TurboLibrary.CollisionEditor;
 using CafeLibrary.ModelConversion;
 using CafeLibrary;
 using ImGuiNET;
+using System.Diagnostics;
 
 namespace TurboLibrary
 {
@@ -98,7 +99,7 @@ namespace TurboLibrary
 
         //File roots
 
-        public override bool CreateNew()
+        public override bool CreateNew(string menu_name)
         {
             bool isSwitch = IsNewSwitch;
 
@@ -279,7 +280,7 @@ namespace TurboLibrary
             if (mapResources.BfresEditor == null)
             {
                 MapLoader.BfresEditor = new BFRES();
-                MapLoader.BfresEditor.CreateNew();
+                MapLoader.BfresEditor.CreateNew(course.IsSwitch ? "Switch" : "WiiU");
                 MapLoader.BfresEditor.FileInfo.FileName = "course_model.szs";
                 MapLoader.BfresEditor.Root.Header = "course_model.szs";
             }
@@ -342,7 +343,7 @@ namespace TurboLibrary
 
             //Make sure the collision render isn't null
             if (MapLoader.CollisionFile.CollisionRender == null)
-                MapLoader.CollisionFile.CreateNew();
+                MapLoader.CollisionFile.CreateNew(course.IsSwitch ? "Switch" : "WiiU");
 
             //Load a custom map object category for the asset handler.
             Workspace.AddAssetCategory(new AssetViewMapObject());

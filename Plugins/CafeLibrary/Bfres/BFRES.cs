@@ -104,9 +104,14 @@ namespace CafeLibrary
                 TinyFileDialog.MessageBoxInfoOk($"A texture pattern animation must be active to insert keys! Select one to activate.");
         }
 
-        public override bool CreateNew()
+        public override bool CreateNew(string menu_name = "WiiU")
         {
             ResFile = new ResFile();
+            if (!menu_name.Contains("WiiU"))
+            {
+                ResFile.ChangePlatform(true, 4096, 0, 5, 0, 3,
+                  new BfresLibrary.PlatformConverters.ConverterHandle());
+            }
 
             FileInfo = new File_Info();
             FileInfo.FilePath = "NewFile";

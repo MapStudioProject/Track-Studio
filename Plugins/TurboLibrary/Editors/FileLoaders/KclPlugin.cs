@@ -53,15 +53,17 @@ namespace TurboLibrary
 
         public bool UpdateTransformedVertices = false;
 
-        public override bool CreateNew()
+        public override bool CreateNew(string menu_name)
         {
             Root.Header = "course.kcl";
             Root.Tag = this;
 
             FileInfo.FileName = "course.kcl";
 
+            bool bigEndian = menu_name.Contains("WiiU");
+
             //Empty file
-            KclFile = new KCLFile(new List<Triangle>(), FileVersion.Version2, true);
+            KclFile = new KCLFile(new List<Triangle>(), FileVersion.Version2, bigEndian);
             UpdateCollisionFile(KclFile);
 
             return true;

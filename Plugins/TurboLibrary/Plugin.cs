@@ -18,7 +18,8 @@ namespace TurboLibrary
         {
             CafeLibrary.Rendering.BfresLoader.TargetShader = typeof(CafeLibrary.Rendering.TurboNXRender);
             UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Custom Track", typeof(CourseMuuntPlugin));
-            //UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Kcl File", typeof(KclPlugin));
+            UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Kcl File (WiiU)", typeof(KclPlugin));
+            UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Kcl File (Switch)", typeof(KclPlugin));
 
             //Load plugin specific data. This is where the game path is stored.
             if (!PluginConfig.Init)

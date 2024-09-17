@@ -66,7 +66,7 @@ namespace TurboLibrary.MuuntEditor
         {
             BfresEditor = new BFRES();
             BfresEditor.Root.IsExpanded = true;
-            BfresEditor.CreateNew();
+            BfresEditor.CreateNew(isSwitch ? "Switch" : "WiiU");
             BfresEditor.FileInfo.FileName = "course_model.szs";
             BfresEditor.Root.Header = "course_model.szs";
             BfresEditor.ResFile.Name = "course_model.szs";
@@ -81,7 +81,7 @@ namespace TurboLibrary.MuuntEditor
                 BfresEditor.ModelFolder.ImportNewModel(model_path);
 
             CollisionFile = new KclPlugin();
-            CollisionFile.CreateNew();
+            CollisionFile.CreateNew(isSwitch ? "Switch" : "WiiU");
             CollisionFile.CollisionRender.IsVisible = false;
             plugin.AddRender(CollisionFile.CollisionRender);
             if (isSwitch)

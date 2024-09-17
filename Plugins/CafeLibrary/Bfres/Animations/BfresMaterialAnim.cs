@@ -40,18 +40,33 @@ namespace CafeLibrary.Rendering
           //  editor.LoadEditor(this);
         }
 
+        private ResDict<MaterialAnim> AnimDict;
+
         public BfresMaterialAnim() { }
 
-        public BfresMaterialAnim(ResFile resFile, MaterialAnim anim, string name)
+        public BfresMaterialAnim(ResFile resFile, ResDict<MaterialAnim> dict, MaterialAnim anim, string name)
         {
             Root = new AnimationTree.AnimNode(this);
             ResFile = resFile;
+            AnimDict = dict;
             ModelName = name;
             MaterialAnim = anim;
             UINode = new NodeBase(anim.Name) { Tag = this };
             UINode.CanRename = true;
             UINode.OnHeaderRenamed += delegate
             {
+                //not changed
+                if (anim.Name == UINode.Header)
+                    return;
+
+                //Dupe name
+                if (AnimDict.ContainsKey(UINode.Header))
+                {
+                    TinyFileDialog.MessageBoxErrorOk($"Name {UINode.Header} already exists!");
+                    //revert
+                    UINode.Header = anim.Name;
+                    return;
+                }
                 OnNameChanged(UINode.Header);
             };
             UINode.Icon = '\uf0e7'.ToString();
@@ -110,20 +125,10 @@ namespace CafeLibrary.Rendering
             string previousName = MaterialAnim.Name;
             MaterialAnim.Name = newName;
 
-            if (ResFile.ShaderParamAnims.ContainsKey(previousName))
+            if (AnimDict.ContainsKey(previousName))
             {
-                ResFile.ShaderParamAnims.RemoveKey(previousName);
-                ResFile.ShaderParamAnims.Add(MaterialAnim.Name, MaterialAnim);
-            }
-            if (ResFile.ColorAnims.ContainsKey(previousName))
-            {
-                ResFile.ColorAnims.RemoveKey(previousName);
-                ResFile.ColorAnims.Add(MaterialAnim.Name, MaterialAnim);
-            }
-            if (ResFile.TexSrtAnims.ContainsKey(previousName))
-            {
-                ResFile.TexSrtAnims.RemoveKey(previousName);
-                ResFile.TexSrtAnims.Add(MaterialAnim.Name, MaterialAnim);
+                AnimDict.RemoveKey(previousName);
+                AnimDict.Add(MaterialAnim.Name, MaterialAnim);
             }
         }
 

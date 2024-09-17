@@ -173,28 +173,28 @@ namespace CafeLibrary
 
         private void AddColorAnimation(MaterialAnim anim)
         {
-            var fmaa = new BfresMaterialAnim(ResFile, anim, BfresWrapper.Renderer.Name);
+            var fmaa = new BfresMaterialAnim(ResFile, ResFile.ColorAnims, anim, BfresWrapper.Renderer.Name);
             BfresWrapper.Renderer.MaterialAnimations.Add(fmaa);
             ColorParamAnimsFolder.AddChild(fmaa.UINode);
         }
 
         private void AddShaderParamAnimation(MaterialAnim anim)
         {
-            var fmaa = new BfresMaterialAnim(ResFile, anim, BfresWrapper.Renderer.Name);
+            var fmaa = new BfresMaterialAnim(ResFile, ResFile.ShaderParamAnims, anim, BfresWrapper.Renderer.Name);
             BfresWrapper.Renderer.MaterialAnimations.Add(fmaa);
             ShaderParamAnimsFolder.AddChild(fmaa.UINode);
         }
 
         private void AddTextureSRTAnimation(MaterialAnim anim)
         {
-            var fmaa = new BfresMaterialAnim(ResFile, anim, BfresWrapper.Renderer.Name);
+            var fmaa = new BfresMaterialAnim(ResFile, ResFile.TexSrtAnims, anim, BfresWrapper.Renderer.Name);
             BfresWrapper.Renderer.MaterialAnimations.Add(fmaa);
             TexSRTParamAnimsFolder.AddChild(fmaa.UINode);
         }
 
         private void AddTexturePatternAnimation(MaterialAnim anim)
         {
-            var fmaa = new BfresMaterialAnim(ResFile, anim, BfresWrapper.Renderer.Name);
+            var fmaa = new BfresMaterialAnim(ResFile, ResFile.TexPatternAnims, anim, BfresWrapper.Renderer.Name);
             BfresWrapper.Renderer.MaterialAnimations.Add(fmaa);
             TexPatternAnimsFolder.AddChild(fmaa.UINode);
         }

@@ -516,14 +516,14 @@ namespace TrackStudio
             foreach (var file in UIManager.CreateNewEditors)
             {
                 if (ImGui.Selectable(file.Key))
-                    UIManager.ActionExecBeforeUIDraw = () => { CreateNewProject(file.Value); };
+                    UIManager.ActionExecBeforeUIDraw = () => { CreateNewProject(file.Key, file.Value); };
             }
         }
 
-        private void CreateNewProject(Type editor)
+        private void CreateNewProject(string name, Type editor)
         {
             var workspace = new Workspace(GlobalSettings, GetWorkspaceID());
-            workspace.CreateNewProject(editor, (bool created) =>
+            workspace.CreateNewProject(editor, name, (bool created) =>
             {
                 if (created)
                     Workspaces.Add(workspace);

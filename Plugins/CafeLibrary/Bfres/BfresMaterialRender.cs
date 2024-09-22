@@ -557,7 +557,7 @@ namespace CafeLibrary.Rendering
                     name = Material.AnimatedSamplers[sampler];
 
                 string uniformName = GetUniformName(sampler);
-                if (sampler == "_a0")
+                if (sampler == "_a0" || sampler == "_albedo0")
                 {
                     uniformName = "u_TextureAlbedo0";
                     shader.SetBoolToInt("hasDiffuseMap", true);

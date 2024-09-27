@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-	  <OutputPath>..\..\Track Studio\bin\Debug\net5.0\Plugins\</OutputPath>
+	  <OutputPath>..\..\Track Studio\bin\Debug\net8.0\Plugins\</OutputPath>
   </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-		<OutputPath>..\..\Track Studio\bin\Release\net5.0\Plugins\</OutputPath>
+		<OutputPath>..\..\Track Studio\bin\Release\net8.0\Plugins\</OutputPath>
 	</PropertyGroup>
 	<ItemGroup>
     <PackageReference Include="BCnEncoder.Net" Version="2.1.0" />

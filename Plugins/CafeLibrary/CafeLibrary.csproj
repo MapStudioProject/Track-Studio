@@ -8,13 +8,13 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<OutputPath>..\..\Track Studio\bin\Debug\net5.0\Plugins\</OutputPath>
+		<OutputPath>..\..\Track Studio\bin\Debug\net8.0\Plugins\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Optimize>false</Optimize>
-		<OutputPath>..\..\Track Studio\bin\Release\net5.0\Plugins\</OutputPath>
+		<OutputPath>..\..\Track Studio\bin\Release\net8.0\Plugins\</OutputPath>
 	</PropertyGroup>
   <ItemGroup>
     <Reference Include="AampLibraryCSharp">

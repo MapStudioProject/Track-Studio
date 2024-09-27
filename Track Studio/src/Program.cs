@@ -8,6 +8,7 @@ using GLFrameworkEngine;
 using System.Reflection;
 using MapStudio.UI;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace TrackStudio
 {
@@ -48,7 +49,8 @@ namespace TrackStudio
             var asssemblyVersion = GetRepoCompileDate(Runtime.ExecutableDir);
 
             var wnd = new UIFramework.Framework(new MainWindow(argumentHandle), mode, asssemblyVersion);
-            wnd.Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                wnd.Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
             wnd.VSync = OpenTK.VSyncMode.On;
             wnd.Run();
         }

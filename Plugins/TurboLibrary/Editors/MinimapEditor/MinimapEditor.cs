@@ -11,6 +11,7 @@ using GLFrameworkEngine;
 using OpenTK.Graphics.OpenGL;
 using OpenTK;
 using System.IO;
+using SixLabors.ImageSharp;
 
 namespace TurboLibrary.MuuntEditor
 {
@@ -189,7 +190,7 @@ namespace TurboLibrary.MuuntEditor
                     dlg.FileName = "course_maptexture.png";
                     if (dlg.ShowDialog())
                     {
-                        thumb.Save(dlg.FilePath);
+                        thumb.SaveAsPng(dlg.FilePath);
                     }
                     Renderer.IsVisible = true;
                 }

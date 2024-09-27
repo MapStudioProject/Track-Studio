@@ -5,6 +5,8 @@ using System.IO;
 using System.Drawing;
 using Toolbox.Core;
 using GLFrameworkEngine;
+using SixLabors.ImageSharp.PixelFormats;
+using SixLabors.ImageSharp;
 
 namespace CafeLibrary.Rendering
 {
@@ -25,15 +27,15 @@ namespace CafeLibrary.Rendering
             texture.SaveBitmap($"{TextueCacheFolder}/{dir}/{texture.Name}.png", new TextureExportSettings());
         }
 
-        public static GLTexture2D LoadTextureDecompressed(Bitmap image, bool useSRGB = false)
+        public static GLTexture2D LoadTextureDecompressed(Image<Rgba32> image, bool useSRGB = false)
         {
-            return GLTexture2D.FromBitmap(new Bitmap(image));
+            return GLTexture2D.FromBitmap(image);
         }
 
         public static GLTexture2D LoadTextureFromDisk(string dir, string name)
         {
             var path = $"{TextueCacheFolder}/{dir}/{name}.png";
-            return GLTexture2D.FromBitmap(new Bitmap(path));
+            return GLTexture2D.FromBitmap(path);
         }
     }
 }

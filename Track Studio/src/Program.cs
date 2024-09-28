@@ -51,6 +51,13 @@ namespace TrackStudio
             var wnd = new UIFramework.Framework(new MainWindow(argumentHandle), mode, asssemblyVersion);
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
                 wnd.Icon = System.Drawing.Icon.ExtractAssociatedIcon(Assembly.GetExecutingAssembly().Location);
+            else if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
+            {
+                var assemblyDir = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+                wnd.Icon = new System.Drawing.Icon(
+                    System.IO.File.Open(Path.Combine(assemblyDir, "Icon.ico"), FileMode.Open), 256, 256);
+            }
+
             wnd.VSync = OpenTK.VSyncMode.On;
             wnd.Run();
         }

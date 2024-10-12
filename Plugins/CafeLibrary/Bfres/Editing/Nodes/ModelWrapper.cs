@@ -823,7 +823,7 @@ namespace CafeLibrary
         /// Checks if the material is valid or not. 
         /// Determines based on having empty render data or not.
         /// </summary>
-        public bool IsMaterialInvalid => Material != null && Material.RenderInfos.Count == 0 && Material.ShaderAssign != null;
+        public bool IsMaterialInvalid = true;
 
         public string ShaderArchiveName { get; set; }
         public string ShaderModelName { get; set; }

@@ -32,7 +32,7 @@ namespace CafeLibrary
 
             //Check for combined
             var combineUVs = fmdl.Model.Materials.Values.Any(x => x.ShaderAssign != null &&
-                                x.ShaderAssign.AttribAssigns.ContainsKey("_g3d_02_u0_u1"));
+                                x.ShaderAssign.AttribAssigns.ContainsValue("_g3d_02_u0_u1"));
 
             string DefaultPreset = "";
             bool isCourse = fmdl.ResFile.Name == "course_model.szs";

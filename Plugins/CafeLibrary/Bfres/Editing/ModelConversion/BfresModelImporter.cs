@@ -1002,9 +1002,9 @@ namespace CafeLibrary.ModelConversion
                         {
                             attributes.Add(new VertexBufferHelperAttrib()
                             {
-                                Name = $"_u{i}",
+                                Name = $"_g3d_02_u0_u1",
                                 Data = TexCoords[i],
-                                Format = format,
+                                Format = GX2AttribFormat.Format_16_16_16_16_Single,
                             });
                         }
                         else if (i == TexCoords.Length - 1) //else check if last element

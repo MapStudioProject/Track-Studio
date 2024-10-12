@@ -81,6 +81,8 @@ namespace CafeLibrary.ModelConversion
             var bitangents = TryGetValues(helper, "_b0");
             var weights0 = TryGetValues(helper, "_w0");
             var indices0 = TryGetValues(helper, "_i0");
+            var texCoordsCombined1 = TryGetValues(helper, "_g3d_02_u0_u1");
+            var texCoordsCombined2 = TryGetValues(helper, "_g3d_02_u2_u1");
 
             //Get the position attribute and use the length for the vertex count
             for (int v = 0; v < positions.Length; v++)
@@ -97,6 +99,13 @@ namespace CafeLibrary.ModelConversion
                     for (int i = 0; i < texCoords.Length; i++)
                         vertex.SetUV(texCoords[i][v].X, 1 - texCoords[i][v].Y, i);
                 }
+
+                if (texCoordsCombined1.Length > 0)
+                {
+                    vertex.SetUV(texCoordsCombined1[v].X, 1 - texCoordsCombined1[v].Y, 0);
+                    vertex.SetUV(texCoordsCombined1[v].Z, 1 - texCoordsCombined1[v].W, 1);
+                }
+
                 if (colors.Length > 0)
                 {
                     for (int i = 0; i < colors.Length; i++)

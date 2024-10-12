@@ -30,6 +30,10 @@ namespace CafeLibrary
             Settings = settings;
             PresetWindow.LoadPresets(fmdl.ResFile.IsPlatformSwitch);
 
+            //Check for combined
+            var combineUVs = fmdl.Model.Materials.Values.Any(x => x.ShaderAssign != null &&
+                                x.ShaderAssign.AttribAssigns.ContainsKey("_g3d_02_u0_u1"));
+
             string DefaultPreset = "";
             bool isCourse = fmdl.ResFile.Name == "course_model.szs";
             bool isSwitch = fmdl.ResFile.IsPlatformSwitch;
@@ -49,6 +53,7 @@ namespace CafeLibrary
                 var meshSettings = new ModelImportSettings.MeshSettings();
                 meshSettings.MeshData = mesh;
                 meshSettings.Name = mesh.Name;
+                meshSettings.CombineUVs = combineUVs;
                 meshSettings.MaterialName = "";
                 meshSettings.SkinCount = mesh.Vertices.Max(x => x.Envelope.Weights.Count);
                 meshSettings.Normal.Enable = mesh.HasNormals;

@@ -56,6 +56,8 @@ namespace CafeLibrary
             public string ImportedMaterial;
             public BfresLibrary.Material MaterialInstance;
 
+            public bool CombineUVs;
+
             public bool UseCustomAttributeSettings;
 
             public string PresetName { get; set; }

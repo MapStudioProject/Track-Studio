@@ -185,6 +185,7 @@ namespace CafeLibrary.Rendering
             { "_c", 4 },
             { "_w", 4 },
             { "_i", 4 },
+            { "_g3d_02_u0_u1", 4 },
         };
 
         public class VaoAttribute
@@ -219,6 +220,7 @@ namespace CafeLibrary.Rendering
                         case "_c0": return GLConstants.VColor;
                         case "_t0": return GLConstants.VTangent;
                         case "_b0": return GLConstants.VBitangent;
+                        case "_g3d_02_u0_u1": return GLConstants.VTexCoord0;
                         default:
                             return name;
                     }

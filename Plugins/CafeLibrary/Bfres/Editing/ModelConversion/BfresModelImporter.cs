@@ -881,10 +881,21 @@ namespace CafeLibrary.ModelConversion
                     if (i >= TexCoords.Length)
                         continue;
 
-                    TexCoords[i][v] = new Vector4F(
-                        vertex.UVs[i].X,
-                        1 - vertex.UVs[i].Y,
-                        0, 0);
+                    if (settings.CombineUVs && i % 2 == 0 && i < vertex.UVs.Count - 1)
+                    {
+                        TexCoords[i][v] = new Vector4F(
+                               vertex.UVs[i].X,
+                           1 - vertex.UVs[i].Y,
+                               vertex.UVs[i + 1].X,
+                           1 - vertex.UVs[i + 1].Y);
+                    }
+                    else
+                    {
+                        TexCoords[i][v] = new Vector4F(
+                            vertex.UVs[i].X,
+                            1 - vertex.UVs[i].Y,
+                            0, 0);
+                    }
                 }
 
                 for (int i = 0; i < vertex.Colors?.Count; i++)
@@ -984,12 +995,37 @@ namespace CafeLibrary.ModelConversion
 
                 if (settings.UseTexCoord[i])
                 {
-                    attributes.Add(new VertexBufferHelperAttrib()
+                    if (settings.CombineUVs)
                     {
-                        Name = $"_u{i}",
-                        Data = TexCoords[i],
-                        Format = format,
-                    });
+                        //Combine and only use even coords
+                        if (i % 2 == 0 && i < TexCoords.Length - 1)
+                        {
+                            attributes.Add(new VertexBufferHelperAttrib()
+                            {
+                                Name = $"_u{i}",
+                                Data = TexCoords[i],
+                                Format = format,
+                            });
+                        }
+                        else if (i == TexCoords.Length - 1) //else check if last element
+                        {
+                            attributes.Add(new VertexBufferHelperAttrib()
+                            {
+                                Name = $"_u{i}",
+                                Data = TexCoords[i],
+                                Format = format,
+                            });
+                        }
+                    }
+                    else
+                    {
+                        attributes.Add(new VertexBufferHelperAttrib()
+                        {
+                            Name = $"_u{i}",
+                            Data = TexCoords[i],
+                            Format = format,
+                        });
+                    }
                 }
             }
 

@@ -109,6 +109,8 @@ namespace CafeLibrary
                 new MenuItemModel(""),
                 new MenuItemModel("Rename", () => this.ActivateRename = true),
                 new MenuItemModel(""),
+                new MenuItemModel("Add Camera Anim", AddCameraAnim),
+                new MenuItemModel(""),
                 new MenuItemModel("Delete", DeleteAction)
                 };
             }
@@ -141,6 +143,16 @@ namespace CafeLibrary
                     SceneAnim.Name = this.Header;
                     Reload();
                 }
+            }
+
+            private void AddCameraAnim()
+            {
+                var anim = new CameraAnim() { Name = "CameraAnim" };
+                anim.Name = Utils.RenameDuplicateString(anim.Name, SceneAnim.CameraAnims.Keys.Select(x => x).ToList());
+                SceneAnim.CameraAnims.Add(anim.Name, anim);
+
+                var an = new BfresCameraAnim(ResFile, SceneAnim, anim);
+                this.AddChild(an.UINode);
             }
 
             private void DeleteAction()

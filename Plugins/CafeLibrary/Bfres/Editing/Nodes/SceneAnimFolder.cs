@@ -109,7 +109,8 @@ namespace CafeLibrary
                 new MenuItemModel(""),
                 new MenuItemModel("Rename", () => this.ActivateRename = true),
                 new MenuItemModel(""),
-                new MenuItemModel("Add Camera Anim", AddCameraAnim),
+                new MenuItemModel("Add Camera Anim (Lookat)",() => AddCameraAnim(true)),
+                new MenuItemModel("Add Camera Anim (Euler)",() => AddCameraAnim(true)),
                 new MenuItemModel(""),
                 new MenuItemModel("Delete", DeleteAction)
                 };
@@ -145,10 +146,11 @@ namespace CafeLibrary
                 }
             }
 
-            private void AddCameraAnim()
+            private void AddCameraAnim(bool isEuler)
             {
                 var anim = new CameraAnim() { Name = "CameraAnim",
-                    Flags = CameraAnimFlags.EulerZXY | CameraAnimFlags.Perspective
+                    Flags = CameraAnimFlags.Perspective,
+                    FrameCount = 100,
                     BaseData = new CameraAnimData()
                 {
                         ClipNear = 1.0f,
@@ -159,6 +161,9 @@ namespace CafeLibrary
                         AspectRatio = 1.4999471f, //16:9
                         Twist = 0.0f,
                 }};
+                if (isEuler)
+                    anim.Flags |= CameraAnimFlags.EulerZXY;
+
                 anim.Name = Utils.RenameDuplicateString(anim.Name, SceneAnim.CameraAnims.Keys.Select(x => x).ToList());
                 SceneAnim.CameraAnims.Add(anim.Name, anim);
 

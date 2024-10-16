@@ -117,7 +117,7 @@ namespace CafeLibrary.Rendering
         {
             var dlg = new ImguiFileDialog();
             dlg.SaveDialog = true;
-            dlg.FileName = $"{CameraAnim.Name}.json";
+            dlg.FileName = $"{CameraAnim.Name}.bcam";
             dlg.AddFilter(".bcam", ".bcam");
         //    dlg.AddFilter(".json", ".json");
 

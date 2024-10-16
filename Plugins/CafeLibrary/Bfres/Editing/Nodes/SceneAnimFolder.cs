@@ -9,7 +9,6 @@ using CafeLibrary.Rendering;
 using Toolbox.Core;
 using MapStudio.UI;
 using Toolbox.Core.Animations;
-using FinalFantasy16;
 
 namespace CafeLibrary
 {

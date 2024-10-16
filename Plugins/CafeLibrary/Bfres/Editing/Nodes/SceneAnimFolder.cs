@@ -109,7 +109,7 @@ namespace CafeLibrary
                 new MenuItemModel(""),
                 new MenuItemModel("Rename", () => this.ActivateRename = true),
                 new MenuItemModel(""),
-                new MenuItemModel("Add Camera Anim (Lookat)",() => AddCameraAnim(true)),
+                new MenuItemModel("Add Camera Anim (Lookat)",() => AddCameraAnim(false)),
                 new MenuItemModel("Add Camera Anim (Euler)",() => AddCameraAnim(true)),
                 new MenuItemModel(""),
                 new MenuItemModel("Delete", DeleteAction)

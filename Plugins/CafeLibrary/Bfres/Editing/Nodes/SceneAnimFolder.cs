@@ -147,7 +147,18 @@ namespace CafeLibrary
 
             private void AddCameraAnim()
             {
-                var anim = new CameraAnim() { Name = "CameraAnim" };
+                var anim = new CameraAnim() { Name = "CameraAnim",
+                    Flags = CameraAnimFlags.EulerZXY | CameraAnimFlags.Perspective
+                    BaseData = new CameraAnimData()
+                {
+                        ClipNear = 1.0f,
+                        ClipFar = 100000f,
+                        FieldOfView = 0.6981317f,
+                        Position = new Syroot.Maths.Vector3F(),
+                        Rotation = new Syroot.Maths.Vector3F(),
+                        AspectRatio = 1.4999471f, //16:9
+                        Twist = 0.0f,
+                }};
                 anim.Name = Utils.RenameDuplicateString(anim.Name, SceneAnim.CameraAnims.Keys.Select(x => x).ToList());
                 SceneAnim.CameraAnims.Add(anim.Name, anim);
 

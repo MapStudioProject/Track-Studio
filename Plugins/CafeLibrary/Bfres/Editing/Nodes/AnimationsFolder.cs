@@ -8,6 +8,7 @@ using Toolbox.Core.Animations;
 using Toolbox.Core;
 using BfresLibrary;
 using CafeLibrary.Rendering;
+using static CafeLibrary.SceneAnimFolder;
 
 namespace CafeLibrary
 {
@@ -36,6 +37,7 @@ namespace CafeLibrary
             ContextMenus.Add(new MenuItemModel("New Tex SRT Animation", AddTexSRTAnim));
             ContextMenus.Add(new MenuItemModel("New Color Animation", AddColorAnim));
             ContextMenus.Add(new MenuItemModel("New Bone Vis Animation", AddVisAnimation));
+            ContextMenus.Add(new MenuItemModel("New Scene Animation", AddSceneAnimation));
 
             Reload();
         }
@@ -121,6 +123,17 @@ namespace CafeLibrary
             if (BoneVisAnimsFolder.Parent == null) AddChild(BoneVisAnimsFolder);
         }
 
+        private void AddSceneAnimation()
+        {
+            var anim = new SceneAnim() { Name = "SceneAnim" };
+            anim.Name = Utils.RenameDuplicateString(anim.Name, ResFile.SceneAnims.Keys.Select(x => x).ToList());
+            ResFile.SceneAnims.Add(anim.Name, anim);
+
+            AddSceneAnimation(anim);
+
+            if (SceneAnimsFolder.Parent == null) AddChild(SceneAnimsFolder);
+        }
+
         public void OnSave()
         {
             foreach (var anim in SkeletalAnimsFolder.Children)
@@ -135,6 +148,8 @@ namespace CafeLibrary
                 ((BfresMaterialAnim)anim.Tag).OnSave();
             foreach (var anim in BoneVisAnimsFolder.Children)
                 ((BfresVisibilityAnim)anim.Tag).OnSave();
+            foreach (var anim in SceneAnimsFolder.Children)
+                ((SceneAnimNode)anim).OnSave();
         }
 
         public void Reload()
@@ -215,7 +230,7 @@ namespace CafeLibrary
 
         private void AddSceneAnimation(SceneAnim anim)
         {
-            NodeBase sceneAnimNode = new NodeBase(anim.Name);
+            SceneAnimNode sceneAnimNode = new SceneAnimNode(ResFile, anim);
             sceneAnimNode.Tag = anim;
 
             foreach (var camAnim in anim.CameraAnims.Values)

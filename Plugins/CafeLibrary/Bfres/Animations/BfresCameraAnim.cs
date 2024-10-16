@@ -14,7 +14,7 @@ using UIFramework;
 
 namespace CafeLibrary.Rendering
 {
-    public class BfresCameraAnim : CameraAnimation, IEditableAnimation
+    public class BfresCameraAnim : CameraAnimation, IEditableAnimation, IContextMenu
     {
         public NodeBase UINode;
 
@@ -25,6 +25,8 @@ namespace CafeLibrary.Rendering
         public CameraAnim CameraAnim;
         public SceneAnim SceneAnim;
 
+        private int Hash;
+
         public BfresCameraAnim(ResFile resFile, SceneAnim sceneAnim, CameraAnim anim)
         {
             SceneAnim = sceneAnim;
@@ -34,11 +36,17 @@ namespace CafeLibrary.Rendering
             UINode = new NodeBase(anim.Name);
             UINode.Tag = this;
             UINode.Icon = '\uf03d'.ToString();
-            
+            UINode.CanRename = true;
+            UINode.OnHeaderRenamed += delegate
+            {
+                OnRenamed(UINode.Header);
+            };
+
             CanPlay = false; //Default all animations to not play unless toggled in list
             Reload(anim);
 
             Root = CameraAnimUI.ReloadTree(Root, this, sceneAnim);
+            Hash = CameraAnimConverter.CalculateHash(this);
         }
 
         public BfresCameraAnim(CameraAnim anim)
@@ -50,8 +58,109 @@ namespace CafeLibrary.Rendering
             Reload(anim);
         }
 
+        public void OnRenamed(string name)
+        {
+            //not changed
+            if (CameraAnim.Name == name)
+                return;
+
+            //Dupe name
+            if (SceneAnim.CameraAnims.ContainsKey(UINode.Header))
+            {
+                TinyFileDialog.MessageBoxErrorOk($"Name {UINode.Header} already exists!");
+                //revert
+                UINode.Header = CameraAnim.Name;
+                return;
+            }
+
+            string previousName = CameraAnim.Name;
+
+            Root.Header = name;
+            CameraAnim.Name = name;
+
+            //Update dictionary
+            if (SceneAnim.CameraAnims.ContainsKey(previousName))
+            {
+                SceneAnim.CameraAnims.RemoveKey(previousName);
+                SceneAnim.CameraAnims.Add(CameraAnim.Name, CameraAnim);
+            }
+        }
+
+        public void OnSave()
+        {
+            CameraAnim.FrameCount = (int)this.FrameCount;
+
+            var hash = CameraAnimConverter.CalculateHash(this);
+            Console.WriteLine($"Bone vis hash {hash} current hash {Hash}");
+            if (hash != Hash)
+            {
+                CameraAnimConverter.ConvertAnimation(this, CameraAnim);
+                //update with new hash.
+                Hash = hash;
+            }
+        }
+
+        public MenuItemModel[] GetContextMenuItems()
+        {
+            return new MenuItemModel[]
+            {
+                new MenuItemModel("Export", ExportAction),
+                new MenuItemModel("Replace", ReplaceAction),
+                new MenuItemModel(""),
+                new MenuItemModel("Rename", () => UINode.ActivateRename = true),
+                new MenuItemModel(""),
+                new MenuItemModel("Delete", DeleteAction)
+            };
+        }
+
+        private void ExportAction()
+        {
+            var dlg = new ImguiFileDialog();
+            dlg.SaveDialog = true;
+            dlg.FileName = $"{CameraAnim.Name}.json";
+            dlg.AddFilter(".bfbvi", ".bfbvi");
+            dlg.AddFilter(".json", ".json");
+
+            if (dlg.ShowDialog())
+            {
+                OnSave();
+                CameraAnim.Export(dlg.FilePath, ResFile);
+            }
+        }
+
+        private void ReplaceAction()
+        {
+            var dlg = new ImguiFileDialog();
+            dlg.SaveDialog = false;
+            dlg.FileName = $"{CameraAnim.Name}.json";
+            dlg.AddFilter(".bfbvi", ".bfbvi");
+            dlg.AddFilter(".json", ".json");
+
+            if (dlg.ShowDialog())
+            {
+                CameraAnim.Import(dlg.FilePath, ResFile);
+                CameraAnim.Name = this.Name;
+
+                Reload(CameraAnim);
+            }
+        }
+
+        private void DeleteAction()
+        {
+            int result = TinyFileDialog.MessageBoxInfoYesNo("Are you sure you want to remove these animations? Operation cannot be undone.");
+            if (result != 1)
+                return;
+
+            UINode.Parent.Children.Remove(UINode);
+
+            if (this.SceneAnim.CameraAnims.ContainsValue(this.CameraAnim))
+                this.SceneAnim.CameraAnims.Remove(this.CameraAnim);
+        }
+
         public override void NextFrame(GLContext context)
         {
+            return;
+
             var group = AnimGroups[0] as CameraAnimGroup;
             var camera = context.Camera;
 
@@ -166,6 +275,23 @@ namespace CafeLibrary.Rendering
 
             public bool IsLookat = false;
             public bool IsOrtho = false;
+
+            public override List<STAnimationTrack> GetTracks()
+            {
+                List<STAnimationTrack> tracks = new List<STAnimationTrack>();
+                tracks.Add(this.PositionX);
+                tracks.Add(this.PositionY);
+                tracks.Add(this.PositionZ);
+                tracks.Add(this.RotationX);
+                tracks.Add(this.RotationY);
+                tracks.Add(this.RotationZ);
+                tracks.Add(this.ClipFar);
+                tracks.Add(this.ClipNear);
+                tracks.Add(this.AspectRatio);
+                tracks.Add(this.FieldOfView);
+                tracks.Add(this.Twist);
+                return tracks;
+            }
         }
     }
 }

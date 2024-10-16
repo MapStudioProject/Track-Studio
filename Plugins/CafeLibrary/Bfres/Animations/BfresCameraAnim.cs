@@ -118,8 +118,8 @@ namespace CafeLibrary.Rendering
             var dlg = new ImguiFileDialog();
             dlg.SaveDialog = true;
             dlg.FileName = $"{CameraAnim.Name}.json";
-            dlg.AddFilter(".bfbvi", ".bfbvi");
-            dlg.AddFilter(".json", ".json");
+            dlg.AddFilter(".bcam", ".bcam");
+        //    dlg.AddFilter(".json", ".json");
 
             if (dlg.ShowDialog())
             {
@@ -133,8 +133,8 @@ namespace CafeLibrary.Rendering
             var dlg = new ImguiFileDialog();
             dlg.SaveDialog = false;
             dlg.FileName = $"{CameraAnim.Name}.json";
-            dlg.AddFilter(".bfbvi", ".bfbvi");
-            dlg.AddFilter(".json", ".json");
+            dlg.AddFilter(".bcam", ".bcam");
+         //   dlg.AddFilter(".json", ".json");
 
             if (dlg.ShowDialog())
             {

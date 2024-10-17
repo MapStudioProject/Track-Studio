@@ -989,43 +989,36 @@ namespace CafeLibrary.ModelConversion
                 });
             }
 
-            for (int i = 0; i < TexCoords.Length; i++)
+            if (settings.CombineUVs && TexCoords.Length > 0)
             {
-                var format = i == 0 ? settings.UVs.Format : settings.UV_Layers.Format;
-
-                if (settings.UseTexCoord[i])
+                //Combine types will use 2 layer types
+                attributes.Add(new VertexBufferHelperAttrib()
                 {
-                    if (settings.CombineUVs)
+                    Name = $"_g3d_02_u0_u1",
+                    Data = TexCoords[0],
+                    Format = GX2AttribFormat.Format_16_16_16_16_Single,
+                });
+                if (TexCoords.Length > 1)
+                {
+                    attributes.Add(new VertexBufferHelperAttrib()
                     {
-                        //Combine and only use even coords
-                        if (i % 2 == 0 && i < TexCoords.Length - 1)
-                        {
-                            attributes.Add(new VertexBufferHelperAttrib()
-                            {
-                                Name = $"_g3d_02_u0_u1",
-                                Data = TexCoords[i],
-                                Format = GX2AttribFormat.Format_16_16_16_16_Single,
-                            });
-                        }
-                        else if (i == TexCoords.Length - 1) //else check if last element
-                        {
-                            attributes.Add(new VertexBufferHelperAttrib()
-                            {
-                                Name = $"_u{i}",
-                                Data = TexCoords[i],
-                                Format = format,
-                            });
-                        }
-                    }
-                    else
+                        Name = $"_g3d_02_u2_u3",
+                        Data = TexCoords[1],
+                        Format = GX2AttribFormat.Format_16_16_16_16_Single,
+                    });
+                }
+            }
+            else
+            {
+                for (int i = 0; i < TexCoords.Length; i++)
+                {
+                    var format = i == 0 ? settings.UVs.Format : settings.UV_Layers.Format;
+                    attributes.Add(new VertexBufferHelperAttrib()
                     {
-                        attributes.Add(new VertexBufferHelperAttrib()
-                        {
-                            Name = $"_u{i}",
-                            Data = TexCoords[i],
-                            Format = format,
-                        });
-                    }
+                        Name = $"_u{i}",
+                        Data = TexCoords[i],
+                        Format = format,
+                    });
                 }
             }
 

@@ -83,6 +83,7 @@ namespace CafeLibrary.ModelConversion
             var indices0 = TryGetValues(helper, "_i0");
             var texCoordsCombined1 = TryGetValues(helper, "_g3d_02_u0_u1");
             var texCoordsCombined2 = TryGetValues(helper, "_g3d_02_u2_u1");
+            var texCoordsCombined3 = TryGetValues(helper, "_g3d_02_u2_u3");
 
             //Get the position attribute and use the length for the vertex count
             for (int v = 0; v < positions.Length; v++)
@@ -104,6 +105,16 @@ namespace CafeLibrary.ModelConversion
                 {
                     vertex.SetUV(texCoordsCombined1[v].X, 1 - texCoordsCombined1[v].Y, 0);
                     vertex.SetUV(texCoordsCombined1[v].Z, 1 - texCoordsCombined1[v].W, 1);
+                }
+                if (texCoordsCombined2.Length > 0)
+                {
+                    vertex.SetUV(texCoordsCombined2[v].X, 1 - texCoordsCombined2[v].Y, 2);
+                    vertex.SetUV(texCoordsCombined2[v].Z, 1 - texCoordsCombined2[v].W, 3);
+                }
+                if (texCoordsCombined3.Length > 0)
+                {
+                    vertex.SetUV(texCoordsCombined3[v].X, 1 - texCoordsCombined3[v].Y, 2);
+                    vertex.SetUV(texCoordsCombined3[v].Z, 1 - texCoordsCombined3[v].W, 3);
                 }
 
                 if (colors.Length > 0)

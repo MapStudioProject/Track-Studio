@@ -99,7 +99,7 @@ namespace CafeLibrary
                     }
 
                     ImGui.NextColumn();
-                    if (ActiveAttribute.Name.StartsWith("_c0"))
+                    if (ActiveAttribute.Name.StartsWith("_c"))
                     {
                         for (int j = 0; j < elements.Length - 1; j++)
                         {

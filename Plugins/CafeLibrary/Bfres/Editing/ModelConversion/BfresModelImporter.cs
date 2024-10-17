@@ -876,6 +876,7 @@ namespace CafeLibrary.ModelConversion
                         binormal.Z, 1));
                 }
 
+                int currentIdx = 0;
                 for (int i = 0; i < vertex.UVs?.Count; i++)
                 {
                     if (i >= TexCoords.Length)
@@ -883,18 +884,20 @@ namespace CafeLibrary.ModelConversion
 
                     if (settings.CombineUVs && i % 2 == 0 && i < vertex.UVs.Count - 1)
                     {
-                        TexCoords[i][v] = new Vector4F(
+                        TexCoords[currentIdx][v] = new Vector4F(
                                vertex.UVs[i].X,
                            1 - vertex.UVs[i].Y,
                                vertex.UVs[i + 1].X,
                            1 - vertex.UVs[i + 1].Y);
+                        currentIdx++;
                     }
                     else
                     {
-                        TexCoords[i][v] = new Vector4F(
+                        TexCoords[currentIdx][v] = new Vector4F(
                             vertex.UVs[i].X,
                             1 - vertex.UVs[i].Y,
                             0, 0);
+                        currentIdx++;
                     }
                 }
 

@@ -499,6 +499,7 @@ namespace CafeLibrary
                         if (!ok)
                             return;
 
+                        modelDlg.OnApply(materials);
                         //Import the bfres model data
                         Model = BfresModelImporter.ImportModel(ResFile, Model, ioscene, filePath, settings);
                         ImportModel(Model, materials, settings);
@@ -507,6 +508,7 @@ namespace CafeLibrary
                 }
                 else
                 {
+                    modelDlg.OnApply(materials);
                     //Import the bfres model data
                     Model = BfresModelImporter.ImportModel(ResFile, Model, ioscene, filePath, settings);
                     ImportModel(Model, materials, settings);

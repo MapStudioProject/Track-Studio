@@ -7,6 +7,7 @@ using ImGuiNET;
 using MapStudio.UI;
 using IONET.Core;
 using Toolbox.Core;
+using BfresLibrary;
 
 namespace CafeLibrary
 {
@@ -25,14 +26,28 @@ namespace CafeLibrary
 
         }
 
+        public void OnApply(List<Material> materials)
+        {
+            foreach (var mesh in this.Settings.Meshes)
+            {
+                //Map original by default
+                var mat = materials.FirstOrDefault(x => x.Name == mesh.MaterialName);
+                //Map to imported instance if needed
+                if (mesh.MaterialInstance != null)
+                    mat = mesh.MaterialInstance;
+
+                if (mat != null) {
+                    //Use combined UVs if used by the material
+                    mesh.CombineUVs = mat.ShaderAssign != null &&
+                                      mat.ShaderAssign.AttribAssigns.ContainsValue("_g3d_02_u0_u1");
+                }
+            }
+        }
+
         public void Setup(FMDL fmdl, IOScene scene, ModelImportSettings settings)
         {
             Settings = settings;
             PresetWindow.LoadPresets(fmdl.ResFile.IsPlatformSwitch);
-
-            //Check for combined
-            var combineUVs = fmdl.Model.Materials.Values.Any(x => x.ShaderAssign != null &&
-                                x.ShaderAssign.AttribAssigns.ContainsValue("_g3d_02_u0_u1"));
 
             string DefaultPreset = "";
             bool isCourse = fmdl.ResFile.Name == "course_model.szs";
@@ -53,7 +68,6 @@ namespace CafeLibrary
                 var meshSettings = new ModelImportSettings.MeshSettings();
                 meshSettings.MeshData = mesh;
                 meshSettings.Name = mesh.Name;
-                meshSettings.CombineUVs = combineUVs;
                 meshSettings.MaterialName = "";
                 meshSettings.SkinCount = mesh.Vertices.Max(x => x.Envelope.Weights.Count);
                 meshSettings.Normal.Enable = mesh.HasNormals;

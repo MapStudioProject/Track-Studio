@@ -161,8 +161,9 @@ namespace CafeLibrary
                         AspectRatio = 1.4999471f, //16:9
                         Twist = 0.0f,
                 }};
+
                 if (isEuler)
-                    anim.Flags |= CameraAnimFlags.EulerZXY;
+                    anim.Flags = CameraAnimFlags.EulerZXY;
 
                 anim.Name = Utils.RenameDuplicateString(anim.Name, SceneAnim.CameraAnims.Keys.Select(x => x).ToList());
                 SceneAnim.CameraAnims.Add(anim.Name, anim);

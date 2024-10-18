@@ -106,9 +106,11 @@ namespace CafeLibrary
 
         public override bool CreateNew(string menu_name = "WiiU")
         {
-            ResFile = new ResFile();
+            ResFile = new ResFile() { ByteOrder = Syroot.BinaryData.ByteOrder.BigEndian };
             if (!menu_name.Contains("WiiU"))
             {
+                ResFile.ByteOrder = Syroot.BinaryData.ByteOrder.LittleEndian;
+
                 ResFile.ChangePlatform(true, 4096, 0, 5, 0, 3,
                   new BfresLibrary.PlatformConverters.ConverterHandle());
             }

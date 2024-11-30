@@ -47,6 +47,9 @@ namespace CafeLibrary
                         samplerAnimHelper.Name = track.Name;
                         samplerAnimHelper.Constant = (ushort)track.KeyFrames[0].Value;
 
+                        ((BfresAnimationTrack)track).Offset = 0;
+                        ((BfresAnimationTrack)track).Scale = 1f;
+
                         if (track.KeyFrames.Count > 1)
                             samplerAnimHelper.Curve = ConvertCurve((BfresAnimationTrack)track, 0);
 

@@ -139,7 +139,17 @@ namespace CafeLibrary.Rendering
             if (dlg.ShowDialog())
             {
                 CameraAnim.Import(dlg.FilePath, ResFile);
-                CameraAnim.Name = this.Name;
+                CameraAnim.Name = this.UINode.Header;
+
+                //Update types if needed as can be broken by user error
+                foreach (var curve in CameraAnim.Curves)
+                {
+                    var maxFrame = curve.Frames.Max(x => x);
+                    if (maxFrame > 255 && curve.FrameType == AnimCurveFrameType.Byte)
+                        curve.FrameType = AnimCurveFrameType.Decimal10x5;
+                    if (maxFrame > ushort.MaxValue)
+                        curve.FrameType = AnimCurveFrameType.Single;
+                }
 
                 Reload(CameraAnim);
             }

@@ -57,13 +57,18 @@ namespace TurboLibrary
         /// </summary>
         public static string GetContentPath(string relativePath)
         {
-            //if using linux, change directory case for mk8d
+            //if using linux, change directory case for MK8D
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && IsMK8D)
             {
                 var dirs = relativePath.Split('/');
                 relativePath = "";
                 for (int i = 0; i < dirs.Length - 1; i++)
-                    relativePath += CultureInfo.CurrentCulture.TextInfo.ToTitleCase(dirs[i]).Replace("_", "") + '/';
+                    relativePath +=
+                        (char.IsLower(dirs[i][0])
+                            ? dirs[i].Substring(1, dirs[i].Length - 1)
+                                .Insert(0, char.ToUpper(dirs[i][0]).ToString())
+                            : dirs[i])
+                        + "/";
                 relativePath += dirs[^1];
             }
             

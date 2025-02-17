@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK;
@@ -55,6 +57,16 @@ namespace TurboLibrary
         /// </summary>
         public static string GetContentPath(string relativePath)
         {
+            //if using linux, change directory case for mk8d
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && IsMK8D)
+            {
+                var dirs = relativePath.Split('/');
+                relativePath = "";
+                for (int i = 0; i < dirs.Length - 1; i++)
+                    relativePath += CultureInfo.CurrentCulture.TextInfo.ToTitleCase(dirs[i]).Replace("_", "") + '/';
+                relativePath += dirs[^1];
+            }
+            
             //Update first then base package.
             if (File.Exists(System.IO.Path.Combine(ModOutputPath,relativePath))) return System.IO.Path.Combine(ModOutputPath,relativePath);
             if (File.Exists(System.IO.Path.Combine(UpdatePath,relativePath))) return System.IO.Path.Combine(UpdatePath,relativePath);

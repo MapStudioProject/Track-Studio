@@ -109,7 +109,7 @@ namespace DirectXTexLibrary
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
+                return null;
             }
 
             DXGI_FORMAT FormatDecompressed;

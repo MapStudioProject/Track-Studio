@@ -176,6 +176,7 @@ namespace CafeLibrary
                         else if (targetParam.Type == ShaderParamType.UInt4) targetParam.DataValue = new int[4];
 
                         targetGroup.Name = targetParam.Name;
+                        group.SubAnimGroups.Add(targetGroup);
                         matNode.AddChild(CreateParamNodeHierachy(anim, targetParam, targetGroup, group));
                     }
                 });

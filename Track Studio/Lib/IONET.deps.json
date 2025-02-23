@@ -1,26 +1,19 @@
 {
   "runtimeTarget": {
-    "name": ".NETStandard,Version=v2.1/",
+    "name": ".NETCoreApp,Version=v5.0",
     "signature": ""
   },
   "compilationOptions": {},
   "targets": {
-    ".NETStandard,Version=v2.1": {},
-    ".NETStandard,Version=v2.1/": {
+    ".NETCoreApp,Version=v5.0": {
       "IONET/1.0.0": {
         "dependencies": {
-          "SharpGLTF.Core": "1.0.0-alpha0030"
+          "SharpGLTF.Core": "1.0.0-alpha0030",
+          "SharpGLTF.Toolkit": "1.0.0-alpha0030",
+          "AssimpNetter": "5.4.3.0"
         },
         "runtime": {
           "IONET.dll": {}
-        }
-      },
-      "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
-        "runtime": {
-          "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
-            "assemblyVersion": "6.0.0.0",
-            "fileVersion": "6.0.21.52210"
-          }
         }
       },
       "SharpGLTF.Core/1.0.0-alpha0030": {
@@ -34,38 +27,31 @@
           }
         }
       },
-      "System.Buffers/4.5.1": {
-        "runtime": {
-          "lib/netstandard2.0/System.Buffers.dll": {
-            "assemblyVersion": "4.0.3.0",
-            "fileVersion": "4.6.28619.1"
-          }
-        }
-      },
-      "System.Memory/4.5.4": {
+      "SharpGLTF.Runtime/1.0.0-alpha0030": {
         "dependencies": {
-          "System.Buffers": "4.5.1",
-          "System.Numerics.Vectors": "4.5.0",
-          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
+          "SharpGLTF.Core": "1.0.0-alpha0030"
         },
         "runtime": {
-          "lib/netstandard2.0/System.Memory.dll": {
-            "assemblyVersion": "4.0.1.1",
-            "fileVersion": "4.6.28619.1"
+          "lib/netstandard2.1/SharpGLTF.Runtime.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
-      "System.Numerics.Vectors/4.5.0": {
+      "SharpGLTF.Toolkit/1.0.0-alpha0030": {
+        "dependencies": {
+          "SharpGLTF.Runtime": "1.0.0-alpha0030"
+        },
         "runtime": {
-          "lib/netstandard2.0/System.Numerics.Vectors.dll": {
-            "assemblyVersion": "4.1.4.0",
-            "fileVersion": "4.6.26515.6"
+          "lib/netstandard2.1/SharpGLTF.Toolkit.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
       "System.Runtime.CompilerServices.Unsafe/6.0.0": {
         "runtime": {
-          "lib/netstandard2.0/System.Runtime.CompilerServices.Unsafe.dll": {
+          "lib/netcoreapp3.1/System.Runtime.CompilerServices.Unsafe.dll": {
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.21.52210"
           }
@@ -73,12 +59,10 @@
       },
       "System.Text.Encodings.Web/6.0.0": {
         "dependencies": {
-          "System.Buffers": "4.5.1",
-          "System.Memory": "4.5.4",
           "System.Runtime.CompilerServices.Unsafe": "6.0.0"
         },
         "runtime": {
-          "lib/netstandard2.0/System.Text.Encodings.Web.dll": {
+          "lib/netcoreapp3.1/System.Text.Encodings.Web.dll": {
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.21.52210"
           }
@@ -86,29 +70,21 @@
       },
       "System.Text.Json/6.0.7": {
         "dependencies": {
-          "Microsoft.Bcl.AsyncInterfaces": "6.0.0",
-          "System.Buffers": "4.5.1",
-          "System.Memory": "4.5.4",
-          "System.Numerics.Vectors": "4.5.0",
           "System.Runtime.CompilerServices.Unsafe": "6.0.0",
-          "System.Text.Encodings.Web": "6.0.0",
-          "System.Threading.Tasks.Extensions": "4.5.4"
+          "System.Text.Encodings.Web": "6.0.0"
         },
         "runtime": {
-          "lib/netstandard2.0/System.Text.Json.dll": {
+          "lib/netcoreapp3.1/System.Text.Json.dll": {
             "assemblyVersion": "6.0.0.0",
             "fileVersion": "6.0.1122.52304"
           }
         }
       },
-      "System.Threading.Tasks.Extensions/4.5.4": {
-        "dependencies": {
-          "System.Runtime.CompilerServices.Unsafe": "6.0.0"
-        },
+      "AssimpNetter/5.4.3.0": {
         "runtime": {
-          "lib/netstandard2.0/System.Threading.Tasks.Extensions.dll": {
-            "assemblyVersion": "4.2.0.1",
-            "fileVersion": "4.6.28619.1"
+          "AssimpNetter.dll": {
+            "assemblyVersion": "5.4.3.0",
+            "fileVersion": "5.4.3.0"
           }
         }
       }
@@ -120,13 +96,6 @@
       "serviceable": false,
       "sha512": ""
     },
-    "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg==",
-      "path": "microsoft.bcl.asyncinterfaces/6.0.0",
-      "hashPath": "microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512"
-    },
     "SharpGLTF.Core/1.0.0-alpha0030": {
       "type": "package",
       "serviceable": true,
@@ -134,26 +103,19 @@
       "path": "sharpgltf.core/1.0.0-alpha0030",
       "hashPath": "sharpgltf.core.1.0.0-alpha0030.nupkg.sha512"
     },
-    "System.Buffers/4.5.1": {
+    "SharpGLTF.Runtime/1.0.0-alpha0030": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-Rw7ijyl1qqRS0YQD/WycNst8hUUMgrMH4FCn1nNm27M4VxchZ1js3fVjQaANHO5f3sN4isvP4a+Met9Y4YomAg==",
-      "path": "system.buffers/4.5.1",
-      "hashPath": "system.buffers.4.5.1.nupkg.sha512"
+      "sha512": "sha512-Ysn+fyj9EVXj6mfG0BmzSTBGNi/QvcnTrMd54dBMOlI/TsMRvnOY3JjTn0MpeH2CgHXX4qogzlDt4m+rb3n4Og==",
+      "path": "sharpgltf.runtime/1.0.0-alpha0030",
+      "hashPath": "sharpgltf.runtime.1.0.0-alpha0030.nupkg.sha512"
     },
-    "System.Memory/4.5.4": {
+    "SharpGLTF.Toolkit/1.0.0-alpha0030": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-1MbJTHS1lZ4bS4FmsJjnuGJOu88ZzTT2rLvrhW7Ygic+pC0NWA+3hgAen0HRdsocuQXCkUTdFn9yHJJhsijDXw==",
-      "path": "system.memory/4.5.4",
-      "hashPath": "system.memory.4.5.4.nupkg.sha512"
-    },
-    "System.Numerics.Vectors/4.5.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-QQTlPTl06J/iiDbJCiepZ4H//BVraReU4O4EoRw1U02H5TLUIT7xn3GnDp9AXPSlJUDyFs4uWjWafNX6WrAojQ==",
-      "path": "system.numerics.vectors/4.5.0",
-      "hashPath": "system.numerics.vectors.4.5.0.nupkg.sha512"
+      "sha512": "sha512-nsoJWAFhXgEky9bVCY0zLeZVDx+S88u7VjvuebvMb6dJiNyFOGF6FrrMHiJe+x5pcVBxxlc3VoXliBF7r/EqYA==",
+      "path": "sharpgltf.toolkit/1.0.0-alpha0030",
+      "hashPath": "sharpgltf.toolkit.1.0.0-alpha0030.nupkg.sha512"
     },
     "System.Runtime.CompilerServices.Unsafe/6.0.0": {
       "type": "package",
@@ -176,12 +138,10 @@
       "path": "system.text.json/6.0.7",
       "hashPath": "system.text.json.6.0.7.nupkg.sha512"
     },
-    "System.Threading.Tasks.Extensions/4.5.4": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-zteT+G8xuGu6mS+mzDzYXbzS7rd3K6Fjb9RiZlYlJPam2/hU7JCBZBVEcywNuR+oZ1ncTvc/cq0faRr3P01OVg==",
-      "path": "system.threading.tasks.extensions/4.5.4",
-      "hashPath": "system.threading.tasks.extensions.4.5.4.nupkg.sha512"
+    "AssimpNetter/5.4.3.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
     }
   }
 }

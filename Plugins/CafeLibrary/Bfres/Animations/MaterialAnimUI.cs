@@ -137,27 +137,7 @@ namespace CafeLibrary
                             targetParam.Name = name;
                         if (MapStudio.UI.ImGuiHelper.ComboFromEnum<ShaderParamType>("Type", targetParam, "Type"))
                         {
-                            if (targetParam.Type == ShaderParamType.Float) targetParam.DataValue = 0;
-                            else if (targetParam.Type == ShaderParamType.Float2) targetParam.DataValue = new float[2];
-                            else if (targetParam.Type == ShaderParamType.Float3) targetParam.DataValue = new float[3];
-                            else if (targetParam.Type == ShaderParamType.Float4) targetParam.DataValue = new float[4];
-                            else if (targetParam.Type == ShaderParamType.TexSrt ||
-                                     targetParam.Type == ShaderParamType.TexSrtEx)
-                            {
-                                targetParam.DataValue = new TexSrt()
-                                {
-                                    Scaling = new Syroot.Maths.Vector2F(1, 1),
-                                    Rotation = 0,
-                                    Translation = new Syroot.Maths.Vector2F(),
-                                    Mode = TexSrtMode.ModeMaya,
-                                };
-                            }
-                            else if (targetParam.Type == ShaderParamType.Int2) targetParam.DataValue = new int[2];
-                            else if (targetParam.Type == ShaderParamType.Int3) targetParam.DataValue = new int[3];
-                            else if (targetParam.Type == ShaderParamType.Int3) targetParam.DataValue = new int[4];
-                            else if (targetParam.Type == ShaderParamType.UInt2) targetParam.DataValue = new int[2];
-                            else if (targetParam.Type == ShaderParamType.UInt3) targetParam.DataValue = new int[3];
-                            else if (targetParam.Type == ShaderParamType.UInt4) targetParam.DataValue = new int[4];
+
                         }
                     }
 
@@ -173,7 +153,30 @@ namespace CafeLibrary
                 {
                     if (ok)
                     {
+                        if (targetParam.Type == ShaderParamType.Float) targetParam.DataValue = 0;
+                        else if (targetParam.Type == ShaderParamType.Float2) targetParam.DataValue = new float[2];
+                        else if (targetParam.Type == ShaderParamType.Float3) targetParam.DataValue = new float[3];
+                        else if (targetParam.Type == ShaderParamType.Float4) targetParam.DataValue = new float[4];
+                        else if (targetParam.Type == ShaderParamType.TexSrt ||
+                                 targetParam.Type == ShaderParamType.TexSrtEx)
+                        {
+                            targetParam.DataValue = new TexSrt()
+                            {
+                                Scaling = new Syroot.Maths.Vector2F(1, 1),
+                                Rotation = 0,
+                                Translation = new Syroot.Maths.Vector2F(),
+                                Mode = TexSrtMode.ModeMaya,
+                            };
+                        }
+                        else if (targetParam.Type == ShaderParamType.Int2) targetParam.DataValue = new int[2];
+                        else if (targetParam.Type == ShaderParamType.Int3) targetParam.DataValue = new int[3];
+                        else if (targetParam.Type == ShaderParamType.Int3) targetParam.DataValue = new int[4];
+                        else if (targetParam.Type == ShaderParamType.UInt2) targetParam.DataValue = new int[2];
+                        else if (targetParam.Type == ShaderParamType.UInt3) targetParam.DataValue = new int[3];
+                        else if (targetParam.Type == ShaderParamType.UInt4) targetParam.DataValue = new int[4];
+
                         targetGroup.Name = targetParam.Name;
+                        group.SubAnimGroups.Add(targetGroup);
                         matNode.AddChild(CreateParamNodeHierachy(anim, targetParam, targetGroup, group));
                     }
                 });

@@ -2253,6 +2253,9 @@ namespace CafeLibrary
             foreach (var mesh in ModelWrapper.GetSelectedMeshes())
             {
                 mesh.FlipUvsHorizontal();
+                // Check for tangent usage and update for UV changes
+                if (VertexBuffer.Attributes.ContainsKey("_t0"))
+                    mesh.CalculateTangentBitangent(0);
                 mesh.ApplyVertexData();
             }
         }
@@ -2262,6 +2265,9 @@ namespace CafeLibrary
             foreach (var mesh in ModelWrapper.GetSelectedMeshes())
             {
                 mesh.FlipUvsVertical();
+                // Check for tangent usage and update for UV changes
+                if (VertexBuffer.Attributes.ContainsKey("_t0"))
+                    mesh.CalculateTangentBitangent(0);
                 mesh.ApplyVertexData();
             }
         }

@@ -101,7 +101,16 @@ namespace DirectXTexLibrary
         {
             long inputRowPitch;
             long inputSlicePitch;
-            TexHelper.Instance.ComputePitch((DXGI_FORMAT)format, width, height, out inputRowPitch, out inputSlicePitch, CP_FLAGS.NONE);
+
+            try
+            {
+                TexHelper.Instance.ComputePitch((DXGI_FORMAT)format, width, height, out inputRowPitch, out inputSlicePitch, CP_FLAGS.NONE);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return null;
+            }
 
             DXGI_FORMAT FormatDecompressed;
 

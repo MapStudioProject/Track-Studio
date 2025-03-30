@@ -24,8 +24,7 @@ namespace CafeLibrary
 
             //Just check for a mk8d specific asset
             bool isMK8D = File.Exists(Path.Combine(gamePath, "RaceCommon", "TS_PolicePackun", "TS_PolicePackun.bfres"));
-
-            string game_folder = gamePath;
+            
             dir = isMK8D ? Path.Combine(dir, "MK8D") : Path.Combine(dir, "MK8U");
 
             if (Directory.Exists(dir))
@@ -72,7 +71,7 @@ namespace CafeLibrary
 
             //Dump each preset into the preset folder
             foreach (var preset in presets)
-                DumpBfresMaterials(Path.Combine(game_folder, preset.Key), preset.Value.ToArray());
+                DumpBfresMaterials(Path.Combine(gamePath, preset.Key), preset.Value.ToArray());
 
             ProcessLoading.Instance.Update(100, 100, "Dumping game material presets!");
             ProcessLoading.Instance.IsLoading = false;

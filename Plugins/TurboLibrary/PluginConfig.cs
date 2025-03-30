@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using System.IO;
+using System.Runtime.InteropServices;
 using Newtonsoft.Json;
 using ImGuiNET;
 using MapStudio.UI;
 using Toolbox.Core;
+using Toolbox.Core.IO;
 
 namespace TurboLibrary
 {
@@ -85,16 +87,23 @@ namespace TurboLibrary
             Reload();
         }
 
+        public static bool IsValidGamePath(string path)
+        {
+            if (File.Exists(System.IO.Path.Combine(path,"data","objflow.byaml"))) return true;
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && File.Exists(System.IO.Path.Combine(path,"Data","objflow.byaml"))) return true;
+            return false;
+        }
+
         /// <summary>
         /// Called when the config file has been loaded or saved.
         /// </summary>
         public void Reload()
         {
             TurboLibrary.GlobalSettings.GamePath = MK8DGamePath;
-            HasValidMK8DPath = File.Exists(System.IO.Path.Combine(MK8DGamePath,"Data","objflow.byaml"));
-
+            HasValidMK8DPath = IsValidGamePath(MK8DGamePath);
+            
             TurboLibrary.GlobalSettings.UpdatePath = MK8DUpdatePath;
-            HasValidMK8UpdatePath = File.Exists(System.IO.Path.Combine(MK8DUpdatePath,"Data","objflow.byaml"));
+            HasValidMK8UpdatePath = IsValidGamePath(MK8DUpdatePath);
 
             TurboLibrary.GlobalSettings.AOCPath = MK8AOCPath;
             HasValidMK8AOCPath = Directory.Exists(System.IO.Path.Combine(MK8AOCPath,"0013","course")); //Just check one of the dlc folders

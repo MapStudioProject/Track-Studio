@@ -837,7 +837,7 @@ namespace CafeLibrary.ModelConversion
                     binormal = System.Numerics.Vector3.TransformNormal(binormal, transform);
                 }
                 //Reset rigid skinning types to local space
-                if (fshp.VertexSkinCount == 1)
+                if (fshp.VertexSkinCount == 1 && vertex.Envelope.Weights.Count > 0)
                 {
                     int index = Array.FindIndex(fskl.Bones.Values.ToArray(), x => x.Name == vertex.Envelope.Weights[0].BoneName);
                     if (index != -1)

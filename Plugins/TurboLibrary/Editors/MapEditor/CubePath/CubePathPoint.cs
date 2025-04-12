@@ -292,6 +292,7 @@ namespace TurboLibrary.MuuntEditor
             {
                 var arguments = (GLTransform.CustomRotationArgs)sender;
                 ParentPoint.Transform.Rotation = arguments.Rotation;
+                ParentPoint.Transform.UpdateMatrix(true);
 
                 // Apply to return points
                 this.Transform.Rotation = arguments.Rotation;

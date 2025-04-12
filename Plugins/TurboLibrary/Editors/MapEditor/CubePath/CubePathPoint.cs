@@ -288,6 +288,16 @@ namespace TurboLibrary.MuuntEditor
             var translation = ParentPoint.Transform.Position + Transform.Position;
             Transform.SetCustomOrigin(translation);
 
+            ParentPoint.Transform.CustomRotationActionCallback += (sender, e) =>
+            {
+                var arguments = (GLTransform.CustomRotationArgs)sender;
+                ParentPoint.Transform.Rotation = arguments.Rotation;
+
+                // Apply to return points
+                this.Transform.Rotation = arguments.Rotation;
+                this.Transform.UpdateMatrix(true);
+            };
+
             Transform.EnableCollisionDrop = false;
             Transform.IndividualPivot = true;
             Transform.CustomScaleActionCallback += (sender, e) =>

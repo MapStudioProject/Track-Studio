@@ -462,16 +462,18 @@ namespace TurboLibrary
         public static string FindFilePath(string resName)
         {
             //Common path for common race objects like coins
-            string raceObjects = GlobalSettings.GetContentPath(System.IO.Path.Combine("race_common",resName,$"{resName}.bfres"));
             string raceObjectsDX = GlobalSettings.GetContentPath(System.IO.Path.Combine("RaceCommon",resName,$"{resName}.bfres"));
-
-            //The typical path for the base game map objects
-            string mapObjects = GlobalSettings.GetContentPath(System.IO.Path.Combine("mapobj",resName,$"{resName}.bfres"));
-            string mapObjectsDX = GlobalSettings.GetContentPath(System.IO.Path.Combine("MapObj",resName,$"{resName}.bfres"));
-
-            if (File.Exists(raceObjects)) return raceObjects;
             if (File.Exists(raceObjectsDX)) return raceObjectsDX;
+            
+            //The typical path for the base game map objects
+            string mapObjectsDX = GlobalSettings.GetContentPath(System.IO.Path.Combine("MapObj",resName,$"{resName}.bfres"));
             if (File.Exists(mapObjectsDX)) return mapObjectsDX;
+            
+            //Same as above, but for MK8U
+            string raceObjects = GlobalSettings.GetContentPath(System.IO.Path.Combine("race_common",resName,$"{resName}.bfres"));
+            if (File.Exists(raceObjects)) return raceObjects;
+            
+            string mapObjects = GlobalSettings.GetContentPath(System.IO.Path.Combine("mapobj",resName,$"{resName}.bfres"));
             if (File.Exists(mapObjects)) return mapObjects;
 
             return string.Empty;

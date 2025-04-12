@@ -288,17 +288,12 @@ namespace TurboLibrary.MuuntEditor
             var translation = ParentPoint.Transform.Position + Transform.Position;
             Transform.SetCustomOrigin(translation);
 
-            ParentPoint.Transform.TransformUpdated += delegate
-            {
-
-            };
-
             Transform.EnableCollisionDrop = false;
             Transform.IndividualPivot = true;
             Transform.CustomScaleActionCallback += (sender, e) =>
             {
                 Transform.UpdateMatrix(true);
-            };
+            }; 
         }
 
         public void DrawColorPicking(GLContext context)
@@ -351,7 +346,7 @@ namespace TurboLibrary.MuuntEditor
 
             //Local to world space, relative from the point it is parented to
             var translation = ParentPoint.Transform.Position + Transform.Position;
-            var rotation = ParentPoint.Transform.Rotation * Transform.Rotation;
+            var rotation =  Transform.Rotation;
 
             Transform.SetCustomOrigin(translation);
 

@@ -164,16 +164,13 @@ namespace TurboLibrary.MuuntEditor
                         var matrix = Matrix4Extension.CreateRotation(normal, tangent);
 
                         var localPosition = new Vector3(rt.Position.X, rt.Position.Y, rt.Position.Z) - point.Transform.Position;
-                        var localRotation = matrix.ExtractRotation() * point.Transform.Rotation.Inverted();
+                        var localRotation = matrix.ExtractRotation();
 
                         point.ReturnPoint.Tag = rt;
-                        point.ReturnPoint.Transform = new GLTransform()
-                        {
-                            Position = localPosition,
-                            Rotation = localRotation,
-                            Scale = Vector3.One,
-                            IndividualPivot = true,
-                        };
+                        point.ReturnPoint.Transform.Position = localPosition;
+                        point.ReturnPoint.Transform.Rotation = localRotation;
+                        point.ReturnPoint.Transform.Scale = Vector3.One;
+                        point.ReturnPoint.Transform.IndividualPivot = true;
                         point.ReturnPoint.Transform.UpdateMatrix(true);
                     }
                 }

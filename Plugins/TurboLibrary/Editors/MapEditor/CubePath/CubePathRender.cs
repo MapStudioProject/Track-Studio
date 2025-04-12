@@ -284,10 +284,10 @@ namespace TurboLibrary.MuuntEditor
                 if (point.Group is LapPath) {
                     //Local to world space
                     var worldPos = point.Transform.Position + point.ReturnPoint.Transform.Position;
-                    var worldRotation = point.Transform.Rotation * point.ReturnPoint.Transform.Rotation;
+                    var localRotation = point.ReturnPoint.Transform.Rotation;
 
                     //Row 0 binormal Row1 normal Row2 tangent
-                    Matrix4 rotationMat = Matrix4.CreateFromQuaternion(worldRotation);
+                    Matrix4 rotationMat = Matrix4.CreateFromQuaternion(localRotation);
                     Vector3 nrm = new Vector3(rotationMat.Row1);
                     Vector3 tan = new Vector3(rotationMat.Row2);
 

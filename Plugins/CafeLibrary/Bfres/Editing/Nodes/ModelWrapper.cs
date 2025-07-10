@@ -1266,8 +1266,7 @@ namespace CafeLibrary
             void AddMaterialAnim(string fileName, Stream stream)
             {
                 MaterialAnim anim = new MaterialAnim();
-                var data = stream.ToArray();
-                anim.Import(new MemoryStream(data), ResFile);
+                anim.Import(new MemoryStream(stream.ToArray()), ResFile);
 
                 string name = Path.GetFileNameWithoutExtension(fileName);
                 string ext = Path.GetExtension(fileName);

@@ -1183,8 +1183,6 @@ namespace CafeLibrary
             if (Material.RenderInfos.ContainsKey("gsys_render_state_display_face"))
                 revertedRenderInfos.Add("gsys_render_state_display_face", Material.RenderInfos["gsys_render_state_display_face"]);
 
-            //temp hack, only add placeholders for MK8
-            bool usePlaceholders = Material.ShaderParams.ContainsKey("gsys_area_env_index_diffuse");
 
             string dir = Path.GetDirectoryName(filePath);
             string presetName = Path.GetFileNameWithoutExtension(filePath);
@@ -1287,6 +1285,10 @@ namespace CafeLibrary
                 var animFolder = BfresWrapper.AnimationsFolder;
                 animFolder.Reload();
             }
+
+            //temp hack, only add placeholders for MK8
+            bool usePlaceholders = Material.ShaderParams.ContainsKey("gsys_area_env_index_diffuse");
+
             //Keep same textures if used
             if (keepTextures)
             {

@@ -138,6 +138,11 @@
             Gets or sets the last frame at which a key is placed.
             </summary>
         </member>
+        <member name="P:BfresLibrary.AnimCurve.Offset2">
+            <summary>
+            Gets or sets an unknown value used in v10 bfres;
+            </summary>
+        </member>
         <member name="P:BfresLibrary.AnimCurve.Scale">
             <summary>
             Gets or sets the scale to multiply values of the curve by.
@@ -4277,7 +4282,7 @@
             Represents a NintendoWare for Cafe (NW4F) graphics data archive file.
             </summary>
         </member>
-        <member name="M:BfresLibrary.ResFile.#ctor">
+        <member name="M:BfresLibrary.ResFile.#ctor(System.Boolean)">
             <summary>
             Initializes a new instance of the <see cref="T:BfresLibrary.ResFile"/> class.
             </summary>

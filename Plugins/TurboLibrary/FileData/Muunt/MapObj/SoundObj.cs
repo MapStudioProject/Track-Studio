@@ -114,10 +114,19 @@ namespace TurboLibrary
         /// <param name="dictionary">The <see cref="IDictionary{String, Object}"/> to read the data from.</param>
         public void DeserializeByaml(IDictionary<string, object> dictionary)
         {
-            TopView = (string)dictionary["TopView"] == "True";
+            if (dictionary["TopView"] is string)
+                TopView = (string)dictionary["TopView"] == "True";
+            else
+                TopView = (bool)dictionary["TopView"];
             ModeInclusion = ModeInclusion.FromDictionary(dictionary);
 
-            if (dictionary.TryGetValue("Single", out object single)) Single = (string)single == "true";
+            if (dictionary.TryGetValue("Single", out object single))
+            {
+                if (single is string)
+                    Single = (string)single == "true";
+                else
+                    Single = (bool)single;
+            }
         }
 
         /// <summary>

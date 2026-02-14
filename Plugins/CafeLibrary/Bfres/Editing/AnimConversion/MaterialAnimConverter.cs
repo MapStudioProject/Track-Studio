@@ -156,12 +156,12 @@ namespace CafeLibrary
             }
 
             curve.KeyType = track.KeyType;
-            curve.FrameType = track.FrameType;
-
             //Get max frame value
             float frame = curve.KeyFrames.Max(x => x.Key);
+
+            curve.FrameType = AnimCurveFrameType.Single; 
             if (frame < byte.MaxValue) curve.FrameType = AnimCurveFrameType.Byte;
-           // else if (frame < ushort.MaxValue) curve.FrameType = AnimCurveFrameType.Decimal10x5;
+            else if (frame <= 1023) curve.FrameType = AnimCurveFrameType.Decimal10x5; // (max 10 bits)
 
             return curve;
         }

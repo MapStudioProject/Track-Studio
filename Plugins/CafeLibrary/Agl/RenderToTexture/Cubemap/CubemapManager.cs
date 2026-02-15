@@ -103,6 +103,8 @@ namespace AGraphicsLibrary
 
             //Just generate mips to keep things easier
             texture.Bind();
+            texture.MinFilter = TextureMinFilter.LinearMipmapLinear;
+            texture.UpdateParameters();
             texture.GenerateMipmaps();
             texture.Unbind();
 

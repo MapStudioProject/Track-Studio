@@ -203,7 +203,7 @@ namespace CafeLibrary.Rendering
             else
             {
                 start.FileName = "wine";
-                start.Arguments += "GFD/gx2shader-decompiler.exe ";
+                start.Arguments += $"\'{Path.Combine(Runtime.ExecutableDir, "GFD", "gx2shader-decompiler.exe")}\' ";
             }
 
             start.WorkingDirectory = Path.Combine(Runtime.ExecutableDir, "GFD");
@@ -218,6 +218,7 @@ namespace CafeLibrary.Rendering
             start.RedirectStandardOutput = true;
             start.CreateNoWindow = true;
             start.WindowStyle = ProcessWindowStyle.Hidden;
+            Console.WriteLine(start.FileName + ' ' + start.Arguments);
             using (Process process = Process.Start(start))
             {
                 using (StreamReader reader = process.StandardOutput)
@@ -276,7 +277,7 @@ namespace CafeLibrary.Rendering
             else
             {
                 start.FileName = "wine";
-                start.Arguments += "GFD/spirv-cross.exe";
+                start.Arguments += $"\'{Path.Combine(Runtime.ExecutableDir, "GFD", "spirv-cross.exe")}\' ";
             }
             start.WorkingDirectory = Runtime.ExecutableDir;
             start.Arguments = $"{AddQuotesIfRequired(filePath)} {remapFlags} --no-es --extension GL_ARB_shader_storage_buffer_object --extension GL_ARB_separate_shader_objects --no-420pack-extension --no-support-nonzero-baseinstance --version 440 --output {AddQuotesIfRequired(output)}";

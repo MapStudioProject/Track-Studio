@@ -3825,6 +3825,26 @@
             
             </summary>
         </member>
+        <member name="P:BfresLibrary.Model.VertexBufferCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BfresLibrary.Model.ShapesCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BfresLibrary.Model.MaterialsCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:BfresLibrary.Model.UserDataCount">
+            <summary>
+            
+            </summary>
+        </member>
         <member name="P:BfresLibrary.Model.TotalVertexCount">
             <summary>
             Gets the total number of vertices to process when drawing this model.
@@ -4368,7 +4388,7 @@
         </member>
         <member name="P:BfresLibrary.ResFile.VersionMajor">
             <summary>
-            Gets or sets the major revision of the BFRES structure formats.
+            Gets or sets the second major revision of the BFRES structure formats.
             </summary>
         </member>
         <member name="P:BfresLibrary.ResFile.VersionMajor2">
@@ -5680,6 +5700,11 @@
         <member name="P:BfresLibrary.BufferInfo.IndexBufferData">
             <summary>
             Gets or sets the buffer instance that stores vertex data
+            </summary>
+        </member>
+        <member name="P:BfresLibrary.BufferInfo.VertexAlignments">
+            <summary>
+            
             </summary>
         </member>
         <member name="P:BfresLibrary.BufferInfo.unk">

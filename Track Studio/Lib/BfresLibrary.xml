@@ -138,11 +138,6 @@
             Gets or sets the last frame at which a key is placed.
             </summary>
         </member>
-        <member name="P:BfresLibrary.AnimCurve.Offset2">
-            <summary>
-            Gets or sets an unknown value used in v10 bfres;
-            </summary>
-        </member>
         <member name="P:BfresLibrary.AnimCurve.Scale">
             <summary>
             Gets or sets the scale to multiply values of the curve by.

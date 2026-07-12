@@ -26,10 +26,8 @@ namespace CafeLibrary
             Root.CanRename = true;
             Root.OnHeaderRenamed += delegate
             {
-                string previousName = anim.UINode.Header;
-
                 anim.UINode.Header = Root.Header;
-                anim.VisibilityAnim.Name = Root.Header;
+                anim.OnRenamed(Root.Header);
             };
             Root.Tag = anim;
             Root.IsExpanded = true;

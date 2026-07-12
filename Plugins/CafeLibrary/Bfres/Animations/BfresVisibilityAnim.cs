@@ -68,6 +68,7 @@ namespace CafeLibrary
         {
             string previousName = VisibilityAnim.Name;
 
+            Name = name;
             Root.Header = name;
             VisibilityAnim.Name = name;
             if (ResFile.BoneVisibilityAnims.ContainsKey(previousName))

@@ -123,6 +123,7 @@ namespace CafeLibrary.Rendering
         public void OnNameChanged(string newName)
         {
             string previousName = MaterialAnim.Name;
+            Name = newName;
             MaterialAnim.Name = newName;
 
             if (AnimDict.ContainsKey(previousName))

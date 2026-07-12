@@ -89,6 +89,7 @@ namespace CafeLibrary.Rendering
         {
             string previousName = SkeletalAnim.Name;
 
+            Name = name;
             SkeletalAnim.Name = name;
             if (ResFile.SkeletalAnims.ContainsKey(previousName))
             {

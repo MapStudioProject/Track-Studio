@@ -75,6 +75,7 @@ namespace CafeLibrary.Rendering
 
             string previousName = CameraAnim.Name;
 
+            Name = name;
             Root.Header = name;
             CameraAnim.Name = name;
 

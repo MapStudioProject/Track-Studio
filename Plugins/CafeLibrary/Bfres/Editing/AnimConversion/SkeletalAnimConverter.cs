@@ -137,7 +137,7 @@ namespace CafeLibrary
             //Get max frame value
             float frame = curve.KeyFrames.Max(x => x.Key);
             if (frame < byte.MaxValue) curve.FrameType = AnimCurveFrameType.Byte;
-            else if (frame < ushort.MaxValue) curve.FrameType = AnimCurveFrameType.Decimal10x5;
+            else if (frame < 1023) curve.FrameType = AnimCurveFrameType.Decimal10x5;
 
             return curve;
         }

@@ -233,7 +233,7 @@ namespace CafeLibrary
             //Get max frame value
             float frame = track.KeyFrames.Max(x => x.Frame);
             if (frame < byte.MaxValue) curve.FrameType = AnimCurveFrameType.Byte;
-            else if (frame < ushort.MaxValue) curve.FrameType = AnimCurveFrameType.Decimal10x5;
+            else if (frame < 1024) curve.FrameType = AnimCurveFrameType.Decimal10x5;
 
             //Set a key and frame list
             var keys = track.KeyFrames.ToList();

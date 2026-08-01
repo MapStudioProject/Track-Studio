@@ -362,6 +362,7 @@ namespace CafeLibrary
             dlg.FileName = $"{this.Model.Name}.dae";
             dlg.AddFilter(".bfmdl", ".bfmdl");
             dlg.AddFilter(".gltf", ".gltf");
+            dlg.AddFilter(".glb", ".glb");
             dlg.AddFilter(".dae", ".dae");
 
             if (dlg.ShowDialog())
@@ -426,6 +427,7 @@ namespace CafeLibrary
             dlg.AddFilter(".dae", ".dae");
             //dlg.AddFilter(".fbx", ".fbx");
             dlg.AddFilter(".gltf", ".gltf");
+            dlg.AddFilter(".glb", ".glb");
 
             if (dlg.ShowDialog())
             {

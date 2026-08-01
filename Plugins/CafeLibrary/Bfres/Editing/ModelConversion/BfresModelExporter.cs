@@ -9,12 +9,13 @@ using IONET.Core;
 using IONET;
 using BfresLibrary;
 using BfresLibrary.Helpers;
+using System.IO;
 
 namespace CafeLibrary.ModelConversion
 {
     public class BfresModelExporter
     {
-        public static IOScene FromGeneric(ResFile resFile, Model model)
+        public static IOScene FromGeneric(ResFile resFile, Model model, string folder)
         {
             var scene = new IOScene();
             var daeModel = new IOModel();
@@ -40,7 +41,7 @@ namespace CafeLibrary.ModelConversion
                     {
                         daeMat.DiffuseMap = new IOTexture();
                         daeMat.DiffuseMap.Name = name;
-                        daeMat.DiffuseMap.FilePath = $"{name}.png";
+                        daeMat.DiffuseMap.FilePath = Path.Combine(folder, $"{name}.png");
                         daeMat.DiffuseMap.UVChannel = 0;
                         daeMat.DiffuseMap.WrapS = IONET.Core.Model.WrapMode.REPEAT;
                         daeMat.DiffuseMap.WrapT = IONET.Core.Model.WrapMode.REPEAT;

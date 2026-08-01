@@ -698,7 +698,7 @@ namespace TurboLibrary
             }
 
             //Turn into an exportable scene for collision conversion
-            var scene = BfresModelExporter.FromGeneric(models.ResFile, models.Model);
+            var scene = BfresModelExporter.FromGeneric(models.ResFile, models.Model, "");
             MapLoader.CollisionFile.ImportCollision(scene);
         }
 

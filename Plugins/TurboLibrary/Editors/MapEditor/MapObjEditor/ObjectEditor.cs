@@ -348,7 +348,9 @@ namespace TurboLibrary.MuuntEditor
                     continue;
 
                 var resFile = new BfresLibrary.ResFile(modelFilePath);
-                var model = CafeLibrary.ModelConversion.BfresModelExporter.FromGeneric(resFile, resFile.Models[0]);
+                var model = CafeLibrary.ModelConversion.BfresModelExporter.FromGeneric(resFile, 
+                    resFile.Models[0], System.IO.Path.GetDirectoryName(filePath));
+
                 foreach (var mesh in model.Models[0].Meshes)
                     mesh.Transform = Matrix4Extension.ToNumerics(render.Transform.TransformMatrix);
 

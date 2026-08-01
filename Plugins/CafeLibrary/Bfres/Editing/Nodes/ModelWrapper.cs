@@ -361,6 +361,7 @@ namespace CafeLibrary
             dlg.SaveDialog = true;
             dlg.FileName = $"{this.Model.Name}.dae";
             dlg.AddFilter(".bfmdl", ".bfmdl");
+            dlg.AddFilter(".gltf", ".gltf");
             dlg.AddFilter(".dae", ".dae");
 
             if (dlg.ShowDialog())
@@ -369,9 +370,10 @@ namespace CafeLibrary
                     Model.Export(dlg.FilePath, ResFile);
                 else
                 {
-                    var scene = BfresModelExporter.FromGeneric(ResFile, Model);
+                    var scene = BfresModelExporter.FromGeneric(ResFile, Model, Path.GetDirectoryName(dlg.FilePath));
+                 //   BfresWrapper.ExportTextures(Path.GetDirectoryName(dlg.FilePath));
+
                     IONET.IOManager.ExportScene(scene, dlg.FilePath, new IONET.ExportSettings() { });
-                    BfresWrapper.ExportTextures(Path.GetDirectoryName(dlg.FilePath));
                 }
             }
         }
@@ -392,7 +394,7 @@ namespace CafeLibrary
 
             if (dlg.ShowDialog())
             {
-                var scene = BfresModelExporter.FromGeneric(ResFile, Model);
+                var scene = BfresModelExporter.FromGeneric(ResFile, Model, Path.GetDirectoryName(dlg.FilePath));
                 //Setup a scene with just the selected meshes
                 var meshScene = new IOScene();
                 var daeModel = new IOModel();
@@ -422,7 +424,8 @@ namespace CafeLibrary
             dlg.SaveDialog = false;
             dlg.AddFilter(".bfmdl", ".bfmdl");
             dlg.AddFilter(".dae", ".dae");
-            dlg.AddFilter(".fbx", ".fbx");
+            //dlg.AddFilter(".fbx", ".fbx");
+            dlg.AddFilter(".gltf", ".gltf");
 
             if (dlg.ShowDialog())
             {

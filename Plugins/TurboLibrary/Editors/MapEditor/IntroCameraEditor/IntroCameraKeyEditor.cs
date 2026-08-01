@@ -308,7 +308,7 @@ namespace TurboLibrary.MuuntEditor
             {
                 var viewCamera = GLContext.ActiveContext.Camera;
                 var pos = viewCamera.GetViewPostion();
-                var lookAtPos = viewCamera.GetLookAtPostion(1000);
+                var lookAtPos = viewCamera.GetLookAtPosition(1000);
 
                 path.Points[index] = new PathPoint()
                 {

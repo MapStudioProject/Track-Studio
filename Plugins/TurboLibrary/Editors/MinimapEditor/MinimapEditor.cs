@@ -46,8 +46,8 @@ namespace TurboLibrary.MuuntEditor
         {
             _camera = new Camera();
             _camera.RotationSpeed = 0.2f;
-            _camera.PanSpeed = 100000;
-            ((InspectCameraController)_camera.Controller).PanDirectly = true;
+            _camera.PanSpeed = 1;
+            _camera.Mode = Camera.CameraMode.Inspect;
         }
 
         public bool Identify(File_Info fileInfo, Stream stream)
@@ -112,10 +112,7 @@ namespace TurboLibrary.MuuntEditor
             dlg.FileName = "course_mapcamera.bin";
             dlg.AddFilter(".bin", "bin");
             if (dlg.ShowDialog()) {
-                //Apply camera params
-                _camera.UpdateMatrices();
-                CameraParams.Position = _camera.GetViewPostion();
-                CameraParams.LookAtPosition = _camera.GetLookAtPostion(1000);
+                SyncParamsFromCamera();
                 CameraParams.Save(dlg.FilePath);
             }
         }
@@ -127,10 +124,12 @@ namespace TurboLibrary.MuuntEditor
             UpdateCamera();
         }
 
-        private void ApplyCameraPlacement()
+        // Ensure the camera is synced with current camera parameters
+        private void SyncParamsFromCamera()
         {
-            _camera.TargetPosition = CameraParams.Position;
             _camera.UpdateMatrices();
+            CameraParams.Position = _camera.GetViewPostion();
+            CameraParams.LookAtPosition = _camera.TargetPosition;
         }
 
         private void RenderCameraProperties()
@@ -139,17 +138,25 @@ namespace TurboLibrary.MuuntEditor
 
             if (ImGui.CollapsingHeader("Camera", ImGuiTreeNodeFlags.DefaultOpen))
             {
-                bool updateCamera = false;
-                updateCamera |= ImGuiHelper.InputTKVector3("Position", _camera, "TargetPosition");
-                updateCamera |= ImGuiHelper.InputFromFloat("Rotation X", _camera, "RotationDegreesX", true, 0.1F);
-                updateCamera |= ImGuiHelper.InputFromFloat("Rotation Y", _camera, "RotationDegreesY", true, 0.1F);
-                updateCamera |= ImGuiHelper.InputFromFloat("Rotation Z", _camera, "RotationDegreesZ", true, 0.1F);
-                if (updateCamera) {
-                    _camera.UpdateMatrices();
-                    CameraParams.Position = _camera.GetViewPostion();
-                    CameraParams.LookAtPosition = _camera.GetLookAtPostion(1000);
+                bool cameraChanged = false;
 
-                    ApplyCameraPlacement();
+                // Do direct editing of the camera view
+                var eyePosition = _camera.GetViewPostion();
+                var eyePositionNum = new System.Numerics.Vector3(eyePosition.X, eyePosition.Y, eyePosition.Z);
+                if (ImGui.DragFloat3("Position", ref eyePositionNum, 10f))
+                {
+                    var newEye = new Vector3(eyePositionNum.X, eyePositionNum.Y, eyePositionNum.Z);
+                    _camera.SetLookAt(newEye, _camera.TargetPosition, CameraParams.UpAxis);
+                    cameraChanged = true;
+                }
+                cameraChanged |= ImGuiHelper.InputTKVector3("Look At", _camera, "TargetPosition");
+                cameraChanged |= ImGuiHelper.InputFromFloat("Rotation X", _camera, "RotationDegreesX", true, 0.1F);
+                cameraChanged |= ImGuiHelper.InputFromFloat("Rotation Y", _camera, "RotationDegreesY", true, 0.1F);
+                cameraChanged |= ImGuiHelper.InputFromFloat("Rotation Z", _camera, "RotationDegreesZ", true, 0.1F);
+
+                if (cameraChanged) {
+                    SyncParamsFromCamera();
+                    GLContext.ActiveContext.UpdateViewport = true;
                     //  minimapTextureGen.Update(Workspace);
                 }
             }
@@ -160,12 +167,14 @@ namespace TurboLibrary.MuuntEditor
                     CameraParams.Height = CameraParams.Width;
                     _camera.ProjectionMatrix = CameraParams.ConstructOrthoMatrix();
                     _camera.UpdateMatrices();
+                    GLContext.ActiveContext.UpdateViewport = true;
                 }
                 if (ImGuiHelper.InputFromFloat("Ortho Height", CameraParams, "Height", false, 200)) {
                     //uniform scaling
                     CameraParams.Width = CameraParams.Height;
                     _camera.ProjectionMatrix = CameraParams.ConstructOrthoMatrix();
                     _camera.UpdateMatrices();
+                    GLContext.ActiveContext.UpdateViewport = true;
                 }
             }
 
@@ -233,17 +242,12 @@ namespace TurboLibrary.MuuntEditor
             }
         }
 
+        // Reload camera with current camera params
         private void UpdateCamera()
         {
             _camera.CanUpdate = true;
-
             _camera.UseSquareAspect = true;
-
-            _camera.Distance = 0;
-            _camera.TargetDistance = 0;
-            _camera.TargetPosition = CameraParams.Position;
-            _camera.RotateFromLookat(CameraParams.Position, CameraParams.LookAtPosition, CameraParams.UpAxis);
-            _camera.UpdateMatrices();
+            _camera.SetLookAt(CameraParams.Position, CameraParams.LookAtPosition, CameraParams.UpAxis);
 
             _camera.ProjectionMatrix = CameraParams.ConstructOrthoMatrix();
             _camera.CanUpdate = false;

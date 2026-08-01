@@ -28,6 +28,26 @@ namespace CafeLibrary.Rendering
         [BindGUI("Post Wrap")]
         public WrapMode PostWrap { get; set; } = BfresLibrary.WrapMode.Clamp;
 
+        public bool IsChanged => CalculateKeyHash() != KeyHash;
+
+        internal int KeyHash { get; set; }
+
+        internal int CalculateKeyHash()
+        {
+            int hash = this.InterpolationType.GetHashCode();
+            foreach (var kf in this.KeyFrames)
+            {
+                hash += kf.Frame.GetHashCode();
+                hash += kf.Value.GetHashCode();
+                if (kf is STHermiteKeyFrame)
+                {
+                    hash += ((STHermiteKeyFrame)kf).TangentIn.GetHashCode();
+                    hash += ((STHermiteKeyFrame)kf).TangentOut.GetHashCode();
+                }
+            }
+            return hash;
+        }
+
         private float GetWrapFrame(float frame)
         {
             var lastFrame = KeyFrames.Last().Frame;
@@ -66,6 +86,7 @@ namespace CafeLibrary.Rendering
             track.InterpolationType = this.InterpolationType;
             track.ChannelIndex = this.ChannelIndex;
             track.Name = this.Name;
+            track.KeyHash = this.KeyHash;
             foreach (var key in this.KeyFrames)
                 track.KeyFrames.Add(key.Clone());
         }

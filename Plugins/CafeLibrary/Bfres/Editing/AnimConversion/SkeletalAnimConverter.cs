@@ -91,6 +91,12 @@ namespace CafeLibrary
             curve.Target = target;
             curve.KeyType = track.KeyType;
             curve.FrameType = track.FrameType;
+            if (track.IsChanged)
+            {
+                curve.Offset = 0.0f;
+                curve.Scale = 1.0f;
+                curve.KeyType = AnimCurveKeyType.Single;
+            }
 
             if (track.InterpolationType == STInterpoaltionType.Hermite)
             {

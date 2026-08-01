@@ -99,6 +99,12 @@ namespace CafeLibrary
             animCurve.FrameType = track.FrameType;
             animCurve.StartFrame = track.StartFrame;
             animCurve.Delta = 0;
+            if (track.IsChanged)
+            {
+                animCurve.Offset = 0.0f;
+                animCurve.Scale = 1.0f;
+                animCurve.KeyType = AnimCurveKeyType.Single;
+            }
 
             if (track.InterpolationType == STInterpoaltionType.Hermite)
                 animCurve.CurveType = AnimCurveType.Cubic;

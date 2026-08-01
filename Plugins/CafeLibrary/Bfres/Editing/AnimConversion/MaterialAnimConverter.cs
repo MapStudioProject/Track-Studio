@@ -102,6 +102,12 @@ namespace CafeLibrary
             curve.Offset = track.Offset;
             curve.Target = target.ToString();
             curve.WrapMode = $"{track.PreWrap}, {track.PostWrap}";
+            if (track.IsChanged)
+            {
+                curve.Offset = 0.0f;
+                curve.Scale = 1.0f;
+                curve.KeyType = AnimCurveKeyType.Single;
+            }
 
             if (track.InterpolationType == STInterpoaltionType.Hermite)
             {

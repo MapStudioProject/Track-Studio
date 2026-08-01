@@ -116,6 +116,7 @@ namespace CafeLibrary.Rendering
                         break;
                 }
             }
+            track.KeyHash = track.CalculateKeyHash();
         }
 
         /// <summary>

@@ -66,7 +66,7 @@ namespace TurboLibrary.MuuntEditor
                 if (!DisplayUnusedParams && names[i] == null && isInDatabase)
                     continue;
 
-                string name = names[i] == null ? TranslationSource.GetText("UNUSED") : names[i];
+                string name = names[i] == null ? string.Format(TranslationSource.GetText("UNUSED"), i) : names[i];
                 if (!isInDatabase)
                     name = $"Param {i}";
 

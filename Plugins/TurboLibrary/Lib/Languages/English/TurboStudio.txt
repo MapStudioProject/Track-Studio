@@ -46,8 +46,8 @@ OBJECT - Object
 # These are short for game modes (multiplayer 2 player, 4 player, wifi, etc)
 MULTI2P - Multi2P
 MULTI4P - Multi4P
-WIFI = WiFi
-WIFI2P = WiFi2P
+WIFI - WiFi
+WIFI2P - WiFi2P
 
 NAME - Name
 DISABLE_COLLISION - Disable Collision
@@ -59,7 +59,7 @@ EDIT_PATH - Edit Path
 PARAMETERS - Parameters
 PATHS - Paths
 DISPLAY_UNUSED - Display Unused
-UNUSED = Unused
+UNUSED - Unused {0}
 
 RELATIVES - Relatives
 RELATIVE_OBJECT - Relative Object

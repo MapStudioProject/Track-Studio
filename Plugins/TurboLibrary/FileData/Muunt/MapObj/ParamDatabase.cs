@@ -1,10 +1,12 @@
 ﻿using AGraphicsLibrary;
 using Newtonsoft.Json;
+using Octokit;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using Toolbox.Core;
@@ -17,29 +19,78 @@ namespace TurboLibrary
     /// </summary>
     public sealed class ParamDataBaseSingleton
     {
-        private static string GetArchivesPath() => System.IO.Path.Combine(Runtime.ExecutableDir, "User", "MapObjArchives");
+        private static string GetUserArchivesPath() => System.IO.Path.Combine(Runtime.ExecutableDir, "User", "MapObjArchives");
         private static readonly string ArchiveExt = "*.json";
+
+        private static Dictionary<int, MapObjMeta> MetaDB = new Dictionary<int, MapObjMeta>();
 
         public static ParamDataBaseSingleton Instance { get; } = new ParamDataBaseSingleton();
 
         private ParamDataBaseSingleton()
         {
-            LoadArchivesFromDirectory();
+            // Load vanilla archives first
+            string archiveU_base = System.IO.Path.Combine(Runtime.ExecutableDir, "Resources", "MapObj_U_Base.json");
+            string archiveU_DLC = System.IO.Path.Combine(Runtime.ExecutableDir, "Resources", "MapObj_U_DLC.json");
+            string archiveDX_BCP = System.IO.Path.Combine(Runtime.ExecutableDir, "Resources", "MapObj_DX_BCP.json");
+
+            if (File.Exists(archiveU_base))
+                LoadArchiveFromFile(MetaDB, archiveU_base);
+            if (File.Exists(archiveU_DLC))
+                LoadArchiveFromFile(MetaDB, System.IO.Path.Combine(Runtime.ExecutableDir, "Resources", "MapObj_U_DLC.json"));
+            if (File.Exists(archiveDX_BCP))
+                LoadArchiveFromFile(MetaDB, System.IO.Path.Combine(Runtime.ExecutableDir, "Resources", "MapObj_DX_BCP.json"));
+
+            // Load any use archives, if present
+            LoadArchivesFromDirectory(MetaDB, GetUserArchivesPath(), ArchiveExt);
+
+            Console.WriteLine("Master MetaDB:\n=======================");
+            foreach (KeyValuePair<int, MapObjMeta> obj in MetaDB)
+            {
+                Console.WriteLine($"MapObjMeta ({obj.Key}):");
+                obj.Value.WriteDebugLog();
+                Console.WriteLine("------");
+            }
         }
 
         public MapObjMeta GetMeta(int objId)
         {
-            return null;
+            if (!MetaDB.ContainsKey(objId)) {
+                // Attempted to retrieve meta info for an object not in the database. This should never happen!
+                MetaDB[objId] = new MapObjMeta();
+            }
+            return MetaDB[objId];
         }
 
-        private Dictionary<int, MapObjMeta> LoadArchivesFromDirectory()
+        /// <summary>
+        /// Adds new meta information to a meta database, merging pre-existing data if needed.
+        /// </summary>
+        /// <param name="objId">Object ID</param>
+        /// <param name="newMeta">New meta info to store</param>
+        /// <param name="metaArchive">Pre-existing archive</param>
+        private void AddMetaToArchive(int objId, MapObjMeta newMeta, Dictionary<int, MapObjMeta> metaArchive)
         {
-            var path = GetArchivesPath();
+            if (!metaArchive.ContainsKey(objId))
+            {
+                // Attempted to retrieve meta info for an object not in the database, add it!
+                metaArchive[objId] = new MapObjMeta();
+            }
+            MapObjMeta curMeta = metaArchive[objId];
+            curMeta.Merge(newMeta);
+        }
+
+        /// <summary>
+        /// Populates a metaDB based on all files in a directory.
+        /// </summary>
+        /// <param name="metaDB">Meta database to populate</param>
+        /// <param name="path">Directory path</param>
+        /// <param name="archiveExt">File extension</param>
+        private void LoadArchivesFromDirectory(Dictionary<int, MapObjMeta> metaDB, string path, string archiveExt)
+        {
             string[] files = [];
-            Console.WriteLine($"Loading MapObj archives ({ArchiveExt}) from {path}");
+            Console.WriteLine($"Loading MapObj archives ({archiveExt}) from {path}");
             try
             {
-                files = Directory.GetFiles(path, ArchiveExt);
+                files = Directory.GetFiles(path, archiveExt);
                 Array.Sort(files);
             }
             catch (Exception e)
@@ -49,31 +100,35 @@ namespace TurboLibrary
             Console.WriteLine($"Found {files.Length} MapObj archives!");
             foreach (var file in files)
             {
-                Dictionary<int, MapObjMeta> objects = LoadArchiveFromFile(file);
-                // TODO merge
+                LoadArchiveFromFile(metaDB, file);
             }
-            return [];
         }
 
-        private Dictionary<int, MapObjMeta> LoadArchiveFromFile(string path)
+        /// <summary>
+        /// Populates a metaDB based on a single file
+        /// </summary>
+        /// <param name="metaDB">Meta database to populate</param>
+        /// <param name="path">Filepath</param>
+        private void LoadArchiveFromFile(Dictionary<int, MapObjMeta> metaDB, string path)
         {
             Console.WriteLine($"Reading MapObj archive {path}...");
             var content = File.ReadAllText(path);
             try
             {
                 Dictionary<int, MapObjMeta> objects = JsonConvert.DeserializeObject<Dictionary<int, MapObjMeta>>(content);
-                //foreach (KeyValuePair<int, MapObjMeta> entry in objects) {
-                //    Console.WriteLine($"MapObjMeta ({entry.Key}):");
-                //    entry.Value.WriteDebugLog();
-                //    Console.WriteLine("------");
-                //}
-                return objects;
+                foreach (KeyValuePair<int, MapObjMeta> obj in objects)
+                {
+                    AddMetaToArchive(obj.Key, obj.Value, metaDB);
+                    Console.WriteLine($"MapObjMeta ({obj.Key}):");
+                    obj.Value.WriteDebugLog();
+                    Console.WriteLine("------");
+                }
+                
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine(e);
             }
-            return [];
         }
     }
 

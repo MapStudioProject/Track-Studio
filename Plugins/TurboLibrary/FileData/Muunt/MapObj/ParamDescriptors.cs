@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using MapStudio.UI;
 using Newtonsoft.Json;
 using Ryujinx.Common.Logging;
 using Toolbox.Core;
@@ -16,9 +17,12 @@ namespace TurboLibrary
     /// </summary>
     public class MapObjMeta
     {
-        public string Name { get; set; } = "<Map Object>";
+        private static readonly string DefaultName = "<Map Object>";
+        private static readonly string DefaultDescription = "<No description provided>";
 
-        public string Description { get; set; } = "<No Description provided>";
+        public string Name { get; set; } = DefaultName;
+
+        public string Description { get; set; } = DefaultDescription;
 
         public string[] Aliases { get; set; } = [];
 
@@ -27,17 +31,20 @@ namespace TurboLibrary
         public string[] DLCRequiredU { get; set; } = [];
         public string[] DLCRequiredDX { get; set; } = [];
 
-        public ParamDescriptor[] Params { get; } = [null, null, null, null, null, null, null, null];
+        public ParamDescriptor[] Params { get; } = [
+            new ParamDescriptor(0), new ParamDescriptor(0), new ParamDescriptor(0), new ParamDescriptor(0),
+            new ParamDescriptor(0), new ParamDescriptor(0), new ParamDescriptor(0), new ParamDescriptor(0)
+        ];
 
         // For deserialization. The JSON format is more user friendly when allowing parameters to be defined this way.
-        [JsonProperty("param_0")] private ParamDescriptor Param1 { set { Params[0] = value; } }
-        [JsonProperty("param_1")] private ParamDescriptor Param2 { set { Params[1] = value; } }
-        [JsonProperty("param_2")] private ParamDescriptor Param3 { set { Params[2] = value; } }
-        [JsonProperty("param_3")] private ParamDescriptor Param4 { set { Params[3] = value; } }
-        [JsonProperty("param_4")] private ParamDescriptor Param5 { set { Params[4] = value; } }
-        [JsonProperty("param_5")] private ParamDescriptor Param6 { set { Params[5] = value; } }
-        [JsonProperty("param_6")] private ParamDescriptor Param7 { set { Params[6] = value; } }
-        [JsonProperty("param_7")] private ParamDescriptor Param8 { set { Params[7] = value; } }
+        [JsonProperty("param_0")] private ParamDescriptor Param1 { set { Params[0] = value; Params[0].IsUsed = true; } }
+        [JsonProperty("param_1")] private ParamDescriptor Param2 { set { Params[1] = value; Params[1].IsUsed = true; } }
+        [JsonProperty("param_2")] private ParamDescriptor Param3 { set { Params[2] = value; Params[2].IsUsed = true; } }
+        [JsonProperty("param_3")] private ParamDescriptor Param4 { set { Params[3] = value; Params[3].IsUsed = true; } }
+        [JsonProperty("param_4")] private ParamDescriptor Param5 { set { Params[4] = value; Params[4].IsUsed = true; } }
+        [JsonProperty("param_5")] private ParamDescriptor Param6 { set { Params[5] = value; Params[5].IsUsed = true; } }
+        [JsonProperty("param_6")] private ParamDescriptor Param7 { set { Params[6] = value; Params[6].IsUsed = true; } }
+        [JsonProperty("param_7")] private ParamDescriptor Param8 { set { Params[7] = value; Params[7].IsUsed = true; } }
 
         /// <summary>
         /// Writes this Meta information to the console for debugging purposes
@@ -67,6 +74,25 @@ namespace TurboLibrary
             }
         }
 
+        public void Merge(MapObjMeta other)
+        {
+            Name = other.Name == DefaultName ? Name : other.Name;
+            Description = other.Description == DefaultDescription ? Description : other.Description;
+            Aliases.Union(other.Aliases);
+            Array.Sort(Aliases);
+            Usages.Union(other.Usages);
+            Array.Sort(Usages);
+            DLCRequiredU.Union(other.DLCRequiredU);
+            Array.Sort(DLCRequiredU);
+            DLCRequiredDX.Union(other.DLCRequiredDX);
+            Array.Sort(DLCRequiredDX);
+
+            for (int i = 0; i < Params.Length; i++)
+            {
+                Params[i].Merge(other.Params[i]);
+            }
+        }
+
     }
 
     /// <summary>
@@ -74,9 +100,12 @@ namespace TurboLibrary
     /// </summary>
     public class ParamDescriptor
     {
+        private static readonly string DefaultName = "<Param Name>";
+        private static readonly string DefaultDescription = "<Param Description>";
+
+
         public enum ParamType
         {
-            INVALID,
             UNKNOWN,
             Float,
             Int,
@@ -86,11 +115,15 @@ namespace TurboLibrary
             Bytes, // Raw bytes
         }
 
-        public string Name { get; set; } = "";
+        public bool IsUsed { get; set; } = false;
 
-        public string Description { get; set; } = "";
+        public string Name { get; set; } = DefaultName;
+
+        public string Description { get; set; } = DefaultDescription;
 
         public float Default { get; set; } = 0f;
+
+        public float[] Samples { get; set; } = [];
 
         public bool IsSupportU { get; set; } = true; // Parameter is used in the Wii U version
         public bool IsSupportDX { get; set; } = true; // Parameter is used in Deluxe on the Switch
@@ -102,6 +135,10 @@ namespace TurboLibrary
         public float? MaxValue { get; set; } = null;
 
         public Dictionary<float, string> Enum { get; set; } = [];
+
+        public ParamDescriptor(int i) {
+            Name = string.Format(TranslationSource.GetText("UNUSED"), i);
+        }
 
         public bool Validate(float value)
         {
@@ -129,7 +166,28 @@ namespace TurboLibrary
             return (MinValue is null || Value >= MinValue) && (MaxValue is null || Value <= MaxValue);
         }
 
-
+        /// <summary>
+        /// Merges this descriptor with another one. The other descriptor has priority, assuming values are set.
+        /// </summary>
+        /// <param name="other"></param>
+        public void Merge(ParamDescriptor other)
+        {
+            IsUsed = IsUsed || other.IsUsed;
+            Name = other.Name == DefaultName ? Name : other.Name;
+            Description = other.Description == DefaultDescription ? Description : other.Description;
+            Default = other.Default == 0f ? Default : other.Default;
+            Samples.Union(other.Samples);
+            Array.Sort(Samples);
+            IsSupportU = IsSupportU || other.IsSupportU;
+            IsSupportDX = IsSupportDX || other.IsSupportDX;
+            IsModded = IsModded || other.IsModded;
+            Type = other.Type == ParamType.UNKNOWN ? Type : other.Type;
+            MinValue = other.MinValue ?? MinValue;
+            MaxValue = other.MaxValue ?? MaxValue;
+            foreach (KeyValuePair<float, string> kv in other.Enum) {
+                Enum[kv.Key] = kv.Value;
+            }
+        }
     }
     
 }

@@ -8,12 +8,17 @@ using ImGuiNET;
 using TurboLibrary;
 using GLFrameworkEngine;
 using GLFrameworkEngine.UI;
+using Newtonsoft.Json.Linq;
+using System.Net;
+using System.Drawing;
+using Toolbox.Core.IO;
 
 namespace TurboLibrary.MuuntEditor
 {
     public class MapObjectUI
     {
         static bool DisplayUnusedParams = false;
+        static bool DisplayRawFloats = false;
 
         public void Render(Obj mapObject, IEnumerable<object> selected)
         {
@@ -56,29 +61,105 @@ namespace TurboLibrary.MuuntEditor
         private void LoadParameterUI(Obj mapObject, IEnumerable<object> selected)
         {
             var names = mapObject.GetParameterNames();
-            bool isInDatabase = ParamDatabase.ParameterObjs.ContainsKey(mapObject.ObjId);
+            MapObjMeta meta = ParamDataBaseSingleton.Instance.GetMeta(mapObject.ObjId);
 
             ImGui.Checkbox(TranslationSource.GetText("DISPLAY_UNUSED"), ref DisplayUnusedParams);
-            ImGui.BeginColumns("params8", 2);
-            for (int i = 0; i < 8; i++)
-            {
-                var param = mapObject.Params[i];
-                if (!DisplayUnusedParams && names[i] == null && isInDatabase)
-                    continue;
+            ImGui.Checkbox(TranslationSource.GetText("DISPLAY_RAW"), ref DisplayRawFloats);
 
-                string name = names[i] == null ? string.Format(TranslationSource.GetText("UNUSED"), i) : names[i];
-                if (!isInDatabase)
-                    name = $"Param {i}";
+            float minHeight = ImGui.GetFontSize() + ImGui.GetStyle().FramePadding.Y * 2.0f;
 
-                if (DisplayFloat($"##param{i}", name, ref param)) {
-                    foreach (Obj obj in selected)
+            if (ImGui.BeginTable("params8", 2, ImGuiTableFlags.Resizable)) {
+                ImGui.TableSetupColumn("params8c1", ImGuiTableColumnFlags.WidthStretch);
+                //ImGui.TableSetupColumn("params8c2", ImGuiTableColumnFlags.WidthFixed, 10.0f);
+                ImGui.TableSetupColumn("params8c3", ImGuiTableColumnFlags.WidthStretch);
+
+                float rowHeight = ImGui.GetFontSize() + ImGui.GetStyle().FramePadding.Y * 2.0f;
+
+                for (int i = 0; i < 8; i++)
+                {
+                    ParamDescriptor pd = meta.Params[i];
+                    //Console.WriteLine($"Mapobj {mapObject.ObjId}: isDocd: {meta.IsDocumented}, isUsed {pd.IsUsed}");
+                    if (!DisplayUnusedParams && !pd.IsUsed && meta.IsDocumented)
+                        continue;
+
+                    string name = pd.Name;
+                    if (!meta.IsDocumented)
+                        name = string.Format(TranslationSource.GetText("PARAM"), i); // TODO: Move logic to ParamDescriptor
+
+                    var param = mapObject.Params[i];
+
+                    ImGui.TableNextRow(ImGuiTableRowFlags.None, rowHeight);
+                    ImGui.TableNextColumn();
+                    ImGui.AlignTextToFramePadding();
+                    ImGui.Text(name);
+                    ImGui.TableNextColumn();
+
+                    string icon = $"    {IconManager.WARNING_ICON}  ";
+                    if (!pd.Validate(param))
                     {
-                        obj.Params[i] = param;
-                        obj.NotifyPropertyChanged("Params");
+                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1, 1, 0.15f, 1.0f));
+                        ImGui.Text(icon);
+                        if (ImGui.IsItemHovered())
+                        {
+                            ImGui.BeginTooltip();
+                            ImGui.PushTextWrapPos(ImGui.GetCursorPos().X + 250.0f);
+                            ImGui.Text($"{param:F1}f is the current value.\nIt cannot be displayed in this widget and is considered invalid.");
+                            ImGui.EndTooltip();
+                        }
+                        ImGui.PopStyleColor();
+                    }
+                    else
+                        ImGui.Dummy(new Vector2(ImGui.CalcTextSize(icon).X, ImGui.GetFrameHeight()));
+
+                    ImGui.SameLine();
+                    ImGui.SetNextItemWidth(-1);
+                    string uiId = $"#####param{i}";
+
+                    bool isParamChanged = false;
+                    if (DisplayRawFloats || pd.Type == ParamDescriptor.ParamType.Float || pd.Type == ParamDescriptor.ParamType.UNKNOWN)
+                    {
+                        // Always show floats if enabled
+                        isParamChanged = ImGui.InputFloat(uiId, ref param);
+                    }
+                    else
+                    {
+                        //Console.WriteLine(pd.Type);
+                        switch (pd.Type)
+                        {
+                            case ParamDescriptor.ParamType.Int:
+                                int intParam = (int)param;
+                                isParamChanged = ImGui.InputInt(uiId, ref intParam, 1);
+                                param = (float)intParam;
+                                break;
+                            case ParamDescriptor.ParamType.Frame:
+
+                                break;
+                            case ParamDescriptor.ParamType.Bool:
+                                bool boolParam = param != 0f;
+                                isParamChanged = ImGui.Checkbox(uiId, ref boolParam);
+                                param = boolParam ? 1f : 0f;
+                                break;
+                            case ParamDescriptor.ParamType.Enum:
+
+                                break;
+                            case ParamDescriptor.ParamType.Bytes:
+                                int bytesParam = BitConverter.SingleToInt32Bits(param);
+                                isParamChanged = ImGui.InputInt(uiId, ref bytesParam, 1, 0x10, ImGuiInputTextFlags.CharsHexadecimal);
+                                param = (float)BitConverter.Int32BitsToSingle(bytesParam);
+                                break;
+                        }
+                    }
+
+                    if (isParamChanged) {
+                        foreach (Obj obj in selected)
+                        {
+                            obj.Params[i] = param;
+                            obj.NotifyPropertyChanged("Params");
+                        }
                     }
                 }
+                ImGui.EndTable();
             }
-            ImGui.EndColumns();
         }
 
         private void LoadPathUI(Obj mapObject)

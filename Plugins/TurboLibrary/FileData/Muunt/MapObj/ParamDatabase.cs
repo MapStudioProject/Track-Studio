@@ -55,8 +55,12 @@ namespace TurboLibrary
         public MapObjMeta GetMeta(int objId)
         {
             if (!MetaDB.ContainsKey(objId)) {
-                // Attempted to retrieve meta info for an object not in the database. This should never happen!
-                MetaDB[objId] = new MapObjMeta();
+                // Attempted to retrieve meta info for an object not in the database. This can happen if
+                //  Track studio's internal files run behind a game release with new mapObjs (unlikely).
+                //  Furthermore, a <c>objflow.byaml</c> might have been modified with new mapObjs.
+                //  We explicitly mention this was added later and not documented properly.
+                Console.Error.WriteLine($"Encountered unknown mapObj id: {objId}. Added it to the paramDB.");
+                MetaDB[objId] = new MapObjMeta(false);
             }
             return MetaDB[objId];
         }
@@ -72,7 +76,7 @@ namespace TurboLibrary
             if (!metaArchive.ContainsKey(objId))
             {
                 // Attempted to retrieve meta info for an object not in the database, add it!
-                metaArchive[objId] = new MapObjMeta();
+                metaArchive[objId] = new MapObjMeta(true);
             }
             MapObjMeta curMeta = metaArchive[objId];
             curMeta.Merge(newMeta);
@@ -119,9 +123,9 @@ namespace TurboLibrary
                 foreach (KeyValuePair<int, MapObjMeta> obj in objects)
                 {
                     AddMetaToArchive(obj.Key, obj.Value, metaDB);
-                    Console.WriteLine($"MapObjMeta ({obj.Key}):");
-                    obj.Value.WriteDebugLog();
-                    Console.WriteLine("------");
+                    //Console.WriteLine($"MapObjMeta ({obj.Key}):");
+                    //obj.Value.WriteDebugLog();
+                    //Console.WriteLine("------");
                 }
                 
             }

@@ -1,2 +1,50 @@
 {
+    "3026": {
+        "name": "DL_Metro",
+        "description": "A subway train with a variable number of wagons.",
+        "aliases": [ "Train", "Subway" ],
+        "usages": [ "U Super Bell Subway" ],
+        "param_0": {
+            "name": "Number of trains",
+            "description": "Number of wagons. The locomotive has a boost panel at the front.",
+            "type": "int",
+            "default": 6,
+            "minValue": 0
+        },
+        "param_1": {
+            "default": 5
+        },
+        "param_2": {
+            "default": 5
+        },
+        "param_3": {
+            "default": 6
+        },
+        "param_4": {
+            "name": "First respawn delay",
+            "description": "The duration after which the train respawns in its starting position. The train will respawn at path point 0 of its assigned rail path when the timer ends, even if it's still moving on its path. If 0, the train doesn't respawn. For path-loops this means it keeps going.",
+            "type": "frame",
+            "default": 0,
+            "minValue": 0
+        },
+        "param_5": {
+            "name": "Consecutive respawn delay",
+            "description": "Identical to the previous parameter, but instead for every respawn after the first.",
+            "type": "int",
+            "default": 0,
+            "minValue": 0
+        },
+        "param_6": {
+            "name": "Train color",
+            "type": "enum",
+            "default": 1,
+            "enum": {
+                0: "Red",
+                1: "Blue"
+            }
+        },
+        "param_7": {
+            "default": 1
+        }
+    }
 }

@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using MapStudio.UI;
 using Newtonsoft.Json;
-using Ryujinx.Common.Logging;
-using Toolbox.Core;
 
 namespace TurboLibrary
 {
@@ -19,6 +14,8 @@ namespace TurboLibrary
     {
         private static readonly string DefaultName = "<Map Object>";
         private static readonly string DefaultDescription = "<No description provided>";
+
+        public bool IsDocumented { get; set; } = true;
 
         public string Name { get; set; } = DefaultName;
 
@@ -32,8 +29,8 @@ namespace TurboLibrary
         public string[] DLCRequiredDX { get; set; } = [];
 
         public ParamDescriptor[] Params { get; } = [
-            new ParamDescriptor(0), new ParamDescriptor(0), new ParamDescriptor(0), new ParamDescriptor(0),
-            new ParamDescriptor(0), new ParamDescriptor(0), new ParamDescriptor(0), new ParamDescriptor(0)
+            new ParamDescriptor(0), new ParamDescriptor(1), new ParamDescriptor(2), new ParamDescriptor(3),
+            new ParamDescriptor(4), new ParamDescriptor(5), new ParamDescriptor(6), new ParamDescriptor(7)
         ];
 
         // For deserialization. The JSON format is more user friendly when allowing parameters to be defined this way.
@@ -45,6 +42,11 @@ namespace TurboLibrary
         [JsonProperty("param_5")] private ParamDescriptor Param6 { set { Params[5] = value; Params[5].IsUsed = true; } }
         [JsonProperty("param_6")] private ParamDescriptor Param7 { set { Params[6] = value; Params[6].IsUsed = true; } }
         [JsonProperty("param_7")] private ParamDescriptor Param8 { set { Params[7] = value; Params[7].IsUsed = true; } }
+
+        public MapObjMeta(bool isDocumented)
+        {
+            IsDocumented = IsDocumented;
+        }
 
         /// <summary>
         /// Writes this Meta information to the console for debugging purposes
@@ -76,6 +78,7 @@ namespace TurboLibrary
 
         public void Merge(MapObjMeta other)
         {
+            IsDocumented = IsDocumented || other.IsDocumented;
             Name = other.Name == DefaultName ? Name : other.Name;
             Description = other.Description == DefaultDescription ? Description : other.Description;
             Aliases.Union(other.Aliases);
@@ -178,8 +181,8 @@ namespace TurboLibrary
             Default = other.Default == 0f ? Default : other.Default;
             Samples.Union(other.Samples);
             Array.Sort(Samples);
-            IsSupportU = IsSupportU || other.IsSupportU;
-            IsSupportDX = IsSupportDX || other.IsSupportDX;
+            IsSupportU = IsSupportU && other.IsSupportU;
+            IsSupportDX = IsSupportDX && other.IsSupportDX;
             IsModded = IsModded || other.IsModded;
             Type = other.Type == ParamType.UNKNOWN ? Type : other.Type;
             MinValue = other.MinValue ?? MinValue;

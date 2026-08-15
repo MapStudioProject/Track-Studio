@@ -1,14 +1,82 @@
-﻿using Newtonsoft.Json;
+﻿using AGraphicsLibrary;
+using Newtonsoft.Json;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Toolbox.Core;
+using static Toolbox.Core.GUI.Controls;
 
 namespace TurboLibrary
 {
+    /// <summary>
+    /// TODO
+    /// </summary>
+    public sealed class ParamDataBaseSingleton
+    {
+        private static string GetArchivesPath() => System.IO.Path.Combine(Runtime.ExecutableDir, "User", "MapObjArchives");
+        private static readonly string ArchiveExt = "*.json";
+
+        public static ParamDataBaseSingleton Instance { get; } = new ParamDataBaseSingleton();
+
+        private ParamDataBaseSingleton()
+        {
+            LoadArchivesFromDirectory();
+        }
+
+        public MapObjMeta GetMeta(int objId)
+        {
+            return null;
+        }
+
+        private Dictionary<int, MapObjMeta> LoadArchivesFromDirectory()
+        {
+            var path = GetArchivesPath();
+            string[] files = [];
+            Console.WriteLine($"Loading MapObj archives ({ArchiveExt}) from {path}");
+            try
+            {
+                files = Directory.GetFiles(path, ArchiveExt);
+                Array.Sort(files);
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine($"Could not open directory: {path}\n{e.GetType()}: {e.Message}");
+            }
+            Console.WriteLine($"Found {files.Length} MapObj archives!");
+            foreach (var file in files)
+            {
+                Dictionary<int, MapObjMeta> objects = LoadArchiveFromFile(file);
+                // TODO merge
+            }
+            return [];
+        }
+
+        private Dictionary<int, MapObjMeta> LoadArchiveFromFile(string path)
+        {
+            Console.WriteLine($"Reading MapObj archive {path}...");
+            var content = File.ReadAllText(path);
+            try
+            {
+                Dictionary<int, MapObjMeta> objects = JsonConvert.DeserializeObject<Dictionary<int, MapObjMeta>>(content);
+                //foreach (KeyValuePair<int, MapObjMeta> entry in objects) {
+                //    Console.WriteLine($"MapObjMeta ({entry.Key}):");
+                //    entry.Value.WriteDebugLog();
+                //    Console.WriteLine("------");
+                //}
+                return objects;
+            }
+            catch (Exception e)
+            {
+                Console.Error.WriteLine(e);
+            }
+            return [];
+        }
+    }
+
     public class ParamDatabase
     {
         static string GetPath() => System.IO.Path.Combine(Runtime.ExecutableDir, "User", $"MapObjDB.json");

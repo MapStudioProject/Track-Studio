@@ -84,11 +84,24 @@ namespace TurboLibrary
 
         // ---- PROPERTIES ---------------------------------------------------------------------------------------------
 
+        private int _objId;
+
         /// <summary>
         /// Gets or sets the ID determining the type of this object.
         /// </summary>
         [ByamlMember]
-        public int ObjId { get; set; }
+        public int ObjId {
+            get { return _objId; }
+            set {
+                if (_objId == value)
+                    return;
+                // ObjId changes, should update its meta information as well
+                _objId = value;
+                Meta = ParamDataBaseSingleton.Instance.GetMeta(value);
+            }
+        }
+
+        public MapObjMeta Meta { get; private set; }
 
         [BindGUI("MULTI2P", Category = "OBJECT", ColumnIndex = 0, Control = BindControl.ToggleButton)]
         public bool HasMulti2P
@@ -286,7 +299,7 @@ namespace TurboLibrary
             this.Translate = new ByamlVector3F();
             this.Scale = new ByamlVector3F(1, 1, 1);
             this.Rotate = new ByamlVector3F();
-            ObjId = 1018;
+            ObjId = 1018; // Meta is updated by updating objId
 
             Params = new List<float>();
             for (int i = 0; i < 8; i++)
@@ -421,6 +434,7 @@ namespace TurboLibrary
                 Speed = this.Speed,
                 Single = this.Single,
                 ObjId = this.ObjId,
+                Meta = this.Meta,
                 NoCol = this.NoCol,
                 UnitIdNum = this.UnitIdNum,
                 ParentObj = this.ParentObj,

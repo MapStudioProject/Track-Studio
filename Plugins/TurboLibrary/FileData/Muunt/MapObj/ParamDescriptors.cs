@@ -20,13 +20,13 @@ namespace TurboLibrary
         public string Name { get; set; } = DefaultName;
 
         public string Description { get; set; } = DefaultDescription;
+        
+        public List<string> Aliases { get; set; } = [];
 
-        public string[] Aliases { get; set; } = [];
+        public List<string> Usages { get; set; } = []; // "U Sunshine Airport, ..."
 
-        public string[] Usages { get; set; } = []; // "U Sunshine Airport, ..."
-
-        public string[] DLCRequiredU { get; set; } = [];
-        public string[] DLCRequiredDX { get; set; } = [];
+        public List<string> DLCRequiredU { get; set; } = [];
+        public List<string> DLCRequiredDX { get; set; } = [];
 
         public ParamDescriptor[] Params { get; } = [
             new ParamDescriptor(0), new ParamDescriptor(1), new ParamDescriptor(2), new ParamDescriptor(3),
@@ -57,6 +57,9 @@ namespace TurboLibrary
             {
                 Console.WriteLine("{0} = {1}", property.Name, property.GetValue(this, null));
             }
+            Console.Write($"Aliases = {string.Join("|", Usages)}");
+            Console.Write($"Usages = {string.Join("|", Usages)}");
+
             for (int i = 0; i < Params.Length; i++)
             {
                 Console.WriteLine($"Param {i}");
@@ -81,14 +84,14 @@ namespace TurboLibrary
             IsDocumented = IsDocumented || other.IsDocumented;
             Name = other.Name == DefaultName ? Name : other.Name;
             Description = other.Description == DefaultDescription ? Description : other.Description;
-            Aliases.Union(other.Aliases);
-            Array.Sort(Aliases);
-            Usages.Union(other.Usages);
-            Array.Sort(Usages);
-            DLCRequiredU.Union(other.DLCRequiredU);
-            Array.Sort(DLCRequiredU);
-            DLCRequiredDX.Union(other.DLCRequiredDX);
-            Array.Sort(DLCRequiredDX);
+            Aliases.AddRange(other.Aliases);
+            Aliases.Sort();
+            Usages.AddRange(other.Usages);
+            Usages.Sort();
+            DLCRequiredU.AddRange(other.DLCRequiredU);
+            DLCRequiredU.Sort();
+            DLCRequiredDX.AddRange(other.DLCRequiredDX);
+            DLCRequiredDX.Sort();
 
             for (int i = 0; i < Params.Length; i++)
             {
@@ -126,7 +129,7 @@ namespace TurboLibrary
 
         public float Default { get; set; } = 0f;
 
-        public float[] Samples { get; set; } = [];
+        public List<float> Samples { get; set; } = [];
 
         public bool IsSupportU { get; set; } = true; // Parameter is used in the Wii U version
         public bool IsSupportDX { get; set; } = true; // Parameter is used in Deluxe on the Switch
@@ -140,7 +143,7 @@ namespace TurboLibrary
         public Dictionary<float, string> Enum { get; set; } = [];
 
         public ParamDescriptor(int i) {
-            Name = string.Format(TranslationSource.GetText("UNUSED"), i);
+            Name = string.Format(TranslationSource.GetText("PARAM_UNUSED"), i);
         }
 
         public bool Validate(float value)
@@ -179,8 +182,8 @@ namespace TurboLibrary
             Name = other.Name == DefaultName ? Name : other.Name;
             Description = other.Description == DefaultDescription ? Description : other.Description;
             Default = other.Default == 0f ? Default : other.Default;
-            Samples.Union(other.Samples);
-            Array.Sort(Samples);
+            Samples.AddRange(other.Samples);
+            Samples.Sort();
             IsSupportU = IsSupportU && other.IsSupportU;
             IsSupportDX = IsSupportDX && other.IsSupportDX;
             IsModded = IsModded || other.IsModded;

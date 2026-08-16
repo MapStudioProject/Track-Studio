@@ -18,6 +18,12 @@ namespace TurboLibrary
         public static Dictionary<int, ObjDefinition> ObjDatabase = new Dictionary<int, ObjDefinition>();
 
         /// <summary>
+        /// The database for obj actor parameters meta information. Things like parameter descriptions and types, or aliases.
+        /// This information cannot be extracted from the game files.
+        /// </summary>
+        public static ParamDataBaseSingleton ParamDataBase = ParamDataBaseSingleton.Instance;
+
+        /// <summary>
         /// The games content path.
         /// </summary>
         public static string GamePath { get; set; }

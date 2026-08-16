@@ -85,6 +85,8 @@ namespace TurboLibrary
         // ---- PROPERTIES ---------------------------------------------------------------------------------------------
 
         private int _objId;
+        public ObjDefinition ObjDef { get; private set; }
+        private MapObjMeta _objMeta; // local copy in case no corresponding ObjDefinition exists
 
         /// <summary>
         /// Gets or sets the ID determining the type of this object.
@@ -95,13 +97,23 @@ namespace TurboLibrary
             set {
                 if (_objId == value)
                     return;
-                // ObjId changes, should update its meta information as well
+                // ObjId changes, should update the corresponding definition as well
                 _objId = value;
-                Meta = ParamDataBaseSingleton.Instance.GetMeta(value);
+                ObjDef = null;
+                if (GlobalSettings.ObjDatabase.ContainsKey(value))
+                    ObjDef = GlobalSettings.ObjDatabase[this.ObjId];
+                else
+                    _objMeta = GlobalSettings.ParamDataBase.GetMeta(value);
             }
         }
 
-        public MapObjMeta Meta { get; private set; }
+        public MapObjMeta Meta { get
+            {
+                if (ObjDef is not null)
+                    return ObjDef.Meta;
+                return _objMeta;
+            }
+        }
 
         [BindGUI("MULTI2P", Category = "OBJECT", ColumnIndex = 0, Control = BindControl.ToggleButton)]
         public bool HasMulti2P
@@ -434,7 +446,6 @@ namespace TurboLibrary
                 Speed = this.Speed,
                 Single = this.Single,
                 ObjId = this.ObjId,
-                Meta = this.Meta,
                 NoCol = this.NoCol,
                 UnitIdNum = this.UnitIdNum,
                 ParentObj = this.ParentObj,

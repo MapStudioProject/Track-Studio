@@ -61,8 +61,7 @@ namespace TurboLibrary.MuuntEditor
 
         private void LoadParameterUI(Obj mapObject, IEnumerable<object> selected)
         {
-            var names = mapObject.GetParameterNames();
-            MapObjMeta meta = ParamDataBaseSingleton.Instance.GetMeta(mapObject.ObjId);
+            MapObjMeta meta = mapObject.Meta;
 
             ImGui.Checkbox(TranslationSource.GetText("DISPLAY_UNUSED"), ref DisplayUnusedParams);
             ImGui.SameLine(0, 10f);
@@ -85,7 +84,7 @@ namespace TurboLibrary.MuuntEditor
 
                     string name = pd.Name;
                     if (!meta.IsDocumented)
-                        name = string.Format(TranslationSource.GetText("PARAM"), i); // TODO: Move logic to ParamDescriptor
+                        name = string.Format(TranslationSource.GetText("PARAM_NOTDOC"), i); // TODO: Move logic to ParamDescriptor
 
                     var param = mapObject.Params[i];
 
@@ -143,7 +142,7 @@ namespace TurboLibrary.MuuntEditor
                                 param = boolParam ? 1f : 0f;
                                 break;
                             case ParamDescriptor.ParamType.Enum:
-                                string selectedS = pd.Enum.ContainsKey(param) ? $"{pd.Enum[param]} ({param})" : $"{TranslationSource.GetText("UNKNOWN")} ({param})";
+                                string selectedS = pd.Enum.ContainsKey(param) ? $"{pd.Enum[param]} ({param})" : $"{TranslationSource.GetText("ENUM_UNKNOWN")} ({param})";
                                 if (ImGui.BeginCombo(uiId, selectedS)) {
                                     foreach (KeyValuePair<float, string> e in pd.Enum)
                                     {

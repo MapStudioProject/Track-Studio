@@ -77,8 +77,8 @@ namespace TurboLibrary.MuuntEditor
 
                 for (int i = 0; i < 8; i++)
                 {
+                    string uiId = $"##param{i}";
                     ParamDescriptor pd = meta.Params[i];
-                    //Console.WriteLine($"Mapobj {mapObject.ObjId}: isDocd: {meta.IsDocumented}, isUsed {pd.IsUsed}");
                     if (!DisplayUnusedParams && !pd.IsUsed && meta.IsDocumented)
                         continue;
 
@@ -87,6 +87,8 @@ namespace TurboLibrary.MuuntEditor
                     ImGui.TableNextRow(ImGuiTableRowFlags.None, rowHeight);
                     ImGui.TableNextColumn();
                     ImGui.AlignTextToFramePadding();
+                    DisplayParamInfo(uiId, pd);
+                    ImGui.SameLine();
                     ImGui.Text(pd.Name);
                     ImGui.TableNextColumn();
 
@@ -109,7 +111,6 @@ namespace TurboLibrary.MuuntEditor
 
                     ImGui.SameLine();
                     ImGui.SetNextItemWidth(-1);
-                    string uiId = $"##param{i}";
 
                     bool isParamChanged = false;
                     if (DisplayRawFloats || pd.Type == ParamDescriptor.ParamType.Float || pd.Type == ParamDescriptor.ParamType.UNKNOWN)
@@ -119,7 +120,6 @@ namespace TurboLibrary.MuuntEditor
                     }
                     else
                     {
-                        //Console.WriteLine(pd.Type);
                         switch (pd.Type)
                         {
                             case ParamDescriptor.ParamType.Int:
@@ -127,7 +127,7 @@ namespace TurboLibrary.MuuntEditor
                                 isParamChanged = ImGui.InputInt(uiId, ref intParam, 1);
                                 param = (float)intParam;
                                 break;
-                            case ParamDescriptor.ParamType.Frame:
+                            case ParamDescriptor.ParamType.Time:
                                 int frameParam = (int)param;
                                 isParamChanged = DisplayTimer(uiId, ref frameParam);
                                 param = (float)frameParam;
@@ -354,5 +354,103 @@ namespace TurboLibrary.MuuntEditor
 
             return changed;
         }
+               
+        /// <summary>
+        /// Draws a badge with some label
+        /// </summary>
+        /// <param name="label"></param>
+        private void DrawBadge(string label, Vector4? bgColor = null, float rounding = 0.4f)
+        {
+            Vector4 _bgColor = bgColor ?? new Vector4(0.2f, 0.3f, 0.4f, 1.0f);
+            Vector2 padding = new Vector2(5f, 1f);
+            Vector2 size = ImGui.CalcTextSize(label) + padding * 2f;
+            Vector2 pos = ImGui.GetCursorScreenPos();
+            uint background = ImGui.GetColorU32(_bgColor);
+
+            ImGui.GetWindowDrawList().AddRectFilled(pos, pos + size, background, size.Y * rounding);
+
+            ImGui.SetCursorScreenPos(pos + padding);
+            ImGui.Text(label);
+
+            ImGui.SetCursorScreenPos(pos);
+            ImGui.Dummy(size);
+        }
+
+        /// <summary>
+        /// Displays the meta information of a given parameter
+        /// </summary>
+        private void DisplayParamInfo(string uiId, ParamDescriptor pd)
+        {
+            string buttonText = $"   {IconManager.INFO_ICON}  ";
+            if (!pd.HasAdditionalInfo())
+            {
+                ImGui.Dummy(new Vector2(ImGui.CalcTextSize(buttonText).X, ImGui.GetFrameHeight()));
+                return;
+            }
+
+            ImGui.Text($"{buttonText}");
+            if (ImGui.IsItemHovered())
+            {
+                ImGui.AlignTextToFramePadding();
+                ImGui.PushStyleVar(ImGuiStyleVar.WindowPadding, new Vector2(6f, 6f));
+                ImGui.PushStyleColor(ImGuiCol.Border, new Vector4(0.5f, 0.5f, 0.5f, 1f));
+                ImGui.BeginTooltip();
+
+                // Name and type
+                ImGui.PushTextWrapPos(ImGui.GetCursorPos().X + 500f);
+                DrawBadge(pd.Type == ParamDescriptor.ParamType.UNKNOWN ? "???" : pd.Type.ToString(), null, 0.1f);
+                ImGui.SameLine(0, 5f);
+                ImGuiHelper.BoldText(pd.Name);
+                ImGui.Separator();
+
+                // Display platforms (U, DX, mod)
+                List<Tuple<string, Vector4?>> badges = [];
+                if (pd.IsSupportU)
+                    badges.Add(Tuple.Create($"   {IconManager.ICON_WII_U}    Wii U", (Vector4?)new Vector4(0f, 150 / 255f, 200 / 255f, 1f)));
+                if (pd.IsSupportDX)
+                    badges.Add(Tuple.Create($"   {IconManager.ICON_SWITCH}    Switch", (Vector4?)new Vector4(230 / 255f, 0f, 18 / 255f, 1f)));
+                if (pd.IsModded)
+                    badges.Add(Tuple.Create($"   {IconManager.ICON_MOD}    Mod", (Vector4?)new Vector4(1f, 90 / 255f, 37 / 255f, 1f)));
+
+                bool isFirst = true;
+                foreach (Tuple<string, Vector4?> b in badges)
+                {
+                    if (!isFirst)
+                        ImGui.SameLine();
+                    isFirst = false;
+                    DrawBadge(b.Item1, b.Item2);
+                }
+
+                ImGui.Separator();
+
+                if (!string.IsNullOrWhiteSpace(pd.Description))
+                    ImGui.TextWrapped(pd.Description);
+
+                // Display default/min/max
+                ImGuiHelper.BoldTextLabel("Default", $"{pd.Default:0.0##}");
+                if (pd.MinValue is not null)
+                {
+                    ImGui.SameLine();
+                    ImGuiHelper.BoldTextLabel("Min", $"{pd.MinValue:0.0##}");
+                }
+                if (pd.MaxValue is not null)
+                {
+                    ImGui.SameLine();
+                    ImGuiHelper.BoldTextLabel("Max", $"{pd.MaxValue:0.0##}");
+                }
+
+                // Example values
+                if (pd.Samples.Count > 0)
+                    ImGuiHelper.BoldTextLabel("Example(s)", string.Join("  |  ", pd.Samples.Select(s => $"{s:0.###}")));
+
+                //ImGui.Spacing();
+                ImGui.PopStyleVar();
+                ImGui.PopStyleColor();
+                ImGui.EndTooltip();
+            }
+
+        }
+
+       
     }
 }

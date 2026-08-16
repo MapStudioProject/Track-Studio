@@ -125,7 +125,7 @@ namespace TurboLibrary
             Float,
             Int,
             Bool,
-            Frame, // Timer. 60fps, so a value of 60.0 means 1 second.
+            Time, // Timer. 60fps, so a value of 60.0 means 1 second.
             Enum,
             Bytes, // Raw bytes
         }
@@ -149,12 +149,15 @@ namespace TurboLibrary
 
         public string Description { get; set; } = "";
 
-        public float Default { get; set; } = 0f;
+        private float? _default = null;
+        public float Default { get => _default ?? 0f; set => _default = value; }
 
         public List<float> Samples { get; set; } = [];
 
-        public bool IsSupportU { get; set; } = true; // Parameter is used in the Wii U version
-        public bool IsSupportDX { get; set; } = true; // Parameter is used in Deluxe on the Switch
+        private bool? _isSupportU = null;
+        private bool? _isSupportDX = null;
+        public bool IsSupportU { get => _isSupportU != false; set => _isSupportU = value; } // Parameter is used in the Wii U version; null assumes true
+        public bool IsSupportDX { get => _isSupportDX != false; set => _isSupportDX = value; } // Parameter is used in Deluxe on the Switch; null assumes true
         public bool IsModded { get; set; } = false; // Parameter added by a code mod
 
         public ParamType Type { get; set; } = ParamType.UNKNOWN;
@@ -168,6 +171,11 @@ namespace TurboLibrary
             paramIndex = i;
         }
 
+        public bool HasAdditionalInfo()
+        {
+            return !string.IsNullOrWhiteSpace(Description) || _default is not null || Samples.Count > 0 || MinValue is not null || MaxValue is not null;
+        }
+
         public bool Validate(float value)
         {
             switch (Type)
@@ -178,9 +186,11 @@ namespace TurboLibrary
                 case ParamType.Float:
                     return ValidateMinMax(value);
                 case ParamType.Int:
-                case ParamType.Frame:
                     // account for rounding errors
                     return MathF.Abs(value - MathF.Round(value)) <= float.Epsilon && ValidateMinMax(value);
+                case ParamType.Time:
+                    // account for rounding errors
+                    return value >= 0 && MathF.Abs(value - MathF.Round(value)) <= float.Epsilon && ValidateMinMax(value);
                 case ParamType.Bool:
                     return value == 0f || value == 1f;
                 case ParamType.Enum:
@@ -203,11 +213,11 @@ namespace TurboLibrary
             IsUsed = IsUsed || other.IsUsed;
             _name = string.IsNullOrWhiteSpace(other._name) ? _name : other._name;
             Description = string.IsNullOrWhiteSpace(other.Description) ? Description : other.Description;
-            Default = other.Default == 0f ? Default : other.Default;
+            _default = other._default ?? _default;
             Samples.AddRange(other.Samples);
             Samples.Sort();
-            IsSupportU = IsSupportU && other.IsSupportU;
-            IsSupportDX = IsSupportDX && other.IsSupportDX;
+            _isSupportU = other._isSupportU ?? _isSupportU;
+            _isSupportDX = other._isSupportDX ?? _isSupportDX;
             IsModded = IsModded || other.IsModded;
             Type = other.Type == ParamType.UNKNOWN ? Type : other.Type;
             MinValue = other.MinValue ?? MinValue;

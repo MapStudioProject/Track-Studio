@@ -82,16 +82,12 @@ namespace TurboLibrary.MuuntEditor
                     if (!DisplayUnusedParams && !pd.IsUsed && meta.IsDocumented)
                         continue;
 
-                    string name = pd.Name;
-                    if (!meta.IsDocumented)
-                        name = string.Format(TranslationSource.GetText("PARAM_NOTDOC"), i); // TODO: Move logic to ParamDescriptor
-
                     var param = mapObject.Params[i];
 
                     ImGui.TableNextRow(ImGuiTableRowFlags.None, rowHeight);
                     ImGui.TableNextColumn();
                     ImGui.AlignTextToFramePadding();
-                    ImGui.Text(name);
+                    ImGui.Text(pd.Name);
                     ImGui.TableNextColumn();
 
                     string icon = $"    {IconManager.WARNING_ICON}  ";

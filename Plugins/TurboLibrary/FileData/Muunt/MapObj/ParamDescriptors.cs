@@ -12,14 +12,11 @@ namespace TurboLibrary
     /// </summary>
     public class MapObjMeta
     {
-        private static readonly string DefaultName = "<Map Object>";
-        private static readonly string DefaultDescription = "<No description provided>";
+        public bool IsDocumented { get; private set; }
 
-        public bool IsDocumented { get; set; } = true;
+        public string Name { get; set; } = "";
 
-        public string Name { get; set; } = DefaultName;
-
-        public string Description { get; set; } = DefaultDescription;
+        public string Description { get; set; } = "";
         
         public List<string> Aliases { get; set; } = [];
 
@@ -33,19 +30,35 @@ namespace TurboLibrary
             new ParamDescriptor(4), new ParamDescriptor(5), new ParamDescriptor(6), new ParamDescriptor(7)
         ];
 
+        // Utilised by JSON deserializer
+        private void setParam(int i, ParamDescriptor pd)
+        {
+            Params[i] = pd;
+            Params[i].IsUsed = true;
+        }
+
         // For deserialization. The JSON format is more user friendly when allowing parameters to be defined this way.
-        [JsonProperty("param_0")] private ParamDescriptor Param1 { set { Params[0] = value; Params[0].IsUsed = true; } }
-        [JsonProperty("param_1")] private ParamDescriptor Param2 { set { Params[1] = value; Params[1].IsUsed = true; } }
-        [JsonProperty("param_2")] private ParamDescriptor Param3 { set { Params[2] = value; Params[2].IsUsed = true; } }
-        [JsonProperty("param_3")] private ParamDescriptor Param4 { set { Params[3] = value; Params[3].IsUsed = true; } }
-        [JsonProperty("param_4")] private ParamDescriptor Param5 { set { Params[4] = value; Params[4].IsUsed = true; } }
-        [JsonProperty("param_5")] private ParamDescriptor Param6 { set { Params[5] = value; Params[5].IsUsed = true; } }
-        [JsonProperty("param_6")] private ParamDescriptor Param7 { set { Params[6] = value; Params[6].IsUsed = true; } }
-        [JsonProperty("param_7")] private ParamDescriptor Param8 { set { Params[7] = value; Params[7].IsUsed = true; } }
+        [JsonProperty("param_0")] private ParamDescriptor Param1 { set => setParam(0, value); }
+        [JsonProperty("param_1")] private ParamDescriptor Param2 { set => setParam(1, value); }
+        [JsonProperty("param_2")] private ParamDescriptor Param3 { set => setParam(2, value); }
+        [JsonProperty("param_3")] private ParamDescriptor Param4 { set => setParam(3, value); }
+        [JsonProperty("param_4")] private ParamDescriptor Param5 { set => setParam(4, value); }
+        [JsonProperty("param_5")] private ParamDescriptor Param6 { set => setParam(5, value); }
+        [JsonProperty("param_6")] private ParamDescriptor Param7 { set => setParam(6, value); }
+        [JsonProperty("param_7")] private ParamDescriptor Param8 { set => setParam(7, value); }
+
+        // For JSON deserialization
+        [JsonConstructor]
+        public MapObjMeta() { }
 
         public MapObjMeta(bool isDocumented)
         {
-            IsDocumented = IsDocumented;
+            IsDocumented = isDocumented;
+            Name = "<Unknown MapObj>";
+            Description = "<No description provided>";
+            // Mark all parameters as used if we don't know this object
+            if (!isDocumented)
+                Array.ForEach(Params, pd => pd.IsUsed = true);
         }
 
         /// <summary>
@@ -82,8 +95,8 @@ namespace TurboLibrary
         public void Merge(MapObjMeta other)
         {
             IsDocumented = IsDocumented || other.IsDocumented;
-            Name = other.Name == DefaultName ? Name : other.Name;
-            Description = other.Description == DefaultDescription ? Description : other.Description;
+            Name = string.IsNullOrWhiteSpace(other.Name) ? Name : other.Name;
+            Description = string.IsNullOrWhiteSpace(other.Description) ? Description : other.Description;
             Aliases.AddRange(other.Aliases);
             Aliases.Sort();
             Usages.AddRange(other.Usages);
@@ -106,10 +119,6 @@ namespace TurboLibrary
     /// </summary>
     public class ParamDescriptor
     {
-        private static readonly string DefaultName = "<Param Name>";
-        private static readonly string DefaultDescription = "<Param Description>";
-
-
         public enum ParamType
         {
             UNKNOWN,
@@ -121,11 +130,24 @@ namespace TurboLibrary
             Bytes, // Raw bytes
         }
 
-        public bool IsUsed { get; set; } = false;
+        public bool IsUsed { get; internal set; } = false;
 
-        public string Name { get; set; } = DefaultName;
+        public int paramIndex { get; set; } = -1;
 
-        public string Description { get; set; } = DefaultDescription;
+        private string _name = "";
+        public string Name
+        {
+            get {
+                if (!string.IsNullOrWhiteSpace(_name))
+                    return _name;
+                if (!IsUsed)
+                    return string.Format(TranslationSource.GetText("PARAM_UNUSED"), paramIndex);
+                return string.Format(TranslationSource.GetText("PARAM_NOTDOC"), paramIndex);
+            }
+            set => _name = value;
+        }
+
+        public string Description { get; set; } = "";
 
         public float Default { get; set; } = 0f;
 
@@ -143,7 +165,7 @@ namespace TurboLibrary
         public Dictionary<float, string> Enum { get; set; } = [];
 
         public ParamDescriptor(int i) {
-            Name = string.Format(TranslationSource.GetText("PARAM_UNUSED"), i);
+            paramIndex = i;
         }
 
         public bool Validate(float value)
@@ -179,8 +201,8 @@ namespace TurboLibrary
         public void Merge(ParamDescriptor other)
         {
             IsUsed = IsUsed || other.IsUsed;
-            Name = other.Name == DefaultName ? Name : other.Name;
-            Description = other.Description == DefaultDescription ? Description : other.Description;
+            _name = string.IsNullOrWhiteSpace(other._name) ? _name : other._name;
+            Description = string.IsNullOrWhiteSpace(other.Description) ? Description : other.Description;
             Default = other.Default == 0f ? Default : other.Default;
             Samples.AddRange(other.Samples);
             Samples.Sort();
@@ -193,6 +215,7 @@ namespace TurboLibrary
             foreach (KeyValuePair<float, string> kv in other.Enum) {
                 Enum[kv.Key] = kv.Value;
             }
+
         }
     }
     

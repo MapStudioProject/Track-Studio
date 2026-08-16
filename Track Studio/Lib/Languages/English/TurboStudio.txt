@@ -60,8 +60,9 @@ PARAMETERS - Parameters
 PATHS - Paths
 DISPLAY_UNUSED - Display Unused
 DISPLAY_RAW - Display Raw
-UNUSED - Unused {0}
+UNUSED - UNUSED {0}
 PARAM - Param {0}
+UNKNOWN - UNKNOWN
 
 RELATIVES - Relatives
 RELATIVE_OBJECT - Relative Object

@@ -12,6 +12,7 @@ using Newtonsoft.Json.Linq;
 using System.Net;
 using System.Drawing;
 using Toolbox.Core.IO;
+using System.Collections;
 
 namespace TurboLibrary.MuuntEditor
 {
@@ -64,13 +65,13 @@ namespace TurboLibrary.MuuntEditor
             MapObjMeta meta = ParamDataBaseSingleton.Instance.GetMeta(mapObject.ObjId);
 
             ImGui.Checkbox(TranslationSource.GetText("DISPLAY_UNUSED"), ref DisplayUnusedParams);
+            ImGui.SameLine(0, 10f);
             ImGui.Checkbox(TranslationSource.GetText("DISPLAY_RAW"), ref DisplayRawFloats);
 
             float minHeight = ImGui.GetFontSize() + ImGui.GetStyle().FramePadding.Y * 2.0f;
 
             if (ImGui.BeginTable("params8", 2, ImGuiTableFlags.Resizable)) {
                 ImGui.TableSetupColumn("params8c1", ImGuiTableColumnFlags.WidthStretch);
-                //ImGui.TableSetupColumn("params8c2", ImGuiTableColumnFlags.WidthFixed, 10.0f);
                 ImGui.TableSetupColumn("params8c3", ImGuiTableColumnFlags.WidthStretch);
 
                 float rowHeight = ImGui.GetFontSize() + ImGui.GetStyle().FramePadding.Y * 2.0f;
@@ -103,7 +104,7 @@ namespace TurboLibrary.MuuntEditor
                         {
                             ImGui.BeginTooltip();
                             ImGui.PushTextWrapPos(ImGui.GetCursorPos().X + 250.0f);
-                            ImGui.Text($"{param:F1}f is the current value.\nIt cannot be displayed in this widget and is considered invalid.");
+                            ImGui.Text($"{param:0.0##}f is the current value.\nIt cannot be displayed in this widget and is considered invalid.");
                             ImGui.EndTooltip();
                         }
                         ImGui.PopStyleColor();
@@ -113,7 +114,7 @@ namespace TurboLibrary.MuuntEditor
 
                     ImGui.SameLine();
                     ImGui.SetNextItemWidth(-1);
-                    string uiId = $"#####param{i}";
+                    string uiId = $"##param{i}";
 
                     bool isParamChanged = false;
                     if (DisplayRawFloats || pd.Type == ParamDescriptor.ParamType.Float || pd.Type == ParamDescriptor.ParamType.UNKNOWN)
@@ -132,7 +133,9 @@ namespace TurboLibrary.MuuntEditor
                                 param = (float)intParam;
                                 break;
                             case ParamDescriptor.ParamType.Frame:
-
+                                int frameParam = (int)param;
+                                isParamChanged = DisplayTimer(uiId, ref frameParam);
+                                param = (float)frameParam;
                                 break;
                             case ParamDescriptor.ParamType.Bool:
                                 bool boolParam = param != 0f;
@@ -140,7 +143,24 @@ namespace TurboLibrary.MuuntEditor
                                 param = boolParam ? 1f : 0f;
                                 break;
                             case ParamDescriptor.ParamType.Enum:
+                                string selectedS = pd.Enum.ContainsKey(param) ? $"{pd.Enum[param]} ({param})" : $"{TranslationSource.GetText("UNKNOWN")} ({param})";
+                                if (ImGui.BeginCombo(uiId, selectedS)) {
+                                    foreach (KeyValuePair<float, string> e in pd.Enum)
+                                    {
+                                        bool isSelected = param == e.Key;
 
+                                        if (ImGui.Selectable($"{e.Value} ({e.Key})", isSelected))
+                                        {
+                                            param = e.Key;
+                                            isParamChanged = true;
+                                        }
+
+                                        if (isSelected)
+                                            ImGui.SetItemDefaultFocus();
+                                        
+                                    }
+                                    ImGui.EndCombo();
+                                }
                                 break;
                             case ParamDescriptor.ParamType.Bytes:
                                 int bytesParam = BitConverter.SingleToInt32Bits(param);
@@ -271,14 +291,73 @@ namespace TurboLibrary.MuuntEditor
             return null;
         }
 
-        private bool DisplayFloat(string id, string name, ref float value)
+        /// <summary>
+        /// Displays a m:ss.mmm timer widget, based on a given number of frames
+        /// </summary>
+        /// <param name="id">id used for UI components</param>
+        /// <param name="frames">Number of frames to display</param>
+        /// <returns></returns>
+        private bool DisplayTimer(string id, ref int frames)
         {
-            ImGui.AlignTextToFramePadding();
-            ImGui.Text(name);
-            ImGui.NextColumn();
-            bool input = ImGui.InputFloat($"###{id}", ref value);
-            ImGui.NextColumn();
-            return input;
+            // 60 FPS -> approximately 16.667 ms per frame.
+            const int FPS = 60;
+            const int FPM = FPS * 60;
+
+            // Convert frames to m:ss.mmm
+            int minutes = frames / FPM;
+            int seconds = (frames / FPS) % 60;
+            int remainingFrames = frames % FPS;
+            int milliseconds = (int)(remainingFrames * 1000.0 / FPS);
+
+            bool changed = false;
+            var flags = ImGuiInputTextFlags.CharsDecimal | ImGuiInputTextFlags.AutoSelectAll;
+
+            string minutesS = minutes.ToString();
+            string secondsS = seconds.ToString("00");
+            string millisecondsS = milliseconds.ToString("000");
+
+            ImGui.SetNextItemWidth(16);
+            if (ImGui.InputText($"{id}_minutes", ref minutesS, 1, flags))
+            {
+                int.TryParse(minutesS, out minutes);
+                minutes = Math.Max(0, minutes);
+                changed = true;
+            }
+
+            ImGui.SameLine(0, 2);
+            ImGui.Text(":");
+            ImGui.SameLine(0, 2);
+
+            ImGui.SetNextItemWidth(24);
+            if (ImGui.InputText($"{id}_seconds", ref secondsS, 2, flags))
+            {
+                int.TryParse(secondsS, out seconds);
+                seconds = Math.Max(0, Math.Min(59, seconds));
+                changed = true;
+            }
+
+            ImGui.SameLine(0, 2);
+            ImGui.Text(".");
+            ImGui.SameLine(0, 2);
+
+            ImGui.SetNextItemWidth(32);
+            if (ImGui.InputText($"{id}_milliseconds", ref millisecondsS, 3, flags))
+            {
+                int.TryParse(millisecondsS, out milliseconds);
+                milliseconds = Math.Max(0, Math.Min(999, milliseconds));
+                changed = true;
+            }
+
+            if (changed)
+            {
+                // Convert the edited m:ss.mmm back to frames.
+                frames =
+                    minutes * FPM +
+                    seconds * FPS +
+                    (int)(milliseconds * FPS / 1000.0);
+            }
+
+            return changed;
         }
     }
 }

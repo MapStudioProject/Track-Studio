@@ -454,6 +454,7 @@ namespace TurboLibrary.MuuntEditor
 
             //Set the UI label and property tag
             render.UINode.Header = GetNodeHeader(obj);
+            render.UINode.Aliases = obj.Meta.Aliases;
             render.UINode.Tag = obj;
             render.UINode.ContextMenus.Add(new MenuItemModel("EXPORT", () => ExportModel()));
             //Set custom UI properties

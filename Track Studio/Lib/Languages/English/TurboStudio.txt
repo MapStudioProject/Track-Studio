@@ -80,7 +80,11 @@ DISPLAY_ANY_PLATFORM - Unsupported
 PARAM_UNUSED - UNUSED {0}
 PARAM_NOTDOC - Unknown {0}
 ENUM_UNKNOWN - UNKNOWN
+PARAM_DEFAULT - Default
+PARAM_MIN - Min
+PARAM_MAX - Max
 PARAM_SAMPLE - Example(s)
+PARAM_WARNING - {0}f is the current value. It is considered invalid and may not be displayed properly in this widget.
 
 RELATIVES - Relatives
 RELATIVE_OBJECT - Relative Object

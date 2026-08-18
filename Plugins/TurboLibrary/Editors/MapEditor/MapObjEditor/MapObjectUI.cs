@@ -70,13 +70,16 @@ namespace TurboLibrary.MuuntEditor
 
         private void LoadMetaUI(Obj mapObject, IEnumerable<object> selected)
         {
+            ImGui.Indent(5f);
             MapObjMeta meta = mapObject.Meta;
-
+            ImGui.Spacing();
             DrawPlatformBadges(meta.Platforms);
+            ImGui.Separator();
             ImGui.TextWrapped(meta.Description);
 
             ImGui.Spacing();
-            ImGuiHelper.BoldTextLabel(TranslationSource.GetText("TRACK_USAGE"), string.Join("  |  ", meta.Usages.Select(s => $"{s}")));
+            if (meta.Usages.Count > 0)
+                ImGuiHelper.BoldTextLabel(TranslationSource.GetText("TRACK_USAGE"), string.Join("  |  ", meta.Usages.Select(s => $"{s}")));
 
             if (meta.Aliases.Count > 0)
             {
@@ -95,15 +98,16 @@ namespace TurboLibrary.MuuntEditor
                     lineSize += size;
                     DrawBadge(alias);
                 }
-                
             }
+            ImGui.Unindent(5f);
         }
 
         private void LoadParameterUI(Obj mapObject, IEnumerable<object> selected)
         {
             MapObjMeta meta = mapObject.Meta;
 
-            ImGuiHelper.BoldText(TranslationSource.GetText("DISPLAY") + ":");
+            ImGui.AlignTextToFramePadding();
+            ImGuiHelper.BoldText(TranslationSource.GetText("DISPLAY"));
             ImGui.SameLine(0, 10f);
             ImGui.Checkbox(TranslationSource.GetText("DISPLAY_UNUSED"), ref DisplayUnusedParams);
             ImGui.SameLine(0, 10f);
@@ -114,7 +118,7 @@ namespace TurboLibrary.MuuntEditor
             float minHeight = ImGui.GetFontSize() + ImGui.GetStyle().FramePadding.Y * 2.0f;
 
             if (ImGui.BeginTable("params8", 3, ImGuiTableFlags.Resizable)) {
-                ImGui.TableSetupColumn("params8c1", ImGuiTableColumnFlags.WidthStretch, 2f);
+                ImGui.TableSetupColumn("params8c1", ImGuiTableColumnFlags.WidthStretch, 1f);
                 ImGui.TableSetupColumn("params8c2", ImGuiTableColumnFlags.WidthStretch | ImGuiTableColumnFlags.NoResize, 1f);
                 ImGui.TableSetupColumn("params8c3", ImGuiTableColumnFlags.WidthFixed | ImGuiTableColumnFlags.NoResize, 25f);
 
@@ -135,39 +139,21 @@ namespace TurboLibrary.MuuntEditor
                     var param = mapObject.Params[i];
 
                     ImGui.TableNextRow(ImGuiTableRowFlags.None, rowHeight);
+
                     ImGui.TableNextColumn();
                     // Name
                     ImGui.AlignTextToFramePadding();
-                    DisplayParamInfo(uiId, pd, meta);
+                    DisplayParamInfo(uiId, pd, meta, param);
                     ImGui.SameLine();
                     ImGui.TextWrapped(pd.Name);
+
                     ImGui.TableNextColumn();
                     // Inputs
-
-                    string icon = $"    {IconManager.WARNING_ICON}  ";
-                    if (!pd.Validate(param))
-                    {
-                        ImGui.PushStyleColor(ImGuiCol.Text, new Vector4(1, 1, 0.15f, 1.0f));
-                        ImGui.Text(icon);
-                        if (ImGui.IsItemHovered())
-                        {
-                            ImGui.BeginTooltip();
-                            ImGui.PushTextWrapPos(ImGui.GetCursorPos().X + 250.0f);
-                            ImGui.Text($"{param:0.0##}f is the current value.\nIt cannot be displayed in this widget and is considered invalid.");
-                            ImGui.EndTooltip();
-                        }
-                        ImGui.PopStyleColor();
-                    }
-                    else
-                        ImGui.Dummy(new Vector2(ImGui.CalcTextSize(icon).X, ImGui.GetFrameHeight()));
-
-                    ImGui.SameLine();
-                    ImGui.SetNextItemWidth(-1);
-
                     bool isParamChanged = false;
                     if (DisplayRawFloats || pd.Type == ParamDescriptor.ParamType.Float || pd.Type == ParamDescriptor.ParamType.UNKNOWN)
                     {
                         // Always show floats if enabled
+                        ImGui.SetNextItemWidth(-1);
                         isParamChanged = ImGui.InputFloat(uiId, ref param);
                     }
                     else
@@ -176,6 +162,7 @@ namespace TurboLibrary.MuuntEditor
                         {
                             case ParamDescriptor.ParamType.Int:
                                 int intParam = (int)param;
+                                ImGui.SetNextItemWidth(-1);
                                 isParamChanged = ImGui.InputInt(uiId, ref intParam, 1);
                                 param = (float)intParam;
                                 break;
@@ -186,11 +173,13 @@ namespace TurboLibrary.MuuntEditor
                                 break;
                             case ParamDescriptor.ParamType.Bool:
                                 bool boolParam = param != 0f;
+                                ImGui.SetNextItemWidth(-1);
                                 isParamChanged = ImGui.Checkbox(uiId, ref boolParam);
                                 param = boolParam ? 1f : 0f;
                                 break;
                             case ParamDescriptor.ParamType.Enum:
                                 string selectedS = pd.Enum.ContainsKey(param) ? $"{pd.Enum[param]} ({param})" : $"{TranslationSource.GetText("ENUM_UNKNOWN")} ({param})";
+                                ImGui.SetNextItemWidth(-1);
                                 if (ImGui.BeginCombo(uiId, selectedS)) {
                                     foreach (KeyValuePair<float, string> e in pd.Enum)
                                     {
@@ -211,6 +200,7 @@ namespace TurboLibrary.MuuntEditor
                                 break;
                             case ParamDescriptor.ParamType.Bytes:
                                 int bytesParam = BitConverter.SingleToInt32Bits(param);
+                                ImGui.SetNextItemWidth(-1);
                                 isParamChanged = ImGui.InputInt(uiId, ref bytesParam, 1, 0x10, ImGuiInputTextFlags.CharsHexadecimal);
                                 param = (float)BitConverter.Int32BitsToSingle(bytesParam);
                                 break;
@@ -472,9 +462,10 @@ namespace TurboLibrary.MuuntEditor
         /// <summary>
         /// Displays the meta information of a given parameter
         /// </summary>
-        private void DisplayParamInfo(string uiId, ParamDescriptor pd, MapObjMeta meta)
+        private void DisplayParamInfo(string uiId, ParamDescriptor pd, MapObjMeta meta, float param)
         {
-            string buttonText = $"   {IconManager.INFO_ICON}  ";
+            bool isValid = pd.Validate(param);
+            string buttonText = $"   {(isValid ? IconManager.INFO_ICON : IconManager.WARNING_ICON)}  ";
             if (!pd.IsUsed || !meta.IsDocumented)
             {
                 // Skip drawing info if the parameter is unused, or we didn't know the object
@@ -487,7 +478,9 @@ namespace TurboLibrary.MuuntEditor
             var uVersion = pd.Platforms.VersionU;
             var dxVersion = pd.Platforms.VersionDX;
 
-            if (GlobalSettings.IsMK8D ? dxVersion == DXVersion.Modded : uVersion == UVersion.Modded)
+            if (!isValid)
+                color = ThemeHandler.Theme.Warning;
+            else if (GlobalSettings.IsMK8D ? dxVersion == DXVersion.Modded : uVersion == UVersion.Modded)
                 color = ModColor;
             else if (dxVersion == DXVersion.None && uVersion != UVersion.None)
                 color = UColor;
@@ -512,36 +505,37 @@ namespace TurboLibrary.MuuntEditor
                 // Display platforms (U, DX, mod)
                 DrawPlatformBadges(pd.Platforms);
 
-                ImGui.Separator();
-
                 // Description
                 if (!string.IsNullOrWhiteSpace(pd.Description))
                     ImGui.TextWrapped(pd.Description);
+                
 
                 // Display default/min/max
-                ImGuiHelper.BoldTextLabel("Default", $"{pd.Default:0.0##}");
+                ImGuiHelper.BoldTextLabel(TranslationSource.GetText("PARAM_DEFAULT"), $"{pd.Default:0.0##}");
                 if (pd.MinValue is not null)
                 {
                     ImGui.SameLine();
-                    ImGuiHelper.BoldTextLabel("Min", $"{pd.MinValue:0.0##}");
+                    ImGuiHelper.BoldTextLabel(TranslationSource.GetText("PARAM_MIN"), $"{pd.MinValue:0.0##}");
                 }
                 if (pd.MaxValue is not null)
                 {
                     ImGui.SameLine();
-                    ImGuiHelper.BoldTextLabel("Max", $"{pd.MaxValue:0.0##}");
+                    ImGuiHelper.BoldTextLabel(TranslationSource.GetText("PARAM_MAX"), $"{pd.MaxValue:0.0##}");
                 }
 
                 // Example values
                 if (pd.Samples.Count > 0)
                     ImGuiHelper.BoldTextLabel(TranslationSource.GetText("PARAM_SAMPLE"), string.Join("  |  ", pd.Samples.Select(s => $"{s:0.###}")));
 
+                // Invalid
+                if (!isValid)
+                    ImGui.TextColored(ThemeHandler.Theme.Warning, string.Format(TranslationSource.GetText("PARAM_WARNING"), $"{param:0.0##}"));
+                
                 ImGui.PopStyleVar();
                 ImGui.PopStyleColor();
                 ImGui.EndTooltip();
             }
 
         }
-
-       
     }
 }

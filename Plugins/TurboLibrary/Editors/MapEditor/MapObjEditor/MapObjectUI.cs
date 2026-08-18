@@ -20,7 +20,7 @@ namespace TurboLibrary.MuuntEditor
     {
         static bool DisplayUnusedParams = false;
         static bool DisplayRawFloats = false;
-        static bool DisplayBothVersions = true;
+        static bool DisplayAnyPlatform = true;
 
         static Vector4 UColor = new Vector4(0f, 150 / 255f, 200 / 255f, 1f);
         static Vector4 DXColor = new Vector4(230 / 255f, 0f, 18 / 255f, 1f);
@@ -103,15 +103,20 @@ namespace TurboLibrary.MuuntEditor
         {
             MapObjMeta meta = mapObject.Meta;
 
+            ImGuiHelper.BoldText(TranslationSource.GetText("DISPLAY") + ":");
+            ImGui.SameLine(0, 10f);
             ImGui.Checkbox(TranslationSource.GetText("DISPLAY_UNUSED"), ref DisplayUnusedParams);
             ImGui.SameLine(0, 10f);
             ImGui.Checkbox(TranslationSource.GetText("DISPLAY_RAW"), ref DisplayRawFloats);
+            ImGui.SameLine(0, 10f);
+            ImGui.Checkbox(TranslationSource.GetText("DISPLAY_ANY_PLATFORM"), ref DisplayAnyPlatform);
 
             float minHeight = ImGui.GetFontSize() + ImGui.GetStyle().FramePadding.Y * 2.0f;
 
-            if (ImGui.BeginTable("params8", 2, ImGuiTableFlags.Resizable)) {
+            if (ImGui.BeginTable("params8", 3, ImGuiTableFlags.Resizable)) {
                 ImGui.TableSetupColumn("params8c1", ImGuiTableColumnFlags.WidthStretch, 2f);
-                ImGui.TableSetupColumn("params8c2", ImGuiTableColumnFlags.WidthStretch, 1f);
+                ImGui.TableSetupColumn("params8c2", ImGuiTableColumnFlags.WidthStretch | ImGuiTableColumnFlags.NoResize, 1f);
+                ImGui.TableSetupColumn("params8c3", ImGuiTableColumnFlags.WidthFixed | ImGuiTableColumnFlags.NoResize, 25f);
 
                 float rowHeight = ImGui.GetFontSize() + ImGui.GetStyle().FramePadding.Y * 2.0f;
 
@@ -119,18 +124,25 @@ namespace TurboLibrary.MuuntEditor
                 {
                     string uiId = $"##param{i}";
                     ParamDescriptor pd = meta.Params[i];
+                    // Hide unused parameters
                     if (!DisplayUnusedParams && !pd.IsUsed && meta.IsDocumented)
+                        continue;
+
+                    // Hide parameters not supported by the current version
+                    if (!DisplayAnyPlatform && (GlobalSettings.IsMK8D ? pd.Platforms.VersionDX == DXVersion.None : pd.Platforms.VersionU == UVersion.None))
                         continue;
 
                     var param = mapObject.Params[i];
 
                     ImGui.TableNextRow(ImGuiTableRowFlags.None, rowHeight);
                     ImGui.TableNextColumn();
+                    // Name
                     ImGui.AlignTextToFramePadding();
                     DisplayParamInfo(uiId, pd, meta);
                     ImGui.SameLine();
                     ImGui.TextWrapped(pd.Name);
                     ImGui.TableNextColumn();
+                    // Inputs
 
                     string icon = $"    {IconManager.WARNING_ICON}  ";
                     if (!pd.Validate(param))
@@ -203,6 +215,14 @@ namespace TurboLibrary.MuuntEditor
                                 param = (float)BitConverter.Int32BitsToSingle(bytesParam);
                                 break;
                         }
+                    }
+
+                    // reset to default
+                    ImGui.TableNextColumn();
+                    if (ImGui.Button($"  {IconManager.RESET_ICON}  ##{uiId}"))
+                    {
+                        isParamChanged = true;
+                        param = pd.Default;
                     }
 
                     if (isParamChanged) {
@@ -461,6 +481,7 @@ namespace TurboLibrary.MuuntEditor
                 ImGui.Dummy(new Vector2(ImGui.CalcTextSize(buttonText).X, ImGui.GetFrameHeight()));
                 return;
             }
+            
             // Determine icon color based on platform/modded status
             Vector4 color = ThemeHandler.Theme.Text;
             var uVersion = pd.Platforms.VersionU;

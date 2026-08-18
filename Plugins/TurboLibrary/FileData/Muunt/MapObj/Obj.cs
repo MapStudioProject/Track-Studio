@@ -100,6 +100,7 @@ namespace TurboLibrary
                 // ObjId changes, should update the corresponding definition as well
                 _objId = value;
                 ObjDef = null;
+                _objMeta = null;
                 if (GlobalSettings.ObjDatabase.ContainsKey(value))
                     ObjDef = GlobalSettings.ObjDatabase[this.ObjId];
                 else

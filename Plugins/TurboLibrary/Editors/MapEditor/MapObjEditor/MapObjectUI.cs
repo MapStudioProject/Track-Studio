@@ -20,6 +20,11 @@ namespace TurboLibrary.MuuntEditor
     {
         static bool DisplayUnusedParams = false;
         static bool DisplayRawFloats = false;
+        static bool DisplayBothVersions = true;
+
+        static Vector4 UColor = new Vector4(0f, 150 / 255f, 200 / 255f, 1f);
+        static Vector4 DXColor = new Vector4(230 / 255f, 0f, 18 / 255f, 1f);
+        static Vector4 ModColor = new Vector4(1f, 90 / 255f, 37 / 255f, 1f);
 
         public void Render(Obj mapObject, IEnumerable<object> selected)
         {
@@ -29,6 +34,10 @@ namespace TurboLibrary.MuuntEditor
 
             MapStudio.UI.ImguiBinder.LoadProperties(mapObject, selected);
 
+            if (ImGui.CollapsingHeader($"MapObject - {mapObject.Meta.Name}", ImGuiTreeNodeFlags.DefaultOpen))
+            {
+                LoadMetaUI(mapObject, selected);
+            }
             if (ImGui.CollapsingHeader(TranslationSource.GetText("PARAMETERS"), ImGuiTreeNodeFlags.DefaultOpen)) {
                 LoadParameterUI(mapObject, selected);
             }
@@ -59,6 +68,37 @@ namespace TurboLibrary.MuuntEditor
             return warnings.ToArray();
         }
 
+        private void LoadMetaUI(Obj mapObject, IEnumerable<object> selected)
+        {
+            MapObjMeta meta = mapObject.Meta;
+
+            DrawPlatformBadges(meta.Platforms);
+            ImGui.TextWrapped(meta.Description);
+
+            ImGui.Spacing();
+            ImGuiHelper.BoldTextLabel(TranslationSource.GetText("TRACK_USAGE"), string.Join("  |  ", meta.Usages.Select(s => $"{s}")));
+
+            if (meta.Aliases.Count > 0)
+            {
+                ImGui.Spacing();
+                string title = TranslationSource.GetText("TAGS") + ":";
+                ImGuiHelper.BoldText(title);
+                float lineSize = ImGui.CalcTextSize(title).X;
+                foreach (var alias in meta.Aliases)
+                {
+                    // Wrap badge if it doesn't fit on the same line.
+                    float size = ImGui.GetStyle().ItemSpacing.X + getBadgeSize(alias).X;
+                    if (ImGui.GetContentRegionAvail().X >= lineSize + size)
+                        ImGui.SameLine();
+                    else
+                        lineSize = 0;
+                    lineSize += size;
+                    DrawBadge(alias);
+                }
+                
+            }
+        }
+
         private void LoadParameterUI(Obj mapObject, IEnumerable<object> selected)
         {
             MapObjMeta meta = mapObject.Meta;
@@ -70,8 +110,8 @@ namespace TurboLibrary.MuuntEditor
             float minHeight = ImGui.GetFontSize() + ImGui.GetStyle().FramePadding.Y * 2.0f;
 
             if (ImGui.BeginTable("params8", 2, ImGuiTableFlags.Resizable)) {
-                ImGui.TableSetupColumn("params8c1", ImGuiTableColumnFlags.WidthStretch);
-                ImGui.TableSetupColumn("params8c3", ImGuiTableColumnFlags.WidthStretch);
+                ImGui.TableSetupColumn("params8c1", ImGuiTableColumnFlags.WidthStretch, 2f);
+                ImGui.TableSetupColumn("params8c2", ImGuiTableColumnFlags.WidthStretch, 1f);
 
                 float rowHeight = ImGui.GetFontSize() + ImGui.GetStyle().FramePadding.Y * 2.0f;
 
@@ -87,9 +127,9 @@ namespace TurboLibrary.MuuntEditor
                     ImGui.TableNextRow(ImGuiTableRowFlags.None, rowHeight);
                     ImGui.TableNextColumn();
                     ImGui.AlignTextToFramePadding();
-                    DisplayParamInfo(uiId, pd);
+                    DisplayParamInfo(uiId, pd, meta);
                     ImGui.SameLine();
-                    ImGui.Text(pd.Name);
+                    ImGui.TextWrapped(pd.Name);
                     ImGui.TableNextColumn();
 
                     string icon = $"    {IconManager.WARNING_ICON}  ";
@@ -354,7 +394,13 @@ namespace TurboLibrary.MuuntEditor
 
             return changed;
         }
-               
+
+        private static readonly Vector2 BadgePadding = new Vector2(5f, 1f);
+        private Vector2 getBadgeSize(string label)
+        {
+            return ImGui.CalcTextSize(label) + BadgePadding * 2f;
+        }
+              
         /// <summary>
         /// Draws a badge with some label
         /// </summary>
@@ -362,33 +408,72 @@ namespace TurboLibrary.MuuntEditor
         private void DrawBadge(string label, Vector4? bgColor = null, float rounding = 0.4f)
         {
             Vector4 _bgColor = bgColor ?? new Vector4(0.2f, 0.3f, 0.4f, 1.0f);
-            Vector2 padding = new Vector2(5f, 1f);
-            Vector2 size = ImGui.CalcTextSize(label) + padding * 2f;
+            Vector2 size = getBadgeSize(label);
             Vector2 pos = ImGui.GetCursorScreenPos();
             uint background = ImGui.GetColorU32(_bgColor);
 
             ImGui.GetWindowDrawList().AddRectFilled(pos, pos + size, background, size.Y * rounding);
 
-            ImGui.SetCursorScreenPos(pos + padding);
+            ImGui.SetCursorScreenPos(pos + BadgePadding);
             ImGui.Text(label);
 
             ImGui.SetCursorScreenPos(pos);
             ImGui.Dummy(size);
         }
 
+        private void DrawPlatformBadges(MetaPlatforms p)
+        {
+            List<Tuple<string, Vector4?>> badges = [];
+            var versionU = p.VersionU;
+            var versionDX = p.VersionDX;
+            if (versionU >= UVersion.Base)
+                badges.Add(Tuple.Create($"   {IconManager.ICON_WII_U}    {TranslationSource.GetText("PLATFORM_U")}", (Vector4?)UColor));
+            if (versionU > UVersion.Base && versionU < UVersion.Modded)
+                badges.Add(Tuple.Create($"   {IconManager.ICON_DOWNLOAD}    {TranslationSource.GetText($"DLC_U_{versionU.ToString().ToUpper()}")}", (Vector4?)null));
+            if (versionU == UVersion.Modded)
+                badges.Add(Tuple.Create($"   {IconManager.ICON_MOD}    {TranslationSource.GetText("PLATFORM_MOD")}", (Vector4?)ModColor));
+            if (versionDX >= DXVersion.Base)
+                badges.Add(Tuple.Create($"   {IconManager.ICON_SWITCH}    {TranslationSource.GetText("PLATFORM_SWITCH")}", (Vector4?)DXColor));
+            if (versionDX > DXVersion.Base && versionDX < DXVersion.Modded)
+                badges.Add(Tuple.Create($"   {IconManager.ICON_DOWNLOAD}    {TranslationSource.GetText($"DLC_DX_{versionDX.ToString().ToUpper()}")}", (Vector4?)null));
+            if (versionDX == DXVersion.Modded)
+                badges.Add(Tuple.Create($"   {IconManager.ICON_MOD}    {TranslationSource.GetText("PLATFORM_MOD")}", (Vector4?)ModColor));
+
+            bool isFirst = true;
+            foreach (Tuple<string, Vector4?> b in badges)
+            {
+                if (!isFirst)
+                    ImGui.SameLine();
+                isFirst = false;
+                DrawBadge(b.Item1, b.Item2);
+            }
+        }
+
         /// <summary>
         /// Displays the meta information of a given parameter
         /// </summary>
-        private void DisplayParamInfo(string uiId, ParamDescriptor pd)
+        private void DisplayParamInfo(string uiId, ParamDescriptor pd, MapObjMeta meta)
         {
             string buttonText = $"   {IconManager.INFO_ICON}  ";
-            if (!pd.HasAdditionalInfo())
+            if (!pd.IsUsed || !meta.IsDocumented)
             {
+                // Skip drawing info if the parameter is unused, or we didn't know the object
                 ImGui.Dummy(new Vector2(ImGui.CalcTextSize(buttonText).X, ImGui.GetFrameHeight()));
                 return;
             }
+            // Determine icon color based on platform/modded status
+            Vector4 color = ThemeHandler.Theme.Text;
+            var uVersion = pd.Platforms.VersionU;
+            var dxVersion = pd.Platforms.VersionDX;
 
-            ImGui.Text($"{buttonText}");
+            if (GlobalSettings.IsMK8D ? dxVersion == DXVersion.Modded : uVersion == UVersion.Modded)
+                color = ModColor;
+            else if (dxVersion == DXVersion.None && uVersion != UVersion.None)
+                color = UColor;
+            else if (dxVersion != DXVersion.None && uVersion == UVersion.None)
+                color = DXColor;
+
+            ImGui.TextColored(color, buttonText);
             if (ImGui.IsItemHovered())
             {
                 ImGui.AlignTextToFramePadding();
@@ -404,25 +489,11 @@ namespace TurboLibrary.MuuntEditor
                 ImGui.Separator();
 
                 // Display platforms (U, DX, mod)
-                List<Tuple<string, Vector4?>> badges = [];
-                if (pd.IsSupportU)
-                    badges.Add(Tuple.Create($"   {IconManager.ICON_WII_U}    Wii U", (Vector4?)new Vector4(0f, 150 / 255f, 200 / 255f, 1f)));
-                if (pd.IsSupportDX)
-                    badges.Add(Tuple.Create($"   {IconManager.ICON_SWITCH}    Switch", (Vector4?)new Vector4(230 / 255f, 0f, 18 / 255f, 1f)));
-                if (pd.IsModded)
-                    badges.Add(Tuple.Create($"   {IconManager.ICON_MOD}    Mod", (Vector4?)new Vector4(1f, 90 / 255f, 37 / 255f, 1f)));
-
-                bool isFirst = true;
-                foreach (Tuple<string, Vector4?> b in badges)
-                {
-                    if (!isFirst)
-                        ImGui.SameLine();
-                    isFirst = false;
-                    DrawBadge(b.Item1, b.Item2);
-                }
+                DrawPlatformBadges(pd.Platforms);
 
                 ImGui.Separator();
 
+                // Description
                 if (!string.IsNullOrWhiteSpace(pd.Description))
                     ImGui.TextWrapped(pd.Description);
 
@@ -441,9 +512,8 @@ namespace TurboLibrary.MuuntEditor
 
                 // Example values
                 if (pd.Samples.Count > 0)
-                    ImGuiHelper.BoldTextLabel("Example(s)", string.Join("  |  ", pd.Samples.Select(s => $"{s:0.###}")));
+                    ImGuiHelper.BoldTextLabel(TranslationSource.GetText("PARAM_SAMPLE"), string.Join("  |  ", pd.Samples.Select(s => $"{s:0.###}")));
 
-                //ImGui.Spacing();
                 ImGui.PopStyleVar();
                 ImGui.PopStyleColor();
                 ImGui.EndTooltip();

@@ -56,6 +56,21 @@ SINGLE - Single
 PATH_SPEED - Path Speed
 EDIT_PATH - Edit Path
 
+PLATFORM_U - Wii U
+PLATFORM_SWITCH - Switch
+PLATFORM_MOD - Modded
+DLC_U_ZELDA - Zelda DLC
+DLC_U_ANIMAL - Animal Crossing DLC
+DLC_U_MERCEDES - Mercedes DLC
+DLC_DX_BCP_1 - BCP (Wave 1)
+DLC_DX_BCP_2 - BCP (Wave 2)
+DLC_DX_BCP_3 - BCP (Wave 3)
+DLC_DX_BCP_4 - BCP (Wave 4)
+DLC_DX_BCP_5 - BCP (Wave 5)
+DLC_DX_BCP_6 - BCP (Wave 6)
+
+TRACK_USAGE - Used in
+TAGS - Tags
 PARAMETERS - Parameters
 PATHS - Paths
 DISPLAY_UNUSED - Display Unused
@@ -63,6 +78,7 @@ DISPLAY_RAW - Display Raw
 PARAM_UNUSED - UNUSED {0}
 PARAM_NOTDOC - Unknown {0}
 ENUM_UNKNOWN - UNKNOWN
+PARAM_SAMPLE - Example(s)
 
 RELATIVES - Relatives
 RELATIVE_OBJECT - Relative Object

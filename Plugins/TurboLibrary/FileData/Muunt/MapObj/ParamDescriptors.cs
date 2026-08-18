@@ -6,6 +6,47 @@ using Newtonsoft.Json;
 
 namespace TurboLibrary
 {
+    public enum UVersion
+    {
+        None = -1,
+        Base = 0,
+        Zelda,
+        Animal,
+        Mercedes,
+        Modded,
+    }
+
+    public enum DXVersion
+    {
+        None = -1,
+        Base = 0,
+        BCP_1,
+        BCP_2,
+        BCP_3,
+        BCP_4,
+        BCP_5,
+        BCP_6,
+        Modded,
+    }
+
+    public class MetaPlatforms
+    {
+        private UVersion? _uVersion = null;
+        private DXVersion? _dxVersion = null;
+        public UVersion VersionU { get => _uVersion == null ? UVersion.Base : (UVersion)_uVersion; set => _uVersion = value; } // Parameter is used in the Wii U version; null assumes true
+        public DXVersion VersionDX { get => _dxVersion == null ? DXVersion.Base : (DXVersion)_dxVersion; set => _dxVersion = value; } // Parameter is used in Deluxe on the Switch; null assumes true
+
+        /// <summary>
+        /// Merges this platform info with another one.
+        /// </summary>
+        /// <param name="other"></param>
+        public void Merge(MetaPlatforms other)
+        {
+            _uVersion = other._uVersion ?? _uVersion;
+            _dxVersion = other._dxVersion ?? _dxVersion;
+        }
+    }
+
     /// <summary>
     /// Meta information for an object (<see cref="Obj"/>) placed in the course. This information is not present
     /// in the <c>objflow.byaml</c>, but serves as more user-friendly guidelines for editing.
@@ -22,13 +63,16 @@ namespace TurboLibrary
 
         public List<string> Usages { get; set; } = []; // "U Sunshine Airport, ..."
 
-        public List<string> DLCRequiredU { get; set; } = [];
-        public List<string> DLCRequiredDX { get; set; } = [];
-
         public ParamDescriptor[] Params { get; } = [
             new ParamDescriptor(0), new ParamDescriptor(1), new ParamDescriptor(2), new ParamDescriptor(3),
             new ParamDescriptor(4), new ParamDescriptor(5), new ParamDescriptor(6), new ParamDescriptor(7)
         ];
+
+        // Wii U/Switch versions
+        public MetaPlatforms Platforms { get; } = new();
+        [JsonProperty("VersionU")] private UVersion VersionU { set => Platforms.VersionU = value; }
+        [JsonProperty("VersionDX")] private DXVersion VersionDX { set => Platforms.VersionDX = value; }
+
 
         // Utilised by JSON deserializer
         private void setParam(int i, ParamDescriptor pd)
@@ -101,10 +145,7 @@ namespace TurboLibrary
             Aliases.Sort();
             Usages.AddRange(other.Usages);
             Usages.Sort();
-            DLCRequiredU.AddRange(other.DLCRequiredU);
-            DLCRequiredU.Sort();
-            DLCRequiredDX.AddRange(other.DLCRequiredDX);
-            DLCRequiredDX.Sort();
+            Platforms.Merge(other.Platforms);
 
             for (int i = 0; i < Params.Length; i++)
             {
@@ -154,12 +195,6 @@ namespace TurboLibrary
 
         public List<float> Samples { get; set; } = [];
 
-        private bool? _isSupportU = null;
-        private bool? _isSupportDX = null;
-        public bool IsSupportU { get => _isSupportU != false; set => _isSupportU = value; } // Parameter is used in the Wii U version; null assumes true
-        public bool IsSupportDX { get => _isSupportDX != false; set => _isSupportDX = value; } // Parameter is used in Deluxe on the Switch; null assumes true
-        public bool IsModded { get; set; } = false; // Parameter added by a code mod
-
         public ParamType Type { get; set; } = ParamType.UNKNOWN;
 
         public float? MinValue { get; set; } = null;
@@ -167,13 +202,13 @@ namespace TurboLibrary
 
         public Dictionary<float, string> Enum { get; set; } = [];
 
+        // Wii U/Switch versions
+        public MetaPlatforms Platforms { get; } = new();
+        [JsonProperty("VersionU")] private UVersion VersionU { set => Platforms.VersionU = value; }
+        [JsonProperty("VersionDX")] private DXVersion VersionDX { set => Platforms.VersionDX = value; }
+
         public ParamDescriptor(int i) {
             paramIndex = i;
-        }
-
-        public bool HasAdditionalInfo()
-        {
-            return !string.IsNullOrWhiteSpace(Description) || _default is not null || Samples.Count > 0 || MinValue is not null || MaxValue is not null;
         }
 
         public bool Validate(float value)
@@ -216,16 +251,13 @@ namespace TurboLibrary
             _default = other._default ?? _default;
             Samples.AddRange(other.Samples);
             Samples.Sort();
-            _isSupportU = other._isSupportU ?? _isSupportU;
-            _isSupportDX = other._isSupportDX ?? _isSupportDX;
-            IsModded = IsModded || other.IsModded;
             Type = other.Type == ParamType.UNKNOWN ? Type : other.Type;
             MinValue = other.MinValue ?? MinValue;
             MaxValue = other.MaxValue ?? MaxValue;
             foreach (KeyValuePair<float, string> kv in other.Enum) {
                 Enum[kv.Key] = kv.Value;
             }
-
+            Platforms.Merge(other.Platforms);
         }
     }
     

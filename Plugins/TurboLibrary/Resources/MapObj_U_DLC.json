@@ -1,15 +1,340 @@
 {
+    "1136": {
+        "name": "DL_StarDossun",
+        "description": "",
+        "aliases": ["Thwomp"],
+        "usages": ["SNES Rainbow Road"],
+        "versionU": "Zelda",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "1137": {
+        "name": "DL_CmnAnimalA",
+        "description": "",
+        "aliases": ["Spectator"],
+        "usages": ["U Animal Crossing"],
+        "versionU": "Animal",
+        "param_0": {}
+    },
+    "1138": {
+        "name": "DL_CmnAnimalB",
+        "description": "",
+        "aliases": ["Spectator"],
+        "usages": ["U Animal Crossing"],
+        "versionU": "Animal",
+        "param_0": {}
+    },
+    "1139": {
+        "name": "DL_CmnAnimalC",
+        "description": "",
+        "aliases": ["Spectator"],
+        "usages": ["U Animal Crossing"],
+        "versionU": "Animal",
+        "param_0": {}
+    },
+    "1140": {
+        "name": "DL_CmnAnimalD",
+        "description": "",
+        "aliases": ["Spectator"],
+        "usages": ["U Animal Crossing"],
+        "versionU": "Animal",
+        "param_0": {}
+    },
+    "1144": {
+        "name": "DL_CmnSoldier",
+        "description": "",
+        "aliases": ["Spectator"],
+        "usages": ["U Animal Crossing"],
+        "versionU": "Animal",
+    },
+    "1145": {
+        "name": "DL_IceToad",
+        "description": "",
+        "usages": ["U Ice Ice Outpost"],
+        "versionU": "Animal",
+    },
+    "1147": {
+        "name": "DL_Keith",
+        "description": "A bat from the Legend of Zelda series.",
+        "aliases": ["Bat", "Swoop"],
+        "usages": ["U Hyrule Circuit"],
+        "versionU": "Zelda",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {},
+        "param_4": {}
+    },
+    "1148": {
+        "name": "DL_Dekubaba",
+        "description": "A plant from the Legend of Zelda series. Acts like a regular Piranha Plant.",
+        "aliases": ["Piranha Plant"],
+        "usages": ["U Hyrule Circuit"],
+        "versionU": "Zelda",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "1149": {
+        "name": "DL_MCAirship",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "1150": {
+        "name": "DL_ShyguyPickaxR",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "1151": {
+        "name": "DL_YcHelicopter",
+        "description": "",
+        "versionU": "Zelda",
+        "param_0": {},
+        "param_1": {}
+    },
+    "1152": {
+        "name": "DL_IceHelicopter",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "1153": {
+        "name": "DL_WoPulleyShyguy",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "1154": {
+        "name": "DL_Reset",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {}
+    },
+    "1156": {
+        "name": "DL_NkClown",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "1157": {
+        "name": "DL_NkClownW",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "1158": {
+        "name": "DL_AnimalTotakeke",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "1159": {
+        "name": "DL_AnimalRisa",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "1160": {
+        "name": "DL_AnimalFuta",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "1161": {
+        "name": "DL_AnimalAsami",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "1162": {
+        "name": "DL_AnimalKinuyo",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "1163": {
+        "name": "DL_AnimalTanukichi",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "1164": {
+        "name": "DL_MovingItemBoxDLC",
+        "description": "",
+        "versionU": "Animal",
+        "param_1": {}
+    },
+    "1165": {
+        "name": "DL_MechaKoopa",
+        "description": "",
+        "usages": ["GBA Ribbon Road"],
+        "versionU": "Animal",
+    },
+    "1166": {
+        "name": "DL_Wanwan",
+        "description": "A chain chomp on a chain.",
+        "aliases": ["Chain Chomp"],
+        "usages": ["GBA Cheese Land"],
+        "versionU": "Animal",
+        "param_0": {}
+    },
+    "1167": {
+        "name": "DL_WdMovingCoin",
+        "description": "",
+        "versionU": "Animal",
+        "param_1": {}
+    },
+    "1168": {
+        "name": "DL_AnimalKaizo",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "1169": {
+        "name": "DL_AnimalSnowman",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "1170": {
+        "name": "DL_WdBird",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {}
+    },
+    "1171": {
+        "name": "DL_SurpriseBox",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {}
+    },
+    "1172": {
+        "name": "DL_RibbonToad",
+        "description": "A toy toad.",
+        "aliases": ["Spectator"],
+        "usages": ["GBA Ribbon Road"],
+        "versionU": "Animal",
+    },
+    "1173": {
+        "name": "DL_ItemBoxMetro",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "1174": {
+        "name": "DL_WdBarrel",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "1175": {
+        "name": "DL_WdBarrelR",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "2084": {
+        "name": "DL_Triforce",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "2085": {
+        "name": "DL_HySmoke",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "2086": {
+        "name": "DL_RainbowMountainA",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "2087": {
+        "name": "DL_RainbowMountainB",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "2088": {
+        "name": "DL_HyTorch",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "2089": {
+        "name": "DL_McStartLogo",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "2090": {
+        "name": "DL_YoshiWaterCurrent",
+        "description": "",
+        "versionU": "Zelda",
+        "param_0": {},
+        "param_1": {}
+    },
+    "2091": {
+        "name": "DL_DrTorch",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "2092": {
+        "name": "DL_HySalute",
+        "description": "",
+        "versionU": "Zelda",
+        "param_0": {}
+    },
+    "2093": {
+        "name": "DL_HyHouseSmoke",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "2094": {
+        "name": "DL_WdChimneySmoke",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "2096": {
+        "name": "DL_NkThunder",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "2097": {
+        "name": "DL_BbStartLogoA",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "2098": {
+        "name": "DL_BbStartLogoB",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "2099": {
+        "name": "DL_AnimalFountain",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "2100": {
+        "name": "DL_AnimalSmoke",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "3024": {
+        "name": "DL_WarioTram",
+        "description": "A minekart that gives a spinboost when hit.",
+        "aliases": ["Minekart"],
+        "usages": ["U Wario's Goldmine"],
+        "versionU": "Zelda",
+        "param_0": {}
+    },
+    "3025": {
+        "name": "DL_WarioTramB",
+        "description": "A minekart that gives a spinboost when hit.",
+        "aliases": ["Minekart"],
+        "usages": ["U Wario's Goldmine"],
+        "versionU": "Zelda",
+    },
     "3026": {
         "name": "DL_Metro",
         "description": "A subway train with a variable number of wagons.",
         "aliases": [ "Train", "Subway" ],
         "usages": [ "U Super Bell Subway" ],
+        "versionU": "Animal",
         "param_0": {
             "name": "Number of trains",
             "description": "Number of wagons. The locomotive has a boost panel at the front.",
             "type": "int",
             "default": 6,
-            "minValue": 0
+            "minValue": 1
         },
         "param_1": {
             "default": 5
@@ -46,5 +371,814 @@
         "param_7": {
             "default": 1
         }
+    },
+    "3027": {
+        "name": "DL_AnimalTrain",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "4086": {
+        "name": "DL_EbField",
+        "description": "",
+        "versionU": "Zelda",
+        "param_7": {"name": "ID"}
+    },
+    "4087": {
+        "name": "DL_EbDirt",
+        "description": "",
+        "versionU": "Zelda",
+        "param_0": {"name": "Pattern //"}
+    },
+    "4088": {
+        "name": "DL_LotusLeaf",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {}
+    },
+    "4089": {
+        "name": "DL_AnimalBalloon",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {}
+    },
+    "4090": {
+        "name": "DL_EbDirtBig",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "4091": {
+        "name": "DL_HySwitch",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "4092": {
+        "name": "DL_HyJump",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "4095": {
+        "name": "DL_Iceberg",
+        "description": "",
+        "versionU": "Zelda",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "4096": {
+        "name": "DL_RainbowArrow",
+        "description": "",
+        "versionU": "Zelda",
+        "param_0": {}
+    },
+    "4097": {
+        "name": "DL_MasterSword",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "4098": {
+        "name": "DL_MCGoalLine",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "4099": {
+        "name": "DL_SfcRRoad1",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "4100": {
+        "name": "DL_SfcRRoad2",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "4101": {
+        "name": "DL_SfcRRoad3",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "4102": {
+        "name": "DL_SfcRRoad4",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "4103": {
+        "name": "DL_MCDashSet",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "4104": {
+        "name": "DL_RibbonRoad1",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "4106": {
+        "name": "DL_TicketGate",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {}
+    },
+    "4107": {
+        "name": "DL_MetroTollBar",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "4108": {
+        "name": "DL_MetroDash",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "4109": {
+        "name": "DL_BbDash",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "4110": {
+        "name": "DL_FallenLeaf",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "4111": {
+        "name": "DL_AnimalShell",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "4112": {
+        "name": "DL_RibbonBox",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {}
+    },
+    "4113": {
+        "name": "DL_RibbonRoad2",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "4114": {
+        "name": "DL_AnimalApple",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "4115": {
+        "name": "DL_AnimalOrange",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "4116": {
+        "name": "DL_AnimalLemon",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5280": {
+        "name": "DL_TreeTri",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5281": {
+        "name": "DL_TreeApple",
+        "description": "",
+        "usages": ["U Animal Crossing (Summer)"],
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5282": {
+        "name": "DL_SpinTurboBar_DR",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5283": {
+        "name": "DL_SpinTurboBar_MC",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5284": {
+        "name": "DL_WgExcavator",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5285": {
+        "name": "DL_WgGear",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5286": {
+        "name": "DL_WgGearBig",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5287": {
+        "name": "DL_FlagStartIce",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5289": {
+        "name": "DL_EbGridGate",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5290": {
+        "name": "DL_TreeOrange",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5291": {
+        "name": "DL_TreeLemon",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5292": {
+        "name": "DL_TreeSphYoshi",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5293": {
+        "name": "DL_FlagTriangle6",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5294": {
+        "name": "DL_WgFlagSquare",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5295": {
+        "name": "DL_TreeAnimal",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5296": {
+        "name": "DL_FlagStadiumEB",
+        "versionU": "Zelda",
+        "description": "",
+    },
+    "5297": {
+        "name": "DL_TreePineA",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5298": {
+        "name": "DL_TreePineB",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5299": {
+        "name": "DL_FlagDragon",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5300": {
+        "name": "DL_MCRotaryBoardA",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5301": {
+        "name": "DL_MCBldgParts",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5302": {
+        "name": "DL_MCCars",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5303": {
+        "name": "DL_MCTriangleBoard",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5304": {
+        "name": "DL_MCPipeRing",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5305": {
+        "name": "DL_MCJets",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5306": {
+        "name": "DL_HyFlagSquare",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5307": {
+        "name": "DL_IceFlagSquare",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5308": {
+        "name": "DL_YcYacht",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5309": {
+        "name": "DL_SpinTurboBar_IP",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5310": {
+        "name": "DL_WeathercockYoshi",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5311": {
+        "name": "DL_FlagStartYoshi",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5312": {
+        "name": "DL_FlagRopeYoshi",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5313": {
+        "name": "DL_MasterSwordBase",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5314": {
+        "name": "DL_MCRotaryBoardB",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5315": {
+        "name": "DL_MCRotaryBoardC",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "5316": {
+        "name": "DL_WoElevator",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {},
+        "param_4": {},
+        "param_5": {}
+    },
+    "5317": {
+        "name": "DL_WoWaterWheel",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5318": {
+        "name": "DL_BbAirship",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5319": {
+        "name": "DL_BbCars",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5320": {
+        "name": "DL_BbJets",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5321": {
+        "name": "DL_BpSwingride",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5322": {
+        "name": "DL_BpPirate",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5323": {
+        "name": "DL_BpParatroopa",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5324": {
+        "name": "DL_BpWingA",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5325": {
+        "name": "DL_BpWingB",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5326": {
+        "name": "DL_BpGear",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5327": {
+        "name": "DL_CheeseBox",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {}
+    },
+    "5328": {
+        "name": "DL_TreePalm",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5329": {
+        "name": "DL_CoinStone",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5330": {
+        "name": "DL_BpKanransya",
+        "description": "",
+        "aliases": ["Ferris Wheel"],
+        "versionU": "Animal",
+    },
+    "5331": {
+        "name": "DL_BpCoaster",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5332": {
+        "name": "DL_TreeAutumnApple",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5333": {
+        "name": "DL_TreeAutumnLemon",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5334": {
+        "name": "DL_TreeAutumnOrange",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5335": {
+        "name": "DL_TreeWinter",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5336": {
+        "name": "DL_TreeWinterApple",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5337": {
+        "name": "DL_TreeWinterLemon",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5338": {
+        "name": "DL_TreeWinterOrange",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5339": {
+        "name": "DL_TreeSakura",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5340": {
+        "name": "DL_TreeBushAutumn",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5341": {
+        "name": "DL_TreeBushWinter",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5342": {
+        "name": "DL_TreeAutumn",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "5343": {
+        "name": "DL_NkSearchLight",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5344": {
+        "name": "DL_StationAlarm",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5345": {
+        "name": "DL_FlagStartWoods",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5346": {
+        "name": "DL_TreeSakura2",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5347": {
+        "name": "DL_TreeSakura3",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5348": {
+        "name": "DL_AnimalJump",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5349": {
+        "name": "DL_NkGate",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5350": {
+        "name": "DL_NkArrowArea_A",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5351": {
+        "name": "DL_NkArrowArea_B",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5352": {
+        "name": "DL_NkArrowArea_C",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5353": {
+        "name": "DL_SpinTurboBar_Bb",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5354": {
+        "name": "DL_Bbguide",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5355": {
+        "name": "DL_BbAccelRing",
+        "description": "",
+        "aliases": ["Gate"],
+        "versionU": "Animal",
+    },
+    "5356": {
+        "name": "DL_BbCannon",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5357": {
+        "name": "DL_BbBuildA",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5358": {
+        "name": "DL_BbCarsB",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5359": {
+        "name": "DL_AnimalFlag",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5360": {
+        "name": "DL_FlagTriangle7",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5361": {
+        "name": "DL_NkElevator",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5362": {
+        "name": "DL_NkRotaryBoard_A",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5363": {
+        "name": "DL_NkCars_A",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5372": {
+        "name": "DL_BpStartGate",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5373": {
+        "name": "DL_SpinTurboBar_Nk",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5376": {
+        "name": "DL_SpinTurboBar_Cl",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5377": {
+        "name": "DL_BbPipeRing",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5378": {
+        "name": "DL_BbRotaryBoardA",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5379": {
+        "name": "DL_BbBoardPart",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5381": {
+        "name": "DL_NkArrowArea_D",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5382": {
+        "name": "DL_NkArrowArea_E",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "5383": {
+        "name": "DL_CoinStoneSnow",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "6016": {
+        "name": "DL_RainbowLightA",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "6017": {
+        "name": "DL_RainbowLightB",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "7041": {
+        "name": "DL_VRSfcRainbow",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "7042": {
+        "name": "DL_VRMuteCity",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "7043": {
+        "name": "DL_VRDragon",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "7044": {
+        "name": "DL_VRExciteBike",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "7045": {
+        "name": "DL_VRHyrule",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "7046": {
+        "name": "DL_VRIcePark",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "7047": {
+        "name": "DL_VRBabyPark",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "7048": {
+        "name": "DL_VRYoshiCircuit",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "7049": {
+        "name": "DL_VRWoods",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "7050": {
+        "name": "DL_VRNeoBowserCity",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "7051": {
+        "name": "DL_VRRibbon",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "7052": {
+        "name": "DL_VRAnimalSpring",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "7053": {
+        "name": "DL_VRAnimalSummer",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "7054": {
+        "name": "DL_VRAnimalAutumn",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "7055": {
+        "name": "DL_VRAnimalWinter",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "7056": {
+        "name": "DL_VRCheeseLand",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "7057": {
+        "name": "DL_VRBigBlue",
+        "description": "",
+        "versionU": "Animal",
+    },
+    "8027": {
+        "name": "DL_EbCheerCol",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "8028": {
+        "name": "DL_EbApproachCol",
+        "description": "",
+        "versionU": "Zelda",
+        "param_0": {}
+    },
+    "8030": {
+        "name": "DL_WanwanSearchArea",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "8031": {
+        "name": "DL_WanwanAttackPoint",
+        "description": "",
+        "versionU": "Zelda",
+    },
+    "8032": {
+        "name": "DL_AnimalVoiceAutumn",
+        "description": "",
+        "versionU": "Animal",
+        "param_0": {}
+    },
+    "8033": {
+        "name": "DL_AnimalVoiceSummer",
+        "description": "",
+        "versionU": "Animal",
     }
 }

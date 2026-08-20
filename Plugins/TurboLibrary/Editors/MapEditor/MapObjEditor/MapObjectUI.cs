@@ -485,6 +485,7 @@ namespace TurboLibrary.MuuntEditor
             else if (dxVersion != DXVersion.None && uVersion == UVersion.None)
                 color = DXColor;
 
+            ImGui.AlignTextToFramePadding();
             ImGui.TextColored(color, buttonText);
             if (ImGui.IsItemHovered())
             {

@@ -285,14 +285,6 @@ namespace TurboLibrary
         [ByamlMember]
         public List<float> Params { get; set; }
 
-        public string[] GetParameterNames()
-        {
-            if (ParamDatabase.ParameterObjs.ContainsKey(ObjId))
-                return ParamDatabase.ParameterObjs[ObjId];
-            else
-                return new string[8];
-        }
-
         public bool IsSkybox
         {
             get

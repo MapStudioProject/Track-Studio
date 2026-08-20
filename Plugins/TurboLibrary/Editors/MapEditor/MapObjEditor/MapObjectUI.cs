@@ -1,18 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Numerics;
 using MapStudio.UI;
 using ImGuiNET;
-using TurboLibrary;
 using GLFrameworkEngine;
-using GLFrameworkEngine.UI;
-using Newtonsoft.Json.Linq;
-using System.Net;
-using System.Drawing;
-using Toolbox.Core.IO;
-using System.Collections;
 
 namespace TurboLibrary.MuuntEditor
 {

@@ -88,7 +88,6 @@
 
   <ItemGroup>
     <Folder Include="Effects\" />
-    <Folder Include="Resources\NewFolder\" />
   </ItemGroup>
 
   <ItemGroup>

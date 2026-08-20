@@ -1,22 +1,14 @@
-﻿using AGraphicsLibrary;
-using MapStudio.UI;
+﻿using MapStudio.UI;
 using Newtonsoft.Json;
-using Octokit;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
-using System.Threading.Tasks;
 using Toolbox.Core;
-using static Toolbox.Core.GUI.Controls;
 
 namespace TurboLibrary
 {
     /// <summary>
-    /// TODO
+    /// General storage for MapObj descriptions, parameter usage, parameter descriptions, parameter defaults, etc.
     /// </summary>
     public sealed class ParamDataBaseSingleton
     {

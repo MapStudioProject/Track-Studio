@@ -74,7 +74,12 @@ namespace TurboLibrary.MuuntEditor
             MapObjMeta meta = mapObject.Meta;
             ImGui.Spacing();
             DrawPlatformBadges(meta.Platforms);
+            ImGui.SameLine(ImGui.GetWindowContentRegionMax().X - 25f);
+            if(ImGui.Button($"  {IconManager.EDIT_ICON}  ##metaEdit"))
+                FileUtility.OpenFolder(GlobalSettings.ParamDataBase.GetUserArchivesPath());
+                       
             ImGui.Separator();
+            ImGui.PushTextWrapPos(ImGui.GetWindowContentRegionMax().X - 5f);
             ImGui.TextWrapped(meta.Description);
 
             ImGui.Spacing();
@@ -86,7 +91,7 @@ namespace TurboLibrary.MuuntEditor
                 ImGui.Spacing();
                 string title = TranslationSource.GetText("TAGS") + ":";
                 ImGuiHelper.BoldText(title);
-                float lineSize = ImGui.CalcTextSize(title).X;
+                float lineSize = ImGui.CalcTextSize(title).X + 5f;
                 foreach (var alias in meta.Aliases)
                 {
                     // Wrap badge if it doesn't fit on the same line.
@@ -100,6 +105,7 @@ namespace TurboLibrary.MuuntEditor
                 }
             }
             ImGui.Unindent(5f);
+            ImGui.Spacing();
         }
 
         private void LoadParameterUI(Obj mapObject, IEnumerable<object> selected)

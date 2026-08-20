@@ -1,4 +1,5 @@
 ﻿using AGraphicsLibrary;
+using MapStudio.UI;
 using Newtonsoft.Json;
 using Octokit;
 using System;
@@ -19,10 +20,10 @@ namespace TurboLibrary
     /// </summary>
     public sealed class ParamDataBaseSingleton
     {
-        private static string GetUserArchivesPath() => System.IO.Path.Combine(Runtime.ExecutableDir, "User", "MapObjArchives");
-        private static readonly string ArchiveExt = "*.json";
+        public string GetUserArchivesPath() => System.IO.Path.Combine(Runtime.ExecutableDir, "User", "MapObjArchives");
+        private readonly string ArchiveExt = "*.json";
 
-        private static Dictionary<int, MapObjMeta> MetaDB = new Dictionary<int, MapObjMeta>();
+        private Dictionary<int, MapObjMeta> MetaDB = new Dictionary<int, MapObjMeta>();
 
         public static ParamDataBaseSingleton Instance { get; } = new ParamDataBaseSingleton();
 
@@ -31,25 +32,28 @@ namespace TurboLibrary
             // Load vanilla archives first
             string archiveU_base = System.IO.Path.Combine(Runtime.ExecutableDir, "Resources", "MapObj_U_Base.json");
             string archiveU_DLC = System.IO.Path.Combine(Runtime.ExecutableDir, "Resources", "MapObj_U_DLC.json");
+            string archiveDX_base = System.IO.Path.Combine(Runtime.ExecutableDir, "Resources", "MapObj_DX_Base.json");
             string archiveDX_BCP = System.IO.Path.Combine(Runtime.ExecutableDir, "Resources", "MapObj_DX_BCP.json");
 
             if (File.Exists(archiveU_base))
                 LoadArchiveFromFile(MetaDB, archiveU_base);
             if (File.Exists(archiveU_DLC))
-                LoadArchiveFromFile(MetaDB, System.IO.Path.Combine(Runtime.ExecutableDir, "Resources", "MapObj_U_DLC.json"));
+                LoadArchiveFromFile(MetaDB, archiveU_DLC);
+            if (File.Exists(archiveDX_base))
+                LoadArchiveFromFile(MetaDB, archiveDX_base);
             if (File.Exists(archiveDX_BCP))
-                LoadArchiveFromFile(MetaDB, System.IO.Path.Combine(Runtime.ExecutableDir, "Resources", "MapObj_DX_BCP.json"));
+                LoadArchiveFromFile(MetaDB, archiveDX_BCP);
 
             // Load any use archives, if present
             LoadArchivesFromDirectory(MetaDB, GetUserArchivesPath(), ArchiveExt);
 
-            Console.WriteLine("Master MetaDB:\n=======================");
-            foreach (KeyValuePair<int, MapObjMeta> obj in MetaDB)
-            {
-                Console.WriteLine($"MapObjMeta ({obj.Key}):");
-                obj.Value.WriteDebugLog();
-                Console.WriteLine("------");
-            }
+            //Console.WriteLine("Master MetaDB:\n=======================");
+            //foreach (KeyValuePair<int, MapObjMeta> obj in MetaDB)
+            //{
+            //    Console.WriteLine($"MapObjMeta ({obj.Key}):");
+            //    obj.Value.WriteDebugLog();
+            //    Console.WriteLine("------");
+            //}
         }
 
         public MapObjMeta GetMeta(int objId)
@@ -100,11 +104,12 @@ namespace TurboLibrary
             catch (Exception e)
             {
                 Console.Error.WriteLine($"Could not open directory: {path}\n{e.GetType()}: {e.Message}");
+                DialogHandler.ShowException(e);
             }
             Console.WriteLine($"Found {files.Length} MapObj archives!");
             foreach (var file in files)
             {
-                LoadArchiveFromFile(metaDB, file);
+                LoadArchiveFromFile(metaDB, file, true);
             }
         }
 
@@ -113,7 +118,7 @@ namespace TurboLibrary
         /// </summary>
         /// <param name="metaDB">Meta database to populate</param>
         /// <param name="path">Filepath</param>
-        private void LoadArchiveFromFile(Dictionary<int, MapObjMeta> metaDB, string path)
+        private void LoadArchiveFromFile(Dictionary<int, MapObjMeta> metaDB, string path, bool writeToConsole = false)
         {
             Console.WriteLine($"Reading MapObj archive {path}...");
             var content = File.ReadAllText(path);
@@ -127,11 +132,15 @@ namespace TurboLibrary
                     //obj.Value.WriteDebugLog();
                     //Console.WriteLine("------");
                 }
-                
+                if (writeToConsole)
+                    StudioLogger.WriteLine($"Succesfully loaded user meta <{System.IO.Path.GetFileName(path)}>");                
             }
             catch (Exception e)
             {
                 Console.Error.WriteLine(e);
+                if (writeToConsole)
+                    StudioLogger.WriteError($"Error loading user meta <{System.IO.Path.GetFileName(path)}>");
+                DialogHandler.ShowException(new Exception($"Error loading MapObj meta in {path}.\n{e.Message}\n", e));
             }
         }
     }

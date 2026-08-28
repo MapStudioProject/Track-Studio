@@ -318,7 +318,7 @@
     },
     "3025": {
         "name": "DL_WarioTramB",
-        "description": "A minekart that gives a spinboost when hit.",
+        "description": "A scenery minekart variant.",
         "aliases": ["Minekart"],
         "usages": ["U Wario's Goldmine"],
         "versionU": "Zelda",

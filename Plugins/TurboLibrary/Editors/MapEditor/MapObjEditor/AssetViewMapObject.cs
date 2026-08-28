@@ -48,6 +48,7 @@ namespace TurboLibrary.MuuntEditor
                 ObjID = obj.ObjId,
                 ObjDefinition = obj,
                 Icon = IconManager.GetTextureIcon(icon),
+                Aliases = obj.Meta.Aliases.ToArray(),
             });
         }
 

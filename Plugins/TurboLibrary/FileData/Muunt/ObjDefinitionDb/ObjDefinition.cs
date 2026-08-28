@@ -12,6 +12,7 @@ namespace TurboLibrary
     public class ObjDefinition
     {
         // ---- PROPERTIES ---------------------------------------------------------------------------------------------
+        public MapObjMeta Meta { get; private set; }
 
         /// <summary>
         /// Gets or sets the way the AI interacts with this Obj.
@@ -274,7 +275,10 @@ namespace TurboLibrary
         public int ObjId
         {
             get => objId;
-            set => SetField(ref objId, value);
+            set {
+                Meta = GlobalSettings.ParamDataBase.GetMeta(value);
+                SetField(ref objId, value);
+            }
         }
         private int objId;
 

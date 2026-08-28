@@ -1,6 +1,9 @@
 ﻿# Comments use # and will be ignored.
 # Label    - Translated Text
 
+ATTRIBUTE - Attribute
+SPECIAL - Special
+
 DISPLAY_HEX - Display Hex
 
 PATH_WARNING - Game path not configured! Set in "Game Config" menu.
@@ -43,8 +46,8 @@ OBJECT - Object
 # These are short for game modes (multiplayer 2 player, 4 player, wifi, etc)
 MULTI2P - Multi2P
 MULTI4P - Multi4P
-WIFI = WiFi
-WIFI2P = WiFi2P
+WIFI - WiFi
+WIFI2P - WiFi2P
 
 NAME - Name
 DISABLE_COLLISION - Disable Collision
@@ -53,10 +56,35 @@ SINGLE - Single
 PATH_SPEED - Path Speed
 EDIT_PATH - Edit Path
 
+PLATFORM_U - Wii U
+PLATFORM_SWITCH - Switch
+PLATFORM_MOD - Modded
+DLC_U_ZELDA - Zelda DLC
+DLC_U_ANIMAL - Animal Crossing DLC
+DLC_U_MERCEDES - Mercedes DLC
+DLC_DX_BCP_1 - BCP (Wave 1)
+DLC_DX_BCP_2 - BCP (Wave 2)
+DLC_DX_BCP_3 - BCP (Wave 3)
+DLC_DX_BCP_4 - BCP (Wave 4)
+DLC_DX_BCP_5 - BCP (Wave 5)
+DLC_DX_BCP_6 - BCP (Wave 6)
+
+TRACK_USAGE - Used in
+TAGS - Tags
 PARAMETERS - Parameters
 PATHS - Paths
-DISPLAY_UNUSED - Display Unused
-UNUSED = Unused
+DISPLAY - Display
+DISPLAY_UNUSED - Unused
+DISPLAY_RAW - Raw
+DISPLAY_ANY_PLATFORM - Unsupported
+PARAM_UNUSED - UNUSED {0}
+PARAM_NOTDOC - Unknown {0}
+ENUM_UNKNOWN - UNKNOWN
+PARAM_DEFAULT - Default
+PARAM_MIN - Min
+PARAM_MAX - Max
+PARAM_SAMPLE - Example(s)
+PARAM_WARNING - {0}f is the current value. It is considered invalid and may not be displayed properly in this widget.
 
 RELATIVES - Relatives
 RELATIVE_OBJECT - Relative Object
@@ -72,6 +100,7 @@ ENEMY_PATH_1 - Enemy Path 1
 ENEMY_PATH_2 - Enemy Path 2
 ITEM_PATH_1 - Item Path 1
 ITEM_PATH_2 - Item Path 2
+ROUTE_CHANGE - Route Change
 
 # Object PARAMETERS
 

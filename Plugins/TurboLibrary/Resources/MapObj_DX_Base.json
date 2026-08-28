@@ -1,0 +1,10 @@
+{
+    "1013": {
+        "name": "ItemBox",
+        "param_0": {
+            "name": "Is Double",
+            "type": "bool",
+            "versionU": -1,
+        }
+    }
+}

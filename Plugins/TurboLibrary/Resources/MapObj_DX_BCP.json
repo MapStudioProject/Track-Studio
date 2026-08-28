@@ -1,0 +1,17 @@
+{
+    "1202": {
+        "name": "Battan",
+        "description": "",
+        "aliases": ["Whomp", "It makes me so mad!"],
+        "usages": ["Tour Berlin Byways"],
+        "versionU": -1,
+        "versionDX": "BCP_3",
+        "param_0": {"name": "Fall Distance"},
+        "param_1": {"name": "Flip (Degrees)"},
+        "param_2": {"name": "Fall State Time"},
+        "param_3": {
+            "name": "Initial Smash Delay",
+            "type": "time"
+        }
+    }
+}

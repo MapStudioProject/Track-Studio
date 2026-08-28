@@ -454,6 +454,7 @@ namespace TurboLibrary.MuuntEditor
 
             //Set the UI label and property tag
             render.UINode.Header = GetNodeHeader(obj);
+            render.UINode.Aliases = obj.Meta.Aliases;
             render.UINode.Tag = obj;
             render.UINode.ContextMenus.Add(new MenuItemModel("EXPORT", () => ExportModel()));
             //Set custom UI properties
@@ -673,8 +674,8 @@ namespace TurboLibrary.MuuntEditor
             var ob = rend.UINode.Tag as Obj;
 
             //Reset parameters to defaults
-            if (ParamDatabase.ParameterDefaults.ContainsKey(ob.ObjId))
-                ob.Params = ParamDatabase.ParameterDefaults[ob.ObjId].ToList();
+            for (int i = 0; i < ob.Meta.Params.Length; i++)
+                ob.Params[i] = ob.Meta.Params[i].Default;
 
             //Define some parameters based on the existing objects in the scene
 
@@ -711,8 +712,8 @@ namespace TurboLibrary.MuuntEditor
             Add(editedRender);
 
             //Reset parameters to defaults
-            if (ParamDatabase.ParameterDefaults.ContainsKey(obj.ObjId))
-                obj.Params = ParamDatabase.ParameterDefaults[obj.ObjId].ToList();
+            for (int i = 0; i < obj.Meta.Params.Length; i++)
+                obj.Params[i] = obj.Meta.Params[i].Default;
 
             //Keep the same node order
             Root.Children.Remove(editedRender.UINode);

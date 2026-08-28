@@ -84,11 +84,37 @@ namespace TurboLibrary
 
         // ---- PROPERTIES ---------------------------------------------------------------------------------------------
 
+        private int _objId;
+        public ObjDefinition ObjDef { get; private set; }
+        private MapObjMeta _objMeta; // local copy in case no corresponding ObjDefinition exists
+
         /// <summary>
         /// Gets or sets the ID determining the type of this object.
         /// </summary>
         [ByamlMember]
-        public int ObjId { get; set; }
+        public int ObjId {
+            get { return _objId; }
+            set {
+                if (_objId == value)
+                    return;
+                // ObjId changes, should update the corresponding definition as well
+                _objId = value;
+                ObjDef = null;
+                _objMeta = null;
+                if (GlobalSettings.ObjDatabase.ContainsKey(value))
+                    ObjDef = GlobalSettings.ObjDatabase[this.ObjId];
+                else
+                    _objMeta = GlobalSettings.ParamDataBase.GetMeta(value);
+            }
+        }
+
+        public MapObjMeta Meta { get
+            {
+                if (ObjDef is not null)
+                    return ObjDef.Meta;
+                return _objMeta;
+            }
+        }
 
         [BindGUI("MULTI2P", Category = "OBJECT", ColumnIndex = 0, Control = BindControl.ToggleButton)]
         public bool HasMulti2P
@@ -259,14 +285,6 @@ namespace TurboLibrary
         [ByamlMember]
         public List<float> Params { get; set; }
 
-        public string[] GetParameterNames()
-        {
-            if (ParamDatabase.ParameterObjs.ContainsKey(ObjId))
-                return ParamDatabase.ParameterObjs[ObjId];
-            else
-                return new string[8];
-        }
-
         public bool IsSkybox
         {
             get
@@ -286,7 +304,7 @@ namespace TurboLibrary
             this.Translate = new ByamlVector3F();
             this.Scale = new ByamlVector3F(1, 1, 1);
             this.Rotate = new ByamlVector3F();
-            ObjId = 1018;
+            ObjId = 1018; // Meta is updated by updating objId
 
             Params = new List<float>();
             for (int i = 0; i < 8; i++)

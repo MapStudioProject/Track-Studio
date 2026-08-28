@@ -1,0 +1,2585 @@
+{
+    "1003": {
+        "name": "Choropoo",
+        "description": "A mole that follows a path while burrowed, creating a trickable surface. Occasionally jumps up through a hole, hitting drivers.",
+        "aliases": ["Monty Mole"],
+        "usages": ["Wii Moo Moo Meadows", "SNES Donut Plains 3"]
+    },
+    "1004": {
+        "name": "Frogoon",
+        "description": "",
+        "usages": ["3DS DK Jungle"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "1005": {
+        "name": "PylonB",
+        "description": "A blue traffic cone.",
+        "aliases": ["Cone"],
+        "usages": []
+    },
+    "1006": {
+        "name": "PackunMusic",
+        "description": "",
+        "aliases": ["Piranha Plant"],
+        "usages": ["3DS Music Park"],
+        "param_0": {
+            "name": "Initial Delay",
+            "type": "time"
+        },
+        "param_1": {
+            "name": "Life Time",
+            "type": "time"
+        },
+        "param_2": {
+            "name": "Delay",
+            "type": "time"
+        },
+        "param_3": {}
+    },
+    "1007": {
+        "name": "KuriboBoard",
+        "description": "A wooden board featuring a goomba. Can be dashed through with a mushroom.",
+        "aliases": ["Goomba"],
+        "usages": ["3DS Piranha Plant Slide"],
+        "param_0": {}
+    },
+    "1008": {
+        "name": "DKBarrel",
+        "description": "A barrel featuring a DK logo.",
+        "usages": ["3DS DK Jungle"]
+    },
+    "1009": {
+        "name": "PylonY",
+        "description": "A yellow traffic cone. Unused in the base game.",
+        "aliases": ["cone"],
+    },
+    "1010": {
+        "name": "DdQuicksand",
+        "description": "",
+        "usages": ["GCN Dry Dry Desert"]
+    },
+    "1011": {
+        "name": "Kuribo",
+        "description": "A goomba, which can walk along a path.",
+        "aliases": ["Goomba"],
+        "param_1": {"name": "Lap Point Search Range"}
+    },
+    "1012": {
+        "name": "Sanbo",
+        "description": "A pokey that moves along a path, occasionally tilting to form a gate with a coin.",
+        "aliases": ["Pokey", "Coin"],
+        "usages": ["GCN Dry Dry Desert"],
+        "param_0": {
+            "name": "Inital Delay",
+            "description": "Delay until it forms the first coin gate.",
+            "type": "time",
+            "default": 0,
+        },
+        "param_1": {
+            "name": "Wait Cycle",
+            "description": "Delay between coin gates. Note that this value is not in frames. This value also affects its respawn timer.\nIf 0, the pokey does not respawn! When coin gates are not desired, use a very high initial delay instead.",
+            "default": 5,
+        }
+    },
+    "1013": {
+        "name": "ItemBox",
+        "description": "A respawnable box that grants an item.",
+    },
+    "1014": {
+        "name": "Dossun",
+        "description": "A thwomp that crashes down to crush drivers.",
+        "aliases": ["Thwomp"],
+        "usages": ["U Thwomp Ruins"],
+        "param_0": {
+            "name": "Initial Delay",
+            "type": "time"
+        },
+        "param_1": {
+            "name": "Slam Delay",
+            "type": "time"
+        },
+        "param_2": {}
+    },
+    "1015": {
+        "name": "Crab",
+        "description": "",
+        "usages": ["DS Cheep Cheep Beach"]
+    },
+    "1016": {
+        "name": "SnowRock",
+        "description": "A stationary freezie that can be dashed through with a mushroom.",
+        "aliases": ["Freezie"],
+        "usages": ["GCN Sherbet Land"]
+    },
+    "1017": {
+        "name": "BushBoard",
+        "description": "A wooden board featuring a bush.",
+        "usages": ["3DS Piranha Plant Slide"]
+    },
+    "1018": {
+        "name": "Coin",
+        "description": "A collectible coin that respawns. Drivers can collect at most 10, with each coin increasing the driver's max speed by a little.",
+        "param_0": {},
+        "param_3": {}
+    },
+    "1019": {
+        "name": "Dokan1",
+        "description": "",
+        "aliases": ["Pipe"],
+    },
+    "1021": {
+        "name": "Basabasa",
+        "description": "A set number of bats flying along a path.",
+        "aliases": ["Swoop", "Bat", "Bird"],
+        "usages": ["U Mount Wario", "N64 Yoshi Valley", "Wii Wario's Goldmine"],
+        "param_0": {
+            "name": "Initial Delay",
+            "type": "time",
+            "default": 0
+        },
+        "param_1": {
+            "name": "Spawn Interval",
+            "description": "Delay between the last bat despawning at the end of the path, and the first one respawning at the start of the path.",
+            "default": 0
+        },
+        "param_2": {
+            "name": "Spawn Count",
+            "description": "Number of bats",
+            "default": 1,
+            "minValue": 1,
+        },
+        "param_3": {
+            "name": "Start Distance",
+            "default": 3,
+            "samples": [3, 4]
+        },
+        "param_4": {
+            "name": "Space Between",
+            "description": "Distance between two consecutive bats (if using more than one)",
+            "default": 100
+        }
+    },
+    "1022": {
+        "name": "Barrel",
+        "description": "A normal barrel, without a DK logo",
+        "usages": ["N64 Yoshi Valley"]
+    },
+    "1023": {
+        "name": "CrashBox",
+        "description": "A breakable crate.",
+        "aliases": ["barrel"],
+        "usages": ["U Toad Harbor"]
+    },
+    "1024": {
+        "name": "PylonR",
+        "description": "A red traffic cone.",
+        "aliases": ["Cone"]
+    },
+    "1025": {
+        "name": "Pukupuku",
+        "description": "A swimming cheep cheep.",
+        "aliases": ["Cheep Cheep"],
+        "usages": ["DS Cheep Cheep Beach", "U Dolphin Shoals"],
+        "param_0": {
+            "name": "Inital Delay",
+            "type": "time"
+        },
+        "param_1": {},
+        "param_2": {
+            "name": "Spawn Count",
+            "type": "int",
+            "default": 1,
+            "minValue": 1
+        },
+        "param_3": {"name": "Start Distance"},
+        "param_4": {"name": "Space Between"}
+    },
+    "1026": {
+        "name": "TikiTak",
+        "description": "A Tiki Goon from the Donkey Kong series.",
+        "usages": ["3DS DK Jungle"]
+    },
+    "1027": {
+        "name": "PackunFlower",
+        "description": "A Piranha Plant with a pipe.",
+        "aliases": ["Piranha Plant", "Pipe"],
+        "usages": ["3DS Piranha Plant Slide", ""],
+        "param_0": {
+            "name": "First Wait Frame",
+            "type": "time"
+        },
+        "param_1": {"name": "Angle (Degrees)"}
+    },
+    "1028": {
+        "name": "PuchiPackun",
+        "description": "A snoozing Piranha Plant that jumps up when hit.",
+        "aliases": ["Piranha Plant"],
+        "usages": ["N64 Royal Raceway"]
+    },
+    "1029": {
+        "name": "SkateHeyhoR",
+        "description": "A red ice skating Shy Guy. Occasionally jumps.",
+        "aliases": ["Shy Guy", "Ice"],
+        "usages": ["GCN Sherbet Land"]
+    },
+    "1030": {
+        "name": "Note",
+        "description": "A bouncing note that jumps up and down based on the track's rhythm.",
+        "aliases": ["Rhythm"],
+        "usages": ["3DS Music Park"]
+    },
+    "1031": {
+        "name": "SkateHeyhoB",
+        "description": "A blue ice skating Shy Guy. Occasionally jumps.",
+        "aliases": ["Shy Guy", "Ice"],
+        "usages": ["GCN Sherbet Land"],
+        "param_2": {
+            "name": "Spawn Count",
+            "type": "int",
+            "default": 1,
+            "minValue": 1
+        },
+        "param_3": {},
+        "param_4": {}
+    },
+    "1032": {
+        "name": "SnowMan",
+        "description": "",
+        "usages": ["GCN Sherbet Land"]
+    },
+    "1033": {
+        "name": "MovingCoin",
+        "description": "A coin that can move along a path.",
+        "param_1": {}
+    },
+    "1034": {
+        "name": "MovingItemBox",
+        "description": "An item box that can move along a path.",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "1035": {
+        "name": "Oil",
+        "description": "An oil slick that spins drivers out.",
+        "aliases": ["Slick"],
+        "usages": ["GBA Mario Circuit"]
+    },
+    "1036": {
+        "name": "PcBalloon",
+        "description": "A hot air balloon. Comes in several varities.",
+        "usages": ["N64 Royal Raceway"],
+        "param_0": {
+            "name": "Spawn Count",
+            "type": "int",
+            "default": 1,
+            "minValue": 1
+        },
+        "param_1": {
+            "name": "Recolor Start Index",
+            "type": "int",
+            "default": 0,
+            "minValue": 0
+        }
+    },
+    "1037": {
+        "name": "N64YoshiEgg",
+        "description": "A giant spinning yoshi egg.",
+        "usages": ["N64 Yoshi Valley"]
+    },
+    "1039": {
+        "name": "Bird",
+        "description": "A bird sitting on the road. It flies away when a driver comes close.",
+        "param_0": {"name": "Min Return Lap Point"},
+        "param_1": {"name": "Max Return Lap Point"}
+    },
+    "1040": {
+        "name": "TowerKuribo",
+        "description": "A stack of Goombas",
+        "aliases": ["Goomba"],
+        "usages": ["U Mario Circuit"],
+        "param_0": {
+            "name": "Spawn Count",
+            "type": "int",
+            "default": 1,
+            "minValue": 1
+        },
+        "param_1": {}
+    },
+    "1041": {
+        "name": "Cow",
+        "description": "A cow that jumps up when hit.",
+        "aliases": ["Moo Moo"],
+        "usages": ["Wii Moo Moo Meadows"],
+        "param_0": {"name": "Unknown {3/4 seen} },"}
+    },
+    "1042": {
+        "name": "FishBone",
+        "description": "",
+        "usages": ["U Twisted Mansion"],
+        "param_2": {},
+        "param_3": {},
+        "param_4": {}
+    },
+    "1043": {
+        "name": "Teresa",
+        "description": "",
+        "aliases": ["Boo"],
+        "usages": ["U Twisted Mansion"],
+        "param_0": {},
+        "param_1": {
+            "name": "Spawn Count",
+            "type": "int",
+            "default": 1,
+            "minValue": 1
+        },
+        "param_2": {}
+    },
+    "1044": {
+        "name": "CmnToad",
+        "description": "A spectator Toad. Comes in various colors.",
+        "aliases": ["Spectator"],
+        "param_0": {}
+    },
+    "1055": {
+        "name": "RelayCar",
+        "description": "",
+        "param_0": {}
+    },
+    "1056": {
+        "name": "Seagull",
+        "description": "",
+    },
+    "1057": {
+        "name": "ExTram",
+        "description": "",
+        "aliases": ["Car"],
+        "usages": ["U Toad Harbour"]
+    },
+    "1058": {
+        "name": "GingerBread",
+        "description": "Spectator gingerbread men.",
+        "usages": ["U Sweet Sweet Canyon"]
+    },
+    "1059": {
+        "name": "CakePylonB",
+        "description": "A traffic cone in the form of an upside down ice cream cone.",
+        "aliases": ["Cone"],
+        "usages": ["U Sweet Sweet Canyon"]
+    },
+    "1060": {
+        "name": "CakePylonA",
+        "description": "A traffic cone in the form of an upside down ice cream cone.",
+        "aliases": ["Cone"],
+        "usages": ["U Sweet Sweet Canyon"]
+    },
+    "1063": {
+        "name": "ShyguyWatchman",
+        "description": "",
+        "aliases": ["Heyho"],
+        "usages": ["U Shy Guy Falls"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "1064": {
+        "name": "ShyguyPickax",
+        "description": "",
+        "aliases": ["Heyho"],
+        "usages": ["U Shy Guy Falls"],
+        "param_0": {}
+    },
+    "1066": {
+        "name": "PackunFlower2",
+        "description": "",
+        "aliases": ["Piranha Plant"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "1067": {
+        "name": "HhStatue",
+        "description": "An iron statue slamming down a hammer, squashing drivers.",
+        "usages": ["U Twisted Mansion"],
+        "param_0": {
+            "name": "Initial Delay",
+            "type": "time"
+        }
+    },
+    "1068": {
+        "name": "CakeBalloon",
+        "description": "",
+        "usages": ["U Sweet Sweet Canyon"]
+    },
+    "1070": {
+        "name": "Karon",
+        "description": "A Dry Bones that, when hit, scatters into various bones and bounces the driver back.",
+        "aliases": ["Dry Bones"],
+        "usages": ["U Bone Dry Dunes"]
+    },
+    "1071": {
+        "name": "PylonTechno",
+        "description": "A traffic cone with a moving pattern.",
+        "aliases": ["Cone"],
+        "usages": ["U Electrodrome"]
+    },
+    "1072": {
+        "name": "DokanTechno",
+        "description": "A pipe with a moving pattern.",
+        "aliases": ["Pipe"],
+        "usages": ["U Electrodrome"]
+    },
+    "1073": {
+        "name": "PackunCake",
+        "description": "A Piranha Plant",
+        "aliases": ["Piranha Plant"],
+        "usages": ["U Sweet Sweet Canyon"]
+    },
+    "1074": {
+        "name": "APMoveCBox",
+        "description": "A breakable crate featuring various stickers.",
+        "aliases": ["crate", "barrel"],
+        "usages": ["U Sunshine Airport"],
+        "param_1": {}
+    },
+    "1075": {
+        "name": "Moray",
+        "description": "A giant eel, on whose back drivers can perform tricks.",
+        "aliases": ["Eel"],
+        "usages": ["U Dolphin Shoals"]
+    },
+    "1076": {
+        "name": "DokanCake",
+        "description": "A pipe.",
+        "aliases": ["Pipe"],
+        "usages": ["U Sweet Sweet Canyon"]
+    },
+    "1077": {
+        "name": "MareM",
+        "description": "A Noki spectator.",
+        "aliases": ["Spectator", "Noki"],
+        "param_0": {}
+    },
+    "1078": {
+        "name": "BarrelFlower",
+        "description": "A barrel with flowers.",
+    },
+    "1079": {
+        "name": "Helicopter",
+        "description": "",
+    },
+    "1081": {
+        "name": "SnowBoardHeyho",
+        "description": "",
+        "aliases": ["Shy Guy"],
+        "usages": ["U Mount Wario"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_4": {}
+    },
+    "1083": {
+        "name": "CmnHeyho",
+        "description": "",
+        "aliases": ["Spectator", "Shy Guy"],
+    },
+    "1084": {
+        "name": "FireSnake",
+        "description": "A Fire Snake that spawns from a pipe.",
+        "usages": ["Wii Grumble Volcano"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "1085": {
+        "name": "CmnBirdNest",
+        "description": "",
+    },
+    "1086": {
+        "name": "MonteM",
+        "description": "A spectator pianta.",
+        "aliases": ["Spectator", "Pianta"],
+        "param_0": {}
+    },
+    "1087": {
+        "name": "CmnYoshi",
+        "description": "A spectator Yoshi. Comes in various colors.",
+        "aliases": ["Spectator"],
+    },
+    "1088": {
+        "name": "OcManta",
+        "description": "A Manta Ray with goggles.",
+        "aliases": ["Manta Ray"],
+        "usages": ["U Dolphin Shoals"]
+    },
+    "1090": {
+        "name": "OcLifton",
+        "description": "",
+        "aliases": ["Dolphin"],
+        "usages": ["U Dolphin Shoals"]
+    },
+    "1091": {
+        "name": "SnorkelToad",
+        "description": "",
+        "aliases": ["Spectator"],
+    },
+    "1092": {
+        "name": "OcLightJellyfish",
+        "description": "",
+        "usages": ["U Dolphin Shoals"]
+    },
+    "1093": {
+        "name": "CmnHawk",
+        "description": "",
+    },
+    "1094": {
+        "name": "FcClown",
+        "description": "A clow car with an electronic display.",
+        "aliases": ["Koopa Clown Car"],
+        "usages": ["U Mario Circuit"]
+    },
+    "1095": {
+        "name": "PukupukuMecha",
+        "description": "A mechanical Cheep Cheep.",
+        "aliases": ["Cheep Cheep", "Robot"],
+        "usages": ["U Water Park"],
+        "param_2": {},
+        "param_4": {}
+    },
+    "1097": {
+        "name": "CmnPatapataUD",
+        "description": "Spectator paratroopa moving up and down.",
+        "aliases": ["Spectator", "Paratroopa"],
+    },
+    "1098": {
+        "name": "CmnPatapataLR",
+        "description": "Spectator paratroopa moving left and right.",
+        "aliases": ["Spectator", "Paratroopa"],
+    },
+    "1099": {
+        "name": "CmnGroupToad",
+        "description": "Three spectator toads.",
+        "aliases": ["Spectator"],
+        "param_0": {}
+    },
+    "1100": {
+        "name": "NoteChild",
+        "description": "A spectator note.",
+        "aliases": ["Spectator"],
+        "usages": ["3DS Music Park"],
+        "param_0": {}
+    },
+    "1101": {
+        "name": "PackunHone",
+        "description": "A skeleton Piranha Plant.",
+        "aliases": ["Piranha Plant", "Dry Bones"],
+        "usages": ["U Bone Dry Dunes"],
+        "param_0": {},
+        "param_1": {}
+    },
+    "1103": {
+        "name": "KoopaClaw",
+        "description": "A giant magma Bowser that slams the road, allowing drivers to perform tricks.",
+        "aliases": ["Bowser"],
+        "usages": ["U Bowser's Castle"]
+    },
+    "1104": {
+        "name": "PackunTechno",
+        "description": "",
+        "aliases": ["Piranha Plant", "Rhythm"],
+        "usages": ["U Electrodrome"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "1105": {
+        "name": "DokanHone",
+        "description": "",
+        "aliases": ["Pipe"],
+    },
+    "1106": {
+        "name": "PitToadB",
+        "description": "A blue pit crew toad.",
+        "aliases": ["Spectator"],
+        "param_0": {}
+    },
+    "1107": {
+        "name": "PitToadY",
+        "description": "A yellow pit crew toad.",
+        "aliases": ["Spectator"],
+        "param_0": {}
+    },
+    "1108": {
+        "name": "PitToadG",
+        "description": "A green pit crew toad.",
+        "aliases": ["Spectator"],
+        "param_0": {}
+    },
+    "1109": {
+        "name": "PitToadP",
+        "description": "A pink pit crew toad.",
+        "aliases": ["Spectator"],
+        "param_0": {}
+    },
+    "1110": {
+        "name": "PitToadR",
+        "description": "A red pit crew toad.",
+        "aliases": ["Spectator"],
+        "param_0": {}
+    },
+    "1111": {
+        "name": "PitToadW",
+        "description": "A white pit crew toad.",
+        "aliases": ["Spectator"],
+        "param_0": {}
+    },
+    "1112": {
+        "name": "DKBanana",
+        "description": "A giant spinning banana statue.",
+        "usages": ["3DS DK Jungle"]
+    },
+    "1114": {
+        "name": "JungleBird",
+        "description": "A parrot.",
+        "aliases": ["Parrot"],
+        "usages": ["3DS DK Jungle"]
+    },
+    "1115": {
+        "name": "PitToadWro",
+        "description": "A purple pit crew toad.",
+        "aliases": ["Spectator"],
+        "param_0": {}
+    },
+    "1117": {
+        "name": "ShyguyRope",
+        "description": "",
+        "aliases": ["Shy Guy"],
+    },
+    "1118": {
+        "name": "CmnNokonoko",
+        "description": "A spectator Koopa Troopa.",
+        "aliases": ["Spectator", "Koopa Troopa"],
+        "param_0": {}
+    },
+    "1119": {
+        "name": "CrWanwanB",
+        "description": "A bouncing Chain Chomp. When it hits the ground, allows drivers to trick.",
+        "aliases": ["Chain Chomp"],
+        "usages": ["N64 Rainbow Road"],
+        "param_0": {
+            "name": "Road Index {0/1} }",
+            "type": "int"
+        },
+        "param_1": {
+            "name": "Initial Delay",
+            "type": "time"
+        },
+        "param_2": {
+            "name": "Slam Delay",
+            "type": "time"
+        }
+    },
+    "1120": {
+        "name": "CmnBros",
+        "description": "Randomly chooses a hammer, fire, or ice bro spectator to spawn.",
+        "aliases": ["Spectator", "Hammer bro"],
+    },
+    "1123": {
+        "name": "TcHeyho",
+        "description": "A spectator Shy Guy.",
+        "aliases": ["Shy Guy", "Spectator"],
+        "param_0": {}
+    },
+    "1124": {
+        "name": "SmToad",
+        "description": "A spectator Toad.",
+        "aliases": ["Spectator"],
+    },
+    "1125": {
+        "name": "SmHeyho",
+        "description": "A spectator Shy Guy",
+        "aliases": ["Spectator", "Shy Guy"],
+    },
+    "1126": {
+        "name": "SmYoshi",
+        "description": "A spectator Yoshi.",
+        "aliases": ["Spectator"],
+    },
+    "1127": {
+        "name": "JumpPukupuku",
+        "description": "A Cheep Cheep that jumps out of the water.",
+        "aliases": ["Cheep Cheep"],
+        "usages": ["SNES Donut Plains 3"],
+        "param_0": {},
+        "param_2": {},
+        "param_4": {}
+    },
+    "1130": {
+        "name": "CmnCow",
+        "description": "Spectator Moo Moo.",
+        "aliases": ["Spectator", "Moo Moo"],
+        "usages": ["Wii Moo Moo Meadows"]
+    },
+    "1131": {
+        "name": "SpaceToad",
+        "description": "A spectator Toad with a space suit.",
+        "aliases": ["Spectator"],
+        "usages": ["U Rainbow Road"],
+        "param_1": {}
+    },
+    "1132": {
+        "name": "PackunTechno_NoAt",
+        "description": "",
+        "aliases": ["Piranha Plant"],
+        "usages": ["U Electrodrome"],
+        "param_3": {}
+    },
+    "1134": {
+        "name": "CmnKaron",
+        "description": "Spectator Dry Bones",
+        "aliases": ["Spectator", "Dry Bones"],
+    },
+    "1135": {
+        "name": "JumpPukuClip",
+        "description": "A Cheep Cheep that jumps out of the water.",
+        "aliases": ["Cheep Cheep"],
+        "usages": ["DS Cheep Cheep Beach"],
+        "param_1": {},
+        "param_2": {
+            "name": "Spawn Count",
+            "type": "int",
+            "default": 1,
+            "minValue": 1
+        },
+        "param_4": {"name": "Spawn Radius"}
+    },
+    "2004": {
+        "name": "ChimneySmoke",
+        "description": "",
+    },
+    "2006": {
+        "name": "Fountain",
+        "description": "",
+    },
+    "2007": {
+        "name": "VolFlame",
+        "description": "A lava column that rises out of the lava.",
+        "aliases": ["Lava", "Magma"],
+        "usages": ["U Bowser's Castle", "Wii Grumble Volcano"],
+        "param_0": {
+            "name": "Initial Delay",
+            "type": "time"
+        },
+        "param_1": {
+            "name": "Life Time",
+            "type": "time"
+        },
+        "param_2": {}
+    },
+    "2009": {
+        "name": "VolBomb",
+        "description": "A volcano rock that falls from the sky.",
+        "aliases": ["Lava", "Magma", "Volcano"],
+        "usages": ["Wii Grumble Volcano"],
+        "param_0": {
+            "name": "Initial Delay",
+            "type": "time"
+        },
+        "param_1": {
+            "name": "Life Time",
+            "type": "time"
+        }
+    },
+    "2010": {
+        "name": "Flyingbug",
+        "description": "",
+    },
+    "2011": {
+        "name": "ButterflyB",
+        "description": "",
+    },
+    "2012": {
+        "name": "ButterflyA",
+        "description": "",
+    },
+    "2013": {
+        "name": "ButterflySp",
+        "description": "",
+    },
+    "2014": {
+        "name": "WPFountain",
+        "description": "",
+    },
+    "2015": {
+        "name": "WsFirebar",
+        "description": "A fire bar with three ends.",
+        "usages": ["DS Wario Stadium"],
+        "param_0": {
+            "name": "Counter Clockwise",
+            "type": "bool"
+        },
+        "param_1": {"name": "Initial Rotation"}
+    },
+    "2016": {
+        "name": "WsFirering",
+        "description": "A ring of fireballs.",
+        "usages": ["DS Wario Stadium"],
+        "param_0": {
+            "name": "Counter Clockwise {0/1}",
+            "type": "bool"
+        },
+        "param_1": {"name": "Initial Rotation"}
+    },
+    "2017": {
+        "name": "CmnWaterCurrent",
+        "description": "",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {},
+        "param_4": {}
+    },
+    "2018": {
+        "name": "Balloon",
+        "description": "",
+    },
+    "2021": {
+        "name": "CmnCloud",
+        "description": "",
+    },
+    "2022": {
+        "name": "Candle",
+        "description": "",
+    },
+    "2023": {
+        "name": "ClThunder",
+        "description": "",
+        "param_0": {},
+        "param_1": {},
+        "param_7": {
+            "name": "Model Index {Boost plate} }",
+            "type": "int",
+            "default": 0,
+            "minValue": 0
+        }
+    },
+    "2024": {
+        "name": "DiTorchInside",
+        "description": "",
+        "usages": ["U Thwomp Ruins"]
+    },
+    "2025": {
+        "name": "BDTorch",
+        "description": "",
+        "usages": ["U Bone Dry Dunes"]
+    },
+    "2026": {
+        "name": "VolTorch",
+        "description": "",
+    },
+    "2027": {
+        "name": "DiTorchOutside",
+        "description": "",
+    },
+    "2028": {
+        "name": "SandFallSmoke",
+        "description": "",
+        "param_3": {}
+    },
+    "2030": {
+        "name": "TCSearchLight",
+        "description": "",
+    },
+    "2031": {
+        "name": "SeaLight",
+        "description": "",
+    },
+    "2032": {
+        "name": "PsSplashA",
+        "description": "",
+    },
+    "2033": {
+        "name": "CakeSplash",
+        "description": "",
+    },
+    "2034": {
+        "name": "CakeFountain",
+        "description": "",
+    },
+    "2035": {
+        "name": "SunLight",
+        "description": "",
+    },
+    "2036": {
+        "name": "PowderSugar",
+        "description": "",
+    },
+    "2037": {
+        "name": "CakeBubble",
+        "description": "",
+    },
+    "2039": {
+        "name": "FcSearchLight",
+        "description": "",
+    },
+    "2040": {
+        "name": "OcManyFish",
+        "description": "",
+    },
+    "2041": {
+        "name": "CakeSplashB",
+        "description": "",
+    },
+    "2042": {
+        "name": "CakeFountainB",
+        "description": "",
+    },
+    "2043": {
+        "name": "CakeBottleBubble",
+        "description": "",
+    },
+    "2045": {
+        "name": "TCFountain",
+        "description": "",
+    },
+    "2046": {
+        "name": "DiFluff",
+        "description": "",
+    },
+    "2047": {
+        "name": "DiWaterfall",
+        "description": "",
+    },
+    "2048": {
+        "name": "DdWaterCurent",
+        "description": "",
+    },
+    "2050": {
+        "name": "BDSunLight",
+        "description": "",
+    },
+    "2051": {
+        "name": "VolTorchL",
+        "description": "",
+    },
+    "2052": {
+        "name": "TCSplashSet1",
+        "description": "",
+    },
+    "2053": {
+        "name": "TCSplashSet2",
+        "description": "",
+    },
+    "2054": {
+        "name": "TCFireworks",
+        "description": "",
+    },
+    "2055": {
+        "name": "TTCSunLight",
+        "description": "",
+    },
+    "2056": {
+        "name": "DkTorch",
+        "description": "",
+    },
+    "2057": {
+        "name": "LaserBeam",
+        "description": "",
+        "param_0": {
+            "name": "Initial Delay",
+            "type": "time"
+        },
+        "param_1": {},
+        "param_2": {}
+    },
+    "2059": {
+        "name": "BCTorch1",
+        "description": "",
+    },
+    "2060": {
+        "name": "BCExplosion",
+        "description": "",
+        "param_0": {},
+        "param_1": {}
+    },
+    "2061": {
+        "name": "BCSearchLight",
+        "description": "",
+    },
+    "2062": {
+        "name": "FireworksFc",
+        "description": "",
+    },
+    "2063": {
+        "name": "FireworksSl",
+        "description": "",
+    },
+    "2064": {
+        "name": "FireworksN64R",
+        "description": "",
+        "param_0": {}
+    },
+    "2065": {
+        "name": "TTCSunLightS",
+        "description": "",
+    },
+    "2066": {
+        "name": "McSplash",
+        "description": "",
+    },
+    "2067": {
+        "name": "OcWaterCurrent",
+        "description": "",
+        "param_0": {},
+        "param_1": {}
+    },
+    "2068": {
+        "name": "VolSmoke",
+        "description": "",
+    },
+    "2069": {
+        "name": "FireworksN64Rs",
+        "description": "",
+    },
+    "2070": {
+        "name": "DdQuickSandSplash",
+        "description": "",
+    },
+    "2071": {
+        "name": "EntranceSunLight",
+        "description": "",
+    },
+    "2072": {
+        "name": "LibrarySunLight",
+        "description": "",
+    },
+    "2073": {
+        "name": "CorridorSunLight",
+        "description": "",
+    },
+    "2074": {
+        "name": "AnnexeSunLight",
+        "description": "",
+    },
+    "2077": {
+        "name": "DpManyFish",
+        "description": "",
+    },
+    "2078": {
+        "name": "SlAurora",
+        "description": "",
+    },
+    "2079": {
+        "name": "FcSearchLightClip",
+        "description": "",
+    },
+    "2081": {
+        "name": "FcSearchLightOutside",
+        "description": "",
+    },
+    "2082": {
+        "name": "BCTorch2",
+        "description": "",
+    },
+    "2083": {
+        "name": "DkSunLight",
+        "description": "",
+    },
+    "3002": {
+        "name": "Rock1",
+        "description": "",
+        "param_0": {
+            "name": "Initial Delay",
+            "type": "time"
+        },
+        "param_1": {},
+        "param_2": {"name": "Launch Velocity"},
+        "param_3": {"name": "Launch Angle (Degrees)"}
+    },
+    "3004": {
+        "name": "CarA",
+        "description": "",
+        "param_0": {}
+    },
+    "3006": {
+        "name": "TruckA",
+        "description": "",
+        "aliases": ["Car"],
+        "param_0": {},
+        "param_1": {}
+    },
+    "3007": {
+        "name": "DkAirship",
+        "description": "",
+    },
+    "3008": {
+        "name": "Bus",
+        "description": "",
+        "aliases": ["Car"],
+        "param_0": {},
+        "param_1": {}
+    },
+    "3009": {
+        "name": "Trolley",
+        "description": "",
+        "aliases": ["Car"],
+    },
+    "3011": {
+        "name": "CarrierCar",
+        "description": "",
+        "param_0": {}
+    },
+    "3012": {
+        "name": "BDSandShip",
+        "description": "",
+        "param_0": {}
+    },
+    "3013": {
+        "name": "Submarine",
+        "description": "",
+        "aliases": ["Ship"],
+    },
+    "3014": {
+        "name": "TrolleyNoMove",
+        "description": "",
+        "aliases": ["Car"],
+    },
+    "3015": {
+        "name": "APJetFly",
+        "description": "",
+        "aliases": ["Airplane"],
+        "usages": ["U Sunshine Airport"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {}
+    },
+    "3016": {
+        "name": "DiWheel",
+        "description": "",
+        "usages": ["U Thwomp Ruins"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "3018": {
+        "name": "Chairlift",
+        "description": "",
+        "param_0": {},
+        "param_2": {}
+    },
+    "3020": {
+        "name": "CarSurf",
+        "description": "",
+        "param_0": {}
+    },
+    "3021": {
+        "name": "N64RTrain",
+        "description": "A flying train that throws coins",
+        "aliases": ["Coin"],
+        "usages": ["N64 Rainbow Road"]
+    },
+    "3022": {
+        "name": "BDSandShipNoMove",
+        "description": "",
+        "aliases": ["Coin"],
+        "usages": ["A ship that throws coins."]
+    },
+    "3023": {
+        "name": "GessoShuttle",
+        "description": "",
+        "aliases": ["Blooper", "Spaceship"],
+        "usages": ["U Rainbow Road"]
+    },
+    "4004": {
+        "name": "ClockGearY",
+        "description": "",
+        "usages": ["DS Tick Tock Clock"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "4005": {
+        "name": "ClockHandL",
+        "description": "",
+        "usages": ["DS Tick Tock Clock"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "4006": {
+        "name": "ClockGearZ",
+        "description": "",
+        "usages": ["DS Tick Tock Clock"],
+        "param_0": {},
+        "param_1": {}
+    },
+    "4007": {
+        "name": "Furiko",
+        "description": "",
+        "aliases": ["Clock"],
+        "usages": ["DS Tick Tock Clock"],
+        "param_0": {}
+    },
+    "4036": {
+        "name": "CityBoat",
+        "description": "",
+    },
+    "4038": {
+        "name": "HorrorRoad",
+        "description": "",
+        "usages": ["U Twisted Mansion"]
+    },
+    "4039": {
+        "name": "ClockHandS",
+        "description": "",
+        "usages": ["DS Tick Tock Clock"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "4040": {
+        "name": "ClockGearPole",
+        "description": "",
+        "usages": ["DS Tick Tock Clock"],
+        "param_0": {}
+    },
+    "4042": {
+        "name": "KaraPillar",
+        "description": "A desert pillar that can fall after some period of time. It briefly shakes before it falls. Drivers hit by the pillar while it is falling are spun out.\nSome sand particles are spawned when the pillar finishes falling (GCN Dry Dry Desert's ptcl required).\nOnly one side is trickable/drivable, the other sides act as walls.\nThis object should not be scaled, as the pillar and the base are scaled from their own separate origins!",
+        "aliases": ["Falling"],
+        "usages": ["GCN Dry Dry Desert"],
+        "param_0": {
+            "name": "Fall Delay",
+            "type": "time"
+        }
+    },
+    "4043": {
+        "name": "MpBoard",
+        "description": "",
+        "aliases": ["Glider"],
+        "usages": ["3DS Music Park"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "4044": {
+        "name": "ExDash",
+        "description": "",
+    },
+    "4048": {
+        "name": "BDSandGeyser",
+        "description": "",
+        "usages": ["U Bone Dry Dunes"],
+        "param_0": {
+            "name": "Initial Delay",
+            "type": "time",
+            "default": 0
+        },
+        "param_1": {
+            "name": "Up Duration",
+            "type": "time",
+            "default": 700
+        },
+        "param_2": {
+            "name": "Delay between rise",
+            "type": "time",
+            "default": 2300
+        },
+        "param_3": {
+            "name": "Geyser Height",
+            "default": 400
+        }
+    },
+    "4050": {
+        "name": "VolMovRoadPlus",
+        "description": "",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {"name": "Shake speed"},
+        "param_3": {},
+        "param_4": {},
+        "param_5": {}
+    },
+    "4051": {
+        "name": "VolMovRoad",
+        "description": "",
+        "param_2": {"name": "Shake speed"},
+        "param_3": {},
+        "param_4": {},
+        "param_5": {}
+    },
+    "4052": {
+        "name": "VolcanoPiece",
+        "description": "A sinking piece of road.",
+        "usages": ["Wii Grumble Volcano"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {},
+        "param_7": {
+            "name": "Model Index",
+            "type": "int",
+            "default": 0,
+            "minValue": 0
+        }
+    },
+    "4055": {
+        "name": "DiDomino",
+        "description": "A brick structure that breaks when a wheel rolls into it.",
+        "aliases": ["Wheel"],
+        "usages": ["U Thwomp Ruins"]
+    },
+    "4060": {
+        "name": "DkScreamPillar",
+        "description": "A screaming pillar whose breath affects gliders.",
+        "aliases": ["Glider"],
+        "usages": ["3DS DK Jungle"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {},
+        "param_3": {},
+        "param_4": {}
+    },
+    "4061": {
+        "name": "SmDash",
+        "description": "",
+    },
+    "4065": {
+        "name": "ClockHandL2",
+        "description": "",
+        "usages": ["DS Tick Tock Clock"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "4066": {
+        "name": "ClockHandS2",
+        "description": "",
+        "usages": ["DS Tick Tock Clock"],
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "4068": {
+        "name": "KoopaRoadR",
+        "description": "A road that moves when the giant Bowser statue slams into it.",
+        "usages": ["U Bowser's Castle"]
+    },
+    "4069": {
+        "name": "KoopaRoadL",
+        "description": "A road that moves when the giant Bowser statue slams into it.",
+        "usages": ["U Bowser's Castle"]
+    },
+    "4070": {
+        "name": "RRroadout",
+        "description": "",
+    },
+    "4071": {
+        "name": "RRroadin",
+        "description": "",
+    },
+    "4072": {
+        "name": "TtcBoard",
+        "description": "",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "4074": {
+        "name": "SpikeBall",
+        "description": "",
+        "usages": ["U Bowser's Castle"]
+    },
+    "4075": {
+        "name": "ClockGearArrow",
+        "description": "",
+        "usages": ["DS Tick Tock Clock"],
+        "param_0": {}
+    },
+    "4077": {
+        "name": "N64RRoad1",
+        "description": "",
+    },
+    "4078": {
+        "name": "N64RRoad2",
+        "description": "",
+        "param_0": {}
+    },
+    "4081": {
+        "name": "DonutsRoadA",
+        "description": "",
+        "aliases": ["Bridge"],
+        "usages": ["SNES Donut Plains 3"]
+    },
+    "4082": {
+        "name": "DonutsRoadB",
+        "description": "",
+        "aliases": ["Bridge"],
+        "usages": ["SNES Donut Plains 3"]
+    },
+    "4084": {
+        "name": "BCCannon",
+        "description": "",
+        "param_0": {},
+        "param_1": {},
+        "param_2": {}
+    },
+    "4085": {
+        "name": "RRdash",
+        "description": "",
+        "param_0": {}
+    },
+    "5002": {
+        "name": "BumpingFlower",
+        "description": "A flower that can be tricked off.",
+        "usages": ["3DS DK Jungle"]
+    },
+    "5005": {
+        "name": "WindMill",
+        "description": "",
+    },
+    "5014": {
+        "name": "TreeAgb",
+        "description": "",
+    },
+    "5015": {
+        "name": "TreeSnow",
+        "description": "",
+    },
+    "5016": {
+        "name": "TreeSph",
+        "description": "",
+        "aliases": ["Based"],
+    },
+    "5017": {
+        "name": "Tree64A",
+        "description": "",
+    },
+    "5019": {
+        "name": "TreeTri",
+        "description": "",
+    },
+    "5020": {
+        "name": "Tree64Deep",
+        "description": "",
+    },
+    "5021": {
+        "name": "WaterSurface",
+        "description": "",
+    },
+    "5022": {
+        "name": "WaterBox",
+        "description": "",
+    },
+    "5023": {
+        "name": "FlagStartDossun",
+        "description": "",
+    },
+    "5024": {
+        "name": "FlagStartMario",
+        "description": "",
+    },
+    "5025": {
+        "name": "FlagStartMooMoo",
+        "description": "",
+    },
+    "5026": {
+        "name": "FlagStartAGB",
+        "description": "",
+    },
+    "5027": {
+        "name": "YachtG",
+        "description": "",
+    },
+    "5028": {
+        "name": "YachtP",
+        "description": "",
+    },
+    "5029": {
+        "name": "YachtR",
+        "description": "",
+    },
+    "5030": {
+        "name": "YachtY",
+        "description": "",
+    },
+    "5031": {
+        "name": "HhDoor",
+        "description": "",
+    },
+    "5033": {
+        "name": "HhChandelier",
+        "description": "",
+    },
+    "5034": {
+        "name": "HhMovingWall",
+        "description": "",
+    },
+    "5041": {
+        "name": "RotaryBoard",
+        "description": "",
+    },
+    "5042": {
+        "name": "FlagRope1",
+        "description": "",
+    },
+    "5044": {
+        "name": "FlagTriangle1",
+        "description": "",
+    },
+    "5047": {
+        "name": "TreeCakeB",
+        "description": "",
+    },
+    "5049": {
+        "name": "WindMillCake",
+        "description": "",
+    },
+    "5051": {
+        "name": "MpTrumpet",
+        "description": "",
+        "usages": ["3DS Music Park"]
+    },
+    "5052": {
+        "name": "MpTambourin",
+        "description": "",
+        "aliases": ["Instrument"],
+        "usages": ["3DS Music Park"]
+    },
+    "5053": {
+        "name": "MpSax",
+        "description": "",
+        "aliases": ["Instrument"],
+        "usages": ["3DS Music Park"]
+    },
+    "5054": {
+        "name": "MpSpeaker",
+        "description": "",
+        "aliases": ["Instrument"],
+        "usages": ["3DS Music Park"]
+    },
+    "5056": {
+        "name": "MpCymbal",
+        "description": "",
+        "aliases": ["Instrument"],
+        "usages": ["3DS Music Park"]
+    },
+    "5057": {
+        "name": "MpPiston",
+        "description": "",
+        "aliases": ["Instrument"],
+        "usages": ["3DS Music Park"],
+        "param_0": {}
+    },
+    "5058": {
+        "name": "SearchLight",
+        "description": "",
+    },
+    "5059": {
+        "name": "TollBar",
+        "description": "",
+    },
+    "5060": {
+        "name": "TreeCakeD",
+        "description": "",
+    },
+    "5062": {
+        "name": "HhFan",
+        "description": "",
+    },
+    "5063": {
+        "name": "FlagTriangle2",
+        "description": "",
+    },
+    "5064": {
+        "name": "ExExcavator",
+        "description": "",
+    },
+    "5070": {
+        "name": "ClGun",
+        "description": "",
+    },
+    "5071": {
+        "name": "ClBattleShip",
+        "description": "",
+    },
+    "5072": {
+        "name": "Tree64Yoshi",
+        "description": "",
+    },
+    "5075": {
+        "name": "BDSearchLight",
+        "description": "",
+    },
+    "5076": {
+        "name": "BDFlagSquare1",
+        "description": "",
+    },
+    "5077": {
+        "name": "BDWindmill",
+        "description": "",
+    },
+    "5078": {
+        "name": "FlagTapestryDossun",
+        "description": "",
+    },
+    "5079": {
+        "name": "FlagTapestryPeach",
+        "description": "",
+    },
+    "5080": {
+        "name": "FlagTapestryMusic",
+        "description": "",
+    },
+    "5081": {
+        "name": "FlagTriangle3",
+        "description": "",
+    },
+    "5082": {
+        "name": "TcMirrorBall",
+        "description": "",
+        "param_0": {}
+    },
+    "5083": {
+        "name": "Kanransya",
+        "description": "Ferris Wheel",
+        "aliases": ["Ferris Wheel"],
+        "usages": ["U Water Park"]
+    },
+    "5084": {
+        "name": "CoffeeCup",
+        "description": "",
+        "usages": ["U Water Park"],
+        "param_0": {
+            "name": "Cups in Circle",
+            "type": "int"
+        }
+    },
+    "5085": {
+        "name": "TreeSph_AddCol",
+        "description": "",
+    },
+    "5088": {
+        "name": "TreeTriB",
+        "description": "",
+    },
+    "5089": {
+        "name": "TreeBush",
+        "description": "",
+    },
+    "5090": {
+        "name": "TreeCityA",
+        "description": "",
+    },
+    "5091": {
+        "name": "APGuide",
+        "description": "",
+    },
+    "5093": {
+        "name": "TreeCakeBB",
+        "description": "",
+    },
+    "5094": {
+        "name": "TreeCakeBY",
+        "description": "",
+    },
+    "5095": {
+        "name": "APCBelt",
+        "description": "",
+    },
+    "5096": {
+        "name": "APSBelt",
+        "description": "",
+    },
+    "5097": {
+        "name": "APTollBar",
+        "description": "",
+    },
+    "5098": {
+        "name": "FlagTriangle4",
+        "description": "",
+    },
+    "5103": {
+        "name": "WPTollBar",
+        "description": "",
+    },
+    "5104": {
+        "name": "McGate",
+        "description": "",
+    },
+    "5106": {
+        "name": "DrumInside",
+        "description": "",
+    },
+    "5107": {
+        "name": "FlagStadiumA",
+        "description": "",
+    },
+    "5108": {
+        "name": "FlagStadiumB",
+        "description": "",
+    },
+    "5109": {
+        "name": "FlagStadiumC",
+        "description": "",
+    },
+    "5110": {
+        "name": "ClTrampoline",
+        "description": "",
+    },
+    "5111": {
+        "name": "SmHelicopter",
+        "description": "",
+    },
+    "5112": {
+        "name": "FcGallery",
+        "description": "",
+        "param_7": {}
+    },
+    "5114": {
+        "name": "AccelRing",
+        "description": "A ring that gives a speed boost when driven through.",
+        "aliases": ["Gate"],
+        "param_0": {}
+    },
+    "5115": {
+        "name": "RacingPole",
+        "description": "",
+    },
+    "5116": {
+        "name": "TechnoStepGreen",
+        "description": "",
+        "param_7": {}
+    },
+    "5117": {
+        "name": "TechnoStepRed",
+        "description": "",
+        "param_7": {}
+    },
+    "5118": {
+        "name": "BarrelCannon",
+        "description": "",
+    },
+    "5119": {
+        "name": "OcRing",
+        "description": "A ring that gives a speed boost when driven through.",
+        "aliases": ["Gate"],
+        "usages": ["U Dolphin Shoals"]
+    },
+    "5120": {
+        "name": "APPropeller",
+        "description": "",
+    },
+    "5121": {
+        "name": "FlagSquareAP",
+        "description": "",
+    },
+    "5122": {
+        "name": "FlagTriangle5",
+        "description": "",
+    },
+    "5124": {
+        "name": "ClBattleShipS",
+        "description": "",
+    },
+    "5125": {
+        "name": "FlagTapestryFc",
+        "description": "",
+    },
+    "5130": {
+        "name": "CakeCannon",
+        "description": "",
+    },
+    "5131": {
+        "name": "FlagTapestryWp",
+        "description": "",
+    },
+    "5132": {
+        "name": "GuardrailRSpot",
+        "description": "",
+    },
+    "5133": {
+        "name": "ExExcavatorBig",
+        "description": "",
+    },
+    "5134": {
+        "name": "ClPropeller",
+        "description": "",
+    },
+    "5136": {
+        "name": "BDRope",
+        "description": "",
+    },
+    "5137": {
+        "name": "BDCloth",
+        "description": "",
+    },
+    "5138": {
+        "name": "GearDecoA",
+        "description": "",
+    },
+    "5139": {
+        "name": "GearDecoB",
+        "description": "",
+    },
+    "5140": {
+        "name": "GearDecoC",
+        "description": "",
+    },
+    "5141": {
+        "name": "TcStarSpeaker",
+        "description": "",
+        "param_0": {}
+    },
+    "5142": {
+        "name": "TcSpeaker",
+        "description": "",
+    },
+    "5145": {
+        "name": "GearDecoD",
+        "description": "",
+    },
+    "5146": {
+        "name": "GearDecoE",
+        "description": "",
+    },
+    "5147": {
+        "name": "TcDisplay",
+        "description": "",
+    },
+    "5155": {
+        "name": "GearDecoF",
+        "description": "",
+    },
+    "5156": {
+        "name": "GearDecoG",
+        "description": "",
+    },
+    "5157": {
+        "name": "ClockSpring",
+        "description": "",
+    },
+    "5161": {
+        "name": "TcDisplayR",
+        "description": "",
+    },
+    "5162": {
+        "name": "TcSoundRoadG",
+        "description": "",
+        "param_0": {}
+    },
+    "5163": {
+        "name": "TcSoundRoadR",
+        "description": "",
+        "param_0": {}
+    },
+    "5165": {
+        "name": "TreeSnow_AddCol",
+        "description": "",
+    },
+    "5166": {
+        "name": "TreeCityACol",
+        "description": "",
+    },
+    "5167": {
+        "name": "FlagStadiumWarioC",
+        "description": "",
+    },
+    "5168": {
+        "name": "FlagStadiumWarioA",
+        "description": "",
+    },
+    "5169": {
+        "name": "FlagStadiumWarioB",
+        "description": "",
+    },
+    "5170": {
+        "name": "FlagTapestryWs",
+        "description": "",
+    },
+    "5171": {
+        "name": "SlRopeL",
+        "description": "",
+    },
+    "5172": {
+        "name": "SlRopeM",
+        "description": "",
+    },
+    "5173": {
+        "name": "FlagTapestrySl",
+        "description": "",
+    },
+    "5174": {
+        "name": "GravityBox",
+        "description": "",
+    },
+    "5175": {
+        "name": "FlagStartSnow",
+        "description": "",
+    },
+    "5176": {
+        "name": "N64RAccelRing",
+        "description": "",
+        "param_0": {}
+    },
+    "5177": {
+        "name": "N64RCheck",
+        "description": "",
+    },
+    "5178": {
+        "name": "N64RStart",
+        "description": "",
+    },
+    "5179": {
+        "name": "SwanBoatR",
+        "description": "",
+    },
+    "5180": {
+        "name": "Tire",
+        "description": "",
+        "param_7": {
+            "name": "Tire Stack Count",
+            "type": "int",
+            "default": 1,
+            "minValue": 1
+        }
+    },
+    "5181": {
+        "name": "SwanBoatB",
+        "description": "",
+    },
+    "5182": {
+        "name": "WaterPlantA",
+        "description": "",
+    },
+    "5183": {
+        "name": "WaterPlantB",
+        "description": "",
+    },
+    "5184": {
+        "name": "FlagTapestryPs",
+        "description": "",
+    },
+    "5185": {
+        "name": "WPBoatA",
+        "description": "",
+    },
+    "5186": {
+        "name": "WPBoatB",
+        "description": "",
+    },
+    "5187": {
+        "name": "WPBoatC",
+        "description": "",
+    },
+    "5188": {
+        "name": "N64RAccelRingAir",
+        "description": "A flying ring that gives a speed boost when driven through.",
+        "aliases": ["Gate"],
+        "usages": ["N64 Rainbow Road"],
+        "param_0": {}
+    },
+    "5189": {
+        "name": "N64RStageSet",
+        "description": "",
+    },
+    "5190": {
+        "name": "UltraArm",
+        "description": "",
+    },
+    "5192": {
+        "name": "ClockBell",
+        "description": "",
+    },
+    "5193": {
+        "name": "Tree64Middle",
+        "description": "",
+    },
+    "5194": {
+        "name": "Tree64Light",
+        "description": "",
+    },
+    "5195": {
+        "name": "FlagPeachCircuit",
+        "description": "",
+    },
+    "5196": {
+        "name": "MilkTank",
+        "description": "",
+    },
+    "5198": {
+        "name": "StrawRoll",
+        "description": "",
+    },
+    "5200": {
+        "name": "ClockArm",
+        "description": "",
+    },
+    "5201": {
+        "name": "ClockCylinder",
+        "description": "",
+    },
+    "5202": {
+        "name": "BCGate",
+        "description": "",
+    },
+    "5203": {
+        "name": "BCElevator",
+        "description": "",
+    },
+    "5204": {
+        "name": "BCEngine",
+        "description": "",
+    },
+    "5205": {
+        "name": "BCFlag",
+        "description": "",
+    },
+    "5207": {
+        "name": "BCChain",
+        "description": "",
+    },
+    "5210": {
+        "name": "TreeDD",
+        "description": "",
+    },
+    "5217": {
+        "name": "TreeDonuts",
+        "description": "",
+    },
+    "5218": {
+        "name": "Tree64DeepCol",
+        "description": "",
+    },
+    "5219": {
+        "name": "Tree64MiddleCol",
+        "description": "",
+    },
+    "5220": {
+        "name": "Tree64LightCol",
+        "description": "",
+    },
+    "5221": {
+        "name": "TreePukupuku",
+        "description": "",
+    },
+    "5222": {
+        "name": "ConnectBoard",
+        "description": "",
+    },
+    "5223": {
+        "name": "SlRedSpot",
+        "description": "",
+    },
+    "5224": {
+        "name": "BDFlagSquare2",
+        "description": "",
+    },
+    "5225": {
+        "name": "FlagStartPukupuku",
+        "description": "",
+    },
+    "5227": {
+        "name": "SpinTurboBar_BD",
+        "description": "",
+    },
+    "5228": {
+        "name": "FlagSquare1",
+        "description": "",
+    },
+    "5229": {
+        "name": "WsGate",
+        "description": "",
+    },
+    "5230": {
+        "name": "PeachBell",
+        "description": "",
+    },
+    "5231": {
+        "name": "SpinTurboBar_TC",
+        "description": "",
+    },
+    "5232": {
+        "name": "SpinTurboBar_AP",
+        "description": "",
+    },
+    "5234": {
+        "name": "OceanWaterPlantA",
+        "description": "",
+    },
+    "5235": {
+        "name": "OceanWaterPlantB",
+        "description": "",
+    },
+    "5236": {
+        "name": "RRstationA",
+        "description": "",
+    },
+    "5237": {
+        "name": "RRstationB",
+        "description": "",
+    },
+    "5238": {
+        "name": "RRstationC",
+        "description": "",
+    },
+    "5239": {
+        "name": "RRguide",
+        "description": "",
+    },
+    "5240": {
+        "name": "RRring",
+        "description": "",
+    },
+    "5241": {
+        "name": "RRseat",
+        "description": "",
+    },
+    "5242": {
+        "name": "WindMillSmall",
+        "description": "",
+    },
+    "5244": {
+        "name": "TireR",
+        "description": "",
+        "param_7": {
+            "name": "Tire Stack Count",
+            "type": "int",
+            "default": 1,
+            "minValue": 1
+        }
+    },
+    "5245": {
+        "name": "TireW",
+        "description": "",
+        "param_7": {
+            "name": "Tire Stack Count",
+            "type": "int",
+            "default": 1,
+            "minValue": 1
+        }
+    },
+    "5246": {
+        "name": "PsFan",
+        "description": "",
+    },
+    "5247": {
+        "name": "TcMoveLight",
+        "description": "",
+    },
+    "5248": {
+        "name": "Weathercock",
+        "description": "",
+    },
+    "5249": {
+        "name": "RRstartring",
+        "description": "",
+    },
+    "5250": {
+        "name": "TcChandelier",
+        "description": "",
+    },
+    "5251": {
+        "name": "FlagMusicSwing",
+        "description": "",
+    },
+    "5252": {
+        "name": "SherbetPlantA",
+        "description": "",
+    },
+    "5253": {
+        "name": "SherbetPlantB",
+        "description": "",
+    },
+    "5254": {
+        "name": "FlagTriangle3Y",
+        "description": "",
+    },
+    "5255": {
+        "name": "N64RStageSet2",
+        "description": "",
+    },
+    "5256": {
+        "name": "N64RStar",
+        "description": "",
+    },
+    "5257": {
+        "name": "TcChandelierS",
+        "description": "",
+    },
+    "5258": {
+        "name": "TcChandelierM",
+        "description": "",
+    },
+    "5259": {
+        "name": "WindMillB",
+        "description": "",
+    },
+    "5261": {
+        "name": "SpinTurboBar_RR",
+        "description": "",
+    },
+    "5262": {
+        "name": "CmnDashBoard",
+        "description": "",
+    },
+    "5263": {
+        "name": "McJump",
+        "description": "",
+    },
+    "5265": {
+        "name": "MmJump",
+        "description": "",
+    },
+    "5266": {
+        "name": "KhJump",
+        "description": "",
+    },
+    "5267": {
+        "name": "SmFan",
+        "description": "",
+    },
+    "5268": {
+        "name": "BCParts",
+        "description": "",
+    },
+    "5269": {
+        "name": "ClGuide",
+        "description": "",
+    },
+    "5270": {
+        "name": "BCPiston",
+        "description": "",
+    },
+    "5271": {
+        "name": "BCBattleShipS",
+        "description": "",
+    },
+    "5272": {
+        "name": "SearchLightNoClip",
+        "description": "",
+    },
+    "5273": {
+        "name": "RRbox",
+        "description": "",
+    },
+    "5274": {
+        "name": "McKart",
+        "description": "",
+    },
+    "5275": {
+        "name": "TreeSphB",
+        "description": "",
+    },
+    "5276": {
+        "name": "CiJump",
+        "description": "",
+    },
+    "5277": {
+        "name": "TreeSphB_AddCol",
+        "description": "",
+    },
+    "5278": {
+        "name": "Holography",
+        "description": "",
+    },
+    "5279": {
+        "name": "ChairliftNoMove",
+        "description": "",
+        "param_0": {},
+        "param_2": {}
+    },
+    "6002": {
+        "name": "TestStart",
+        "description": "",
+        "param_7": {
+            "name": "Spawn Index",
+            "type": "int",
+            "default": 0,
+            "minValue": 0
+        }
+    },
+    "6003": {
+        "name": "Start",
+        "description": "",
+        "param_7": {
+            "name": "Spawn Index",
+            "type": "int",
+            "default": 0,
+            "minValue": 0
+        }
+    },
+    "6004": {
+        "name": "Sun",
+        "description": "",
+    },
+    "6005": {
+        "name": "Moon",
+        "description": "",
+    },
+    "6006": {
+        "name": "Sunset",
+        "description": "",
+    },
+    "6008": {
+        "name": "SunInf",
+        "description": "",
+    },
+    "6009": {
+        "name": "SunInfY",
+        "description": "",
+    },
+    "6010": {
+        "name": "MoonInf",
+        "description": "",
+    },
+    "6011": {
+        "name": "MoonInfY",
+        "description": "",
+    },
+    "6012": {
+        "name": "SunsetInf",
+        "description": "",
+    },
+    "6013": {
+        "name": "SunsetInfY",
+        "description": "",
+    },
+    "6014": {
+        "name": "Moon2Inf",
+        "description": "",
+    },
+    "6015": {
+        "name": "Moon2InfY",
+        "description": "",
+    },
+    "7005": {
+        "name": "VR64Highway",
+        "description": "",
+    },
+    "7006": {
+        "name": "VRfair",
+        "description": "",
+    },
+    "7008": {
+        "name": "VRagbMario",
+        "description": "",
+    },
+    "7009": {
+        "name": "VR64Peach",
+        "description": "",
+    },
+    "7010": {
+        "name": "VRHorror",
+        "description": "",
+    },
+    "7011": {
+        "name": "VRCake",
+        "description": "",
+    },
+    "7012": {
+        "name": "VRcloudSea",
+        "description": "",
+    },
+    "7013": {
+        "name": "VRWaterPark",
+        "description": "",
+    },
+    "7014": {
+        "name": "VRFirst",
+        "description": "",
+    },
+    "7015": {
+        "name": "VRAirport",
+        "description": "",
+    },
+    "7016": {
+        "name": "VRTechno",
+        "description": "",
+    },
+    "7017": {
+        "name": "VRSnowMt",
+        "description": "",
+    },
+    "7018": {
+        "name": "VRCloud",
+        "description": "",
+    },
+    "7019": {
+        "name": "VRDesert",
+        "description": "",
+    },
+    "7020": {
+        "name": "VRExpert",
+        "description": "",
+    },
+    "7021": {
+        "name": "VRCity",
+        "description": "",
+    },
+    "7022": {
+        "name": "VRDossun",
+        "description": "",
+    },
+    "7023": {
+        "name": "VRMario",
+        "description": "",
+    },
+    "7024": {
+        "name": "VR64Yoshi",
+        "description": "",
+    },
+    "7025": {
+        "name": "VRMenu",
+        "description": "",
+    },
+    "7026": {
+        "name": "VRStorm",
+        "description": "",
+    },
+    "7027": {
+        "name": "VRGcDesert",
+        "description": "",
+    },
+    "7028": {
+        "name": "VRWiiMoo",
+        "description": "",
+    },
+    "7029": {
+        "name": "VRCosmos",
+        "description": "",
+    },
+    "7030": {
+        "name": "VRCustomizer",
+        "description": "",
+    },
+    "7031": {
+        "name": "VRWarioStadium",
+        "description": "",
+    },
+    "7032": {
+        "name": "VRG64Rainbow",
+        "description": "",
+    },
+    "7033": {
+        "name": "VRRainbowRoad",
+        "description": "",
+    },
+    "7034": {
+        "name": "VRClock",
+        "description": "",
+    },
+    "7035": {
+        "name": "VROcean",
+        "description": "",
+    },
+    "7036": {
+        "name": "VRSherbet",
+        "description": "",
+    },
+    "7037": {
+        "name": "VRDonuts",
+        "description": "",
+    },
+    "7038": {
+        "name": "VRPackunS",
+        "description": "",
+    },
+    "7039": {
+        "name": "VRPukuB",
+        "description": "",
+    },
+    "7040": {
+        "name": "VRBowser",
+        "description": "",
+    },
+    "8001": {
+        "name": "ColCylinder",
+        "description": "",
+    },
+    "8008": {
+        "name": "StartEx",
+        "description": "",
+        "param_0": {
+            "name": "Spawn Index",
+            "type": "int",
+            "default": 0,
+            "minValue": 0
+        }
+    },
+    "8009": {
+        "name": "ColCylinderStone",
+        "description": "",
+    },
+    "8010": {
+        "name": "ColCylinderWood",
+        "description": "",
+    },
+    "8011": {
+        "name": "ColCylinderMetal",
+        "description": "",
+    },
+    "8014": {
+        "name": "CmnWaterCurrent_NoMdl",
+        "description": "",
+        "param_0": {},
+        "param_1": {}
+    },
+    "8015": {
+        "name": "CmnWaterCurrent_NoEff",
+        "description": "",
+        "param_0": {},
+        "param_1": {}
+    },
+    "8016": {
+        "name": "ColSpinDash",
+        "description": "",
+    },
+    "8017": {
+        "name": "ColCylinderGum",
+        "description": "",
+    },
+    "8021": {
+        "name": "RRsat",
+        "description": "",
+    },
+    "8022": {
+        "name": "N64RCoin",
+        "description": "",
+        "param_0": {},
+        "param_1": {}
+    },
+    "8024": {
+        "name": "ColLeafBox",
+        "description": "",
+    },
+    "8025": {
+        "name": "NoteArea",
+        "description": "",
+        "param_0": {}
+    },
+    "8026": {
+        "name": "ShortCutBox",
+        "description": "",
+        "param_0": {},
+        "param_1": {}
+    },
+    "8029": {
+        "name": "Adjuster200cc",
+        "description": "",
+        "param_0": {},
+        "param_1": {}
+    },
+    "9006": {
+        "name": "KaraPillarBase",
+        "description": "",
+    },
+    "9007": {
+        "name": "ItemBoxFont",
+        "description": "",
+    }
+}

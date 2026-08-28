@@ -1,0 +1,64 @@
+You can add your own parameter documentation in this folder. Simply create a new file in this folder called <anything.json>.
+Track Studio will load it automatically.
+
+Example:
+----
+{
+    ...
+    "3026": { // MapObj ID
+        "name": "DL_Metro", // MapObj name
+        "description": "A subway train with a variable number of wagons.",
+        "aliases": ["Train", "Subway"], // Additional search terms in the asset viewer and outliner
+        "usages": ["U Super Bell Subway"],
+        "versionU": 0, // Wii U version this mapObj was introduced in (Default 0/"base"). -1 means unsupported in Wii U
+        "versionDX": "base", // Same as above, but for Deluxe
+        "param_0": {
+            "name": "Number of trains",
+            "description": "Number of wagons. The locomotive has a boost panel at the front.",
+            "samples": [0.0, 3.0], // Example values
+            "versionU": 0, // Same as for the mapObj, but instead specifically for this parameter
+            "versionDX": 1, // Same as for the mapObj, but instead specifically for this parameter
+            "type": "int", // Determines which widget to use. Valid values include, int, float, bool, time, enum, bytes
+            "default": 0, // Default value when creating a new object
+            "minValue": 0,
+            "maxValue": null,
+            "enum": { // Predetermined values with special meaning
+                0: "Red",
+                1: "Blue",
+            }
+        },
+        // Unused parameters can be skipped. E.g., skip "param_1"
+        "param_2": {} // Empty parameters are marked as 'used', but won't have any documentation
+        ...
+        "param_7": {}
+    },
+    ...
+}
+----
+
+Any value can be left out, meaning you'll only need to define the docs you wish to add.
+E.g., the following is valid:
+----
+{
+    ...
+    "3026": {
+        "description": "Trains are fun!",
+        "param_6": {
+            "name": "Train Hue"
+        }
+    }
+    ...
+}
+----
+or even
+----
+{
+    ...
+    "3026": {
+        "param_4": {}
+    }
+    ...
+}
+----
+
+Pull requests with parameter documentation is welcome. This way it can be included for all to use!

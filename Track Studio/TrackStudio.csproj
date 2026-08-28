@@ -162,6 +162,9 @@
     <None Update="tinyfiledialogs.so">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="User\MapObjArchives\MapObjArchivesHere.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="User\ZstdDictionaries\ZstdDicHere.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -181,6 +184,7 @@
 
   <ItemGroup>
     <Folder Include="Lib\Presets\" />
+    <Folder Include="User\MapObjArchives\" />
   </ItemGroup>
 
 </Project>

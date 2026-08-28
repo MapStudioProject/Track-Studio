@@ -185,6 +185,7 @@ namespace TurboLibrary.MuuntEditor
                      objects[i].Label.IndexOf(_searchText, StringComparison.OrdinalIgnoreCase) >= 0;
 
                 HasText |= objects[i].ObjId.ToString().IndexOf(_searchText, StringComparison.OrdinalIgnoreCase) >= 0;
+                HasText |= objects[i].Meta.Aliases.Any(s => s.IndexOf(_searchText, StringComparison.OrdinalIgnoreCase) >= 0);
 
                 if (isSearch && HasText || !isSearch)
                     filtered.Add(objects[i]);

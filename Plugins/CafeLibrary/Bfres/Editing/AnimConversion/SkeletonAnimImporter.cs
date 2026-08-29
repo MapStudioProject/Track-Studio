@@ -80,7 +80,6 @@ namespace CafeLibrary
             //bone animation for bfres
             BoneAnim boneAnim = new BoneAnim();
             boneAnim.Name = animation.Name;
-
             //base defaults
             var basePosition = Syroot.Maths.Vector3F.Zero;
             var baseRotation = new Syroot.Maths.Vector4F(0, 0, 0, 1f);
@@ -135,7 +134,9 @@ namespace CafeLibrary
                             break;
                     }
                 }
-                if (track.KeyFrames.Count > 1)
+
+                if (track.KeyFrames.Count > 1 && // Ensure all keys aren't the same value
+                    !track.KeyFrames.All(x => x.ValueF32 == track.KeyFrames[0].ValueF32))
                 {
                     switch (track.ChannelType)
                     {
@@ -150,6 +151,7 @@ namespace CafeLibrary
                         case IOAnimationTrackType.ScaleZ: boneAnim.Curves.Add(CreateCurve(track, AnimTarget.ScaleZ)); break;
                     }
                 }
+                boneAnim.Curves = boneAnim.Curves.OrderBy(x => x.AnimDataOffset).ToList();
             }
 
             //Set curve flags
@@ -200,13 +202,17 @@ namespace CafeLibrary
                 Flags = 0,
             };
 
+            boneAnim.CalculateTransformFlags();
+          //  boneAnim.ApplySegmentScaleCompensate = true;
+
             return boneAnim;
         }
 
         static AnimCurve CreateCurve(IOAnimationTrack track, AnimTarget target)
         {
             //check if hermite keys are used
-            bool isHermite = track.KeyFrames.Any(x => x is IOKeyFrameHermite);
+            bool isHermite = track.KeyFrames.Any(x => x is IOKeyFrameHermite hermite && 
+                                    (hermite.TangentSlopeInput != 0 || hermite.TangentSlopeOutput != 0));
 
             AnimCurve curve = new AnimCurve();
             curve.CurveType = AnimCurveType.Linear;
@@ -234,6 +240,8 @@ namespace CafeLibrary
             float frame = track.KeyFrames.Max(x => x.Frame);
             if (frame < byte.MaxValue) curve.FrameType = AnimCurveFrameType.Byte;
             else if (frame < 1024) curve.FrameType = AnimCurveFrameType.Decimal10x5;
+
+          //  curve.FrameType = AnimCurveFrameType.Single;
 
             //Set a key and frame list
             var keys = track.KeyFrames.ToList();

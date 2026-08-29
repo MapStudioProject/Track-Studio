@@ -202,6 +202,7 @@ namespace CafeLibrary.Rendering
                             {
 
                             });
+                            Reload(SkeletalAnim);
                         }
                         else
                         {
@@ -231,16 +232,17 @@ namespace CafeLibrary.Rendering
                                     SkeletonAnimImporter.Import(SkeletalAnim, selected_model.Skeleton, dlg.FilePath, new SkeletonAnimImporter.Settings()
                                     {
 
-                                    });
+                                    }); 
+                                    Reload(SkeletalAnim);
                                 }
                             });
                         }
                         break;
                     default:
                         SkeletalAnim.Import(dlg.FilePath, ResFile);
+                        Reload(SkeletalAnim);
                         break;
                 }
-                Reload(SkeletalAnim);
             }
         }
 

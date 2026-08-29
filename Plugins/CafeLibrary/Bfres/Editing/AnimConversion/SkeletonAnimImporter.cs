@@ -20,6 +20,7 @@ namespace CafeLibrary
         public class Settings
         {
             public bool Loop;
+            public bool SegmentScaleCompensate;
         }
 
         public static SkeletalAnim Import(STSkeleton skeleton, string filePath, Settings settings)
@@ -203,7 +204,7 @@ namespace CafeLibrary
             };
 
             boneAnim.CalculateTransformFlags();
-          //  boneAnim.ApplySegmentScaleCompensate = true;
+            boneAnim.ApplySegmentScaleCompensate = settings.SegmentScaleCompensate;
 
             return boneAnim;
         }

@@ -103,7 +103,8 @@ namespace CafeLibrary.Rendering
             return new MenuItemModel[]
             {
                 new MenuItemModel("Export", ExportAction),
-                new MenuItemModel("Replace", ReplaceAction),
+                new MenuItemModel("Replace", () => ReplaceAction(false)),
+                new MenuItemModel("Replace (Use Segmented Scale Compensate)", () => ReplaceAction(true)),
                 new MenuItemModel(""),
                 new MenuItemModel("Rename", () => UINode.ActivateRename = true),
                 new MenuItemModel(""),
@@ -174,7 +175,7 @@ namespace CafeLibrary.Rendering
             }
         }
 
-        private void ReplaceAction()
+        private void ReplaceAction(bool useSegmentScale = false)
         {
             var dlg = new ImguiFileDialog();
             dlg.SaveDialog = false;
@@ -231,7 +232,7 @@ namespace CafeLibrary.Rendering
                                 {
                                     SkeletonAnimImporter.Import(SkeletalAnim, selected_model.Skeleton, dlg.FilePath, new SkeletonAnimImporter.Settings()
                                     {
-
+                                        SegmentScaleCompensate = useSegmentScale,
                                     }); 
                                     Reload(SkeletalAnim);
                                 }

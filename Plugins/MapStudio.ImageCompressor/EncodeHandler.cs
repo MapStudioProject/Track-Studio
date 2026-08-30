@@ -50,8 +50,8 @@ namespace MapStudio.ImageCompressor
 
                 output[offset]     = colors[i].r;
                 output[offset + 1] = colors[i].g;
-                output[offset + 1] = colors[i].b;
-                output[offset + 1] = colors[i].a;
+                output[offset + 2] = colors[i].b;
+                output[offset + 3] = colors[i].a;
             }
             return output;
         }

@@ -74,6 +74,7 @@ namespace CafeLibrary.Rendering
                 }
                 OnRenamed(UINode.Header);
             };
+            UINode.TagUI.Tag = SkeletalAnim;
 
             ModelName = name;
             Reload(anim);

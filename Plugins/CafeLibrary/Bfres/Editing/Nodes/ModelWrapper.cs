@@ -372,7 +372,7 @@ namespace CafeLibrary
                 else
                 {
                     var scene = BfresModelExporter.FromGeneric(ResFile, Model, Path.GetDirectoryName(dlg.FilePath));
-                 //   BfresWrapper.ExportTextures(Path.GetDirectoryName(dlg.FilePath));
+                    BfresWrapper.ExportTextures(Path.GetDirectoryName(dlg.FilePath));
 
                     IONET.IOManager.ExportScene(scene, dlg.FilePath, new IONET.ExportSettings() { });
                 }

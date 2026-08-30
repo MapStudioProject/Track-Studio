@@ -18,6 +18,10 @@ namespace DirectXTexLibrary
 
         public bool Decode(TexFormat format, byte[] input, int width, int height, out byte[] output)
         {
+            output = null;
+            if (!IsSupportedPlatform())
+                return false;
+
             if (format.ToString().StartsWith("BC"))
                 output = DecompressBlock(input, width, height, (DXGI_FORMAT)format);
             else
@@ -28,6 +32,10 @@ namespace DirectXTexLibrary
 
         public bool Encode(TexFormat format, byte[] input, int width, int height, out byte[] output)
         {
+            output = null;
+            if (!IsSupportedPlatform())
+                return false;
+
             if (format.ToString().StartsWith("BC"))
                 output = CompressBlock(input, width, height, (DXGI_FORMAT)format, false);
             else

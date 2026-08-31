@@ -7,6 +7,7 @@ using System.IO;
 using Toolbox.Core;
 using Toolbox.Core.IO;
 using System.Diagnostics;
+using System.Runtime.InteropServices;
 using GLFrameworkEngine;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
@@ -197,8 +198,15 @@ namespace CafeLibrary.Rendering
                 File.WriteAllBytes(Path.Combine(Runtime.ExecutableDir,"GFD",stage.Name), stage.Data);
 
             ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = "GFD/gx2shader-decompiler.exe";
-            start.WorkingDirectory = System.IO.Path.Combine(Runtime.ExecutableDir, "GFD");
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                start.FileName = "GFD/gx2shader-decompiler.exe";
+            else
+            {
+                start.FileName = "wine";
+                start.Arguments += $"\"{Path.Combine(Runtime.ExecutableDir, "GFD", "gx2shader-decompiler.exe")}\" ";
+            }
+
+            start.WorkingDirectory = Path.Combine(Runtime.ExecutableDir, "GFD");
             foreach (var stage in stages)
             {
                 if (!File.Exists(Path.Combine(Runtime.ExecutableDir,"GFD",stage.Name)))
@@ -263,9 +271,15 @@ namespace CafeLibrary.Rendering
             string remapFlags = "";
 
             ProcessStartInfo start = new ProcessStartInfo();
-            start.FileName = $"GFD/spirv-cross.exe";
+            if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
+                start.FileName = "GFD/spirv-cross.exe";
+            else
+            {
+                start.FileName = "wine";
+                start.Arguments += $"\"{Path.Combine(Runtime.ExecutableDir, "GFD", "spirv-cross.exe")}\" ";
+            }
             start.WorkingDirectory = Runtime.ExecutableDir;
-            start.Arguments = $"{AddQuotesIfRequired(filePath)} {remapFlags} --no-es --extension GL_ARB_shader_storage_buffer_object --extension GL_ARB_separate_shader_objects --no-420pack-extension --no-support-nonzero-baseinstance --version 440 --output {AddQuotesIfRequired(output)}";
+            start.Arguments += $"{AddQuotesIfRequired(filePath)} {remapFlags} --no-es --extension GL_ARB_shader_storage_buffer_object --extension GL_ARB_separate_shader_objects --no-420pack-extension --no-support-nonzero-baseinstance --version 440 --output {AddQuotesIfRequired(output)}";
             start.UseShellExecute = false;
             start.RedirectStandardOutput = true;
             start.CreateNoWindow = true;

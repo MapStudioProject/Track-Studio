@@ -478,19 +478,19 @@ namespace TurboLibrary
                 return "";
         }
 
-        public static string FindFilePath(string resName, string basePath = "")
+        public static string FindFilePath(string resName, string modPath = "")
         {
             //Search for TS_GesoCoin rather than Coin in courses with per-course map objects enabled (CTGP compat)
             var pcmName = resName == "Coin" ? "TS_GesoCoin" : resName;
             
             //Per-course map object path (via CTGPDX or musebrot code patch)
-            string perCourseObjects = System.IO.Path.Combine(basePath, "MapObj", pcmName, $"{pcmName}.bfres");
+            string perCourseObjects = System.IO.Path.Combine(modPath, "MapObj", pcmName, $"{pcmName}.bfres");
             if (File.Exists(perCourseObjects)) return perCourseObjects;
 
             //Find mod folder's base path (romfs/content) so that map objects can be loaded from here
-            var modBasePath = basePath.Contains("romfs") ? basePath.Split("romfs")[0] : 
-                basePath.Contains("content") ? basePath.Split("content")[0] : 
-                basePath.Contains("aoc") ? basePath.Split("aoc")[0] : 
+            var modBasePath = modPath.Contains("romfs") ? modPath.Split("romfs")[0] : 
+                modPath.Contains("content") ? modPath.Split("content")[0] : 
+                modPath.Contains("aoc") ? modPath.Split("aoc")[0] : 
                 string.Empty;
 
             //Common path for common race objects like coins

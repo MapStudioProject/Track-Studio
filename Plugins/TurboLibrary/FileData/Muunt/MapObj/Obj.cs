@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using Toolbox.Core;
@@ -477,8 +478,15 @@ namespace TurboLibrary
                 return "";
         }
 
-        public static string FindFilePath(string resName)
+        public static string FindFilePath(string resName, string basePath = "")
         {
+            //Search for TS_GesoCoin rather than Coin in courses with per-course map objects enabled (CTGP compat)
+            var pcmName = resName == "Coin" ? "TS_GesoCoin" : resName;
+            
+            //Per-course map objects (via CTGPDX or musebrot code patch)
+            string perCourseObjects = System.IO.Path.Combine(basePath, "MapObj", pcmName, $"{pcmName}.bfres");
+            if (File.Exists(perCourseObjects)) return perCourseObjects;
+
             //Common path for common race objects like coins
             string raceObjectsDX = GlobalSettings.GetContentPath(System.IO.Path.Combine("RaceCommon",resName,$"{resName}.bfres"));
             if (File.Exists(raceObjectsDX)) return raceObjectsDX;

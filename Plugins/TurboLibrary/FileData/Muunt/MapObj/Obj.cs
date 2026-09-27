@@ -488,7 +488,10 @@ namespace TurboLibrary
             if (File.Exists(perCourseObjects)) return perCourseObjects;
 
             //Extract mod's base folder (romfs/content)
-            var modBasePath = basePath.Contains("romfs") ? basePath.Split("romfs")[0] : basePath.Contains("content") ? basePath.Split("content")[0] : basePath.Split("aoc")[0];
+            var modBasePath = basePath.Contains("romfs") ? basePath.Split("romfs")[0] : 
+                basePath.Contains("content") ? basePath.Split("content")[0] : 
+                basePath.Contains("aoc") ? basePath.Split("aoc")[0] : 
+                string.Empty;
 
             //Common path for common race objects like coins
             string raceObjects = GlobalSettings.GetContentPath(System.IO.Path.Combine(GlobalSettings.IsMK8D ? "RaceCommon" : "race_common", resName, $"{resName}.bfres"), modBasePath);

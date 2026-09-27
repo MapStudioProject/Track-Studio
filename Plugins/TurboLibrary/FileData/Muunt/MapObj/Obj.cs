@@ -483,11 +483,11 @@ namespace TurboLibrary
             //Search for TS_GesoCoin rather than Coin in courses with per-course map objects enabled (CTGP compat)
             var pcmName = resName == "Coin" ? "TS_GesoCoin" : resName;
             
-            //Per-course map objects (via CTGPDX or musebrot code patch)
+            //Per-course map object path (via CTGPDX or musebrot code patch)
             string perCourseObjects = System.IO.Path.Combine(basePath, "MapObj", pcmName, $"{pcmName}.bfres");
             if (File.Exists(perCourseObjects)) return perCourseObjects;
 
-            //Extract mod's base folder (romfs/content)
+            //Find mod folder's base path (romfs/content) so that map objects can be loaded from here
             var modBasePath = basePath.Contains("romfs") ? basePath.Split("romfs")[0] : 
                 basePath.Contains("content") ? basePath.Split("content")[0] : 
                 basePath.Contains("aoc") ? basePath.Split("aoc")[0] : 

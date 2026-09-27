@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -61,7 +62,7 @@ namespace TurboLibrary
         /// <summary>
         /// Gets content path from either the update, game, or aoc directories based on what is present.
         /// </summary>
-        public static string GetContentPath(string relativePath)
+        public static string GetContentPath(string relativePath, string modBasePath = "")
         {
             //if using linux, change directory case for MK8D
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux) && IsMK8D)
@@ -77,17 +78,33 @@ namespace TurboLibrary
                         + "/";
                 relativePath += dirs[^1];
             }
-            
-            //Update first then base package.
-            if (File.Exists(System.IO.Path.Combine(ModOutputPath,relativePath))) return System.IO.Path.Combine(ModOutputPath,relativePath);
-            if (File.Exists(System.IO.Path.Combine(UpdatePath,relativePath))) return System.IO.Path.Combine(UpdatePath,relativePath);
-            if (File.Exists(System.IO.Path.Combine(GamePath,relativePath))) return System.IO.Path.Combine(GamePath,relativePath);
 
-            //4 individual DLCs. Each directory is divided by content and permissive info.
-            if (File.Exists(System.IO.Path.Combine(AOCPath,"0013",relativePath))) return System.IO.Path.Combine(AOCPath,"0013",relativePath);
-            if (File.Exists(System.IO.Path.Combine(AOCPath,"0015",relativePath))) return System.IO.Path.Combine(AOCPath,"0015",relativePath);
-            if (File.Exists(System.IO.Path.Combine(AOCPath,"0017",relativePath))) return System.IO.Path.Combine(AOCPath,"0017",relativePath);
-            if (File.Exists(System.IO.Path.Combine(AOCPath,"0019",relativePath))) return System.IO.Path.Combine(AOCPath,"0019",relativePath);
+            var paths = new List<string>();
+            
+            //Add custom paths (mod's local romfs directory + Mario Kart 8 Mod Path setting)
+            if (!string.IsNullOrEmpty(modBasePath))
+                paths.Add(System.IO.Path.Combine(modBasePath, IsMK8D ? "romfs" : "content", relativePath));
+            if (!string.IsNullOrEmpty(ModOutputPath))
+                paths.Add(System.IO.Path.Combine(ModOutputPath, relativePath));
+            
+            //Add update first, then base package to ensure we have the latest version of the file
+            if (!string.IsNullOrEmpty(UpdatePath))
+                paths.Add(System.IO.Path.Combine(UpdatePath, relativePath));
+            if (!string.IsNullOrEmpty(GamePath))
+                paths.Add(System.IO.Path.Combine(GamePath, relativePath));
+            
+            //Add AOC (add-on content) packs - Each directory is divided by content and permissive info.
+            if (!string.IsNullOrEmpty(AOCPath))
+            {
+                var aocBase = System.IO.Path.Combine(AOCPath, "0013", relativePath);
+                paths.Add(aocBase);
+                paths.Add(aocBase.Replace("0013", "0015"));
+                paths.Add(aocBase.Replace("0013", "0017"));
+                paths.Add(aocBase.Replace("0013", "0019"));
+            }
+            
+            //Check if added files exist + return the first match
+            foreach (var path in paths.Where(File.Exists)) return path;
 
             return relativePath;
         }

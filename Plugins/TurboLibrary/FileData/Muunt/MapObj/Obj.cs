@@ -487,20 +487,18 @@ namespace TurboLibrary
             string perCourseObjects = System.IO.Path.Combine(basePath, "MapObj", pcmName, $"{pcmName}.bfres");
             if (File.Exists(perCourseObjects)) return perCourseObjects;
 
+            var modBasePath = basePath.Contains("romfs") ? basePath.Split("romfs")[0] : basePath.Contains("content") ? basePath.Split("content")[0] : basePath.Split("aoc")[0];
+
+            Console.WriteLine("\n Checking RaceCommon");
             //Common path for common race objects like coins
-            string raceObjectsDX = GlobalSettings.GetContentPath(System.IO.Path.Combine("RaceCommon",resName,$"{resName}.bfres"));
-            if (File.Exists(raceObjectsDX)) return raceObjectsDX;
-            
-            //The typical path for the base game map objects
-            string mapObjectsDX = GlobalSettings.GetContentPath(System.IO.Path.Combine("MapObj",resName,$"{resName}.bfres"));
-            if (File.Exists(mapObjectsDX)) return mapObjectsDX;
-            
-            //Same as above, but for MK8U
-            string raceObjects = GlobalSettings.GetContentPath(System.IO.Path.Combine("race_common",resName,$"{resName}.bfres"));
+            string raceObjects = GlobalSettings.GetContentPath(System.IO.Path.Combine(GlobalSettings.IsMK8D ? "RaceCommon" : "race_common", resName, $"{resName}.bfres"), modBasePath);
             if (File.Exists(raceObjects)) return raceObjects;
-            
-            string mapObjects = GlobalSettings.GetContentPath(System.IO.Path.Combine("mapobj",resName,$"{resName}.bfres"));
+
+            Console.WriteLine("\n Checking MapObj");
+            //The typical path for the base game map objects
+            string mapObjects = GlobalSettings.GetContentPath(System.IO.Path.Combine(GlobalSettings.IsMK8D ? "MapObj" : "mapobj", resName, $"{resName}.bfres"), modBasePath);
             if (File.Exists(mapObjects)) return mapObjects;
+
 
             return string.Empty;
         }

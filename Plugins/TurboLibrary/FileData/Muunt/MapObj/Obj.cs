@@ -487,14 +487,13 @@ namespace TurboLibrary
             string perCourseObjects = System.IO.Path.Combine(basePath, "MapObj", pcmName, $"{pcmName}.bfres");
             if (File.Exists(perCourseObjects)) return perCourseObjects;
 
+            //Extract mod's base folder (romfs/content)
             var modBasePath = basePath.Contains("romfs") ? basePath.Split("romfs")[0] : basePath.Contains("content") ? basePath.Split("content")[0] : basePath.Split("aoc")[0];
 
-            Console.WriteLine("\n Checking RaceCommon");
             //Common path for common race objects like coins
             string raceObjects = GlobalSettings.GetContentPath(System.IO.Path.Combine(GlobalSettings.IsMK8D ? "RaceCommon" : "race_common", resName, $"{resName}.bfres"), modBasePath);
             if (File.Exists(raceObjects)) return raceObjects;
 
-            Console.WriteLine("\n Checking MapObj");
             //The typical path for the base game map objects
             string mapObjects = GlobalSettings.GetContentPath(System.IO.Path.Combine(GlobalSettings.IsMK8D ? "MapObj" : "mapobj", resName, $"{resName}.bfres"), modBasePath);
             if (File.Exists(mapObjects)) return mapObjects;

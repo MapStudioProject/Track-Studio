@@ -81,6 +81,8 @@ namespace TurboLibrary
 
             var paths = new List<string>();
             
+            //TODO: search for map objects in AOC folder for modBasePath and ModOutputPath
+            
             //Add custom paths (mod's local romfs directory + Mario Kart 8 Mod Path setting)
             if (!string.IsNullOrEmpty(modBasePath))
                 paths.Add(System.IO.Path.Combine(modBasePath, IsMK8D ? "romfs" : "content", relativePath));

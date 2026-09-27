@@ -44,7 +44,7 @@ namespace TurboLibrary
         /// </summary>
         public static string ModOutputPath { get; set; }
 
-        public static bool IsMK8D => File.Exists(System.IO.Path.Combine(GamePath,"RaceCommon","TS_PolicePackun","TS_PolicePackun.bfres"));
+        public static bool IsMK8D { get; set; }
 
         public static PathSettings PathDrawer = new PathSettings();
 

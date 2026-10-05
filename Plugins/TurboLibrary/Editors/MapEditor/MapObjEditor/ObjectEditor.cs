@@ -410,7 +410,7 @@ namespace TurboLibrary.MuuntEditor
             string name = GetResourceName(obj);
             EditableObject render = new TransformableObject(Root);
 
-            var filePath = Obj.FindFilePath(Obj.GetResourceName(obj.ObjId));
+            var filePath = Obj.FindFilePath(Obj.GetResourceName(obj.ObjId), MapEditor.FileInfo.FolderPath);
 
             //Don't load it for now if the model is already cached. It should load up instantly
             //TODO should use a less intrusive progress bar (like top/bottom of the window)

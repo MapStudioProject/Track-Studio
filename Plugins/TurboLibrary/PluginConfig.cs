@@ -110,6 +110,8 @@ namespace TurboLibrary
 
             TurboLibrary.GlobalSettings.ModOutputPath = MK8ModPath;
 
+            TurboLibrary.GlobalSettings.IsMK8D = File.Exists(System.IO.Path.Combine(MK8DGamePath, "RaceCommon", "TS_PolicePackun", "TS_PolicePackun.bfres"));
+
             //Check presets
             CafeLibrary.MaterialPresetDumper.ExportMaterials(MK8DGamePath);
         }

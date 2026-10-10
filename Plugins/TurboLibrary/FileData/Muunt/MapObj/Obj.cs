@@ -480,6 +480,8 @@ namespace TurboLibrary
 
         public static string FindFilePath(string resName, string modPath = "")
         {
+            modPath ??= "";
+
             //Search for TS_GesoCoin rather than Coin in courses with per-course map objects enabled (CTGP compat)
             var pcmName = resName == "Coin" ? "TS_GesoCoin" : resName;
             

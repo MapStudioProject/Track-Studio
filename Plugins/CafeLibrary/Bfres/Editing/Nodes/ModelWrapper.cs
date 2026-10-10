@@ -17,6 +17,7 @@ using GLFrameworkEngine;
 using IONET.Core.Model;
 using IONET.Core;
 using static GLFrameworkEngine.SkeletonRenderer;
+using IONET.Assimp;
 
 namespace CafeLibrary
 {
@@ -86,8 +87,11 @@ namespace CafeLibrary
             var dlg = new ImguiFileDialog();
             dlg.SaveDialog = false;
             dlg.AddFilter(".bfmdl", ".bfmdl");
-            dlg.AddFilter(".dae", ".dae");
-            dlg.AddFilter(".fbx", ".fbx");
+            dlg.AddFilter(".dae", "dae");
+            if (AssimpHelper.IsRuntimePresent())
+                dlg.AddFilter(".fbx", "fbx");
+            dlg.AddFilter(".gltf", "gltf");
+            dlg.AddFilter(".glb", "glb");
 
             if (dlg.ShowDialog()) {
                 ImportNewModel(dlg.FilePath);
@@ -361,6 +365,8 @@ namespace CafeLibrary
             dlg.SaveDialog = true;
             dlg.FileName = $"{this.Model.Name}.dae";
             dlg.AddFilter(".bfmdl", ".bfmdl");
+            if (AssimpHelper.IsRuntimePresent())
+                dlg.AddFilter(".fbx", "fbx");
             dlg.AddFilter(".gltf", ".gltf");
             dlg.AddFilter(".glb", ".glb");
             dlg.AddFilter(".dae", ".dae");
@@ -425,7 +431,8 @@ namespace CafeLibrary
             dlg.SaveDialog = false;
             dlg.AddFilter(".bfmdl", ".bfmdl");
             dlg.AddFilter(".dae", ".dae");
-            //dlg.AddFilter(".fbx", ".fbx");
+            if (AssimpHelper.IsRuntimePresent())
+                dlg.AddFilter(".fbx", "fbx");
             dlg.AddFilter(".gltf", ".gltf");
             dlg.AddFilter(".glb", ".glb");
 
@@ -448,7 +455,10 @@ namespace CafeLibrary
             dlg.SaveDialog = false;
             dlg.AddFilter(".bfmdl", ".bfmdl");
             dlg.AddFilter(".dae", ".dae");
-            dlg.AddFilter(".fbx", ".fbx");
+            if (AssimpHelper.IsRuntimePresent())
+                dlg.AddFilter(".fbx", "fbx");
+            dlg.AddFilter(".gltf", ".gltf");
+            dlg.AddFilter(".glb", ".glb");
 
             if (dlg.ShowDialog())
             {

@@ -5,6 +5,7 @@ using Toolbox.Core;
 using BCnEncoder.Decoder;
 using BCnEncoder.Encoder;
 using BCnEncoder.Shared;
+using Toolbox.Core.TextureDecoding;
 
 namespace MapStudio.ImageCompressor
 {
@@ -20,6 +21,12 @@ namespace MapStudio.ImageCompressor
         
         public bool Decode(TexFormat format, byte[] input, int width, int height, out byte[] output)
         {
+            if (format == TexFormat.BC5_SNORM)
+            {
+                output = DXT.DecompressBC5(input, width, height, true);
+                return output != null;
+            }
+
             output = null;
             if (format.ToString().StartsWith("BC"))
                 output = DecompressBlock(input, width, height, format);

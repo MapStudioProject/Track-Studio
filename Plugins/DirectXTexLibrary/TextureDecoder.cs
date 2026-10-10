@@ -1,7 +1,8 @@
-﻿using System;
-using Toolbox.Core;
+﻿using DirectXTexNet;
+using System;
 using System.Runtime.InteropServices;
-using DirectXTexNet;
+using Toolbox.Core;
+using Toolbox.Core.TextureDecoding;
 
 namespace DirectXTexLibrary
 {
@@ -18,6 +19,12 @@ namespace DirectXTexLibrary
 
         public bool Decode(TexFormat format, byte[] input, int width, int height, out byte[] output)
         {
+            if (format == TexFormat.BC5_SNORM)
+            {
+                output = DXT.DecompressBC5(input, width, height, true);
+                return output != null;
+            }
+
             output = null;
             if (!IsSupportedPlatform())
                 return false;

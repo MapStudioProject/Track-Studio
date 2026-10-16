@@ -421,7 +421,7 @@ namespace TurboLibrary.MuuntEditor
             }
 
             //Check if this object has variant information
-            GlobalSettings.ObjectVariantList.TryGetValue(obj.Label.Split()[0], out var variantData);
+            var variantData = GlobalSettings.ObjectVariantList.FirstOrDefault(o => o.MatchesLabel(obj.Label));
             
             //Open a bfres resource if one exist.
             if (File.Exists(filePath))
@@ -440,7 +440,7 @@ namespace TurboLibrary.MuuntEditor
                     foreach (var mesh in bfresRender.Models.SelectMany(i => ((BfresModelRender)i).Meshes))
                     foreach (var map in ((BfresMaterialRender)mesh.MaterialAsset).Material.TextureMaps)
                     {
-                        if (!variantData.TryGetValue(map.Name, out var replaceName)) continue;
+                        if (!variantData.TextureMappings.TryGetValue(map.Name, out var replaceName)) continue;
                         map.Name = replaceName;
                     }
                 }
@@ -485,18 +485,12 @@ namespace TurboLibrary.MuuntEditor
             };
             
             //Icons for map objects
-            render.UINode.Icon = "Node";
-            foreach (var icon in new[]{obj.Label.Split()[0], name})
-            {
-                string iconPath = System.IO.Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects", $"{icon}.png");
-                if (!IconManager.HasIcon(iconPath)) continue;
-                
-                render.UINode.Icon = iconPath;
-                //A sprite drawer for displaying distant objects
-                //Todo this is not used currently and may need improvements
-                render.SpriteDrawer = new SpriteDrawer();
-                break;
-            }
+            var iconPath = System.IO.Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects", $"{(variantData != null ? variantData.Icon : name)}.png");
+            render.UINode.Icon = IconManager.HasIcon(iconPath) ? iconPath : "Node";
+            
+            //A sprite drawer for displaying distant objects
+            //Todo this is not used currently and may need improvements
+            render.SpriteDrawer = new SpriteDrawer();
 
             //Disable selection on skyboxes
             render.CanSelect = !obj.IsSkybox;

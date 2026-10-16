@@ -88,7 +88,7 @@ namespace TrackStudio
             if (Directory.Exists(Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects")))
             {
                 foreach (var imageFile in Directory.GetFiles(Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects"))) {
-                    IconManager.LoadTextureFile(imageFile, 64, 64);
+                    IconManager.LoadTextureFile(imageFile, 128, 128);
                 }
             }
             //Load recent file lists

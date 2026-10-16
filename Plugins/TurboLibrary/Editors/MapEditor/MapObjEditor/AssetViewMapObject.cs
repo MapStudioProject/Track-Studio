@@ -37,10 +37,14 @@ namespace TurboLibrary.MuuntEditor
 
         public void AddAsset(List<AssetItem> assets, ObjDefinition obj)
         {
-            string resName = obj.ResNames.FirstOrDefault();
             string icon = "Node";
-            if (IconManager.HasIcon(System.IO.Path.Combine(Runtime.ExecutableDir,"Lib","Images","MapObjects",$"{resName}.png")))
-                icon = System.IO.Path.Combine(Runtime.ExecutableDir,"Lib","Images","MapObjects",$"{resName}.png");
+            foreach (var objIcon in new[]{obj.Label.Split()[0], obj.ResNames.FirstOrDefault()})
+            {
+                string iconPath = System.IO.Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects", $"{objIcon}.png");
+                if (!IconManager.HasIcon(iconPath)) continue;
+                icon = iconPath;
+                break;
+            }
 
             assets.Add(new MapObjectAsset($"MapObject_{obj.ObjId}")
             {

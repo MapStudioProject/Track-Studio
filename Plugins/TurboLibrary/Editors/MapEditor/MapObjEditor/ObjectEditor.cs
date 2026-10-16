@@ -470,18 +470,20 @@ namespace TurboLibrary.MuuntEditor
                 var gui = new MapObjectUI();
                 gui.Render(obj, Workspace.ActiveWorkspace.GetSelected().Select(x => x.Tag));
             };
-
+            
             //Icons for map objects
-            string folder = System.IO.Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects");
-            if (IconManager.HasIcon(System.IO.Path.Combine(folder, $"{name}.png")))
+            render.UINode.Icon = "Node";
+            foreach (var icon in new[]{obj.Label.Split()[0], name})
             {
-                render.UINode.Icon = System.IO.Path.Combine(folder, $"{name}.png");
+                string iconPath = System.IO.Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects", $"{icon}.png");
+                if (!IconManager.HasIcon(iconPath)) continue;
+                
+                render.UINode.Icon = iconPath;
                 //A sprite drawer for displaying distant objects
                 //Todo this is not used currently and may need improvements
                 render.SpriteDrawer = new SpriteDrawer();
+                break;
             }
-            else
-                render.UINode.Icon = "Node";
 
             //Disable selection on skyboxes
             render.CanSelect = !obj.IsSkybox;
@@ -554,9 +556,7 @@ namespace TurboLibrary.MuuntEditor
                 render.UINode.Header = GetNodeHeader(obj);
                 string objName = GetResourceName(obj);
 
-                string folder = System.IO.Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects");
-                string iconPath = System.IO.Path.Combine(folder, $"{objName}.png");
-
+                string iconPath = System.IO.Path.Combine(Runtime.ExecutableDir, "Lib", "Images", "MapObjects", $"{objName}.png");
                 if (IconManager.HasIcon(iconPath))
                     render.UINode.Icon = iconPath;
                 else

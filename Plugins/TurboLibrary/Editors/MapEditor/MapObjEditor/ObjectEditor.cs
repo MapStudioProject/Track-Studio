@@ -410,7 +410,7 @@ namespace TurboLibrary.MuuntEditor
             string name = GetResourceName(obj);
             EditableObject render = new TransformableObject(Root);
 
-            var filePath = Obj.FindFilePath(Obj.GetResourceName(obj.ObjId), MapEditor.FileInfo.FolderPath);
+            var filePath = Obj.FindFilePath(name, MapEditor.FileInfo.FolderPath);
 
             //Don't load it for now if the model is already cached. It should load up instantly
             //TODO should use a less intrusive progress bar (like top/bottom of the window)
@@ -420,26 +420,39 @@ namespace TurboLibrary.MuuntEditor
                 ProcessLoading.Instance.Update(0, 100, $"Loading model {name}");
             }
 
+            //Check if this object has variant information
+            GlobalSettings.ObjectVariantList.TryGetValue(obj.Label.Split()[0], out var variantData);
+            
             //Open a bfres resource if one exist.
-            if (System.IO.File.Exists(filePath))
-                render = new BfresRender(filePath, Root);
+            if (File.Exists(filePath))
+                render = new BfresRender(filePath, Root, variantData != null ? $"-{obj.Label}" : string.Empty);
             else if (name == "WaterBox") //Water boxes will have a custom area display.
                 render = new WaterBoxRender(Root);
             if (name == "Start") //Start objects display with a grid.
                 render = new StartObjRender(Root);
 
             //Toggle models to use
-            if (render is BfresRender)
+            if (render is BfresRender bfresRender)
             {
-                if (GlobalSettings.ObjDatabase.ContainsKey(obj.ObjId))
+                //Replace textures if this map object is a variant
+                if (variantData != null)
+                {
+                    foreach (var mesh in bfresRender.Models.SelectMany(i => ((BfresModelRender)i).Meshes))
+                    foreach (var map in ((BfresMaterialRender)mesh.MaterialAsset).Material.TextureMaps)
+                    {
+                        if (!variantData.TryGetValue(map.Name, out var replaceName)) continue;
+                        map.Name = replaceName;
+                    }
+                }
+
+                if (GlobalSettings.ObjDatabase.TryGetValue(obj.ObjId, out var value))
                 {
                     //Obj requires specific model to display
-                    string modelName = GlobalSettings.ObjDatabase[obj.ObjId].ModelName;
-                    if (!string.IsNullOrEmpty(modelName))
+                    if (!string.IsNullOrEmpty(value.ModelName))
                     {
-                        foreach (var model in ((BfresRender)render).Models)
+                        foreach (var model in bfresRender.Models)
                         {
-                            if (model.Name != modelName)
+                            if (model.Name != value.ModelName)
                                 model.IsVisible = false;
                         }
                     }
@@ -655,20 +668,21 @@ namespace TurboLibrary.MuuntEditor
 
         private EditableObject AddObject(int id, bool spawnAtCursor = false)
         {
+            var obj = new Obj() { ObjId = id };
             //Force added sky boxes to edit existing if possible
             if (GlobalSettings.ObjDatabase.ContainsKey(id) && GlobalSettings.ObjDatabase[id].VR)
             {
                 EditableObject skyboxRender = null;
                 foreach (EditableObject render in this.Renderers)
                 {
-                    var obj = render.UINode.Tag as Obj;
                     if (obj.IsSkybox)
                         skyboxRender = render;
                 }
                 if (skyboxRender != null)
                     return EditObject(skyboxRender, id);
             }
-            var rend = Create(new Obj() { ObjId = id });
+
+            var rend = Create(obj);
             Add(rend, true);
 
             var ob = rend.UINode.Tag as Obj;

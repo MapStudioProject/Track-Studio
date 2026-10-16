@@ -25,12 +25,12 @@ namespace TurboLibrary
         public static ParamDataBaseSingleton ParamDataBase = ParamDataBaseSingleton.Instance;
 
         /// <summary>
-        /// The games content path.
+        /// The game's content path.
         /// </summary>
         public static string GamePath { get; set; }
 
         /// <summary>
-        /// The updates content path.
+        /// The update's content path.
         /// </summary>
         public static string UpdatePath { get; set; }
 
@@ -926,6 +926,154 @@ namespace TurboLibrary
             {9006,"KaraPillar"},
             {9007,"ItemBox"},
             {9008,"ItemBox"},
+        };
+
+        
+        /// <summary>
+        /// A dictionary mapping object names to which texture variants to select.
+        /// </summary>
+        public static Dictionary<string, Dictionary<string, string>> ObjectVariantList = new()
+        {
+            //Pylon
+            {"TS_PylonG", new Dictionary<string, string> {
+                {"PylonR_Alb", "PylonG_Alb"},
+            }},
+            {"PylonY", new Dictionary<string, string> {
+                {"PylonR_Alb", "PylonY_Alb"}
+            }},
+            {"PylonB", new Dictionary<string, string> {
+                {"PylonR_Alb", "PylonB_Alb"}
+            }},
+            
+            //CakePylonA
+            {"CakePylonB", new Dictionary<string, string> {
+                {"CakePylonA_Alb", "CakePylonB_Alb"},
+            }},
+            
+            //TreeCakeB
+            {"TreeCakeBB", new Dictionary<string, string> {
+                {"TreeCakeB_Alb", "TreeCakeBB_Alb"},
+                {"TreeCakeB_Trm", "TreeCakeBB_Trm"},
+                {"TreeCakeB_miki_Alb", "TreeCakeBB_miki_Alb"},
+                {"TreeCakeB_miki_Trm", "TreeCakeBB_miki_Trm"},
+            }},
+            {"TreeCakeBY", new Dictionary<string, string> {
+                {"TreeCakeB_Alb", "TreeCakeBY_Alb"},
+                {"TreeCakeB_Trm", "TreeCakeBY_Trm"},
+                {"TreeCakeB_miki_Alb", "TreeCakeBY_miki_Alb"},
+                {"TreeCakeB_miki_Trm", "TreeCakeBY_miki_Trm"},
+                {"TreeCakeB_Nrm", "TreeCakeBY_Nrm"},
+            }},
+            
+            //SwanBoatB
+            {"SwanBoatR", new Dictionary<string, string> {
+                {"SwanBoat_B_Alb", "SwanBoat_R_Alb"}
+            }},
+            
+            //PitToad
+            {"PitToadG", new Dictionary<string, string> {
+                {"PitToad_B_Alb", "PitToad_G_Alb"}
+            }},
+            {"PitToadP", new Dictionary<string, string> {
+                {"PitToad_B_Alb", "PitToad_P_Alb"}
+            }},
+            {"PitToadR", new Dictionary<string, string> {
+                {"PitToad_B_Alb", "PitToad_R_Alb"}
+            }},
+            {"PitToadW", new Dictionary<string, string> {
+                {"PitToad_B_Alb", "PitToad_W_Alb"}
+            }},
+            {"PitToadY", new Dictionary<string, string> {
+                {"PitToad_B_Alb", "PitToad_Y_Alb"}
+            }},
+            
+            //DL_ShyguyPickaxA
+            {"DL_ShyguyPickaxP", new Dictionary<string, string> {
+                {"DL_ShyguyPickaxY_Alb", "DL_ShyguyPickaxP_Alb"},
+                {"DL_ShyguyPickaxY_Nrm", "DL_ShyguyPickaxP_Nrm"},
+                {"DL_ShyguyPickaxY_Spm", "DL_ShyguyPickaxP_Spm"},
+                {"DL_ShyguyPickaxYEye_Alb", "DL_ShyguyPickaxPEye_Alb"},
+                {"DL_ShyguyPickaxYEye_Nrm", "DL_ShyguyPickaxPEye_Nrm"},
+                {"DL_ShyguyPickaxYEye_Spm", "DL_ShyguyPickaxPEye_Spm"}
+            }},
+            
+            //HeyhoExplorer
+            //TODO: make this hide every model besides the current map object
+            
+            //HeyhoMobnm
+            {"HeyhoMobnmOrange", new Dictionary<string, string> {
+                {"T_Cmn_HeyhoMobnm_White_Alb", "T_Cmn_HeyhoMobnm_Orange_Alb"}
+            }},
+            {"HeyhoMobnmBlack", new Dictionary<string, string> {
+                {"T_Cmn_HeyhoMobnm_White_Alb", "T_Cmn_HeyhoMobnm_Black_Alb"}
+            }},
+            {"HeyhoMobnmAerialOrange", new Dictionary<string, string> {
+                {"T_Cmn_HeyhoMobnm_White_Alb", "T_Cmn_HeyhoMobnm_Orange_Alb"}
+            }},
+            {"HeyhoMobnmAerialBlack", new Dictionary<string, string> {
+                {"T_Cmn_HeyhoMobnm_White_Alb", "T_Cmn_HeyhoMobnm_Black_Alb"}
+            }},
+            
+            //SkateHeyho
+            {"SkateHeyhoR", new Dictionary<string, string> {
+                {"SkateHeyhoB_Alb", "SkateHeyhoR_Alb"}
+            }},
+            
+            //SnowBoardHeyhoWiids
+            {"SnowBoardHeyhoWiidsBlue", new Dictionary<string, string> {
+                {"T_SnowBoardHeyhoWiids_Red_Alb", "T_SnowBoardHeyhoWiids_Blue_Alb"}
+            }},
+            {"SnowBoardHeyhoWiidsGreen", new Dictionary<string, string> {
+                {"T_SnowBoardHeyhoWiids_Red_Alb", "T_SnowBoardHeyhoWiids_Green_Alb"}
+            }},
+            
+            //TS_Dragon
+            //TODO: Allow for setting animation frame properties based on variant
+            
+            //TS_SweetsRibbon
+            {"TS_SweetsRibbonR", new Dictionary<string, string> {
+                {"TS_SweetsRibbonB_Alb", "TS_SweetsRibbonR_Alb"},
+                {"TS_SweetsRibbonB_Spm", "TS_SweetsRibbonR_Spm"},
+                {"TS_SweetsRibbonB_Trm", "TS_SweetsRibbonR_Trm"}
+            }},
+            {"TS_SweetsRibbonG", new Dictionary<string, string> {
+                {"TS_SweetsRibbonB_Alb", "TS_SweetsRibbonG_Alb"},
+                {"TS_SweetsRibbonB_Spm", "TS_SweetsRibbonG_Spm"},
+                {"TS_SweetsRibbonB_Trm", "TS_SweetsRibbonG_Trm"}
+            }},
+            
+            //Tire
+            {"TireR", new Dictionary<string, string> {
+                {"Tire_Alb", "TireR_Alb"}
+            }},
+            {"TireW", new Dictionary<string, string> {
+                {"Tire_Alb", "TireW_Alb"}
+            }},
+            
+            //WPBoat
+            {"WPBoatB", new Dictionary<string, string> {
+                {"GWP_YachtA_Alb", "GWP_YachtB_Alb"},
+                {"GWP_YachtA_Trm", "GWP_YachtB_Trm"},
+            }},
+            {"WPBoatC", new Dictionary<string, string> {
+                {"GWP_YachtA_Alb", "GWP_YachtC_Alb"},
+                {"GWP_YachtA_Trm", "GWP_YachtC_Trm"},
+            }},
+            
+            //Yacht
+            {"YachtG", new Dictionary<string, string> {
+                {"YachtR_Alb", "YachtG_Alb"},
+                {"YachtR_Trm", "YachtG_Trm"},
+            }},
+            {"YachtP", new Dictionary<string, string> {
+                {"YachtR_Alb", "YachtP_Alb"},
+                {"YachtR_Trm", "YachtP_Trm"},
+            }},
+            {"YachtY", new Dictionary<string, string> {
+                {"YachtR_Alb", "YachtY_Alb"},
+                {"YachtR_Trm", "YachtY_Trm"},
+            }},
+            
         };
     }
 }

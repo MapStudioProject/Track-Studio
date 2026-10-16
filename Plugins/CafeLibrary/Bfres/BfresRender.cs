@@ -117,17 +117,17 @@ namespace CafeLibrary.Rendering
             BfresFile = bfres;
         }
 
-        public BfresRender(string filePath, NodeBase parent = null) : base(parent) {
+        public BfresRender(string filePath, NodeBase parent = null, string cacheKey = null) : base(parent) {
 
             if (YAZ0.IsCompressed(filePath))
-                UpdateModelFromFile(new System.IO.MemoryStream(YAZ0.Decompress(filePath)), filePath);
+                UpdateModelFromFile(new System.IO.MemoryStream(YAZ0.Decompress(filePath)), filePath, cacheKey);
             else
-                UpdateModelFromFile(System.IO.File.OpenRead(filePath), filePath);
+                UpdateModelFromFile(System.IO.File.OpenRead(filePath), filePath, cacheKey);
         }
 
-        public BfresRender(System.IO.Stream stream, string filePath, NodeBase parent = null) : base(parent)
+        public BfresRender(System.IO.Stream stream, string filePath, NodeBase parent = null, string cacheKey = null) : base(parent)
         {
-            UpdateModelFromFile(stream, filePath);
+            UpdateModelFromFile(stream, filePath, cacheKey);
         }
 
         public BfresRender(BfresLibrary.ResFile resFile, string filePath, NodeBase parent = null) : base(parent)
@@ -137,7 +137,7 @@ namespace CafeLibrary.Rendering
             UpdateBoundingBox();
         }
 
-        public bool UpdateModelFromFile(System.IO.Stream stream, string name)
+        public bool UpdateModelFromFile(System.IO.Stream stream, string name, string cacheKey = null)
         {
             Name = name;
 
@@ -146,9 +146,9 @@ namespace CafeLibrary.Rendering
                 CalculateProbes();
             };
 
-            if (DataCache.ModelCache.ContainsKey(name))
+            if (DataCache.ModelCache.ContainsKey(name + cacheKey))
             {
-                var cachedModel = DataCache.ModelCache[name] as BfresRender;
+                var cachedModel = DataCache.ModelCache[name + cacheKey] as BfresRender;
                 BfresLoader.LoadBfresCached(this, cachedModel);
                 UpdateBoundingBox();
                 return false;
@@ -162,8 +162,8 @@ namespace CafeLibrary.Rendering
                 Transform.ModelBounding = bounding.Box;
             }
 
-            if (!DataCache.ModelCache.ContainsKey(name) && Models.Count > 0)
-                DataCache.ModelCache.Add(name, this);
+            if (!DataCache.ModelCache.ContainsKey(name + cacheKey) && Models.Count > 0)
+                DataCache.ModelCache.Add(name + cacheKey, this);
 
             UpdateBoundingBox();
             return Models.Count > 0;

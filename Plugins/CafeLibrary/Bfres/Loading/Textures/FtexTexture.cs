@@ -107,7 +107,7 @@ namespace CafeLibrary.Rendering
             throw new NotImplementedException();
         }
 
-        private STChannelType SetChannel(GX2CompSel channelType)
+        internal static STChannelType SetChannel(GX2CompSel channelType)
         {
             if (channelType == GX2CompSel.ChannelR) return STChannelType.Red;
             else if (channelType == GX2CompSel.ChannelG) return STChannelType.Green;
@@ -117,7 +117,7 @@ namespace CafeLibrary.Rendering
             else return STChannelType.One;
         }
 
-        private GX2CompSel GetChannel(STChannelType channelType)
+        internal static GX2CompSel GetChannel(STChannelType channelType)
         {
             if (channelType == STChannelType.Red) return GX2CompSel.ChannelR;
             if (channelType == STChannelType.Green) return GX2CompSel.ChannelG;

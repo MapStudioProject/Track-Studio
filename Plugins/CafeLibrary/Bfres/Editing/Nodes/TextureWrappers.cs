@@ -9,6 +9,7 @@ using MapStudio.UI;
 using BfresLibrary;
 using CafeLibrary.Rendering;
 using Syroot.NintenTools.NSW.Bntx;
+using BfresLibrary.Switch;
 
 namespace CafeLibrary
 {
@@ -780,13 +781,24 @@ namespace CafeLibrary
             }
             var tex = BfresTextureImporter.ImportTexture(ResFile, BntxFile, texture.Name, surfaces, texture.Format, (uint)texture.Width, (uint)texture.Height, (uint)texture.MipCount);
             tex.Name = texture.Name;
+            // These settings are not applied for the importer, so convert directly before the wrapper is created
+            if (tex is SwitchTexture t)
+            {
+                t.Texture.ChannelRed = BntxTexture.GetChannel(texture.ChannelRed);
+                t.Texture.ChannelGreen = BntxTexture.GetChannel(texture.ChannelGreen);
+                t.Texture.ChannelBlue = BntxTexture.GetChannel(texture.ChannelBlue);
+                t.Texture.ChannelAlpha = BntxTexture.GetChannel(texture.ChannelAlpha);
+            }
+            if (tex is BfresLibrary.WiiU.Texture ftex)
+            {
+                ftex.CompSelR = FtexTexture.GetChannel(texture.ChannelRed);
+                ftex.CompSelG = FtexTexture.GetChannel(texture.ChannelGreen);
+                ftex.CompSelB = FtexTexture.GetChannel(texture.ChannelBlue);
+                ftex.CompSelA = FtexTexture.GetChannel(texture.ChannelAlpha);
+            }
+
             var texNode = ProcessNewTexture(filePath, tex);
             var genericTex = ((STGenericTexture)texNode.Tag);
-
-            genericTex.RedChannel = texture.ChannelRed;
-            genericTex.GreenChannel = texture.ChannelGreen;
-            genericTex.BlueChannel = texture.ChannelBlue;
-            genericTex.AlphaChannel = texture.ChannelAlpha;
 
             if (genericTex is BntxTexture)
                 ((BntxTexture)genericTex).UpdateChannelSelectors();

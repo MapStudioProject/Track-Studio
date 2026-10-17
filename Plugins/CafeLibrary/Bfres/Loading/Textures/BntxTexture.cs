@@ -106,7 +106,7 @@ namespace CafeLibrary.Rendering
             return Texture.TextureData[ArrayLevel][MipLevel];
         }
 
-        private STChannelType SetChannel(ChannelType channelType)
+        internal static STChannelType SetChannel(ChannelType channelType)
         {
             if (channelType == ChannelType.Red) return STChannelType.Red;
             else if (channelType == ChannelType.Green) return STChannelType.Green;
@@ -116,7 +116,7 @@ namespace CafeLibrary.Rendering
             else return STChannelType.One;
         }
 
-        private ChannelType GetChannel(STChannelType channelType)
+        internal static ChannelType GetChannel(STChannelType channelType)
         {
             if (channelType == STChannelType.Red) return ChannelType.Red;
             if (channelType == STChannelType.Green) return ChannelType.Green;

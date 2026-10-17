@@ -17,6 +17,8 @@ namespace TurboLibrary.MuuntEditor
     {
         public override bool EditMode => true;
 
+        public bool DrawCornerArrows = true;
+
         public bool InPathMode = false;
 
         StandardMaterial LineMaterial = new StandardMaterial();
@@ -107,7 +109,7 @@ namespace TurboLibrary.MuuntEditor
 
         CubeRenderer Cube;
 
-        public void DrawCubeBounary(GLContext context, bool picking = false)
+        public void DrawCubeBoundary(GLContext context, bool picking = false)
         {
             foreach (CubePathPoint<TPath, TPoint> point in PathPoints)
             {
@@ -178,43 +180,44 @@ namespace TurboLibrary.MuuntEditor
                             colors.Add(new Vector4(1, 0, 0, 1));
                         }
 
-                        //Scale the arrow with the current point size
-                        Vector3 scale = new Vector3(3);
-                        scale *= PointSize;
-                        scale *= point.CameraScale;
-
-                        if (InPathMode)
-                            scale *= 0.2f;
-
-                        //Get the distance between the next and current point
-                        Vector3 dist = nextPt.CornerPoints[i] - point.CornerPoints[i];
-                        //Rotate based on the direction of the distance to point at the next point
-                        var rotation = RotationFromTo(new Vector3(0, 0.0000001f, 1), dist.Normalized());
-
-
-                        //Keep the cone rotated 90 degrees to not face upwards
-                        var rot = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(90));
-                        //Offset the arrow slightly from it's position
-                        Matrix4 offsetMat = Matrix4.CreateTranslation(new Vector3(0, 0, -10));
-                        Matrix4 translateMat = Matrix4.CreateTranslation(nextPt.CornerPoints[i]);
-
-                        if (IsArrowCentered)
+                        if (DrawCornerArrows)
                         {
-                            offsetMat = Matrix4.Identity;
-                            //Use the center point between the distance
-                            translateMat = Matrix4.CreateTranslation((point.CornerPoints[i] + (dist / 2f)));
+                            //Scale the arrow with the current point size
+                            Vector3 scale = new Vector3(3);
+                            scale *= PointSize;
+                            scale *= point.CameraScale;
+
+                            if (InPathMode)
+                                scale *= 0.2f;
+
+                            //Get the distance between the next and current point
+                            Vector3 dist = nextPt.CornerPoints[i] - point.CornerPoints[i];
+                            //Rotate based on the direction of the distance to point at the next point
+                            var rotation = RotationFromTo(new Vector3(0, 0.0000001f, 1), dist.Normalized());
+
+                            //Keep the cone rotated 90 degrees to not face upwards
+                            var rot = Matrix4.CreateRotationX(MathHelper.DegreesToRadians(90));
+                            //Offset the arrow slightly from it's position
+                            Matrix4 offsetMat = Matrix4.CreateTranslation(new Vector3(0, 0, -10));
+                            Matrix4 translateMat = Matrix4.CreateTranslation(nextPt.CornerPoints[i]);
+
+                            if (IsArrowCentered)
+                            {
+                                offsetMat = Matrix4.Identity;
+                                //Use the center point between the distance
+                                translateMat = Matrix4.CreateTranslation((point.CornerPoints[i] + (dist / 2f)));
+                            }
+                            //Load the cone render
+                            if (ConeRenderer == null)
+                                ConeRenderer = new ConeRenderer(10, 2, 15, 16);
+
+                            //Draw the cone with a solid shader
+                            Matrix4 modelMatrix = offsetMat * Matrix4.CreateScale(scale) * rotation * translateMat;
+                            if (i % 2 == 0)
+                                ConeRenderer.DrawSolid(context, rot * modelMatrix, new Vector4(0, 1, 0, 1));
+                            else
+                                ConeRenderer.DrawSolid(context, rot * modelMatrix, new Vector4(1, 0, 0, 1));
                         }
-
-                        //Load the cone render
-                        if (ConeRenderer == null)
-                            ConeRenderer = new ConeRenderer(10, 2, 15, 16);
-
-                        //Draw the cone with a solid shader
-                        Matrix4 modelMatrix = offsetMat * Matrix4.CreateScale(scale) * rotation * translateMat;
-                        if (i % 2 == 0)
-                            ConeRenderer.DrawSolid(context, rot * modelMatrix, new Vector4(0, 1, 0, 1));
-                        else
-                            ConeRenderer.DrawSolid(context, rot * modelMatrix, new Vector4(1, 0, 0, 1));
                     }
                 }
             }

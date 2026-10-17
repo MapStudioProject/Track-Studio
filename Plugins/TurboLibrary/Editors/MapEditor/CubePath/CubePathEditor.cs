@@ -91,6 +91,9 @@ namespace TurboLibrary.MuuntEditor
             refreshScene |= ImguiCustomWidgets.ButtonToggle($"  {IconManager.XRAY}    ", ref Renderer.XRayMode, size);
             ImGuiHelper.Tooltip("XRAY");
 
+            refreshScene |= ImguiCustomWidgets.ButtonToggle($"  {'\uf124'}    ", ref Renderer.DrawCornerArrows, size);
+            ImGuiHelper.Tooltip("Show Corner Arrows");
+
             if (ImguiCustomWidgets.MenuItemTooltip($"   {IconManager.ADD_ICON}   ", "ADD", InputSettings.INPUT.Scene.Create))
                 Renderer.AddSinglePoint();
 

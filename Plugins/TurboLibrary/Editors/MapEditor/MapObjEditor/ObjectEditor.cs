@@ -454,6 +454,15 @@ namespace TurboLibrary.MuuntEditor
                             materialAnim.UpdateFrame(frame);
                         }
                     }
+
+                    if (variantData.ParamModelVisibility != null)
+                    {
+                        var modelToShow = variantData.ParamModelVisibility.Item1 + obj.Params[variantData.ParamModelVisibility.Item2];
+                        foreach (var model in bfresRender.Models)
+                        {
+                            model.IsVisible = model.Name == modelToShow;
+                        }
+                    }
                 }
 
                 if (GlobalSettings.ObjDatabase.TryGetValue(obj.ObjId, out var value))
@@ -581,6 +590,16 @@ namespace TurboLibrary.MuuntEditor
                     render.UINode.Icon = "Node";
 
                 UpdateObjectLinks(render);
+
+                //TODO: semi-duplicated code
+                if (variantData != null && variantData.ParamModelVisibility != null)
+                {
+                    var modelToShow = variantData.ParamModelVisibility.Item1 + obj.Params[variantData.ParamModelVisibility.Item2];
+                    foreach (var model in ((BfresRender)render).Models)
+                    {
+                        model.IsVisible = model.Name == modelToShow;
+                    }
+                }
 
                 //Update actor parameters into the actor class
                 ((ActorModelBase)ActorInfo).Parameters = obj.Params;

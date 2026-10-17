@@ -1105,6 +1105,14 @@ namespace TurboLibrary
                 {"YachtR_Trm", "YachtY_Trm"},
             }),
             
+            //VolcanoPiece
+            new VariantInfo()
+            {
+                MatchLabels = ["VolcanoPiece"],
+                Icon = "VolcanoPiece",
+                ParamModelVisibility = new("VolcanoPiece", 7)
+            }
+            
         };
     }
 }

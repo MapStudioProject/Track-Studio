@@ -12,7 +12,7 @@ namespace TurboLibrary
         public string Icon { get; set; }
         public Dictionary<string, string> TextureMappings { get; set; }
         public Dictionary<string, int> MaterialAnimationFrames { get; set; }
-
+        public Tuple<string, int> ParamModelVisibility { get; set; }
 
         public VariantInfo() { }
 

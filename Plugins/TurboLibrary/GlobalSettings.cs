@@ -1010,8 +1010,9 @@ namespace TurboLibrary
                 {"DL_ShyguyPickaxYEye_Spm", "DL_ShyguyPickaxPEye_Spm"}
             }),
             
-            //HeyhoExplorer
-            //TODO: make this hide every model besides the current map object
+            //HeyhoExplorer (Track Studio already loads their models automatically)
+            new VariantInfo("HeyhoExplorerLightBlue", null),
+            new VariantInfo("HeyhoExplorerRed", null),
             
             //HeyhoMobnm
             new VariantInfo(["HeyhoMobnmOrange", "HeyhoMobnmAerialOrange"], new() 

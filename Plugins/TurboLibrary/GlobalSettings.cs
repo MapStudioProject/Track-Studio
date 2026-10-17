@@ -1040,7 +1040,16 @@ namespace TurboLibrary
             }),
             
             //TS_Dragon
-            //TODO: Allow for setting animation frame properties based on variant
+            new()
+            {
+                MatchLabels = ["TS_DragonG"],
+                Icon = "TS_DragonG",
+                MaterialAnimationFrames = new()
+                {
+                    {"TS_Dragon_fsp", 1},
+                    {"TS_Dragon_ftp", 1}
+                }
+            },
             
             //TS_SweetsRibbon
             new VariantInfo("TS_SweetsRibbonR", new() 

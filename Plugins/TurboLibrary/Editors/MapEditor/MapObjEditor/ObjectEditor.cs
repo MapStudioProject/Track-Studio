@@ -422,10 +422,11 @@ namespace TurboLibrary.MuuntEditor
 
             //Check if this object has variant information
             var variantData = GlobalSettings.ObjectVariantList.FirstOrDefault(o => o.MatchesLabel(obj.Label));
+            var cacheKey = variantData != null ? $"-{variantData.Icon}" : string.Empty;
             
             //Open a bfres resource if one exist.
             if (File.Exists(filePath))
-                render = new BfresRender(filePath, Root, variantData != null ? $"-{obj.Label}" : string.Empty);
+                render = new BfresRender(filePath, Root, cacheKey);
             else if (name == "WaterBox") //Water boxes will have a custom area display.
                 render = new WaterBoxRender(Root);
             if (name == "Start") //Start objects display with a grid.
@@ -437,11 +438,21 @@ namespace TurboLibrary.MuuntEditor
                 //Replace textures if this map object is a variant
                 if (variantData != null)
                 {
-                    foreach (var mesh in bfresRender.Models.SelectMany(i => ((BfresModelRender)i).Meshes))
-                    foreach (var map in ((BfresMaterialRender)mesh.MaterialAsset).Material.TextureMaps)
+                    if (variantData.TextureMappings != null)
+                        foreach (var mesh in bfresRender.Models.SelectMany(i => ((BfresModelRender)i).Meshes))
+                        foreach (var map in ((BfresMaterialRender)mesh.MaterialAsset).Material.TextureMaps)
+                        {
+                            if (!variantData.TextureMappings.TryGetValue(map.Name, out var replaceName)) continue;
+                            map.Name = replaceName;
+                        }
+
+                    if (variantData.MaterialAnimationFrames != null)
                     {
-                        if (!variantData.TextureMappings.TryGetValue(map.Name, out var replaceName)) continue;
-                        map.Name = replaceName;
+                        foreach (var materialAnim in bfresRender.MaterialAnimations)
+                        {
+                            if (!variantData.MaterialAnimationFrames.TryGetValue(materialAnim.Name, out var frame)) continue;
+                            materialAnim.UpdateFrame(frame);
+                        }
                     }
                 }
 

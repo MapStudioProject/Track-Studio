@@ -139,7 +139,7 @@ namespace CafeLibrary.Rendering
 
         public bool UpdateModelFromFile(System.IO.Stream stream, string name, string cacheKey = null)
         {
-            Name = name;
+            Name = name + cacheKey;
 
             this.Transform.TransformUpdated += delegate
             {

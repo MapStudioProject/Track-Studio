@@ -1,12 +1,13 @@
-﻿using System;
+﻿using CafeLibrary;
+using GLFrameworkEngine;
+using MapStudio.UI;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Toolbox.Core;
 using TurboLibrary;
-using MapStudio.UI;
-using GLFrameworkEngine;
 
 namespace TurboLibrary
 {
@@ -20,6 +21,8 @@ namespace TurboLibrary
             UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Custom Track", typeof(CourseMuuntPlugin));
             UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Kcl File (WiiU)", typeof(KclPlugin));
             UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Kcl File (Switch)", typeof(KclPlugin));
+
+           // UIManager.Subscribe(UIManager.UI_TYPE.NEW_FILE, "Parts Bin Editor", typeof(PartsEditorPlugin));
 
             //Load plugin specific data. This is where the game path is stored.
             if (!PluginConfig.Init)

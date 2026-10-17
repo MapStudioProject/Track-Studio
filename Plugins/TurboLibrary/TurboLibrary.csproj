@@ -7,14 +7,18 @@
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<OutputPath>..\..\Track Studio\bin\Debug\net8.0\Plugins\</OutputPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<Optimize>false</Optimize>
-		<OutputPath>..\..\Track Studio\bin\Release\net8.0\Plugins\</OutputPath>
 	</PropertyGroup>
+
+	<ItemGroup>
+	  <Compile Remove="Effects\**" />
+	  <EmbeddedResource Remove="Effects\**" />
+	  <None Remove="Effects\**" />
+	</ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="fasterflect" Version="3.0.0" />
@@ -66,6 +70,9 @@
     <Reference Include="Syroot.Maths">
       <HintPath>..\..\Track Studio\Lib\Syroot.Maths.dll</HintPath>
     </Reference>
+    <Reference Include="Syroot.NintenTools.MarioKart8">
+      <HintPath>..\..\Track Studio\Lib\Syroot.NintenTools.MarioKart8.dll</HintPath>
+    </Reference>
     <Reference Include="Syroot.NintenTools.NSW.Bntx">
       <HintPath>..\..\Track Studio\Lib\Syroot.NintenTools.NSW.Bntx.dll</HintPath>
     </Reference>
@@ -87,7 +94,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Effects\" />
+    <Folder Include="Parts\XLink\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -126,5 +133,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
+
+  <Target Name="CopyDllToPlugins" AfterTargets="Build">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(MSBuildProjectDirectory)\..\..\Track Studio\bin\$(Configuration)\net8.0\Plugins\net8.0\" />
+  </Target>
 
 </Project>

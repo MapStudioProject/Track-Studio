@@ -24,6 +24,10 @@
 	</ItemGroup>
   
 	<ItemGroup>
+	  <Content Remove="Lib\Syroot.NintenTools.MarioKart8.dll" />
+	</ItemGroup>
+  
+	<ItemGroup>
 	  <Content Include="Icon.ico" />
 	</ItemGroup>
   
@@ -148,6 +152,9 @@
     <None Update="Lib\Licenses\SpirvCrossLicense.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Lib\Syroot.NintenTools.MarioKart8.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\CubemapHDR.dds">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -187,5 +194,4 @@
     <Folder Include="Lib\Presets\" />
     <Folder Include="User\MapObjArchives\" />
   </ItemGroup>
-
 </Project>

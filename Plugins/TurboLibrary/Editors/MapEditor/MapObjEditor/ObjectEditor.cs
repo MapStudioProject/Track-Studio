@@ -332,6 +332,7 @@ namespace TurboLibrary.MuuntEditor
         {
             ImguiFileDialog dlg = new ImguiFileDialog();
             dlg.SaveDialog = true;
+            dlg.FileName = $"{MapEditor.FileInfo.FolderPath.Split(System.IO.Path.DirectorySeparatorChar)[^1]}_Objects.dae";
             dlg.AddFilter(".dae", ".dae");
             if (dlg.ShowDialog())
                 ExportModel(dlg.FilePath);

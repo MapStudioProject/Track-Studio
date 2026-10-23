@@ -25,12 +25,12 @@ namespace TurboLibrary
         public static ParamDataBaseSingleton ParamDataBase = ParamDataBaseSingleton.Instance;
 
         /// <summary>
-        /// The games content path.
+        /// The game's content path.
         /// </summary>
         public static string GamePath { get; set; }
 
         /// <summary>
-        /// The updates content path.
+        /// The update's content path.
         /// </summary>
         public static string UpdatePath { get; set; }
 
@@ -926,6 +926,193 @@ namespace TurboLibrary
             {9006,"KaraPillar"},
             {9007,"ItemBox"},
             {9008,"ItemBox"},
+        };
+
+        
+        /// <summary>
+        /// A dictionary mapping object names to which texture variants to select.
+        /// </summary>
+        public static readonly List<VariantInfo> ObjectVariantList = new()
+        {   
+            //Pylon
+            new VariantInfo("TS_PylonG", new() 
+            {
+                {"PylonR_Alb", "PylonG_Alb"},
+            }),
+            new VariantInfo("PylonY", new() 
+            {
+                {"PylonR_Alb", "PylonY_Alb"}
+            }),
+            new VariantInfo("PylonB", new() 
+            {
+                {"PylonR_Alb", "PylonB_Alb"}
+            }),
+            
+            //CakePylonA
+            new VariantInfo("CakePylonB", new() 
+            {
+                {"CakePylonA_Alb", "CakePylonB_Alb"},
+            }),
+            
+            //TreeCakeB
+            new VariantInfo("TreeCakeBB", new() 
+            {
+                {"TreeCakeB_Alb", "TreeCakeBB_Alb"},
+                {"TreeCakeB_Trm", "TreeCakeBB_Trm"},
+                {"TreeCakeB_miki_Alb", "TreeCakeBB_miki_Alb"},
+                {"TreeCakeB_miki_Trm", "TreeCakeBB_miki_Trm"},
+            }),
+            new VariantInfo("TreeCakeBY", new() 
+            {
+                {"TreeCakeB_Alb", "TreeCakeBY_Alb"},
+                {"TreeCakeB_Trm", "TreeCakeBY_Trm"},
+                {"TreeCakeB_miki_Alb", "TreeCakeBY_miki_Alb"},
+                {"TreeCakeB_miki_Trm", "TreeCakeBY_miki_Trm"},
+                {"TreeCakeB_Nrm", "TreeCakeBY_Nrm"},
+            }),
+            
+            //SwanBoatB
+            new VariantInfo("SwanBoatR", new() 
+            {
+                {"SwanBoat_B_Alb", "SwanBoat_R_Alb"}
+            }),
+            
+            //PitToad
+            new VariantInfo("PitToadG", new() 
+            {
+                {"PitToad_B_Alb", "PitToad_G_Alb"}
+            }),
+            new VariantInfo("PitToadP", new() 
+            {
+                {"PitToad_B_Alb", "PitToad_P_Alb"}
+            }),
+            new VariantInfo("PitToadR", new() 
+            {
+                {"PitToad_B_Alb", "PitToad_R_Alb"}
+            }),
+            new VariantInfo("PitToadW", new() 
+            {
+                {"PitToad_B_Alb", "PitToad_W_Alb"}
+            }),
+            new VariantInfo("PitToadY", new() 
+            {
+                {"PitToad_B_Alb", "PitToad_Y_Alb"}
+            }),
+            
+            //DL_ShyguyPickaxA
+            new VariantInfo("DL_ShyguyPickaxP", new() 
+            {
+                {"DL_ShyguyPickaxY_Alb", "DL_ShyguyPickaxP_Alb"},
+                {"DL_ShyguyPickaxY_Nrm", "DL_ShyguyPickaxP_Nrm"},
+                {"DL_ShyguyPickaxY_Spm", "DL_ShyguyPickaxP_Spm"},
+                {"DL_ShyguyPickaxYEye_Alb", "DL_ShyguyPickaxPEye_Alb"},
+                {"DL_ShyguyPickaxYEye_Nrm", "DL_ShyguyPickaxPEye_Nrm"},
+                {"DL_ShyguyPickaxYEye_Spm", "DL_ShyguyPickaxPEye_Spm"}
+            }),
+            
+            //HeyhoExplorer (Track Studio already loads their models automatically)
+            new VariantInfo("HeyhoExplorerLightBlue", null),
+            new VariantInfo("HeyhoExplorerRed", null),
+            
+            //HeyhoMobnm
+            new VariantInfo(["HeyhoMobnmOrange", "HeyhoMobnmAerialOrange"], new() 
+            {
+                {"T_Cmn_HeyhoMobnm_White_Alb", "T_Cmn_HeyhoMobnm_Orange_Alb"}
+            }),
+            new VariantInfo(["HeyhoMobnmBlack", "HeyhoMobnmAerialBlack"], new() 
+            {
+                {"T_Cmn_HeyhoMobnm_White_Alb", "T_Cmn_HeyhoMobnm_Black_Alb"}
+            }),
+            
+            //SkateHeyho
+            new VariantInfo("SkateHeyhoR", new() 
+            {
+                {"SkateHeyhoB_Alb", "SkateHeyhoR_Alb"}
+            }),
+            
+            //SnowBoardHeyhoWiids
+            new VariantInfo("SnowBoardHeyhoWiidsBlue", new() 
+            {
+                {"T_SnowBoardHeyhoWiids_Red_Alb", "T_SnowBoardHeyhoWiids_Blue_Alb"}
+            }),
+            new VariantInfo("SnowBoardHeyhoWiidsGreen", new() 
+            {
+                {"T_SnowBoardHeyhoWiids_Red_Alb", "T_SnowBoardHeyhoWiids_Green_Alb"}
+            }),
+            
+            //TS_Dragon
+            new()
+            {
+                MatchLabels = ["TS_DragonG"],
+                Icon = "TS_DragonG",
+                MaterialAnimationFrames = new()
+                {
+                    {"TS_Dragon_fsp", 1},
+                    {"TS_Dragon_ftp", 1}
+                }
+            },
+            
+            //TS_SweetsRibbon
+            new VariantInfo("TS_SweetsRibbonR", new() 
+            {
+                {"TS_SweetsRibbonB_Alb", "TS_SweetsRibbonR_Alb"},
+                {"TS_SweetsRibbonB_Spm", "TS_SweetsRibbonR_Spm"},
+                {"TS_SweetsRibbonB_Trm", "TS_SweetsRibbonR_Trm"}
+            }),
+            new VariantInfo("TS_SweetsRibbonG", new() 
+            {
+                {"TS_SweetsRibbonB_Alb", "TS_SweetsRibbonG_Alb"},
+                {"TS_SweetsRibbonB_Spm", "TS_SweetsRibbonG_Spm"},
+                {"TS_SweetsRibbonB_Trm", "TS_SweetsRibbonG_Trm"}
+            }),
+            
+            //Tire
+            new VariantInfo("TireR", new() 
+            {
+                {"Tire_Alb", "TireR_Alb"}
+            }),
+            new VariantInfo("TireW", new() 
+            {
+                {"Tire_Alb", "TireW_Alb"}
+            }),
+            
+            //WPBoat
+            new VariantInfo("WPBoatB", new() 
+            {
+                {"GWP_YachtA_Alb", "GWP_YachtB_Alb"},
+                {"GWP_YachtA_Trm", "GWP_YachtB_Trm"},
+            }),
+            new VariantInfo("WPBoatC", new() 
+            {
+                {"GWP_YachtA_Alb", "GWP_YachtC_Alb"},
+                {"GWP_YachtA_Trm", "GWP_YachtC_Trm"},
+            }),
+            
+            //Yacht
+            new VariantInfo(["YachtG", "YachtGMobv"], new() 
+            {
+                {"YachtR_Alb", "YachtG_Alb"},
+                {"YachtR_Trm", "YachtG_Trm"},
+            }),
+            new VariantInfo(["YachtP", "YachtPMobv"], new() 
+            {
+                {"YachtR_Alb", "YachtP_Alb"},
+                {"YachtR_Trm", "YachtP_Trm"},
+            }),
+            new VariantInfo(["YachtY", "YachtYMobv"], new() 
+            {
+                {"YachtR_Alb", "YachtY_Alb"},
+                {"YachtR_Trm", "YachtY_Trm"},
+            }),
+            
+            //VolcanoPiece
+            new VariantInfo()
+            {
+                MatchLabels = ["VolcanoPiece"],
+                Icon = "VolcanoPiece",
+                ParamModelVisibility = new("VolcanoPiece", 7)
+            }
+            
         };
     }
 }

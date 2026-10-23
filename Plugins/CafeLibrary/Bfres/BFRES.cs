@@ -302,7 +302,7 @@ namespace CafeLibrary
                 if (ModelFolder.TargtModel != null)
                     ModelFolder.TargtModel.AddModel(filePath);
                 else
-                    ModelFolder.ImportNewModel(filePath);
+                    ModelFolder.ImportNewModel(filePath, false);
 
                 return true;
             }

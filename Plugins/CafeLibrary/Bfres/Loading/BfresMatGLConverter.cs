@@ -144,6 +144,12 @@ namespace CafeLibrary.Rendering
 
         static void ConvertSwitchRenderState(FMAT fmat, Material mat)
         {
+            if (mat.RenderInfos.ContainsKey("gsys_alpha_test_value") &&
+                mat.RenderInfos["gsys_alpha_test_value"].Type == RenderInfoType.String)
+            {
+                return;
+            }
+
             string blend = GetRenderInfo(mat, "gsys_render_state_blend_mode");
             //Alpha test
             string alphaTest = GetRenderInfo(mat, "gsys_alpha_test_enable");

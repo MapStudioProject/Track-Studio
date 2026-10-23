@@ -44,7 +44,10 @@ namespace CafeLibrary
             BfresWrapper = bfres;
             ResFile = resFile;
 
-            ContextMenus.Add(new MenuItemModel("Import", ImportNewModelDialog));
+            ContextMenus.Add(new MenuItemModel("Import", 
+                () => ImportNewModelDialog()));
+            ContextMenus.Add(new MenuItemModel("Import (MK8 Sub Division)", 
+                () => ImportNewModelDialog(true)));
 
             //Import config
             this.Tag = this;
@@ -82,7 +85,7 @@ namespace CafeLibrary
                 fmdl.CheckErrors();
         }
 
-        private void ImportNewModelDialog()
+        private void ImportNewModelDialog(bool useSubDiv = false)
         {
             var dlg = new ImguiFileDialog();
             dlg.SaveDialog = false;
@@ -94,11 +97,11 @@ namespace CafeLibrary
             dlg.AddFilter(".glb", "glb");
 
             if (dlg.ShowDialog()) {
-                ImportNewModel(dlg.FilePath);
+                ImportNewModel(dlg.FilePath, useSubDiv);
             }
         }
 
-        public void ImportNewModel(string filePath)
+        public void ImportNewModel(string filePath, bool useSubDiv)
         {
             FMDL fmdl = new FMDL(BfresWrapper, ResFile, new Model());
             fmdl.ImportModel(filePath, false, () =>
@@ -116,7 +119,7 @@ namespace CafeLibrary
                     TargtModel = Models.FirstOrDefault();
 
                 GLContext.ActiveContext.UpdateViewport = true;
-            });
+            }, useSubDiv);
         }
 
         public void RemoveModel(FMDL fmdl)

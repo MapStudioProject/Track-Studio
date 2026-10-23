@@ -78,7 +78,7 @@ namespace TurboLibrary.MuuntEditor
                 BfresEditor.ResFile.Alignment = 0x0C;
             }
             if (!string.IsNullOrEmpty(model_path))
-                BfresEditor.ModelFolder.ImportNewModel(model_path);
+                BfresEditor.ModelFolder.ImportNewModel(model_path, true);
 
             CollisionFile = new KclPlugin();
             CollisionFile.CreateNew(isSwitch ? "Switch" : "WiiU");

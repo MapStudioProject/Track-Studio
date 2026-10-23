@@ -73,6 +73,7 @@ namespace CafeLibrary.Rendering
             {
                 BlockHeightLog2 = (uint)Texture.BlockHeightLog2,
                 Target = BntxFile.PlatformTarget != "NX  " ? 0 : 1,
+                IsOrin = BntxFile.PlatformTarget == "Ounc",
             };
 
             RedChannel = SetChannel(Texture.ChannelRed);
